@@ -7,7 +7,7 @@ An helm chart to deploy KrakenD in a kubernetes
 To install the chart with the release name `my-release` go to the helm directory:
 
 ```console
-$ helm install --name my-release ./krakend
+helm install --name my-release ./krakend
 ```
 
 ## Uninstalling the Chart
@@ -15,7 +15,7 @@ $ helm install --name my-release ./krakend
 To uninstall/delete the my-release deployment:
 
 ```console
-$ helm delete my-release
+helm delete my-release
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.
