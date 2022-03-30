@@ -8,7 +8,7 @@ image:
   repository: frinx/krakend
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: 1.0.2
 
 imagePullSecrets: []
 nameOverride: ""
@@ -36,21 +36,10 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-storage:
-  accountName: EXAMPLE
-  accessKey: EXAMPLE
-
-mountPath: "/etc/krakend/"
-
 service:
   type: ClusterIP
   port: 80
   targetPort: 8080
-
-azure:
-  clientId: EXAMPLE
-  clientSecret: EXAMPLE
-  httpJwtPrefix:
 
 ingress:
   enabled: false
@@ -64,10 +53,12 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-
-tlsSecret:
-  cert: EXAMPLE
-  key: EXAMPLE
+  tlsSecret:
+    enabled: false
+    crt: |-
+      # Certificate
+    key: |-
+      # Private key
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -81,6 +72,8 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+mountPath: "/etc/krakend/"
+
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -93,3 +86,21 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+krakendJson: ""
+addlVolumes: []
+addlVolumeMounts: []
+env: []
+envName: frinx
+
+azure:
+  auth:
+    enabled: false
+    clientId: 
+    clientSecret: 
+    httpJwtPrefix:
+  aks:
+    enabled: false
+    storage:
+      accountName:
+      accessKey:

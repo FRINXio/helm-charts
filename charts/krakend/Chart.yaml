@@ -3,6 +3,6 @@ name: krakend
 description: A helm chart for deploying FRINX KrakenD API Gateway
 type: application
 version: 0.1.0
-appVersion: 1.2.0
+appVersion: 1.0.2
 maintainers:
   - name: FRINX

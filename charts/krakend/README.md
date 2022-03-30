@@ -1,13 +1,19 @@
 # krakend-helm
-An helm chart to deploy KrakenD in a kubernetes
+An helm chart to deploy krakend in  a kubernetes cluster
 * Installs the api-gateway system [KrakenD](http://krakend.io/)
+
+## TL;DR;
+
+```console
+helm install krakend-helm
+```
 
 ## Installing the Chart
 
-To install the chart with the release name `my-release` go to the helm directory:
+To install the chart with the release name `my-release`:
 
 ```console
-helm install --name my-release ./krakend
+helm install --name my-release krakend-helm
 ```
 
 ## Uninstalling the Chart
@@ -19,6 +25,11 @@ helm delete my-release
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.
+
+## Upgrading an existing Release to a new major version
+
+A major chart version change (like v1.2.3 -> v2.0.0) indicates that there is an
+incompatible breaking change needing manual actions.
 
 
 ## Configuration
