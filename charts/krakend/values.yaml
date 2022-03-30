@@ -96,10 +96,10 @@ envName: frinx
 azure:
   auth:
     enabled: false
-    clientId: 
-    clientSecret: 
+    clientId:
+    clientSecret:
     httpJwtPrefix:
-  aks:
+  AKS:
     enabled: false
     storage:
       accountName:

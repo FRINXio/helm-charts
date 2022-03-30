@@ -21,7 +21,7 @@ spec:
         {{- include "krakend.selectorLabels" . | nindent 8 }}
     spec:
       volumes:
-        {{ if .Values.azure.aks.enabled }}
+        {{ if .Values.azure.AKS.enabled }}
         - name: config
           azureFile:
             secretName: storage-secret
@@ -34,7 +34,7 @@ spec:
         - name: scripts
           configMap:
             name: {{ template "krakend.fullname" . }}-scripts
-        {{ end }}     
+        {{ end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -49,7 +49,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
-            {{ if .Values.azure.aks.enabled }}
+            {{ if .Values.azure.AKS.enabled }}
             - name: config
               mountPath: {{ .Values.mountPath }}
             {{ else }}
@@ -60,9 +60,9 @@ spec:
             {{- if .Values.addlVolumeMounts }}
             {{- toYaml .Values.addlVolumeMounts | nindent 12 }}
             {{- end }}
-            {{ end }} 
+            {{ end }}
           env:
-            {{ if .Values.azure.aks.enabled }}
+            {{ if .Values.azure.AKS.enabled }}
             - name: AZURE_KRAKEND_PLUGIN_CLIENT_ID
               valueFrom:
                 secretKeyRef:
@@ -95,7 +95,7 @@ spec:
               value: "1"
             - name : JWT_PRODUCTION
               value: "false"
-            {{ end }} 
+            {{ end }}
           ports:
             - name: http
               containerPort: 8080

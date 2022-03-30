@@ -1,4 +1,4 @@
-{{ if not .Values.azure.aks.enabled }}
+{{ if not .Values.azure.AKS.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
