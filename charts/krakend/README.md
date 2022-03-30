@@ -19,7 +19,7 @@ helm install [RELEASE_NAME] frinx/krakend
 ## Upgrading Chart
 
 ```console
-helm upgrade [RELEASE_NAME] [CHART] --install
+helm upgrade [RELEASE_NAME] frinx/krakend
 ```
 
 ## Uninstall Chart
