@@ -8,7 +8,7 @@ image:
   repository: frinx/krakend
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 1.2.0
+  tag: ""
 
 imagePullSecrets: []
 nameOverride: ""
@@ -37,8 +37,8 @@ securityContext: {}
   # runAsUser: 1000
 
 storage:
-  accountName: 
-  accessKey: 
+  accountName:
+  accessKey:
 
 mountPath: "/etc/krakend/"
 
@@ -48,34 +48,22 @@ service:
   targetPort: 8080
 
 azure:
-  clientId: 
-  clientSecret: 
-  httpJwtPrefix: 
+  clientId:
+  clientSecret:
+  httpJwtPrefix:
 
 ingress:
-  enabled: true
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
-  # tls:
-  #   - hosts:
-  # hosts:
-  #     paths: [/(.*)]
-
-#ingress:
-#  enabled: false
-#  annotations: {}
-#    # kubernetes.io/ingress.class: nginx
-#    # kubernetes.io/tls-acme: "true"
-#  hosts:
-#    - host: gateway.local
-#      paths: []
-#  tls: []
-#  #  - secretName: chart-example-tls
-#  #    hosts:
-#  #      - chart-example.local
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: gateway.local
+      paths: []
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
