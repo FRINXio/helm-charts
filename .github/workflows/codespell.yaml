@@ -12,6 +12,6 @@ jobs:
       - name: Codespell
         uses: codespell-project/actions-codespell@master
         with:
-          ignore_words_list: AKS
+          ignore_words_file: .github/.codespellignore
           check_filenames: true
           check_hidden: false
