@@ -65,11 +65,10 @@ helm uninstall [RELEASE_NAME]
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
-| `podAnnotations` | Pod deployment annotations | `{}` |
 | `addVolumes` | Add Volumes | `{}` |
 | `addVolumeMounts` | Add mounnts volumes | `{}` |
 | `env` | Add environment variable | `{}` |
-| `azure.auth.enabled` | Enable azure authentification | `false` |
+| `azure.auth.enabled` | Enable azure authentication | `false` |
 | `azure.auth.clientId` | Azure cliendId | |
 | `azure.auth.clientSecret` | Azure clientSecret | |
 | `azure.auth.httpJwtPrefix` | Azure httpJwtPrefix | |

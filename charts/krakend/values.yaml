@@ -87,8 +87,6 @@ tolerations: []
 
 affinity: {}
 
-podAnnotations: {}
-
 addVolumes: []
 addVolumeMounts: []
 env: []
