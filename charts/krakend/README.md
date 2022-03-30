@@ -1,12 +1,6 @@
 # krakend-helm
-An helm chart to deploy krakend in  a kubernetes cluster
+An helm chart to deploy krakend in a kubernetes cluster
 * Installs the api-gateway system [KrakenD](http://krakend.io/)
-
-## TL;DR;
-
-```console
-helm install krakend-helm
-```
 
 ## Installing the Chart
 
