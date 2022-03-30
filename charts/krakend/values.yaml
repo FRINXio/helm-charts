@@ -8,7 +8,7 @@ image:
   repository: frinx/krakend
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 1.0.2
+  tag: ""
 
 imagePullSecrets: []
 nameOverride: ""
@@ -87,11 +87,11 @@ tolerations: []
 
 affinity: {}
 
-krakendJson: ""
-addlVolumes: []
-addlVolumeMounts: []
+podAnnotations: {}
+
+addVolumes: []
+addVolumeMounts: []
 env: []
-envName: frinx
 
 azure:
   auth:

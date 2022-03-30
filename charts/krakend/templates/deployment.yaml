@@ -35,6 +35,9 @@ spec:
           configMap:
             name: {{ template "krakend.fullname" . }}-scripts
         {{ end }}
+        {{- if .Values.addVolumes }}
+        {{- toYaml .Values.addVolumes | nindent 8 }}
+        {{- end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -57,8 +60,8 @@ spec:
               mountPath: /etc/krakend/
             - name: scripts
               mountPath: /etc/krakend/scripts/
-            {{- if .Values.addlVolumeMounts }}
-            {{- toYaml .Values.addlVolumeMounts | nindent 12 }}
+            {{- if .Values.addVolumeMounts }}
+            {{- toYaml .Values.addVolumeMounts | nindent 12 }}
             {{- end }}
             {{ end }}
           env:
