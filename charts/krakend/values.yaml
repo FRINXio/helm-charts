@@ -37,8 +37,8 @@ securityContext: {}
   # runAsUser: 1000
 
 storage:
-  accountName:
-  accessKey:
+  accountName: EXAMPLE
+  accessKey: EXAMPLE
 
 mountPath: "/etc/krakend/"
 
@@ -48,8 +48,8 @@ service:
   targetPort: 8080
 
 azure:
-  clientId:
-  clientSecret:
+  clientId: EXAMPLE
+  clientSecret: EXAMPLE
   httpJwtPrefix:
 
 ingress:
