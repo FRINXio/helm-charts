@@ -111,7 +111,7 @@ postgresql:
   postgresql:
     username: postgres
     password: postgres
-    database: postgres 
+    database: postgres
 
 # - exec pg_isready -U {{ default "postgres" $customUser | quote }} -d "dbname={{ include "postgresql.database" . }}" -h 127.0.0.1 -p {{ .Values.containerPorts.postgresql }}
 # pg_isready -U postgres -d postgres -h 127.0.0.1 -p 5432
