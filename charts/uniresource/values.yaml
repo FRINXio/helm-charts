@@ -119,7 +119,7 @@ postgresql:
 env:
   PSQL_USERNAME: postgres
   PSQL_PASSWORD: postgres
-  PSQL_HOSTNAME:  postgresql
+  PSQL_HOSTNAME: postgresql
   PSQL_PORT: 5432
   RM_API_PORT: 8884
   RM_ADMIN_ROLES: OWNER
