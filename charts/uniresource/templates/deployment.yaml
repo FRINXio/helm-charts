@@ -1,0 +1,103 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "uniresource.fullname" . }}
+  labels:
+    {{- include "uniresource.labels" . | nindent 4 }}
+spec:
+{{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      {{- include "uniresource.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+        {{- include "uniresource.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "uniresource.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      restartPolicy: Always
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.name }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.env.RM_API_PORT }}
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+                - bash
+                - -c
+                - curl --silent --write-out 'HTTPSTATUS:%{http_code}' -X GET 'http://0.0.0.0:8884/healthz/liveness'
+            initialDelaySeconds: 30
+          readinessProbe:
+            exec:
+              command:
+                - bash
+                - -c
+                - curl --silent --write-out 'HTTPSTATUS:%{http_code}' -X GET 'http://0.0.0.0:8884/healthz/readiness'
+            initialDelaySeconds: 30
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: "PSQL_USERNAME"
+              {{ if .Values.env.PSQL_USERNAME }}
+              value: "{{ .Values.env.PSQL_USERNAME }}"
+              {{ else }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.env.PSQL_CREDENTIAL_SECRET }}
+                  key: username
+              {{ end }}
+            - name: "PSQL_PASSWORD"
+              {{ if .Values.env.PSQL_PASSWORD }}
+              value: "{{ .Values.env.PSQL_PASSWORD }}"
+              {{ else }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.env.PSQL_CREDENTIAL_SECRET }}
+                  key: password
+              {{ end }}
+            - name: "PSQL_HOSTNAME"
+              value: "{{ .Values.env.PSQL_HOSTNAME }}"
+            - name: "PSQL_PORT"
+              value: "{{ .Values.env.PSQL_PORT }}"
+            - name: "RM_DB_CONNECTION_STRING"
+              value: "{{ .Values.env.RM_DB_CONNECTION_STRING }}"
+            - name: "RM_API_PORT"
+              value: "{{ .Values.env.RM_API_PORT }}"
+            - name: "RM_ADMIN_ROLES"
+              value: {{ .Values.env.RM_ADMIN_ROLES }}
+            - name: "RM_ADMIN_GROUPS"
+              value: {{ .Values.env.RM_ADMIN_GROUPS }}
+            - name: "RM_LOG_PATH"
+              value: {{ .Values.env.RM_LOG_PATH }}
+            - name: "RM_LOG_LEVEL"
+              value: {{ .Values.env.RM_LOG_LEVEL }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
