@@ -119,7 +119,7 @@ postgresql:
 env:
   PSQL_USERNAME: postgres
   PSQL_PASSWORD: postgres
-  PSQL_HOSTNAME: test1-postgresql
+  PSQL_HOSTNAME:  postgresql
   PSQL_PORT: 5432
   RM_API_PORT: 8884
   RM_ADMIN_ROLES: OWNER
@@ -127,4 +127,4 @@ env:
   RM_LOG_PATH: /var/log/rm.log
   RM_LOG_LEVEL: info
   # RM_DB_CONNECTION_STRING: "postgres://$(PSQL_USERNAME):$(PSQL_PASSWORD)@$(PSQL_HOSTNAME):$(PSQL_PORT)/postgres?sslmode=disable"
-  RM_DB_CONNECTION_STRING: postgres://postgres:postgres@test1-postgresql:5432/postgres?sslmode=disable
+  RM_DB_CONNECTION_STRING: postgres://postgres:postgres@test2-postgresql:5432/postgres?sslmode=disable
