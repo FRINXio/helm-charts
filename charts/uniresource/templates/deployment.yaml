@@ -28,6 +28,12 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       restartPolicy: Always
+      initContainers:
+      - name: check-db-ready
+        image: postgres:9.6.5
+        command: ['sh', '-c', 
+          "until pg_isready -h echo {{ .Release.Name }}-postgresql -p 5432; 
+          do echo waiting for database; sleep 2; done;"]
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -73,12 +79,19 @@ spec:
                   name: {{ .Values.env.PSQL_CREDENTIAL_SECRET }}
                   key: password
               {{ end }}
+              {{ if .Values.postgresql.enabled }}            
             - name: "PSQL_HOSTNAME"
+              value: "{{ .Release.Name }}-{{ .Values.env.PSQL_HOSTNAME }}"
+            - name: "RM_DB_CONNECTION_STRING"
+              value: "postgres://{{ .Values.env.PSQL_USERNAME }}:{{ .Values.env.PSQL_PASSWORD }}@{{ .Release.Name }}-{{ .Values.env.PSQL_HOSTNAME }}:{{ .Values.env.PSQL_PORT }}/postgres?sslmode=disable"
+              {{ else }}
+            - name: "PSQL_HOSTNAME"  
               value: "{{ .Values.env.PSQL_HOSTNAME }}"
-            - name: "PSQL_PORT"
-              value: "{{ .Values.env.PSQL_PORT }}"
             - name: "RM_DB_CONNECTION_STRING"
               value: "{{ .Values.env.RM_DB_CONNECTION_STRING }}"
+              {{ end }}
+            - name: "PSQL_PORT"
+              value: "{{ .Values.env.PSQL_PORT }}"
             - name: "RM_API_PORT"
               value: "{{ .Values.env.RM_API_PORT }}"
             - name: "RM_ADMIN_ROLES"
