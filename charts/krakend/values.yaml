@@ -43,6 +43,7 @@ service:
 
 ingress:
   enabled: false
+  className: ""
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
@@ -86,10 +87,6 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
-addVolumes: []
-addVolumeMounts: []
-env: []
 
 azure:
   auth:

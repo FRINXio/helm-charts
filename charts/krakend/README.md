@@ -1,7 +1,7 @@
 # krakend
 
-An helm chart to deploy Frinx krakend in a kubernetes cluster
-* Installs the api-gateway system [FRINXio/krakendD](https://github.com/FRINXio/krakend-ce)
+FRINX KrakenD API Gateway for FRINX-machine
+* Source code [FRINXio/krakendD](https://github.com/FRINXio/krakend-ce)
 
 ## Get Repo Info
 
@@ -49,6 +49,7 @@ helm uninstall [RELEASE_NAME]
 | `service.port` | Kubernetes port where service is exposed | `80` |
 | `service.targetPort` | Port on which the service will send requests to, that your pod will be listening on | `8080` |
 | `ingress.enabled` | Enables Ingress | `false` |
+| `ingress.className` | Class name for Ingress | `""` |
 | `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
 | `ingress.hosts` | Ingress accepted hostnames  | `[]` |
 | `ingress.tls` | Ingress TLS configuration | `[]` |
@@ -65,9 +66,6 @@ helm uninstall [RELEASE_NAME]
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
-| `addVolumes` | Add Volumes | `{}` |
-| `addVolumeMounts` | Add mounnts volumes | `{}` |
-| `env` | Add environment variable | `{}` |
 | `azure.auth.enabled` | Enable azure authentication | `false` |
 | `azure.auth.clientId` | Azure cliendId | |
 | `azure.auth.clientSecret` | Azure clientSecret | |
