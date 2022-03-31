@@ -30,7 +30,7 @@ spec:
         {{ else }}
         - name: config
           configMap:
-            name: {{ template "krakend.fullname" . }}-krakenConfig
+            name: {{ template "krakend.fullname" . }}-krakendconfig
         - name: scripts
           configMap:
             name: {{ template "krakend.fullname" . }}-scripts
