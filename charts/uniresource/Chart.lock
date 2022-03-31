@@ -3,4 +3,4 @@ dependencies:
   repository: https://cetic.github.io/helm-charts
   version: 0.2.3
 digest: sha256:46827652095177c9678449348efd72659aeef52acbab2c1ef409c74596b2e743
-generated: "2022-03-31T14:25:55.491719658+02:00"
+generated: "2022-03-31T19:25:03.93644396+02:00"
