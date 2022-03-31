@@ -58,11 +58,11 @@ helm uninstall [RELEASE_NAME]
 | `ingress.tlsSecret.key` | TLS Private key | `false` |
 | `resources` | CPU/Memory resource requests/limits | `{}` |
 | `mountPath` | Mount Path for Config files | `"/etc/krakend/"` |
-| `replica.autoscaling.enabled` | Enable replica autoscaling settings | `false` |
-| `replica.autoscaling.minReplicas` | Minimum replicas for the pod autoscaling | `1` |
-| `replica.autoscaling.maxReplicas` | Maximum replicas for the pod autoscaling | `100` |
-| `replica.autoscaling.targetCPUUtilizationPercentage` | Percentage of CPU to consider when autoscaling | `80` |
-| `replica.autoscaling.targetMemoryUtilizationPercentage` | Percentage of Memory to consider when autoscaling | |
+| `autoscaling.enabled` | Enable replica autoscaling settings | `false` |
+| `autoscaling.minReplicas` | Minimum replicas for the pod autoscaling | `1` |
+| `autoscaling.maxReplicas` | Maximum replicas for the pod autoscaling | `100` |
+| `autoscaling.targetCPUUtilizationPercentage` | Percentage of CPU to consider when autoscaling | `80` |
+| `autoscaling.targetMemoryUtilizationPercentage` | Percentage of Memory to consider when autoscaling | |
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
