@@ -1,0 +1,8 @@
+REGISTRY: {{ .Values.REGISTRY }}
+
+env:
+{{ if eq .Environment.Name "frinx" }}
+  PSQL_HOSTNAME: {{ .Values.psqlFqn }}
+  PSQL_USERNAME: postgres@frinx-demo-psql
+  PSQL_PASSWORD: {{ .Values.psqlPasswd }}
+{{ end }}
