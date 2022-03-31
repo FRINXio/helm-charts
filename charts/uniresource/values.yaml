@@ -79,6 +79,8 @@ tolerations: []
 affinity: {}
 
 env:
+  PSQL_USERNAME: postgresU
+  PSQL_PASSWORD: postgresP
   PSQL_HOSTNAME: postgresql
   PSQL_PORT: 5432
   RM_API_PORT: 8884
