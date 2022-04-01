@@ -1,0 +1,16 @@
+apiVersion: v1
+entries:
+  krakend:
+  - apiVersion: v2
+    appVersion: 1.0.2
+    created: "2022-04-01T07:19:51.227753562Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: 9ede7312356349fb2e82ae2a54bd5eeb6f24c4e0a3280ffa41293efd289f7aee
+    maintainers:
+    - name: FRINX
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-1.0.0/krakend-1.0.0.tgz
+    version: 1.0.0
+generated: "2022-04-01T07:19:51.227763262Z"
