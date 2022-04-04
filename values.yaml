@@ -1,7 +1,0 @@
-enabled: true
-image:
-  tag: "12.2"
-postgresql:
-  username: postgres
-  password: postgres
-  database: postgres
