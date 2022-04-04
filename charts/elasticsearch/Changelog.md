@@ -11,6 +11,38 @@ Differences from the original:
 
 ./values.yaml
 ```diff
+- replicas: 3
+- minimumMasterNodes: 2
++ replicas: 1
++ minimumMasterNodes: 1
+```
+
+./values.yaml
+```diff
+- imageTag: "7.16.3"
++ imageTag: "6.7.1"
+```
+
+./values.yaml
+```diff
+resources:
+  requests:
+@@ -100,7 +100,7 @@ volumeClaimTemplate:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+-      storage: 30Gi
++      storage: 1Gi
+```
+
+./values.yaml
+```diff
+- clusterHealthCheckParams: "wait_for_status=green&timeout=1s"
++ clusterHealthCheckParams: "wait_for_status=yellow&timeout=5s"
+```
+
+./values.yaml
+```diff
 roles:
   master: "true"
   ingest: "true"

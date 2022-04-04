@@ -15,8 +15,8 @@ roles:
   # remote_cluster_client: "true"
   ml: "true"
 
-replicas: 3
-minimumMasterNodes: 2
+replicas: 1
+minimumMasterNodes: 1
 
 esMajorVersion: ""
 
@@ -59,13 +59,13 @@ secretMounts: []
 #    defaultMode: 0755
 
 hostAliases: []
-# - ip: "127.0.0.1"
+#- ip: "127.0.0.1"
 #  hostnames:
 #  - "foo.local"
 #  - "bar.local"
 
 image: "docker.elastic.co/elasticsearch/elasticsearch"
-imageTag: "7.16.3"
+imageTag: "6.7.1"
 imagePullPolicy: "IfNotPresent"
 
 podAnnotations:
@@ -75,7 +75,7 @@ podAnnotations:
 # additionals labels
 labels: {}
 
-esJavaOpts: ""  # example: "-Xmx1g -Xms1g"
+esJavaOpts: "" # example: "-Xmx1g -Xms1g"
 
 resources:
   requests:
@@ -100,7 +100,7 @@ volumeClaimTemplate:
   accessModes: ["ReadWriteOnce"]
   resources:
     requests:
-      storage: 30Gi
+      storage: 1Gi
 
 rbac:
   create: false
@@ -231,7 +231,7 @@ readinessProbe:
   timeoutSeconds: 5
 
 # https://www.elastic.co/guide/en/elasticsearch/reference/7.16/cluster-health.html#request-params wait_for_status
-clusterHealthCheckParams: "wait_for_status=green&timeout=1s"
+clusterHealthCheckParams: "wait_for_status=yellow&timeout=5s"
 
 ## Use an alternate scheduler.
 ## ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
