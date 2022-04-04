@@ -1,0 +1,9 @@
+dependencies:
+- name: postgresql
+  repository: https://cetic.github.io/helm-charts
+  version: 0.2.3
+- name: elasticsearch
+  repository: https://helm.elastic.co
+  version: 6.8.22
+digest: sha256:1d8df78cf9d9264fe646eb840a35fa93272b1985b4fefaf9c11153a6a572cb0b
+generated: "2022-04-04T17:12:06.513189914+02:00"

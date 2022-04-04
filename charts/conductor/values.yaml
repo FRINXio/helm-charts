@@ -5,50 +5,29 @@
 replicaCount: 1
 
 image:
-  # use the image below to use dynomite, logs, metrics
-  # (requires dynomite, fluentd, elastic, others)
   name: frinx/uniflow-conductor-server
-  # set to "Always" because using "latest" tag
-  # https://github.com/kubernetes/kubernetes/issues/47775
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: ""
 
 imageProxy:
   name: frinx/workflow-proxy
-  # set to "Always" because using "latest" tag
-  # https://github.com/kubernetes/kubernetes/issues/47775
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: "1.0.7"
 
-env:
-  CONFIG_PROP: config.properties
-  _JAVA_OPTIONS: -Xmx2g
-  LOG4J_PROP: log4j.properties
-  ELASTIC_URL: elasticsearch-master-headless:9200
-  ELASTIC_CLUSTER_HEALTH_COLOR: yellow
-  SCHELLAR_TARGET: http://schellar:3000
-  SPRING_DATASOURCE_URL:
-  SPRING_DATASOURCE_USERNAME:
-  SPRING_DATASOURCE_PASSWORD:
-  CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_URL:
-  CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_USERNAME:
-  CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_PASSWORD:
-
-imagePullSecrets:
-  - name: artifactory
+imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
 serviceAccount:
-  name: workflow-proxy
   # Specifies whether a service account should be created
   create: true
   # Annotations to add to the service account
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
+  name: workflow-proxy
 
 podAnnotations: {}
 
@@ -85,16 +64,6 @@ ingress:
 
 resources: {}
 resourcesProxy: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
 
 autoscaling:
   enabled: false
@@ -114,3 +83,37 @@ configScripts:
     {{- .Files.Get "configs/config.properties" }}
   log4j.properties: |
     {{ .Files.Get "configs/log4j.properties" }}
+
+env:
+  CONFIG_PROP: config.properties
+  _JAVA_OPTIONS: -Xmx2g
+  LOG4J_PROP: log4j.properties
+  ELASTIC_CLUSTER_HEALTH_COLOR: yellow
+  SCHELLAR_TARGET: http://schellar:3000
+  SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
+  SPRING_DATASOURCE_USERNAME: postgres
+  SPRING_DATASOURCE_PASSWORD: postgres
+  CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_URL: jdbc:postgresql://postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
+  CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_USERNAME: postgres
+  CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_PASSWORD: postgres
+  CONDUCTOR_ELASTICSEARCH_URL: http://elasticsearch-master-headless:9200 
+
+postgresql:
+  enabled: true
+  image:
+    tag: "12.2"
+  postgresql:
+    username: postgres
+    password: postgres
+    database: conductor
+
+elasticsearch:
+  enabled: true
+  replicas: 1
+  minimumMasterNodes: 1
+  imageTag: "6.7.1"
+  volumeClaimTemplate:
+    resources:
+      requests:
+        storage: 1Gi
+  clusterHealthCheckParams: "wait_for_status=yellow&timeout=5s"

@@ -90,14 +90,21 @@ spec:
               value: {{ .Values.env.LOG4J_PROP }}
             - name: "_JAVA_OPTIONS"
               value: {{ .Values.env._JAVA_OPTIONS}}
+              {{ if .Values.postgresql.enabled }} 
+            - name: "spring_datasource_url"
+              value: jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
+            - name: "conductor_externalPayloadStorage_postgres_url"
+              value: jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
+              {{ else }}
             - name: "spring_datasource_url"
               value: {{ .Values.env.SPRING_DATASOURCE_URL}}
+            - name: "conductor_externalPayloadStorage_postgres_url"
+              value: {{ .Values.env.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_URL}}
+              {{ end }}
             - name: "spring_datasource_username"
               value: {{ .Values.env.SPRING_DATASOURCE_USERNAME}}
             - name: "spring_datasource_password"
               value: {{ .Values.env.SPRING_DATASOURCE_PASSWORD}}
-            - name: "conductor_externalPayloadStorage_postgres_url"
-              value: {{ .Values.env.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_URL}}
             - name: "conductor_externalPayloadStorage_postgres_username"
               value: {{ .Values.env.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_USERNAME}}
             - name: "conductor_externalPayloadStorage_postgres_password"
