@@ -13,9 +13,9 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['-S', '{{ include "conductor.fullname" . }}:{{ .Values.service.portConductor }}/api/metadata/workflow']
+      args: ['-S', 'workflow-proxy:{{ .Values.service.portConductor }}/api/metadata/workflow']
     - name: wget-proxy
       image: busybox
       command: ['wget']
-      args: ['-S', "--header='from:X'", "--header='x-tenant-id:FB'", '{{ include "conductor.fullname" . }}:{{ .Values.service.port }}/rbac/editableworkflows']
+      args: ['-S', 'workflow-proxy:{{ .Values.service.port }}/probe/readiness']
   restartPolicy: Never
