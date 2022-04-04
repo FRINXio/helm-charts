@@ -1,8 +1,13 @@
 apiVersion: v2
 name: krakend
 description: FRINX KrakenD API Gateway for FRINX-machine
+icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
 version: 1.0.0
 appVersion: 1.0.2
 maintainers:
   - name: FRINX
+annotations:
+  artifacthub.io/images: |
+    - name: krakend
+      image: frinx/krakend:1.0.2
