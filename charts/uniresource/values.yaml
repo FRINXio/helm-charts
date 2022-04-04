@@ -68,7 +68,7 @@ resources: {}
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 1
+  maxReplicas: 3
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
@@ -78,32 +78,7 @@ tolerations: []
 
 affinity: {}
 
-
 ## PostgreSQL chart configuration
-## ref: https://github.com/bitnami/charts/blob/master/bitnami/postgresql/values.yaml
-# postgresql:
-#   enabled: true
-#   auth:
-#     enablePostgresUser: false
-#     username: postgresU
-#     password: postgresP
-#     database: postgres
-#     existingSecret: ""
-#   architecture: standalone
-
-## External PostgreSQL configuration
-## All of these values are only used when postgresql.enabled is set to false
-# externalDatabase:
-#   host: localhost
-#   port: 5432
-#   user: bn_airflow
-#   database: postgresql
-#   password: ""
-#   existingSecret: ""
-#   existingSecretPasswordKey: ""
-
-## PostgreSQL chart configuration
-## ref: https://github.com/bitnami/charts/blob/master/bitnami/postgresql/values.yaml
 postgresql:
   enabled: true
   image:
@@ -113,18 +88,15 @@ postgresql:
     password: postgres
     database: postgres
 
-# - exec pg_isready -U {{ default "postgres" $customUser | quote }} -d "dbname={{ include "postgresql.database" . }}" -h 127.0.0.1 -p {{ .Values.containerPorts.postgresql }}
-# pg_isready -U postgres -d postgres -h 127.0.0.1 -p 5432
-
 env:
   PSQL_USERNAME: postgres
   PSQL_PASSWORD: postgres
   PSQL_HOSTNAME: postgresql
+  PSQL_CREDENTIAL_SECRET: ""
   PSQL_PORT: 5432
   RM_API_PORT: 8884
   RM_ADMIN_ROLES: OWNER
   RM_ADMIN_GROUPS: NETWORK-ADMIN
   RM_LOG_PATH: /var/log/rm.log
   RM_LOG_LEVEL: info
-  # RM_DB_CONNECTION_STRING: "postgres://$(PSQL_USERNAME):$(PSQL_PASSWORD)@$(PSQL_HOSTNAME):$(PSQL_PORT)/postgres?sslmode=disable"
-  RM_DB_CONNECTION_STRING: postgres://postgres:postgres@test2-postgresql:5432/postgres?sslmode=disable
+  RM_DB_CONNECTION_STRING: "postgres://$(PSQL_USERNAME):$(PSQL_PASSWORD)@$(PSQL_HOSTNAME):$(PSQL_PORT)/postgres?sslmode=disable"
