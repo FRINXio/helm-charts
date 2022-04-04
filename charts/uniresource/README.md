@@ -74,4 +74,4 @@ helm uninstall [RELEASE_NAME]
 | `env.RM_ADMIN_GROUPS` | Admin groups | `NETWORK-ADMIN` |
 | `env.RM_LOG_PATH` | Log path | `/var/log/rm.log` |
 | `env.RM_LOG_LEVEL` | Log level | `info` |
-| `env.RM_DB_CONNECTION_STRING` | Connection string for connetion to external database | `"postgres://$(PSQL_USERNAME):$(PSQL_PASSWORD)@$(PSQL_HOSTNAME):$(PSQL_PORT)/postgres?sslmode=disable"` |
+| `env.RM_DB_CONNECTION_STRING` | Connection string for connection to external database | `"postgres://$(PSQL_USERNAME):$(PSQL_PASSWORD)@$(PSQL_HOSTNAME):$(PSQL_PORT)/postgres?sslmode=disable"` |
