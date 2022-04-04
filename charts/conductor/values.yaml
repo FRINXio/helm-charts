@@ -96,7 +96,7 @@ env:
   CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_URL: jdbc:postgresql://postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
   CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_USERNAME: postgres
   CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_PASSWORD: postgres
-  CONDUCTOR_ELASTICSEARCH_URL: http://elasticsearch-master-headless:9200 
+  CONDUCTOR_ELASTICSEARCH_URL: http://elasticsearch-master-headless:9200
 
 postgresql:
   enabled: true
