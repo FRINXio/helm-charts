@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "conductor.serviceAccountName" . }}
+  labels:
+    {{- include "conductor.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+    - port: {{ .Values.service.portWorkers }}
+      targetPort: http-workers
+      protocol: TCP
+      name: http-workers
+    - port: {{ .Values.service.portSchellar }}
+      targetPort: http-schellar
+      protocol: TCP
+      name: http-schellar
+    - port: {{ .Values.service.portConductor }}
+      targetPort: http-conductor
+      protocol: TCP
+      name: http-conductor
+    - port: 8090
+      targetPort: grpc-conductor
+      protocol: TCP
+      name: grpc-conductor
+  selector:
+    {{- include "conductor.selectorLabels" . | nindent 4 }}

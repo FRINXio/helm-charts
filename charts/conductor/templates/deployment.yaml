@@ -1,0 +1,126 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "conductor.fullname" . }}
+  labels:
+    {{- include "conductor.labels" . | nindent 4 }}
+spec:
+{{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      {{- include "conductor.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+        {{- include "conductor.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "conductor.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      restartPolicy: Always
+      containers:
+        # conductor-proxy
+        - name: {{ .Chart.Name }}-proxy
+          image: "{{ .Values.imageProxy.name }}:{{ .Values.imageProxy.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.imageProxy.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8088
+              protocol: TCP
+            - name: http-schellar
+              containerPort: 8087
+              protocol: TCP
+            - name: http-workers
+              containerPort: 8089
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /probe/liveness
+              port: http
+            initialDelaySeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /probe/readiness
+              port: http
+            initialDelaySeconds: 20
+          resources:
+            {{- toYaml .Values.resourcesProxy | nindent 12 }}
+          env:
+            - name: "PROXY_TARGET"
+              value: http://localhost:8080
+        # conductor
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.name }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http-conductor
+              containerPort: 8080
+              protocol: TCP
+            - name: grpc-conductor
+              containerPort: 8090
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http-conductor
+            initialDelaySeconds: 60
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http-conductor
+            initialDelaySeconds: 60
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: "CONFIG_PROP"
+              value: {{ .Values.env.CONFIG_PROP }}
+            - name: "LOG4J_PROP"
+              value: {{ .Values.env.LOG4J_PROP }}
+            - name: "_JAVA_OPTIONS"
+              value: {{ .Values.env._JAVA_OPTIONS}}
+            - name: "spring_datasource_url"
+              value: {{ .Values.env.SPRING_DATASOURCE_URL}}
+            - name: "spring_datasource_username"
+              value: {{ .Values.env.SPRING_DATASOURCE_USERNAME}}
+            - name: "spring_datasource_password"
+              value: {{ .Values.env.SPRING_DATASOURCE_PASSWORD}}
+            - name: "conductor_externalPayloadStorage_postgres_url"
+              value: {{ .Values.env.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_URL}}
+            - name: "conductor_externalPayloadStorage_postgres_username"
+              value: {{ .Values.env.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_USERNAME}}
+            - name: "conductor_externalPayloadStorage_postgres_password"
+              value: {{ .Values.env.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_PASSWORD}}
+            - name: "conductor_elasticsearch_url"
+              value: {{ .Values.env.CONDUCTOR_ELASTICSEARCH_URL}}
+          volumeMounts:
+            - name: {{ include "conductor.fullname" . }}-config
+              mountPath: /app/config/
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+      - name: {{ include "conductor.fullname" . }}-config
+        configMap:
+          name: {{ include "conductor.fullname" . }}-config

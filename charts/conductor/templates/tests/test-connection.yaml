@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "conductor.fullname" . }}-test-connection"
+  labels:
+    {{- include "conductor.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+    "helm.sh/hook-delete-policy": hook-succeeded
+
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['-S', '{{ include "conductor.fullname" . }}:{{ .Values.service.portConductor }}/api/metadata/workflow']
+    - name: wget-proxy
+      image: busybox
+      command: ['wget']
+      args: ['-S', "--header='from:X'", "--header='x-tenant-id:FB'", '{{ include "conductor.fullname" . }}:{{ .Values.service.port }}/rbac/editableworkflows']
+  restartPolicy: Never
