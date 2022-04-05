@@ -15,6 +15,23 @@ entries:
     - https://github.com/FRINXio/helm-charts/releases/download/frinx-frontend-1.0.0/frinx-frontend-1.0.0.tgz
     version: 1.0.0
   krakend:
+  - annotations:
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:1.0.2
+    apiVersion: v2
+    appVersion: 1.0.2
+    created: "2022-04-05T14:34:09.462427759Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: 2741e6ebbc1d0a864bcbd149303d63f5e0edeb7c40a17a1198e13d29933f58ab
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-1.0.1/krakend-1.0.1.tgz
+    version: 1.0.1
   - apiVersion: v2
     appVersion: 1.0.2
     created: "2022-04-01T07:19:51.227753562Z"
@@ -27,4 +44,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/krakend-1.0.0/krakend-1.0.0.tgz
     version: 1.0.0
-generated: "2022-04-04T08:05:46.036784662Z"
+generated: "2022-04-05T14:34:09.462441159Z"
