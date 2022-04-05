@@ -1,5 +1,5 @@
 apiVersion: v2
-name: conductor
+name: uniflow
 description: A Helm chart for Kubernetes deploying conductor-server and workflow-proxy
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
