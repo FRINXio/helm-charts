@@ -31,7 +31,7 @@ spec:
       containers:
         # conductor-proxy
         - name: {{ .Chart.Name }}-proxy
-          image: "{{ .Values.imageProxy.name }}:{{ .Values.imageProxy.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.imageProxy.repository }}:{{ .Values.imageProxy.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.imageProxy.pullPolicy }}
           ports:
             - name: http
@@ -62,7 +62,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.name }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http-conductor
