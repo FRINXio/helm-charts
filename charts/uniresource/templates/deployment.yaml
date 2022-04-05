@@ -30,7 +30,7 @@ spec:
       restartPolicy: Always
       initContainers:
       - name: check-db-ready
-        image: postgres:9.6.5
+        image: postgres:alpine
         command: ['sh', '-c', 
           "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432; 
           do echo waiting for database; sleep 2; done;"]
