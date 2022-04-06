@@ -95,11 +95,11 @@ env:
   ELASTIC_CLUSTER_HEALTH_COLOR: yellow
   SCHELLAR_TARGET: http://schellar:3000
   SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
-  SPRING_DATASOURCE_USERNAME: postgres
-  SPRING_DATASOURCE_PASSWORD: postgres
+  SPRING_DATASOURCE_USERNAME: postgresU
+  SPRING_DATASOURCE_PASSWORD: postgresP
   CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_URL: jdbc:postgresql://postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
-  CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_USERNAME: postgres
-  CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_PASSWORD: postgres
+  CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_USERNAME: postgresU
+  CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_PASSWORD: postgresP
   CONDUCTOR_ELASTICSEARCH_URL: http://elasticsearch-master-headless:9200
 
 schellarEnv:
@@ -124,15 +124,14 @@ elasticsearch:
 
 postgresql:
   enabled: true
-  image:
-    tag: "12.2"
-  postgresql:
-    username: postgres
-    password: postgres
+  auth:
+    enablePostgresUser: true
+    username: postgresU
+    password: postgresP
     database: conductor
-    # initdbscripts: |-
-    #   #!/bin/bash
-    #   set -e
-    #   psql -v ON_ERROR_STOP=1 <<-EOSQL
-    #       CREATE DATABASE schellar;
-    #   EOSQL
+  architecture: standalone
+  primary:
+    initdb:
+      scripts:
+        init_db.sql: |
+          CREATE DATABASE schellar;
