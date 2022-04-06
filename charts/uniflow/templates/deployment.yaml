@@ -37,7 +37,10 @@ spec:
       - name: check-elk-ready
         image: curlimages/curl
         command: ["/bin/sh","-c"]
-        args: ['while [ $(curl -ksw "%{http_code}" "elasticsearch-master:9200/_cluster/health?wait_for_status=yellow" -o /dev/null) -ne 200 ]; do sleep 5; echo "waiting for elasticsearch"; done']
+        args: ['while [ $(curl -ksw "%{http_code}" "elasticsearch-master:9200/_cluster/health?wait_for_status=yellow" -o /dev/null) -ne 200 ];
+          do sleep 5; echo "waiting for elasticsearch";
+          done;
+          echo "connection successfull"']
       containers:
         # conductor-proxy
         - name: {{ .Chart.Name }}-proxy
