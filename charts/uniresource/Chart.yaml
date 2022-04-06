@@ -10,5 +10,5 @@ maintainers:
 dependencies:
   - condition: postgresql.enabled
     name: postgresql
-    repository: https://cetic.github.io/helm-charts
-    version: 0.2.3
+    repository: https://charts.bitnami.com/bitnami
+    version: 11.x.x
