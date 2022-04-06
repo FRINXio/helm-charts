@@ -83,7 +83,7 @@ spec:
             - name: "PSQL_HOSTNAME"
               value: "{{ .Release.Name }}-{{ .Values.env.PSQL_HOSTNAME }}"
             - name: "RM_DB_CONNECTION_STRING"
-              value: "postgres://{{ .Values.env.PSQL_USERNAME }}:{{ .Values.env.PSQL_PASSWORD }}@{{ .Release.Name }}-{{ .Values.env.PSQL_HOSTNAME }}:{{ .Values.env.PSQL_PORT }}/postgres?sslmode=disable"
+              value: "postgres://{{ .Values.env.PSQL_USERNAME }}:{{ .Values.env.PSQL_PASSWORD }}@{{ .Release.Name }}-{{ .Values.env.PSQL_HOSTNAME }}:{{ .Values.env.PSQL_PORT }}/{{ .Values.env.PSQL_DATABASE }}?sslmode=disable"
               {{ else }}
             - name: "PSQL_HOSTNAME"  
               value: "{{ .Values.env.PSQL_HOSTNAME }}"

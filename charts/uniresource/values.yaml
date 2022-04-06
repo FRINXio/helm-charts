@@ -81,17 +81,18 @@ affinity: {}
 ## PostgreSQL chart configuration
 postgresql:
   enabled: true
-  image:
-    tag: "12.2"
-  postgresql:
-    username: postgres
-    password: postgres
-    database: postgres
+  auth:
+    enablePostgresUser: true
+    username: postgresU
+    password: postgresP
+    database: uniresource
+  architecture: standalone
 
 env:
-  PSQL_USERNAME: postgres
-  PSQL_PASSWORD: postgres
+  PSQL_USERNAME: postgresU
+  PSQL_PASSWORD: postgresP
   PSQL_HOSTNAME: postgresql
+  PSQL_DATABASE: uniresource
   PSQL_CREDENTIAL_SECRET: ""
   PSQL_PORT: 5432
   RM_API_PORT: 8884
