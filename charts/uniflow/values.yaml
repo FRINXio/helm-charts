@@ -131,6 +131,7 @@ postgresql:
     password: postgresP
     database: conductor
   architecture: standalone
+  resources: {}
   primary:
     initdb:
       scripts:
