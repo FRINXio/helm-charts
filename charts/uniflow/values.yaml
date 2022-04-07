@@ -136,10 +136,6 @@ postgresql:
     database: conductor
   architecture: standalone
   primary:
-  #   resources:
-  #     limits: {}
-  #     requests:
-  #       cpu: 1m
     initdb:
       scripts:
         init_db.sql: |

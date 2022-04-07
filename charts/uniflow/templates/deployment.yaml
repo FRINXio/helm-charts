@@ -128,33 +128,33 @@ spec:
             - name: {{ include "conductor.fullname" . }}-config
               mountPath: /app/config/
         # schellar
-        # - name: {{ .Chart.Name }}-schellar
-        #   image: "{{ .Values.imageSchellar.repository }}:{{ .Values.imageSchellar.tag }}"
-        #   imagePullPolicy: {{ .Values.imageSchellar.pullPolicy }}
-        #   ports:
-        #     - name: http
-        #       containerPort: 3000
-        #       protocol: TCP
-        #   env:
-        #     - name: "LOG_LEVEL"
-        #       value: {{ .Values.schellarEnv.LOG_LEVEL | quote }}
-        #     - name: "CHECK_INTERVAL_SECONDS"
-        #       value: {{ .Values.schellarEnv.CHECK_INTERVAL_SECONDS | quote }}
-        #     - name: "CONDUCTOR_API_URL"
-        #       value: {{ .Values.schellarEnv.CONDUCTOR_API_URL | quote }}
-        #     - name: "BACKEND"
-        #       value: {{ .Values.schellarEnv.BACKEND | quote }}
-        #     - name: "POSTGRES_MIGRATIONS_DIR"
-        #       value: {{ .Values.schellarEnv.POSTGRES_MIGRATIONS_DIR | quote }}
-        #     - name: "POSTGRES_PORT"
-        #       value: {{ .Values.schellarEnv.POSTGRES_PORT | quote }}
-        #       {{ if .Values.postgresql.enabled }}
-        #     - name: "POSTGRES_DATABASE_URL"
-        #       value: "host={{ .Release.Name }}-postgresql port=5432 user=postgresU password=postgresP database=schellar"
-        #       {{ else }}
-        #     - name: "POSTGRES_DATABASE_URL"
-        #       value: {{ .Values.schellarEnv.POSTGRES_DATABASE_URL | quote }}
-        #       {{ end }}
+        - name: {{ .Chart.Name }}-schellar
+          image: "{{ .Values.imageSchellar.repository }}:{{ .Values.imageSchellar.tag }}"
+          imagePullPolicy: {{ .Values.imageSchellar.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          env:
+            - name: "LOG_LEVEL"
+              value: {{ .Values.schellarEnv.LOG_LEVEL | quote }}
+            - name: "CHECK_INTERVAL_SECONDS"
+              value: {{ .Values.schellarEnv.CHECK_INTERVAL_SECONDS | quote }}
+            - name: "CONDUCTOR_API_URL"
+              value: {{ .Values.schellarEnv.CONDUCTOR_API_URL | quote }}
+            - name: "BACKEND"
+              value: {{ .Values.schellarEnv.BACKEND | quote }}
+            - name: "POSTGRES_MIGRATIONS_DIR"
+              value: {{ .Values.schellarEnv.POSTGRES_MIGRATIONS_DIR | quote }}
+            - name: "POSTGRES_PORT"
+              value: {{ .Values.schellarEnv.POSTGRES_PORT | quote }}
+              {{ if .Values.postgresql.enabled }}
+            - name: "POSTGRES_DATABASE_URL"
+              value: "host={{ .Release.Name }}-postgresql port=5432 user=postgresU password=postgresP database=schellar"
+              {{ else }}
+            - name: "POSTGRES_DATABASE_URL"
+              value: {{ .Values.schellarEnv.POSTGRES_DATABASE_URL | quote }}
+              {{ end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
