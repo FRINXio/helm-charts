@@ -1,6 +1,6 @@
 # FRINX Kubernetes Helm Charts
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/frinx-helm-charts)](https://artifacthub.io/packages/search?repo=frinx-helm-charts)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/frinx-helm-charts)](https://artifacthub.io/packages/search?repo=frinx-helm-charts) [![Releases downloads](https://img.shields.io/github/downloads/frinxio/helm-charts/total.svg)](https://github.com/FRINXio/helm-charts/releases)
 
 ## Usage
 
