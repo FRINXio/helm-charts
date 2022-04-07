@@ -1,0 +1,871 @@
+NAME: test2
+LAST DEPLOYED: Thu Apr  7 10:40:40 2022
+NAMESPACE: default
+STATUS: pending-install
+REVISION: 1
+HOOKS:
+---
+# Source: uniflow/charts/elasticsearch/templates/test/test-elasticsearch-health.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "test2-lnyzc-test"
+  annotations:
+    "helm.sh/hook": test
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  securityContext:
+    fsGroup: 1000
+    runAsUser: 1000
+  containers:
+  - name: "test2-spqyj-test"
+    image: "docker.elastic.co/elasticsearch/elasticsearch:6.7.1"
+    imagePullPolicy: "IfNotPresent"
+    command:
+      - "sh"
+      - "-c"
+      - |
+        #!/usr/bin/env bash -e
+        curl -XGET --fail 'elasticsearch-master:9200/_cluster/health?wait_for_status=yellow&timeout=5s'
+  restartPolicy: Never
+---
+# Source: uniflow/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "test2-uniflow-test-connection"
+  labels:
+    helm.sh/chart: uniflow-1.0.0
+    app.kubernetes.io/name: uniflow
+    app.kubernetes.io/instance: test2
+    app.kubernetes.io/version: "1.0.5"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+    "helm.sh/hook-delete-policy": hook-succeeded
+
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['-S', 'workflow-proxy:8080/api/metadata/workflow']
+    - name: wget-proxy
+      image: busybox
+      command: ['wget']
+      args: ['-S', 'workflow-proxy:8088/probe/readiness']
+  restartPolicy: Never
+MANIFEST:
+---
+# Source: uniflow/charts/elasticsearch/templates/poddisruptionbudget.yaml
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: "elasticsearch-master-pdb"
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: "elasticsearch-master"
+---
+# Source: uniflow/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: workflow-proxy
+  labels:
+    helm.sh/chart: uniflow-1.0.0
+    app.kubernetes.io/name: uniflow
+    app.kubernetes.io/instance: test2
+    app.kubernetes.io/version: "1.0.5"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: uniflow/charts/postgresql/templates/secrets.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: test2-postgresql
+  namespace: default
+  labels:
+    app.kubernetes.io/name: postgresql
+    helm.sh/chart: postgresql-11.1.17
+    app.kubernetes.io/instance: test2
+    app.kubernetes.io/managed-by: Helm
+type: Opaque
+data:
+  postgres-password: "OXhhSFJNWGpJWg=="
+  password: "cG9zdGdyZXNQ"
+  # We don't auto-generate LDAP password when it's not provided as we do for other passwords
+---
+# Source: uniflow/charts/postgresql/templates/primary/initialization-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test2-postgresql-init-scripts
+  namespace: default
+  labels:
+    app.kubernetes.io/name: postgresql
+    helm.sh/chart: postgresql-11.1.17
+    app.kubernetes.io/instance: test2
+    app.kubernetes.io/managed-by: Helm
+data:
+  init_db.sql: |
+    CREATE DATABASE schellar;
+---
+# Source: uniflow/templates/configmap-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test2-uniflow-config
+data:
+  config.properties: |
+    # All parameters can be specified as an environment variables in docker compose file by substituting dots for undserscores
+    # e.g use workflow_elasticsearch_url=VALUE to specify workflow.elasticsearch.url parameter
+    
+    # NOTE: Configuration files overwrite the environment variables, to use an environment variable for configuration
+    # you must REMOVE the appropriate parameter from the configuration file first!
+    
+    # Servers
+    conductor.grpc-server.enabled=false
+    conductor.app.ownerEmailMandatory=false
+    
+    # Hikari pool sizes are -1 by default and prevent startup
+    spring.datasource.hikari.maximum-pool-size=10
+    spring.datasource.hikari.minimum-idle=2
+    
+    # Needed for single node ES cluster
+    conductor.elasticsearch.clusterHealthColor=yellow
+    
+    conductor.indexing.enabled=true
+    
+    # Set elasticsearch version
+    conductor.elasticsearch.version=6
+    
+    # Transport address to elasticsearch
+    # ENV conductor.elasticsearch.url=http://workflows-elasticsearch-master-headless:9200
+    
+    # Name of the elasticsearch cluster
+    conductor.elasticsearch.indexPrefix=conductor
+    
+    # Additional modules (optional)
+    # conductor.additional.modules=class_extending_com.google.inject.AbstractModule
+    # Additional modules for metrics collection (optional)
+    conductor.additional.modules=com.netflix.conductor.contribs.metrics.MetricsRegistryModule,com.netflix.conductor.contribs.metrics.LoggingMetricsModule
+    conductor.metrics-logger.enabled=true
+    conductor.metrics-logger.reportPeriodSeconds=15
+    
+    # Load sample kitchen sink workflow
+    loadSample=false
+    
+    # Increase payload threshold limits for transferring big schemas to PostgreSQL
+    conductor.app.workflow-input-payload-size-threshold=25
+    conductor.app.workflow-output-payload-size-threshold=25
+    conductor.app.max-workflow-input-payload-size-threshold=1024000
+    conductor.app.max-workflow-output-payload-size-threshold=1024000
+    conductor.app.task-input-payload-size-threshold=25
+    conductor.app.task-output-payload-size-threshold=25
+    conductor.app.max-task-input-payload-size-threshold=1024000
+    conductor.app.max-task-output-payload-size-threshold=1024000
+    
+    # PostgreSQL External Payload Storage variables
+    conductor.external-payload-storage.type=postgres
+    conductor.external-payload-storage.postgres.conductor-url=http://workflow-proxy:8088/proxy
+    conductor.external-payload-storage.postgres.max-data-rows=1000000
+    conductor.external-payload-storage.postgres.max-data-days=0
+    conductor.external-payload-storage.postgres.max-data-months=0
+    conductor.external-payload-storage.postgres.max-data-years=1
+    
+    conductor.app.taskExecutionPostponeDuration=0
+    
+    conductor.db.type=postgres
+    
+    
+  log4j.properties: |
+    #
+    # Copyright 2017 Netflix, Inc.
+    #
+    # Licensed under the Apache License, Version 2.0 (the "License");
+    # you may not use this file except in compliance with the License.
+    # You may obtain a copy of the License at
+    #
+    #     http://www.apache.org/licenses/LICENSE-2.0
+    #
+    # Unless required by applicable law or agreed to in writing, software
+    # distributed under the License is distributed on an "AS IS" BASIS,
+    # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    # See the License for the specific language governing permissions and
+    # limitations under the License.
+    #
+    
+    log4j.rootLogger=INFO,console,file
+    
+    log4j.appender.console=org.apache.log4j.ConsoleAppender
+    log4j.appender.console.layout=org.apache.log4j.PatternLayout
+    log4j.appender.console.layout.ConversionPattern=%d{ISO8601} %5p [%t] (%C) - %m%n
+    
+    log4j.appender.file=org.apache.log4j.RollingFileAppender
+    log4j.appender.file.File=/app/logs/conductor.log
+    log4j.appender.file.MaxFileSize=10MB
+    log4j.appender.file.MaxBackupIndex=10
+    log4j.appender.file.layout=org.apache.log4j.PatternLayout
+    log4j.appender.file.layout.ConversionPattern=%d{ISO8601} %5p [%t] (%C) - %m%n
+    
+    # Syslog based appender streaming metrics into fluentd
+    log4j.appender.server=org.apache.log4j.net.SyslogAppender
+    log4j.appender.server.syslogHost=fluentd:5170
+    log4j.appender.server.facility=LOCAL1
+    log4j.appender.server.layout=org.apache.log4j.PatternLayout
+    log4j.appender.server.layout.ConversionPattern=%d{ISO8601} %5p [%t] (%C) - %m%n
+    
+    log4j.logger.ConductorMetrics=INFO,console,server
+    log4j.additivity.ConductorMetrics=false
+---
+# Source: uniflow/charts/elasticsearch/templates/service.yaml
+kind: Service
+apiVersion: v1
+metadata:
+  name: elasticsearch-master
+  labels:
+    heritage: "Helm"
+    release: "test2"
+    chart: "elasticsearch"
+    app: "elasticsearch-master"
+  annotations:
+    {}
+spec:
+  type: ClusterIP
+  selector:
+    release: "test2"
+    chart: "elasticsearch"
+    app: "elasticsearch-master"
+  ports:
+  - name: http
+    protocol: TCP
+    port: 9200
+  - name: transport
+    protocol: TCP
+    port: 9300
+---
+# Source: uniflow/charts/elasticsearch/templates/service.yaml
+kind: Service
+apiVersion: v1
+metadata:
+  name: elasticsearch-master-headless
+  labels:
+    heritage: "Helm"
+    release: "test2"
+    chart: "elasticsearch"
+    app: "elasticsearch-master"
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+spec:
+  clusterIP: None # This is needed for statefulset hostnames like elasticsearch-0 to resolve
+  # Create endpoints also if the related pod isn't ready
+  publishNotReadyAddresses: true
+  selector:
+    app: "elasticsearch-master"
+  ports:
+  - name: http
+    port: 9200
+  - name: transport
+    port: 9300
+---
+# Source: uniflow/charts/postgresql/templates/primary/svc-headless.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: test2-postgresql-hl
+  namespace: default
+  labels:
+    app.kubernetes.io/name: postgresql
+    helm.sh/chart: postgresql-11.1.17
+    app.kubernetes.io/instance: test2
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: primary
+    # Use this annotation in addition to the actual publishNotReadyAddresses
+    # field below because the annotation will stop being respected soon but the
+    # field is broken in some versions of Kubernetes:
+    # https://github.com/kubernetes/kubernetes/issues/58662
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+spec:
+  type: ClusterIP
+  clusterIP: None
+  # We want all pods in the StatefulSet to have their addresses published for
+  # the sake of the other Postgresql pods even before they're ready, since they
+  # have to be able to talk to each other in order to become ready.
+  publishNotReadyAddresses: true
+  ports:
+    - name: tcp-postgresql
+      port: 5432
+      targetPort: tcp-postgresql
+  selector:
+    app.kubernetes.io/name: postgresql
+    app.kubernetes.io/instance: test2
+    app.kubernetes.io/component: primary
+---
+# Source: uniflow/charts/postgresql/templates/primary/svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: test2-postgresql
+  namespace: default
+  labels:
+    app.kubernetes.io/name: postgresql
+    helm.sh/chart: postgresql-11.1.17
+    app.kubernetes.io/instance: test2
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: primary
+  annotations:
+spec:
+  type: ClusterIP
+  ports:
+    - name: tcp-postgresql
+      port: 5432
+      targetPort: tcp-postgresql
+      nodePort: null
+  selector:
+    app.kubernetes.io/name: postgresql
+    app.kubernetes.io/instance: test2
+    app.kubernetes.io/component: primary
+---
+# Source: uniflow/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: workflow-proxy
+  labels:
+    helm.sh/chart: uniflow-1.0.0
+    app.kubernetes.io/name: uniflow
+    app.kubernetes.io/instance: test2
+    app.kubernetes.io/version: "1.0.5"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8088
+      targetPort: http
+      protocol: TCP
+      name: http
+    - port: 8089
+      targetPort: http-workers
+      protocol: TCP
+      name: http-workers
+    - port: 8087
+      targetPort: http-schellar
+      protocol: TCP
+      name: http-schellar
+    - port: 8080
+      targetPort: http-conductor
+      protocol: TCP
+      name: http-conductor
+    - port: 8090
+      targetPort: grpc-conductor
+      protocol: TCP
+      name: grpc-conductor
+  selector:
+    app.kubernetes.io/name: uniflow
+    app.kubernetes.io/instance: test2
+---
+# Source: uniflow/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test2-uniflow
+  labels:
+    helm.sh/chart: uniflow-1.0.0
+    app.kubernetes.io/name: uniflow
+    app.kubernetes.io/instance: test2
+    app.kubernetes.io/version: "1.0.5"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: uniflow
+      app.kubernetes.io/instance: test2
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: uniflow
+        app.kubernetes.io/instance: test2
+    spec:
+      serviceAccountName: workflow-proxy
+      securityContext:
+        {}
+      restartPolicy: Always
+      initContainers:
+      - name: check-db-ready
+        image: postgres:alpine
+        command: ['sh', '-c', 
+          "until pg_isready -h test2-postgresql -p 5432; 
+          do echo waiting for database; sleep 2; done;"]
+      - name: check-elk-ready
+        image: curlimages/curl
+        command: ["/bin/sh","-c"]
+        args: ['while [ $(curl -ksw "%{http_code}" "elasticsearch-master:9200/_cluster/health?wait_for_status=yellow" -o /dev/null) -ne 200 ];
+          do sleep 5; echo "waiting for elasticsearch";
+          done;
+          echo "connection successful!"']
+      containers:
+        # conductor-proxy
+        - name: uniflow-proxy
+          image: "frinx/workflow-proxy:1.0.7"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8088
+              protocol: TCP
+            - name: http-schellar
+              containerPort: 8087
+              protocol: TCP
+            - name: http-workers
+              containerPort: 8089
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /probe/liveness
+              port: http
+            initialDelaySeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /probe/readiness
+              port: http
+            initialDelaySeconds: 20
+          resources:
+            {}
+          env:
+            - name: "PROXY_TARGET"
+              value: http://localhost:8080
+        # conductor
+        - name: uniflow
+          securityContext:
+            {}
+          image: "frinx/uniflow-conductor-server:1.0.5"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http-conductor
+              containerPort: 8080
+              protocol: TCP
+            - name: grpc-conductor
+              containerPort: 8090
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http-conductor
+            initialDelaySeconds: 60
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http-conductor
+            initialDelaySeconds: 60
+          resources:
+            {}
+          env:
+            - name: "CONFIG_PROP"
+              value: config.properties
+            - name: "LOG4J_PROP"
+              value: log4j.properties
+            - name: "_JAVA_OPTIONS"
+              value: -Xmx2g
+              
+            - name: "spring_datasource_url"
+              value: jdbc:postgresql://test2-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
+            - name: "conductor_externalPayloadStorage_postgres_url"
+              value: jdbc:postgresql://test2-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
+              
+            - name: "spring_datasource_username"
+              value: postgresU
+            - name: "spring_datasource_password"
+              value: postgresP
+            - name: "conductor_externalPayloadStorage_postgres_username"
+              value: postgresU
+            - name: "conductor_externalPayloadStorage_postgres_password"
+              value: postgresP
+            - name: "conductor_elasticsearch_url"
+              value: http://elasticsearch-master-headless:9200
+          volumeMounts:
+            - name: test2-uniflow-config
+              mountPath: /app/config/
+        # schellar
+        # - name: uniflow-schellar
+        #   image: "frinx/uniflow-schellar:1.9.3"
+        #   imagePullPolicy: IfNotPresent
+        #   ports:
+        #     - name: http
+        #       containerPort: 3000
+        #       protocol: TCP
+        #   env:
+        #     - name: "LOG_LEVEL"
+        #       value: "debug"
+        #     - name: "CHECK_INTERVAL_SECONDS"
+        #       value: "10"
+        #     - name: "CONDUCTOR_API_URL"
+        #       value: "http://conductor:8080/api"
+        #     - name: "BACKEND"
+        #       value: "postgres"
+        #     - name: "POSTGRES_MIGRATIONS_DIR"
+        #       value: "migrations"
+        #     - name: "POSTGRES_PORT"
+        #       value: "5432"
+        #       
+        #     - name: "POSTGRES_DATABASE_URL"
+        #       value: "host=test2-postgresql port=5432 user=postgresU password=postgresP database=schellar"  
+        #       
+      volumes:
+      - name: test2-uniflow-config
+        configMap:
+          name: test2-uniflow-config
+---
+# Source: uniflow/charts/elasticsearch/templates/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: elasticsearch-master
+  labels:
+    heritage: "Helm"
+    release: "test2"
+    chart: "elasticsearch"
+    app: "elasticsearch-master"
+  annotations:
+    esMajorVersion: "6"
+spec:
+  serviceName: elasticsearch-master-headless
+  selector:
+    matchLabels:
+      app: "elasticsearch-master"
+  replicas: 1
+  podManagementPolicy: Parallel
+  updateStrategy:
+    type: RollingUpdate
+  volumeClaimTemplates:
+  - metadata:
+      name: elasticsearch-master
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+  template:
+    metadata:
+      name: "elasticsearch-master"
+      labels:
+        release: "test2"
+        chart: "elasticsearch"
+        app: "elasticsearch-master"
+      annotations:
+        
+    spec:
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+      automountServiceAccountToken: true
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - "elasticsearch-master"
+            topologyKey: kubernetes.io/hostname
+      terminationGracePeriodSeconds: 120
+      volumes:
+      enableServiceLinks: true
+      initContainers:
+      - name: configure-sysctl
+        securityContext:
+          runAsUser: 0
+          privileged: true
+        image: "docker.elastic.co/elasticsearch/elasticsearch:6.7.1"
+        imagePullPolicy: "IfNotPresent"
+        command: ["sysctl", "-w", "vm.max_map_count=262144"]
+        resources:
+          {}
+
+      containers:
+      - name: "elasticsearch"
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          runAsNonRoot: true
+          runAsUser: 1000
+        image: "docker.elastic.co/elasticsearch/elasticsearch:6.7.1"
+        imagePullPolicy: "IfNotPresent"
+        readinessProbe:
+          exec:
+            command:
+              - sh
+              - -c
+              - |
+                #!/usr/bin/env bash -e
+                # If the node is starting up wait for the cluster to be ready (request params: "wait_for_status=yellow&timeout=5s" )
+                # Once it has started only check that the node itself is responding
+                START_FILE=/tmp/.es_start_file
+
+                # Disable nss cache to avoid filling dentry cache when calling curl
+                # This is required with Elasticsearch Docker using nss < 3.52
+                export NSS_SDB_USE_CACHE=no
+
+                http () {
+                  local path="${1}"
+                  local args="${2}"
+                  set -- -XGET -s
+
+                  if [ "$args" != "" ]; then
+                    set -- "$@" $args
+                  fi
+
+                  if [ -n "${ELASTIC_PASSWORD}" ]; then
+                    set -- "$@" -u "elastic:${ELASTIC_PASSWORD}"
+                  fi
+
+                  curl --output /dev/null -k "$@" "http://127.0.0.1:9200${path}"
+                }
+
+                if [ -f "${START_FILE}" ]; then
+                  echo 'Elasticsearch is already running, lets check the node is healthy'
+                  HTTP_CODE=$(http "/" "-w %{http_code}")
+                  RC=$?
+                  if [[ ${RC} -ne 0 ]]; then
+                    echo "curl --output /dev/null -k -XGET -s -w '%{http_code}' \${BASIC_AUTH} http://127.0.0.1:9200/ failed with RC ${RC}"
+                    exit ${RC}
+                  fi
+                  # ready if HTTP code 200, 503 is tolerable if ES version is 6.x
+                  if [[ ${HTTP_CODE} == "200" ]]; then
+                    exit 0
+                  elif [[ ${HTTP_CODE} == "503" && "6" == "6" ]]; then
+                    exit 0
+                  else
+                    echo "curl --output /dev/null -k -XGET -s -w '%{http_code}' \${BASIC_AUTH} http://127.0.0.1:9200/ failed with HTTP code ${HTTP_CODE}"
+                    exit 1
+                  fi
+
+                else
+                  echo 'Waiting for elasticsearch cluster to become ready (request params: "wait_for_status=yellow&timeout=5s" )'
+                  if http "/_cluster/health?wait_for_status=yellow&timeout=5s" "--fail" ; then
+                    touch ${START_FILE}
+                    exit 0
+                  else
+                    echo 'Cluster is not yet ready (request params: "wait_for_status=yellow&timeout=5s" )'
+                    exit 1
+                  fi
+                fi
+          failureThreshold: 3
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 3
+          timeoutSeconds: 5
+        ports:
+        - name: http
+          containerPort: 9200
+        - name: transport
+          containerPort: 9300
+        resources:
+          limits:
+            cpu: ""
+            memory: ""
+          requests:
+            cpu: ""
+            memory: ""
+        env:
+          - name: node.name
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: discovery.zen.minimum_master_nodes
+            value: "1"
+          - name: discovery.zen.ping.unicast.hosts
+            value: "elasticsearch-master-headless"
+          - name: cluster.name
+            value: "elasticsearch"
+          - name: network.host
+            value: "0.0.0.0"
+          - name: node.data
+            value: "true"
+          - name: node.ingest
+            value: "true"
+          - name: node.master
+            value: "true"
+        volumeMounts:
+          - name: "elasticsearch-master"
+            mountPath: /usr/share/elasticsearch/data
+---
+# Source: uniflow/charts/postgresql/templates/primary/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: test2-postgresql
+  namespace: default
+  labels:
+    app.kubernetes.io/name: postgresql
+    helm.sh/chart: postgresql-11.1.17
+    app.kubernetes.io/instance: test2
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: primary
+  annotations:
+spec:
+  replicas: 1
+  serviceName: test2-postgresql-hl
+  updateStrategy:
+    rollingUpdate: {}
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: postgresql
+      app.kubernetes.io/instance: test2
+      app.kubernetes.io/component: primary
+  template:
+    metadata:
+      name: test2-postgresql
+      labels:
+        app.kubernetes.io/name: postgresql
+        helm.sh/chart: postgresql-11.1.17
+        app.kubernetes.io/instance: test2
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/component: primary
+      annotations:
+    spec:
+      serviceAccountName: default
+      
+      affinity:
+        podAffinity:
+          
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: postgresql
+                    app.kubernetes.io/instance: test2
+                    app.kubernetes.io/component: primary
+                namespaces:
+                  - "default"
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+          
+      securityContext:
+        fsGroup: 1001
+      hostNetwork: false
+      hostIPC: false
+      initContainers:
+      containers:
+        - name: postgresql
+          image: docker.io/bitnami/postgresql:14.2.0-debian-10-r54
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            runAsUser: 1001
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: POSTGRESQL_PORT_NUMBER
+              value: "5432"
+            - name: POSTGRESQL_VOLUME_DIR
+              value: "/bitnami/postgresql"
+            - name: PGDATA
+              value: "/bitnami/postgresql/data"
+            # Authentication
+            - name: POSTGRES_USER
+              value: "postgresU"
+            - name: POSTGRES_POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: test2-postgresql
+                  key: postgres-password
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: test2-postgresql
+                  key: password
+            - name: POSTGRES_DB
+              value: "conductor"
+            # Replication
+            # Initdb
+            # Standby
+            # LDAP
+            - name: POSTGRESQL_ENABLE_LDAP
+              value: "no"
+            # TLS
+            - name: POSTGRESQL_ENABLE_TLS
+              value: "no"
+            # Audit
+            - name: POSTGRESQL_LOG_HOSTNAME
+              value: "false"
+            - name: POSTGRESQL_LOG_CONNECTIONS
+              value: "false"
+            - name: POSTGRESQL_LOG_DISCONNECTIONS
+              value: "false"
+            - name: POSTGRESQL_PGAUDIT_LOG_CATALOG
+              value: "off"
+            # Others
+            - name: POSTGRESQL_CLIENT_MIN_MESSAGES
+              value: "error"
+            - name: POSTGRESQL_SHARED_PRELOAD_LIBRARIES
+              value: "pgaudit"
+          ports:
+            - name: tcp-postgresql
+              containerPort: 5432
+          livenessProbe:
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U "postgresU" -d "dbname=conductor" -h 127.0.0.1 -p 5432
+          readinessProbe:
+            failureThreshold: 6
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - -e
+                
+                - |
+                  exec pg_isready -U "postgresU" -d "dbname=conductor" -h 127.0.0.1 -p 5432
+                  [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
+          resources:
+            limits: {}
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          volumeMounts:
+            - name: custom-init-scripts
+              mountPath: /docker-entrypoint-initdb.d/
+            - name: dshm
+              mountPath: /dev/shm
+            - name: data
+              mountPath: /bitnami/postgresql
+      volumes:
+        - name: custom-init-scripts
+          configMap:
+            name: test2-postgresql-init-scripts
+        - name: dshm
+          emptyDir:
+            medium: Memory
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: "8Gi"
+
+NOTES:
+1. Get the application URL by running these commands:
+  export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=uniflow,app.kubernetes.io/instance=test2" -o jsonpath="{.items[0].metadata.name}")
+  echo "Visit http://127.0.0.1:8088 to use your application"
+  kubectl --namespace default port-forward $POD_NAME 8080:80

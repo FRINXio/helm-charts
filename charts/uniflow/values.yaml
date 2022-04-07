@@ -116,7 +116,13 @@ elasticsearch:
   replicas: 1
   minimumMasterNodes: 1
   imageTag: "6.7.1"
-  resources: {}
+  resources: 
+    requests:
+      cpu: ""
+      memory: ""
+    limits:
+      cpu: ""
+      memory: ""
   volumeClaimTemplate:
     resources:
       requests:
@@ -131,7 +137,11 @@ postgresql:
     password: postgresP
     database: conductor
   architecture: standalone
-  resources: {}
+  resources:
+    {}
+    # requests:
+    #   cpu: ""
+    #   memory: ""
   primary:
     initdb:
       scripts:
