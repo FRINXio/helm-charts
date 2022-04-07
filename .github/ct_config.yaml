@@ -7,6 +7,6 @@ chart-repos:
   - bitnami=https://charts.bitnami.com/bitnami
   - cetic=https://cetic.github.io/helm-charts
   - elastic=https://helm.elastic.co
-helm-extra-args: --timeout 1200s
+helm-extra-args: --timeout 600s
 additional-commands:
   - helm unittest --helm3 --strict --file unittests/*.yaml --file 'unittests/**/*.yaml' {{ .Path }}
