@@ -155,6 +155,21 @@ spec:
             - name: "POSTGRES_DATABASE_URL"
               value: {{ .Values.schellarEnv.POSTGRES_DATABASE_URL | quote }}
               {{ end }}
+          livenessProbe:
+            exec:
+              command:
+              - wget
+              - --spider
+              - -q
+              - 127.0.0.1:3000/liveness
+            initialDelaySeconds: 20
+          readinessProbe:
+            exec:
+              command:
+              - wget
+              - --spider
+              - -q
+              - 127.0.0.1:3000/liveness
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
