@@ -118,9 +118,9 @@ elasticsearch:
   imageTag: "6.7.1"
   resources:
     requests:
-      cpu: 745m
+      cpu: 774m
     limits:
-      cpu: 745m
+      cpu: 774m
   volumeClaimTemplate:
     resources:
       requests:
