@@ -13,10 +13,10 @@ spec:
     - name: check-workflow-proxy
       image: busybox
       command: ['wget']
-      args: ['-S', 'workflow-proxy:{{ .Values.service.port }}/probe/readiness']
+      args: ['-S', '{{ include "uniflow.fullname" . }}:{{ .Values.service.port }}/probe/readiness']
     - name: check-conductor-server
       image: busybox
       command: ['wget']
-      args: ['-S', 'workflow-proxy:{{ .Values.service.portConductor }}/api/metadata/workflow']
+      args: ['-S', '{{ include "uniflow.fullname" . }}:{{ .Values.service.portConductor }}/api/metadata/workflow']
 
   restartPolicy: Never
