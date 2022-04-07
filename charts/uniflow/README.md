@@ -80,14 +80,24 @@ helm uninstall [RELEASE_NAME]
 | `env.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_USERNAME` | CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_USERNAME env value | `postgres` |
 | `env.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_PASSWORD` | CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_PASSWORD env value | `postgres` |
 | `env.CONDUCTOR_ELASTICSEARCH_URL` | CONDUCTOR_ELASTICSEARCH_URL env value | `http://elasticsearch-master-headless:9200` |
-| `postgresql.enabled` | Switch to enable or disable the PostgreSQL helm chart | `true` |
-| `postgresql.image.tag` | Image tag | `"12.2"` |
-| `postgresql.postgresql.username` | Name for a custom user to create | `postgres` |
-| `postgresql.postgresql.password` | Password for the custom user to create | `postgres` |
-| `postgresql.postgresql.database` | Name for a custom database to createe | `conductor` |
+| `schellarEnv.LOG_LEVEL` | LOG_LEVEL env value for schellar | `debug` |
+| `schellarEnv.CHECK_INTERVAL_SECONDS` | CHECK_INTERVAL_SECONDS env value for schellar | `debug` |
+| `schellarEnv.CONDUCTOR_API_URL` | CONDUCTOR_API_URL env value for schellar | `http://conductor:8080/api` |
+| `schellarEnv.BACKEND` | BACKEND env value for schellar | `postgres` |
+| `schellarEnv.POSTGRES_MIGRATIONS_DIR` | POSTGRES_MIGRATIONS_DIR env value for schellar | `postgres` |
+| `schellarEnv.POSTGRES_PORT` | POSTGRES_PORT env value for schellar | `5432` |
+| `schellarEnv.POSTGRES_DATABASE_URL` | POSTGRES_DATABASE_URL env value for remote database for schellar | `"host=postgresql port=5432 user=postgres password=postgres database=schellar"` |
 | `elasticsearch.enabled` | Switch to enable or disable the elasticsearch helm chart | `true` |
 | `elasticsearch.replicas` | Number of replics | `1` |
 | `elasticsearch.minimumMasterNodes` | Minimum number of master nodes | `1` |
 | `elasticsearch.imageTag` | Image tag| `6.7.1` |
+| `resources` | Resources for elasticsearch | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/uniflow/values.yaml) |
 | `elasticsearch.volumeClaimTemplate.resources.requests.storage` | Requests for storage space | `1Gi` |
 | `elasticsearch.clusterHealthCheckParams` | Cluster health check params | `"wait_for_status=yellow&timeout=5s"` |
+| `postgresql.enabled` | Switch to enable or disable the PostgreSQL helm chart | `true` |
+| `postgresql.auth.enablePostgresUser` | Assign a password to the "postgres" admin user. Otherwise, remote access will be blocked for this user | `true` |
+| `postgresql.auth.username` | Name for a custom user to create | `postgresU` |
+| `postgresql.auth.password` | Password for the custom user to create | `postgresP` |
+| `postgresql.auth.database` | Name for a custom database to create | `conductor` |
+| `postgresql.architecture` | PostgreSQL architecture (`standalone` or `replication`) | `standalone` |
+| `postgresql.primary.initdb.scripts.init_db.sql` | Init script for creating another databases | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/uniflow/values.yaml) |
