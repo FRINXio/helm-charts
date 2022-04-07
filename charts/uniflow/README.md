@@ -1,6 +1,6 @@
-# conductor
+# uniflow
 
-A Helm chart for Kubernetes deploying conductor-server and workflow-proxy
+FRINX UniFlow enables customers to create automated, repeatable, digital processes to build, grow and operate their digital communication infrastructure. 
 
 ## Get Repo Info
 
@@ -12,13 +12,13 @@ helm repo update
 ## Install Chart
 
 ```console
-helm install [RELEASE_NAME] frinx/conductor
+helm install [RELEASE_NAME] frinx/uniflow
 ```
 
 ## Upgrading Chart
 
 ```console
-helm upgrade [RELEASE_NAME] frinx/conductor
+helm upgrade [RELEASE_NAME] frinx/uniflow
 ```
 
 ## Uninstall Chart
