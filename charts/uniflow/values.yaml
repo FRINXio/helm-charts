@@ -116,6 +116,7 @@ elasticsearch:
   replicas: 1
   minimumMasterNodes: 1
   imageTag: "6.7.1"
+  resources: {}
   volumeClaimTemplate:
     resources:
       requests:
