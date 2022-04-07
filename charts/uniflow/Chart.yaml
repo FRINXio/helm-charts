@@ -16,3 +16,10 @@ dependencies:
     name: elasticsearch
     repository: https://helm.elastic.co
     version: 6.8.22
+artifacthub.io/images: |
+  - name: uniflow-conductor-server
+    image: frinx/uniflow-conductor-server:1.0.5
+  - name: workflow-proxy
+    image: frinx/workflow-proxy:1.0.7
+  - name: uniflow-schellar
+    image: frinx/uniflow-schellar:1.9.3
