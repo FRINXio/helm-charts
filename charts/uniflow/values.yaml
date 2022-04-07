@@ -82,6 +82,7 @@ tolerations: []
 
 affinity: {}
 
+
 configScripts:
   config.properties: |
     {{- .Files.Get "configs/config.properties" }}
@@ -118,9 +119,9 @@ elasticsearch:
   imageTag: "6.7.1"
   resources:
     requests:
-      cpu: 775m
+      cpu: 774m
     limits:
-      cpu: 775m
+      cpu: 774m
   volumeClaimTemplate:
     resources:
       requests:

@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "conductor.fullname" . }}
+  name: {{ include "uniflow.fullname" . }}
   labels:
-    {{- include "conductor.labels" . | nindent 4 }}
+    {{- include "uniflow.labels" . | nindent 4 }}
 spec:
 {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
 {{- end }}
   selector:
     matchLabels:
-      {{- include "conductor.selectorLabels" . | nindent 6 }}
+      {{- include "uniflow.selectorLabels" . | nindent 6 }}
   template:
     metadata:
     {{- with .Values.podAnnotations }}
@@ -18,13 +18,13 @@ spec:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       labels:
-        {{- include "conductor.selectorLabels" . | nindent 8 }}
+        {{- include "uniflow.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "conductor.serviceAccountName" . }}
+      serviceAccountName: {{ include "uniflow.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       restartPolicy: Always
@@ -125,7 +125,7 @@ spec:
             - name: "conductor_elasticsearch_url"
               value: {{ .Values.env.CONDUCTOR_ELASTICSEARCH_URL}}
           volumeMounts:
-            - name: {{ include "conductor.fullname" . }}-config
+            - name: {{ include "uniflow.fullname" . }}-config
               mountPath: /app/config/
         # schellar
         - name: {{ .Chart.Name }}-schellar
@@ -168,6 +168,6 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
-      - name: {{ include "conductor.fullname" . }}-config
+      - name: {{ include "uniflow.fullname" . }}-config
         configMap:
-          name: {{ include "conductor.fullname" . }}-config
+          name: {{ include "uniflow.fullname" . }}-config

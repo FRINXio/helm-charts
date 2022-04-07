@@ -1,6 +1,6 @@
 # uniflow
 
-FRINX UniFlow enables customers to create automated, repeatable, digital processes to build, grow and operate their digital communication infrastructure. 
+FRINX UniFlow enables customers to create automated, repeatable, digital processes to build, grow and operate their digital communication infrastructure.
 
 ## Get Repo Info
 
@@ -48,7 +48,7 @@ helm uninstall [RELEASE_NAME]
 | `podSecurityContext` | Pod deployment securityContext | `{}` |
 | `securityContext` | Deployment securityContext | `{}` |
 | `service.type` | Kubernetes service type | `ClusterIP` |
-| `service.port` | Kubernetes port where service is exposed | `8088` |
+| `service.port` | Kubernetes port where workflow-proxy is exposed | `8088` |
 | `service.portWorkers` | Kubernetes port where worker is exposed | `8089` |
 | `service.portSchellar` | Kubernetes port where schellar is exposed | `8089` |
 | `service.portConductor` | Kubernetes port where conductor is exposed | `8080` |
