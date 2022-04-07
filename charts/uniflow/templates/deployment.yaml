@@ -31,8 +31,8 @@ spec:
       initContainers:
       - name: check-db-ready
         image: postgres:alpine
-        command: ['sh', '-c', 
-          "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432; 
+        command: ['sh', '-c',
+          "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432;
           do echo waiting for database; sleep 2; done;"]
       - name: check-elk-ready
         image: curlimages/curl
@@ -150,7 +150,7 @@ spec:
         #       value: {{ .Values.schellarEnv.POSTGRES_PORT | quote }}
         #       {{ if .Values.postgresql.enabled }}
         #     - name: "POSTGRES_DATABASE_URL"
-        #       value: "host={{ .Release.Name }}-postgresql port=5432 user=postgresU password=postgresP database=schellar"  
+        #       value: "host={{ .Release.Name }}-postgresql port=5432 user=postgresU password=postgresP database=schellar"
         #       {{ else }}
         #     - name: "POSTGRES_DATABASE_URL"
         #       value: {{ .Values.schellarEnv.POSTGRES_DATABASE_URL | quote }}
