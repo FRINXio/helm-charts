@@ -118,11 +118,9 @@ elasticsearch:
   imageTag: "6.7.1"
   resources:
     requests:
-      cpu: ""
-      memory: ""
+      cpu: 500m
     limits:
-      cpu: ""
-      memory: ""
+      cpu: 500m
   volumeClaimTemplate:
     resources:
       requests:
@@ -137,12 +135,11 @@ postgresql:
     password: postgresP
     database: conductor
   architecture: standalone
-  resources:
-    {}
-    # requests:
-    #   cpu: ""
-    #   memory: ""
   primary:
+  #   resources:
+  #     limits: {}
+  #     requests:
+  #       cpu: 1m
     initdb:
       scripts:
         init_db.sql: |
