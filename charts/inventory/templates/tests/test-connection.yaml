@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "inventory.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "inventory.fullname" . }}:{{ .Values.service.port }}/.well-known/apollo/server-health']
   restartPolicy: Never

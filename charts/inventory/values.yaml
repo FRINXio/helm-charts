@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  name: frinx/frinx-inventory-server
+  repository: frinx/frinx-inventory-server
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -83,7 +83,16 @@ env:
   UNICONFIG_API_PORT: 8181
   UNICONFIG_LIST_URL: http://krakend:80/static/list/uniconfig
   X_TENANT_ID: frinx
-  POSTGRES_PASSWORD: postgres
-  POSTGRES_USER: postgres
+  POSTGRES_USER: postgresU
+  POSTGRES_PASSWORD: postgresP
   POSTGRES_DB: uniconfig
   DATABASE_URL: "postgres://postgres:postgres@inventory-postgres-postgresql:5432/inventory?sslmode=disable"
+
+postgresql:
+  enabled: true
+  auth:
+    enablePostgresUser: true
+    username: postgresU
+    password: postgresP
+    database: inventory
+  architecture: standalone
