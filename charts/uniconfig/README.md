@@ -59,8 +59,8 @@ helm uninstall [RELEASE_NAME]
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
-| `license` | License for uniconfig | `` |
-| `mountPath` | Mount path for uniconfig config files | `` |
+| `license` | License for uniconfig | |
+| `mountPath` | Mount path for uniconfig config files | |
 | `dbPersistence.enabled` | Database persistence | `true` |
 | `dbPersistence.connection_dbName` | Database name | `"uniconfig"` |
 | `dbPersistence.connection_username` | Database username | `"postgresU"` |
