@@ -84,6 +84,6 @@ affinity: {}
 
 
 env:
-  DOCKER_GWBRIDGE_IP: 
+  DOCKER_GWBRIDGE_IP:
   INSTANCES_TO_SIMULATE: ""
   RUN_TESTTOOLS: "./scripts/run_netconf_devices/run_netconf_testtool.sh & ./scripts/run_cli_devices/run_devices_docker.sh"
