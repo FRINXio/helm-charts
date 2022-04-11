@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "sample-topology.fullname" . }}-test-connection"
+  labels:
+    {{- include "sample-topology.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: test-device
+      image: ubuntu:22.04
+      args:
+        - sh
+        - -c
+        - apt-get update && apt-get install netcat -y && nc -vz {{ include "sample-topology.fullname" . }} 10004
+  restartPolicy: Never

@@ -1,0 +1,662 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "sample-topology.fullname" . }}
+  labels:
+    {{- include "sample-topology.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: "17000"
+      port: 17000
+      targetPort: 17000
+    - name: "17001"
+      port: 17001
+      targetPort: 17001
+    - name: "17002"
+      port: 17002
+      targetPort: 17002
+    - name: "17003"
+      port: 17003
+      targetPort: 17003
+    - name: "17004"
+      port: 17004
+      targetPort: 17004
+    - name: "17005"
+      port: 17005
+      targetPort: 17005
+    - name: "17006"
+      port: 17006
+      targetPort: 17006
+    - name: "17007"
+      port: 17007
+      targetPort: 17007
+    - name: "17008"
+      port: 17008
+      targetPort: 17008
+    - name: "17009"
+      port: 17009
+      targetPort: 17009
+    - name: "17010"
+      port: 17010
+      targetPort: 17010
+    - name: "17011"
+      port: 17011
+      targetPort: 17011
+    - name: "17012"
+      port: 17012
+      targetPort: 17012
+    - name: "17013"
+      port: 17013
+      targetPort: 17013
+    - name: "17014"
+      port: 17014
+      targetPort: 17014
+    - name: "17015"
+      port: 17015
+      targetPort: 17015
+    - name: "17016"
+      port: 17016
+      targetPort: 17016
+    - name: "17017"
+      port: 17017
+      targetPort: 17017
+    - name: "17018"
+      port: 17018
+      targetPort: 17018
+    - name: "17019"
+      port: 17019
+      targetPort: 17019
+    - name: "17020"
+      port: 17020
+      targetPort: 17020
+    - name: "17021"
+      port: 17021
+      targetPort: 17021
+    - name: "17022"
+      port: 17022
+      targetPort: 17022
+    - name: "17023"
+      port: 17023
+      targetPort: 17023
+    - name: "17024"
+      port: 17024
+      targetPort: 17024
+    - name: "17025"
+      port: 17025
+      targetPort: 17025
+    - name: "17026"
+      port: 17026
+      targetPort: 17026
+    - name: "17027"
+      port: 17027
+      targetPort: 17027
+    - name: "17028"
+      port: 17028
+      targetPort: 17028
+    - name: "17029"
+      port: 17029
+      targetPort: 17029
+    - name: "17030"
+      port: 17030
+      targetPort: 17030
+    - name: "17031"
+      port: 17031
+      targetPort: 17031
+    - name: "17032"
+      port: 17032
+      targetPort: 17032
+    - name: "17033"
+      port: 17033
+      targetPort: 17033
+    - name: "17034"
+      port: 17034
+      targetPort: 17034
+    - name: "17035"
+      port: 17035
+      targetPort: 17035
+    - name: "17036"
+      port: 17036
+      targetPort: 17036
+    - name: "17037"
+      port: 17037
+      targetPort: 17037
+    - name: "17038"
+      port: 17038
+      targetPort: 17038
+    - name: "17039"
+      port: 17039
+      targetPort: 17039
+    - name: "17040"
+      port: 17040
+      targetPort: 17040
+    - name: "17041"
+      port: 17041
+      targetPort: 17041
+    - name: "17042"
+      port: 17042
+      targetPort: 17042
+    - name: "17043"
+      port: 17043
+      targetPort: 17043
+    - name: "17044"
+      port: 17044
+      targetPort: 17044
+    - name: "17045"
+      port: 17045
+      targetPort: 17045
+    - name: "17046"
+      port: 17046
+      targetPort: 17046
+    - name: "17047"
+      port: 17047
+      targetPort: 17047
+    - name: "17048"
+      port: 17048
+      targetPort: 17048
+    - name: "17049"
+      port: 17049
+      targetPort: 17049
+    - name: "17050"
+      port: 17050
+      targetPort: 17050
+    - name: "17051"
+      port: 17051
+      targetPort: 17051
+    - name: "17052"
+      port: 17052
+      targetPort: 17052
+    - name: "17053"
+      port: 17053
+      targetPort: 17053
+    - name: "17054"
+      port: 17054
+      targetPort: 17054
+    - name: "17055"
+      port: 17055
+      targetPort: 17055
+    - name: "17056"
+      port: 17056
+      targetPort: 17056
+    - name: "17057"
+      port: 17057
+      targetPort: 17057
+    - name: "17058"
+      port: 17058
+      targetPort: 17058
+    - name: "17059"
+      port: 17059
+      targetPort: 17059
+    - name: "17060"
+      port: 17060
+      targetPort: 17060
+    - name: "17061"
+      port: 17061
+      targetPort: 17061
+    - name: "17062"
+      port: 17062
+      targetPort: 17062
+    - name: "17063"
+      port: 17063
+      targetPort: 17063
+    - name: "17064"
+      port: 17064
+      targetPort: 17064
+    - name: "17065"
+      port: 17065
+      targetPort: 17065
+    - name: "17066"
+      port: 17066
+      targetPort: 17066
+    - name: "17067"
+      port: 17067
+      targetPort: 17067
+    - name: "17068"
+      port: 17068
+      targetPort: 17068
+    - name: "17069"
+      port: 17069
+      targetPort: 17069
+    - name: "17070"
+      port: 17070
+      targetPort: 17070
+    - name: "17071"
+      port: 17071
+      targetPort: 17071
+    - name: "17072"
+      port: 17072
+      targetPort: 17072
+    - name: "17073"
+      port: 17073
+      targetPort: 17073
+    - name: "17074"
+      port: 17074
+      targetPort: 17074
+    - name: "17075"
+      port: 17075
+      targetPort: 17075
+    - name: "17076"
+      port: 17076
+      targetPort: 17076
+    - name: "17077"
+      port: 17077
+      targetPort: 17077
+    - name: "17078"
+      port: 17078
+      targetPort: 17078
+    - name: "17079"
+      port: 17079
+      targetPort: 17079
+    - name: "17080"
+      port: 17080
+      targetPort: 17080
+    - name: "17081"
+      port: 17081
+      targetPort: 17081
+    - name: "17082"
+      port: 17082
+      targetPort: 17082
+    - name: "17083"
+      port: 17083
+      targetPort: 17083
+    - name: "17084"
+      port: 17084
+      targetPort: 17084
+    - name: "17085"
+      port: 17085
+      targetPort: 17085
+    - name: "17086"
+      port: 17086
+      targetPort: 17086
+    - name: "17087"
+      port: 17087
+      targetPort: 17087
+    - name: "17088"
+      port: 17088
+      targetPort: 17088
+    - name: "17089"
+      port: 17089
+      targetPort: 17089
+    - name: "17090"
+      port: 17090
+      targetPort: 17090
+    - name: "17091"
+      port: 17091
+      targetPort: 17091
+    - name: "17092"
+      port: 17092
+      targetPort: 17092
+    - name: "17093"
+      port: 17093
+      targetPort: 17093
+    - name: "17094"
+      port: 17094
+      targetPort: 17094
+    - name: "17095"
+      port: 17095
+      targetPort: 17095
+    - name: "17096"
+      port: 17096
+      targetPort: 17096
+    - name: "17097"
+      port: 17097
+      targetPort: 17097
+    - name: "17098"
+      port: 17098
+      targetPort: 17098
+    - name: "17099"
+      port: 17099
+      targetPort: 17099
+    - name: "17100"
+      port: 17100
+      targetPort: 17100
+    - name: "17101"
+      port: 17101
+      targetPort: 17101
+    - name: "17102"
+      port: 17102
+      targetPort: 17102
+    - name: "17103"
+      port: 17103
+      targetPort: 17103
+    - name: "17104"
+      port: 17104
+      targetPort: 17104
+    - name: "17105"
+      port: 17105
+      targetPort: 17105
+    - name: "17106"
+      port: 17106
+      targetPort: 17106
+    - name: "17107"
+      port: 17107
+      targetPort: 17107
+    - name: "17108"
+      port: 17108
+      targetPort: 17108
+    - name: "17109"
+      port: 17109
+      targetPort: 17109
+    - name: "17110"
+      port: 17110
+      targetPort: 17110
+    - name: "17111"
+      port: 17111
+      targetPort: 17111
+    - name: "17112"
+      port: 17112
+      targetPort: 17112
+    - name: "17113"
+      port: 17113
+      targetPort: 17113
+    - name: "17114"
+      port: 17114
+      targetPort: 17114
+    - name: "17115"
+      port: 17115
+      targetPort: 17115
+    - name: "17116"
+      port: 17116
+      targetPort: 17116
+    - name: "17117"
+      port: 17117
+      targetPort: 17117
+    - name: "17118"
+      port: 17118
+      targetPort: 17118
+    - name: "17119"
+      port: 17119
+      targetPort: 17119
+    - name: "17120"
+      port: 17120
+      targetPort: 17120
+    - name: "17121"
+      port: 17121
+      targetPort: 17121
+    - name: "17122"
+      port: 17122
+      targetPort: 17122
+    - name: "17123"
+      port: 17123
+      targetPort: 17123
+    - name: "17124"
+      port: 17124
+      targetPort: 17124
+    - name: "17125"
+      port: 17125
+      targetPort: 17125
+    - name: "17126"
+      port: 17126
+      targetPort: 17126
+    - name: "17127"
+      port: 17127
+      targetPort: 17127
+    - name: "17128"
+      port: 17128
+      targetPort: 17128
+    - name: "17129"
+      port: 17129
+      targetPort: 17129
+    - name: "17130"
+      port: 17130
+      targetPort: 17130
+    - name: "17131"
+      port: 17131
+      targetPort: 17131
+    - name: "17132"
+      port: 17132
+      targetPort: 17132
+    - name: "17133"
+      port: 17133
+      targetPort: 17133
+    - name: "17134"
+      port: 17134
+      targetPort: 17134
+    - name: "17135"
+      port: 17135
+      targetPort: 17135
+    - name: "17136"
+      port: 17136
+      targetPort: 17136
+    - name: "17137"
+      port: 17137
+      targetPort: 17137
+    - name: "17138"
+      port: 17138
+      targetPort: 17138
+    - name: "17139"
+      port: 17139
+      targetPort: 17139
+    - name: "17140"
+      port: 17140
+      targetPort: 17140
+    - name: "17141"
+      port: 17141
+      targetPort: 17141
+    - name: "17142"
+      port: 17142
+      targetPort: 17142
+    - name: "17143"
+      port: 17143
+      targetPort: 17143
+    - name: "17144"
+      port: 17144
+      targetPort: 17144
+    - name: "17145"
+      port: 17145
+      targetPort: 17145
+    - name: "17146"
+      port: 17146
+      targetPort: 17146
+    - name: "17147"
+      port: 17147
+      targetPort: 17147
+    - name: "17148"
+      port: 17148
+      targetPort: 17148
+    - name: "17149"
+      port: 17149
+      targetPort: 17149
+    - name: "17150"
+      port: 17150
+      targetPort: 17150
+    - name: "17151"
+      port: 17151
+      targetPort: 17151
+    - name: "17152"
+      port: 17152
+      targetPort: 17152
+    - name: "17153"
+      port: 17153
+      targetPort: 17153
+    - name: "17154"
+      port: 17154
+      targetPort: 17154
+    - name: "17155"
+      port: 17155
+      targetPort: 17155
+    - name: "17156"
+      port: 17156
+      targetPort: 17156
+    - name: "17157"
+      port: 17157
+      targetPort: 17157
+    - name: "17158"
+      port: 17158
+      targetPort: 17158
+    - name: "17159"
+      port: 17159
+      targetPort: 17159
+    - name: "17160"
+      port: 17160
+      targetPort: 17160
+    - name: "17161"
+      port: 17161
+      targetPort: 17161
+    - name: "17162"
+      port: 17162
+      targetPort: 17162
+    - name: "17163"
+      port: 17163
+      targetPort: 17163
+    - name: "17164"
+      port: 17164
+      targetPort: 17164
+    - name: "17165"
+      port: 17165
+      targetPort: 17165
+    - name: "17166"
+      port: 17166
+      targetPort: 17166
+    - name: "17167"
+      port: 17167
+      targetPort: 17167
+    - name: "17168"
+      port: 17168
+      targetPort: 17168
+    - name: "17169"
+      port: 17169
+      targetPort: 17169
+    - name: "17170"
+      port: 17170
+      targetPort: 17170
+    - name: "17171"
+      port: 17171
+      targetPort: 17171
+    - name: "17172"
+      port: 17172
+      targetPort: 17172
+    - name: "17173"
+      port: 17173
+      targetPort: 17173
+    - name: "17174"
+      port: 17174
+      targetPort: 17174
+    - name: "17175"
+      port: 17175
+      targetPort: 17175
+    - name: "17176"
+      port: 17176
+      targetPort: 17176
+    - name: "17177"
+      port: 17177
+      targetPort: 17177
+    - name: "17178"
+      port: 17178
+      targetPort: 17178
+    - name: "17179"
+      port: 17179
+      targetPort: 17179
+    - name: "17180"
+      port: 17180
+      targetPort: 17180
+    - name: "17181"
+      port: 17181
+      targetPort: 17181
+    - name: "17182"
+      port: 17182
+      targetPort: 17182
+    - name: "17183"
+      port: 17183
+      targetPort: 17183
+    - name: "17184"
+      port: 17184
+      targetPort: 17184
+    - name: "17185"
+      port: 17185
+      targetPort: 17185
+    - name: "17186"
+      port: 17186
+      targetPort: 17186
+    - name: "17187"
+      port: 17187
+      targetPort: 17187
+    - name: "17188"
+      port: 17188
+      targetPort: 17188
+    - name: "17189"
+      port: 17189
+      targetPort: 17189
+    - name: "17190"
+      port: 17190
+      targetPort: 17190
+    - name: "17191"
+      port: 17191
+      targetPort: 17191
+    - name: "17192"
+      port: 17192
+      targetPort: 17192
+    - name: "17193"
+      port: 17193
+      targetPort: 17193
+    - name: "17194"
+      port: 17194
+      targetPort: 17194
+    - name: "17195"
+      port: 17195
+      targetPort: 17195
+    - name: "17196"
+      port: 17196
+      targetPort: 17196
+    - name: "17197"
+      port: 17197
+      targetPort: 17197
+    - name: "17198"
+      port: 17198
+      targetPort: 17198
+    - name: "17199"
+      port: 17199
+      targetPort: 17199
+    - name: "17200"
+      port: 17200
+      targetPort: 17200
+    - name: "10000"
+      port: 10000
+      targetPort: 10000
+    - name: "10001"
+      port: 10001
+      targetPort: 10001
+    - name: "10002"
+      port: 10002
+      targetPort: 10002
+    - name: "10003"
+      port: 10003
+      targetPort: 10003
+    - name: "10004"
+      port: 10004
+      targetPort: 10004
+    - name: "10005"
+      port: 10005
+      targetPort: 10005
+    - name: "10006"
+      port: 10006
+      targetPort: 10006
+    - name: "10007"
+      port: 10007
+      targetPort: 10007
+    - name: "10008"
+      port: 10008
+      targetPort: 10008
+    - name: "10009"
+      port: 10009
+      targetPort: 10009
+    - name: "10010"
+      port: 10010
+      targetPort: 10010
+    - name: "10011"
+      port: 10011
+      targetPort: 10011
+    - name: "10012"
+      port: 10012
+      targetPort: 10012
+    - name: "10013"
+      port: 10013
+      targetPort: 10013
+    - name: "10014"
+      port: 10014
+      targetPort: 10014
+    - name: "10015"
+      port: 10015
+      targetPort: 10015
+  selector:
+    {{- include "sample-topology.selectorLabels" . | nindent 4 }}
