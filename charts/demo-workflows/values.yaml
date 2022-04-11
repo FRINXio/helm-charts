@@ -10,12 +10,6 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "1.9"
 
-image:
-  repository: frinx/sample-topology
-  pullPolicy: Always
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "1.9"
-
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -42,7 +36,6 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-
 service:
   type: ClusterIP
   port: 80
@@ -63,14 +56,6 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-
-env:
-  UNICONFIG_URL_BASE: "http://uniconfig:8181/rests" 
-  INSTANCES_TO_SIMULATE: ""
-  RUN_TESTTOOLS: "./scripts/run_netconf_devices/run_netconf_testtool.sh & ./scripts/run_cli_devices/run_devices_docker.sh"
-  X_TENANT_ID: frinx
-  # X_FROM: demo-workflows
-  # X_AUTH_USER_GROUP: network-admin
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -96,3 +81,11 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+env:
+  UNICONFIG_URL_BASE: "http://uniconfig:8181/rests" 
+  INSTANCES_TO_SIMULATE: ""
+  RUN_TESTTOOLS: "./scripts/run_netconf_devices/run_netconf_testtool.sh & ./scripts/run_cli_devices/run_devices_docker.sh"
+  X_TENANT_ID: frinx
+  # X_FROM: demo-workflows
+  # X_AUTH_USER_GROUP: network-admin

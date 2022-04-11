@@ -6,3 +6,6 @@ chart-dirs:
 helm-extra-args: --timeout 600s
 additional-commands:
   - helm unittest --helm3 --strict --file unittests/*.yaml --file 'unittests/**/*.yaml' {{ .Path }}
+excluded-charts:
+  # This chart is for testing purposes and has a dependency on uniflow and inventory charts
+  - demo-workflows
