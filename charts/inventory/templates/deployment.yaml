@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "inventory.fullname" . }}
+  labels:
+    {{- include "inventory.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "inventory.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "inventory.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "inventory.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      restartPolicy: Always
+      initContainers:
+        - name: check-db-ready
+          image: postgres:alpine
+          command: ['sh', '-c',
+            "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432;
+            do echo waiting for database; sleep 2; done;"]
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          env:
+            - name: "UNICONFIG_API_PROTOCOL"
+              value: {{ .Values.env.UNICONFIG_API_PROTOCOL | quote }}
+            - name: "UNICONFIG_API_PORT"
+              value: {{ .Values.env.UNICONFIG_API_PORT | quote }}
+            - name: "UNICONFIG_LIST_URL"
+              value: {{ .Values.env.UNICONFIG_LIST_URL | quote }}
+            - name: "X_TENANT_ID"
+              value: {{ .Values.env.X_TENANT_ID | quote }}
+            - name: "POSTGRES_USER"
+              value: {{ .Values.env.POSTGRES_USER | quote }}
+            - name: "POSTGRES_PASSWORD"
+              value: {{ .Values.env.POSTGRES_PASSWORD | quote }}
+            - name: "POSTGRES_DB"
+              value: {{ .Values.env.POSTGRES_DB | quote }}
+              {{ if .Values.postgresql.enabled }}
+            - name: "DATABASE_URL"
+              value: "postgres://{{ .Values.env.POSTGRES_USER }}:{{ .Values.env.POSTGRES_PASSWORD }}@{{ .Release.Name }}-postgresql:5432/inventory?sslmode=disable"
+              {{ else }}
+            - name: "DATABASE_URL"
+              value: {{ .Values.env.DATABASE_URL | quote }}
+              {{ end }}
+          livenessProbe:
+            exec:
+              command:
+              - wget
+              - --spider
+              - -q
+              - 0.0.0.0:8000/.well-known/apollo/server-health
+            initialDelaySeconds: 20
+          readinessProbe:
+            exec:
+              command:
+              - wget
+              - --spider
+              - -q
+              - 0.0.0.0:8000/.well-known/apollo/server-health
+          command: ['/bin/sh', '-c']
+          args:
+          - yarn prisma migrate deploy --schema=prisma/schema.prisma && node index.js
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

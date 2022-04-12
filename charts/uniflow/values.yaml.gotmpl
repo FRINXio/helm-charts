@@ -1,0 +1,7 @@
+
+env:
+{{ if eq .Environment.Name "frinx" }}
+  JDBC_URL: jdbc:postgresql://frinx-demo-psql.postgres.database.azure.com:5432/conductor?currentSchema=data&charset=utf8&parseTime=true&interpolateParams=true
+  JDBC_USERNAME: postgres@frinx-demo-psql
+  JDBC_PASSWORD: {{ .Values.psqlPasswd }}
+{{ end }}
