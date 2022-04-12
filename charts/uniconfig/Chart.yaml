@@ -13,3 +13,10 @@ maintainers:
   - name: FRINX
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 appVersion: "4.2.10"
+annotations:
+  artifacthub.io/changes: |
+    - kind: fixed
+      description: Fix DB host variable when it is different from the default
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/14

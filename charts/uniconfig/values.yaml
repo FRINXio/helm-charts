@@ -86,7 +86,7 @@ dbPersistence:
   connection_dbName: "uniconfig"
   connection_username: "postgresU"
   connection_password: "postgresP"
-  connection_databaseLocations_host: "uniconfig-postgres-postgresql"
+  connection_databaseLocations_host: ""
   connection_databaseLocations_port: "5432"
 
 azure:
