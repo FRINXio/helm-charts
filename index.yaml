@@ -14,6 +14,26 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/frinx-frontend-1.0.0/frinx-frontend-1.0.0.tgz
     version: 1.0.0
+  inventory:
+  - apiVersion: v2
+    appVersion: 1.2.1
+    created: "2022-04-12T08:45:56.939718612Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deployment of the Device Inventory
+    digest: 12785a5ce91a5e4ab7d42f084bedb0a489b1ef3137e8e44959e2414ecd0502ef
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: inventory
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/inventory-1.0.0/inventory-1.0.0.tgz
+    version: 1.0.0
   krakend:
   - annotations:
       artifacthub.io/images: |
@@ -94,4 +114,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/uniresource-1.0.0/uniresource-1.0.0.tgz
     version: 1.0.0
-generated: "2022-04-12T08:43:39.942044805Z"
+generated: "2022-04-12T08:45:56.939734212Z"
