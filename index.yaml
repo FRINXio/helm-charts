@@ -44,4 +44,23 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/krakend-1.0.0/krakend-1.0.0.tgz
     version: 1.0.0
-generated: "2022-04-05T14:34:09.462441159Z"
+  uniresource:
+  - apiVersion: v2
+    appVersion: 1.0.3
+    created: "2022-04-12T08:41:24.858622627Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deploying of the Frinx Uniresource
+    digest: 8126c196984f4c5cbceccb960744ddd4833de60ad485f343fce8e4f6e0f368cd
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: uniresource
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniresource-1.0.0/uniresource-1.0.0.tgz
+    version: 1.0.0
+generated: "2022-04-12T08:41:24.858641627Z"
