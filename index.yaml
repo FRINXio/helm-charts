@@ -64,6 +64,26 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/krakend-1.0.0/krakend-1.0.0.tgz
     version: 1.0.0
+  uniconfig:
+  - apiVersion: v2
+    appVersion: 4.2.10
+    created: "2022-04-12T09:54:21.862398198Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for UniConfig Kubernetes deployment
+    digest: 4ece8097531bc461a58d8bcdbe81effb9c14b5b68e1eb6ea61ca8875fd865da1
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: uniconfig
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniconfig-1.0.0/uniconfig-1.0.0.tgz
+    version: 1.0.0
   uniflow:
   - annotations:
       artifacthub.io/images: |
@@ -114,4 +134,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/uniresource-1.0.0/uniresource-1.0.0.tgz
     version: 1.0.0
-generated: "2022-04-12T08:45:56.939734212Z"
+generated: "2022-04-12T09:54:21.862414398Z"
