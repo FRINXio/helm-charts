@@ -1,0 +1,143 @@
+# Default values for conductor and proxy.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: frinx/uniflow-conductor-server
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imageProxy:
+  repository: frinx/workflow-proxy
+  pullPolicy: IfNotPresent
+  tag: "1.0.7"
+
+imageSchellar:
+  repository: frinx/uniflow-schellar
+  pullPolicy: IfNotPresent
+  tag: "1.9.3"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: workflow-proxy
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8088
+  portWorkers: 8089
+  portSchellar: 8087
+  portConductor: 8080
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths: []
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+resourcesProxy: {}
+
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+
+configScripts:
+  config.properties: |
+    {{- .Files.Get "configs/config.properties" }}
+  log4j.properties: |
+    {{ .Files.Get "configs/log4j.properties" }}
+
+env:
+  CONFIG_PROP: config.properties
+  _JAVA_OPTIONS: -Xmx2g
+  LOG4J_PROP: log4j.properties
+  ELASTIC_CLUSTER_HEALTH_COLOR: yellow
+  SCHELLAR_TARGET: http://schellar:3000
+  SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
+  SPRING_DATASOURCE_USERNAME: postgresU
+  SPRING_DATASOURCE_PASSWORD: postgresP
+  CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_URL: jdbc:postgresql://postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
+  CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_USERNAME: postgresU
+  CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_PASSWORD: postgresP
+  CONDUCTOR_ELASTICSEARCH_URL: http://elasticsearch-master-headless:9200
+
+schellarEnv:
+  LOG_LEVEL: debug
+  CHECK_INTERVAL_SECONDS: 10
+  CONDUCTOR_API_URL: http://conductor:8080/api
+  BACKEND: postgres
+  POSTGRES_MIGRATIONS_DIR: migrations
+  POSTGRES_PORT: 5432
+  POSTGRES_DATABASE_URL: "host=postgresql port=5432 user=postgres password=postgres database=schellar"
+
+elasticsearch:
+  enabled: true
+  replicas: 1
+  minimumMasterNodes: 1
+  imageTag: "6.7.1"
+  resources:
+    requests:
+      cpu: 774m
+    limits:
+      cpu: 774m
+  volumeClaimTemplate:
+    resources:
+      requests:
+        storage: 1Gi
+  clusterHealthCheckParams: "wait_for_status=yellow&timeout=5s"
+
+postgresql:
+  enabled: true
+  auth:
+    enablePostgresUser: true
+    username: postgresU
+    password: postgresP
+    database: conductor
+  architecture: standalone
+  primary:
+    initdb:
+      scripts:
+        init_db.sql: |
+          CREATE DATABASE schellar;
