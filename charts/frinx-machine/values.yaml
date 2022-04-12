@@ -1,0 +1,34 @@
+
+krakend:
+  enabled: true
+  fullnameOverride: "krakend"
+
+frinx-frontend:
+  enabled: true
+  fullnameOverride: "frinx-frontend"
+
+uniresource:
+  enabled: true
+  fullnameOverride: "uniresource"
+  postgresql:
+    fullnameOverride: "uniresource-postgresql"
+    env:
+      RM_DB_CONNECTION_STRING: "postgres://postgresU:postgresP@uniresource-postgresql:5432/uniresource?sslmode=disable"
+
+uniflow:
+  enabled: true
+  fullnameOverride: "workflow-proxy"
+  postgresql:
+    fullnameOverride: "uniflow-postgresql"
+
+inventory:
+  enabled: true
+  fullnameOverride: "inventory"
+  postgresql:
+    fullnameOverride: "inventory-postgresql"
+
+uniconfig:
+  enabled: true
+  fullnameOverride: "uniconfig"
+  postgresql:
+    fullnameOverride: "uniconfig-postgresql"

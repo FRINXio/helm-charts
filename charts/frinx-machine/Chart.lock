@@ -1,0 +1,21 @@
+dependencies:
+- name: krakend
+  repository: https://frinxio.github.io/helm-charts
+  version: 1.0.1
+- name: frinx-frontend
+  repository: https://frinxio.github.io/helm-charts
+  version: 1.0.0
+- name: uniresource
+  repository: https://frinxio.github.io/helm-charts
+  version: 1.0.0
+- name: uniflow
+  repository: https://frinxio.github.io/helm-charts
+  version: 1.0.0
+- name: inventory
+  repository: https://frinxio.github.io/helm-charts
+  version: 1.0.0
+- name: uniconfig
+  repository: https://frinxio.github.io/helm-charts
+  version: 1.0.0
+digest: sha256:f17cf57d9333209ec3e4df72579e21275ba4f62a3c3c46efc61dc9c3c5b77857
+generated: "2022-04-12T12:21:17.404688132+02:00"
