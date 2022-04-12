@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "uniconfig.fullname" . }}-test-connection"
+  labels:
+    {{- include "uniconfig.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: check-uniconfig
+      image: curlimages/curl
+      command: ["/bin/sh","-c"]
+      args: ['curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST {{ include "uniconfig.fullname" . }}:{{ .Values.service.port }}/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"']
+  restartPolicy: Never
