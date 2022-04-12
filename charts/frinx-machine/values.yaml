@@ -1,3 +1,4 @@
+# Default values for FRINX-machine.
 
 krakend:
   enabled: true
@@ -7,28 +8,53 @@ frinx-frontend:
   enabled: true
   fullnameOverride: "frinx-frontend"
 
+postgresql:
+  enabled: true
+  auth:
+    enablePostgresUser: true
+    username: postgresU
+    password: postgresP
+    database: uniresource
+  architecture: standalone
+  primary:
+    initdb:
+      scripts:
+        init_db.sql: |
+          CREATE DATABASE schellar;
+          CREATE DATABASE conductor;
+          CREATE DATABASE inventory;
+
 uniresource:
   enabled: true
   fullnameOverride: "uniresource"
   postgresql:
-    fullnameOverride: "uniresource-postgresql"
-    env:
-      RM_DB_CONNECTION_STRING: "postgres://postgresU:postgresP@uniresource-postgresql:5432/uniresource?sslmode=disable"
+    enabled: false
+  env:
+    RM_DB_CONNECTION_STRING: "postgres://postgresU:postgresP@demo-postgresql:5432/uniresource?sslmode=disable"
 
 uniflow:
   enabled: true
   fullnameOverride: "workflow-proxy"
   postgresql:
-    fullnameOverride: "uniflow-postgresql"
+    enabled: false
+  env:
+    SPRING_DATASOURCE_URL: jdbc:postgresql://demo-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
+    CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_URL: jdbc:postgresql://demo-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
+  schellarEnv:
+    POSTGRES_DATABASE_URL: "host=demo-postgresql port=5432 user=postgresU password=postgresP database=schellar"
 
 inventory:
   enabled: true
   fullnameOverride: "inventory"
   postgresql:
-    fullnameOverride: "inventory-postgresql"
+    enabled: false
+  env:
+    DATABASE_URL: "postgres://postgresU:postgresP@demo-postgresql:5432/inventory?sslmode=disable"
 
 uniconfig:
-  enabled: true
+  enabled: false
   fullnameOverride: "uniconfig"
   postgresql:
     fullnameOverride: "uniconfig-postgresql"
+  dbPersistence:
+    connection_databaseLocations_host: "uniconfig-postgresql"

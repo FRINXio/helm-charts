@@ -11,22 +11,32 @@ dependencies:
     name: krakend
     repository: https://frinxio.github.io/helm-charts
     version: 1.x.x
+
   - condition: frinx-frontend.enabled
     name: frinx-frontend
     repository: https://frinxio.github.io/helm-charts
     version: 1.x.x
+
+  - condition: postgresql.enabled
+    name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    version: 11.x.x
+
   - condition: uniresource.enabled
     name: uniresource
     repository: https://frinxio.github.io/helm-charts
     version: 1.x.x
+
   - condition: uniflow.enabled
     name: uniflow
     repository: https://frinxio.github.io/helm-charts
     version: 1.x.x
+
   - condition: inventory.enabled
     name: inventory
     repository: https://frinxio.github.io/helm-charts
     version: 1.x.x
+
   - condition: uniconfig.enabled
     name: uniconfig
     repository: https://frinxio.github.io/helm-charts

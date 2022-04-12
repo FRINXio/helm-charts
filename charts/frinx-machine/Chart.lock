@@ -5,6 +5,9 @@ dependencies:
 - name: frinx-frontend
   repository: https://frinxio.github.io/helm-charts
   version: 1.0.0
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 11.1.19
 - name: uniresource
   repository: https://frinxio.github.io/helm-charts
   version: 1.0.0
@@ -17,5 +20,5 @@ dependencies:
 - name: uniconfig
   repository: https://frinxio.github.io/helm-charts
   version: 1.0.0
-digest: sha256:f17cf57d9333209ec3e4df72579e21275ba4f62a3c3c46efc61dc9c3c5b77857
-generated: "2022-04-12T12:21:17.404688132+02:00"
+digest: sha256:b8c6833698c9be86b4363aa45da1ef864053e4b9ed3ce12c2975e8d68eaaa9a2
+generated: "2022-04-12T13:09:18.314077188+02:00"
