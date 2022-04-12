@@ -6,6 +6,7 @@ chart-dirs:
 chart-repos:
   - bitnami=https://charts.bitnami.com/bitnami
   - elastic=https://helm.elastic.co
+  - frinx=https://frinxio.github.io/helm-charts
 helm-extra-args: --timeout 600s
 additional-commands:
   - helm unittest --helm3 --strict --file unittests/*.yaml --file 'unittests/**/*.yaml' {{ .Path }}

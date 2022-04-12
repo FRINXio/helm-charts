@@ -28,7 +28,8 @@ jobs:
       - name: Add dependency chart repos
         run: |
           helm repo add bitnami https://charts.bitnami.com/bitnami
-          helm repo add elastic https://helm.elastic.co   
+          helm repo add elastic https://helm.elastic.co
+          helm repo add frinx https://frinxio.github.io/helm-charts 
       
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.0
