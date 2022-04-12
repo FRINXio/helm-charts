@@ -44,6 +44,37 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/krakend-1.0.0/krakend-1.0.0.tgz
     version: 1.0.0
+  uniflow:
+  - annotations:
+      artifacthub.io/images: |
+        - name: uniflow-conductor-server
+          image: frinx/uniflow-conductor-server:1.0.5
+        - name: workflow-proxy
+          image: frinx/workflow-proxy:1.0.7
+        - name: uniflow-schellar
+          image: frinx/uniflow-schellar:1.9.3
+    apiVersion: v2
+    appVersion: 1.0.5
+    created: "2022-04-12T08:43:39.942027705Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: elasticsearch.enabled
+      name: elasticsearch
+      repository: https://helm.elastic.co
+      version: 6.8.22
+    description: A Helm chart for Kubernetes deploying conductor-server and workflow-proxy
+    digest: 96dee85fe204756bed6e12b86419d95a76fc47097480e9f4b5f1525fcabd9f22
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: uniflow
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniflow-1.0.0/uniflow-1.0.0.tgz
+    version: 1.0.0
   uniresource:
   - apiVersion: v2
     appVersion: 1.0.3
@@ -63,4 +94,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/uniresource-1.0.0/uniresource-1.0.0.tgz
     version: 1.0.0
-generated: "2022-04-12T08:41:24.858641627Z"
+generated: "2022-04-12T08:43:39.942044805Z"
