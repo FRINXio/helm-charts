@@ -17,8 +17,11 @@ dependencies:
 - name: inventory
   repository: https://frinxio.github.io/helm-charts
   version: 1.0.0
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 11.1.19
 - name: uniconfig
   repository: https://frinxio.github.io/helm-charts
-  version: 1.0.0
-digest: sha256:b8c6833698c9be86b4363aa45da1ef864053e4b9ed3ce12c2975e8d68eaaa9a2
-generated: "2022-04-12T13:09:18.314077188+02:00"
+  version: 1.0.1
+digest: sha256:59b645099ea9c80527b283a05c950c3fb75c9f6baac565457b4439d290af67bb
+generated: "2022-04-12T21:06:51.826928236+02:00"

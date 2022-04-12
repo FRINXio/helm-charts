@@ -10,6 +10,7 @@ frinx-frontend:
 
 postgresql:
   enabled: true
+  fullnameOverride: "frinx-postgresql"
   auth:
     enablePostgresUser: true
     username: postgresU
@@ -30,7 +31,7 @@ uniresource:
   postgresql:
     enabled: false
   env:
-    RM_DB_CONNECTION_STRING: "postgres://postgresU:postgresP@demo-postgresql:5432/uniresource?sslmode=disable"
+    RM_DB_CONNECTION_STRING: "postgres://postgresU:postgresP@frinx-postgresql:5432/uniresource?sslmode=disable"
 
 uniflow:
   enabled: true
@@ -38,10 +39,10 @@ uniflow:
   postgresql:
     enabled: false
   env:
-    SPRING_DATASOURCE_URL: jdbc:postgresql://demo-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
-    CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_URL: jdbc:postgresql://demo-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
+    SPRING_DATASOURCE_URL: jdbc:postgresql://frinx-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
+    CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_URL: jdbc:postgresql://frinx-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
   schellarEnv:
-    POSTGRES_DATABASE_URL: "host=demo-postgresql port=5432 user=postgresU password=postgresP database=schellar"
+    POSTGRES_DATABASE_URL: "host=frinx-postgresql port=5432 user=postgresU password=postgresP database=schellar"
 
 inventory:
   enabled: true
@@ -49,12 +50,25 @@ inventory:
   postgresql:
     enabled: false
   env:
-    DATABASE_URL: "postgres://postgresU:postgresP@demo-postgresql:5432/inventory?sslmode=disable"
+    DATABASE_URL: "postgres://postgresU:postgresP@frinx-postgresql:5432/inventory?sslmode=disable"
+
+uniconfig-postgresql:
+  enabled: true
+  fullnameOverride: "uniconfig-postgresql"
+  auth:
+    enablePostgresUser: true
+    username: postgresU
+    password: postgresP
+    database: uniconfig
+  architecture: standalone
 
 uniconfig:
-  enabled: false
+  enabled: true
   fullnameOverride: "uniconfig"
   postgresql:
-    fullnameOverride: "uniconfig-postgresql"
+    enabled: false
   dbPersistence:
     connection_databaseLocations_host: "uniconfig-postgresql"
+    connection_dbName: "uniconfig"
+    connection_username: "postgresU"
+    connection_password: "postgresP"

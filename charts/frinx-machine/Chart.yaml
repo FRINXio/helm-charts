@@ -37,6 +37,12 @@ dependencies:
     repository: https://frinxio.github.io/helm-charts
     version: 1.x.x
 
+  - condition: uniconfig-postgresql.enabled
+    name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    version: 11.x.x
+    alias: uniconfig-postgresql
+
   - condition: uniconfig.enabled
     name: uniconfig
     repository: https://frinxio.github.io/helm-charts
