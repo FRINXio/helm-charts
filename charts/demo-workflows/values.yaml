@@ -87,7 +87,7 @@ env:
   INSTANCES_TO_SIMULATE: ""
   RUN_TESTTOOLS: "./scripts/run_netconf_devices/run_netconf_testtool.sh & ./scripts/run_cli_devices/run_devices_docker.sh"
   X_TENANT_ID: frinx
-  CONDUCTOR_URL_BASE: "http://test1-uniflow:8088/proxy/api"
-  INVENTORY_URL_BASE: "http://test2-inventory:8000/graphql"
+  CONDUCTOR_URL_BASE: "http://workflow-proxy:8088/proxy/api"
+  INVENTORY_URL_BASE: "http://inventory:8000/graphql"
   # X_FROM: demo-workflows
   # X_AUTH_USER_GROUP: network-admin
