@@ -7,8 +7,8 @@ version: 1.0.0
 appVersion: "1.6.0"
 maintainers:
   - name: FRINX
-# dependencies:
-#   - condition: sample-topology.enabled
-#     name: sample-topology
-#     repository: https://FRINXio.github.io/helm-charts
-#     version: 1.x.x
+dependencies:
+  - condition: sample-topology.enabled
+    name: sample-topology
+    repository: https://FRINXio.github.io/helm-charts
+    version: 1.x.x
