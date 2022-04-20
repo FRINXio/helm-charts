@@ -104,6 +104,8 @@ spec:
                 - -c
                 - 'curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST localhost:8181/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"'
             initialDelaySeconds: 120
+            timeoutSeconds: 35
+            failureThreshold: 5
           readinessProbe:
             exec:
               command:
@@ -111,6 +113,8 @@ spec:
                 - -c
                 - 'curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST localhost:8181/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"'
             initialDelaySeconds: 120
+            timeoutSeconds: 35
+            failureThreshold: 5
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
