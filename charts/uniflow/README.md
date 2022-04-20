@@ -74,6 +74,7 @@ helm uninstall [RELEASE_NAME]
 | `env.ELASTIC_CLUSTER_HEALTH_COLOR` | ELASTIC_CLUSTER_HEALTH_COLOR env value | `yellow` |
 | `env.SCHELLAR_TARGET` | SCHELLAR_TARGET env value | `http://schellar:3000` |
 | `env.SPRING_DATASOURCE_URL` | SPRING_DATASOURCE_URL env value | `jdbc:postgresql://postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true` |
+| `env.SPRING_DATASOURCE_HOSTNAME` | Hostname of external database | |
 | `env.SPRING_DATASOURCE_USERNAME` | SPRING_DATASOURCE_USERNAME env value | `postgres` |
 | `env.SPRING_DATASOURCE_PASSWORD` | SPRING_DATASOURCE_PASSWORD env value | `postgres` |
 | `env.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_URL` | CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_URL env value | `jdbc:postgresql://postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true` |

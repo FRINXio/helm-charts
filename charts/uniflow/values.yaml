@@ -96,6 +96,7 @@ env:
   ELASTIC_CLUSTER_HEALTH_COLOR: yellow
   SCHELLAR_TARGET: http://schellar:3000
   SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
+  SPRING_DATASOURCE_HOSTNAME:
   SPRING_DATASOURCE_USERNAME: postgresU
   SPRING_DATASOURCE_PASSWORD: postgresP
   CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_URL: jdbc:postgresql://postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true

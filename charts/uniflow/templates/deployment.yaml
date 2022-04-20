@@ -31,9 +31,15 @@ spec:
       initContainers:
       - name: check-db-ready
         image: postgres:alpine
+        {{ if .Values.env.SPRING_DATASOURCE_HOSTNAME }}
+        command: ['sh', '-c',
+          "until pg_isready -h {{ .Values.env.SPRING_DATASOURCE_HOSTNAME }} -p 5432;
+          do echo waiting for database; sleep 2; done;"]
+        {{ else }}
         command: ['sh', '-c',
           "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432;
           do echo waiting for database; sleep 2; done;"]
+        {{ end }}
       - name: check-elk-ready
         image: curlimages/curl
         command: ["/bin/sh","-c"]
@@ -61,11 +67,15 @@ spec:
               path: /probe/liveness
               port: http
             initialDelaySeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 5
           readinessProbe:
             httpGet:
               path: /probe/readiness
               port: http
             initialDelaySeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 5
           resources:
             {{- toYaml .Values.resourcesProxy | nindent 12 }}
           env:
@@ -89,11 +99,13 @@ spec:
               path: /health
               port: http-conductor
             initialDelaySeconds: 60
+            timeoutSeconds: 5
           readinessProbe:
             httpGet:
               path: /health
               port: http-conductor
             initialDelaySeconds: 60
+            timeoutSeconds: 5
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
@@ -163,6 +175,8 @@ spec:
               - -q
               - 127.0.0.1:3000/liveness
             initialDelaySeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 5
           readinessProbe:
             exec:
               command:
@@ -170,6 +184,9 @@ spec:
               - --spider
               - -q
               - 127.0.0.1:3000/liveness
+            initialDelaySeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 5
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
