@@ -64,6 +64,20 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/krakend-1.0.0/krakend-1.0.0.tgz
     version: 1.0.0
+  sample-topology:
+  - apiVersion: v2
+    appVersion: "1.9"
+    created: "2022-04-20T13:03:37.665061916Z"
+    description: A Helm chart for the Frinx Machine sample-topology Kubernetes deployment
+    digest: 8bdedbc5efe618bc68bf4cb39cb228536f142767c4f236fbb94f64859adcd548
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: sample-topology
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/sample-topology-1.0.0/sample-topology-1.0.0.tgz
+    version: 1.0.0
   uniconfig:
   - annotations:
       artifacthub.io/changes: |
@@ -160,4 +174,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/uniresource-1.0.0/uniresource-1.0.0.tgz
     version: 1.0.0
-generated: "2022-04-12T14:46:23.284332641Z"
+generated: "2022-04-20T13:03:37.665070916Z"
