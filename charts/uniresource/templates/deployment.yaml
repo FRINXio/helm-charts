@@ -31,9 +31,15 @@ spec:
       initContainers:
       - name: check-db-ready
         image: postgres:alpine
-        command: ['sh', '-c', 
-          "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432; 
+        {{ if .Values.env.PSQL_HOSTNAME }}
+        command: ['sh', '-c',
+          "until pg_isready -h {{ .Values.env.PSQL_HOSTNAME }} -p 5432;
           do echo waiting for database; sleep 2; done;"]
+        {{ else }}
+        command: ['sh', '-c',
+          "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432;
+          do echo waiting for database; sleep 2; done;"]
+        {{ end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -50,14 +56,18 @@ spec:
                 - bash
                 - -c
                 - curl --silent --write-out 'HTTPSTATUS:%{http_code}' -X GET 'http://0.0.0.0:8884/healthz/liveness'
-            initialDelaySeconds: 30
+            initialDelaySeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 5
           readinessProbe:
             exec:
               command:
                 - bash
                 - -c
                 - curl --silent --write-out 'HTTPSTATUS:%{http_code}' -X GET 'http://0.0.0.0:8884/healthz/readiness'
-            initialDelaySeconds: 30
+            initialDelaySeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 5
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
@@ -81,9 +91,9 @@ spec:
               {{ end }}
               {{ if .Values.postgresql.enabled }}            
             - name: "PSQL_HOSTNAME"
-              value: "{{ .Release.Name }}-{{ .Values.env.PSQL_HOSTNAME }}"
+              value: "{{ .Release.Name }}-postgresql"
             - name: "RM_DB_CONNECTION_STRING"
-              value: "postgres://{{ .Values.env.PSQL_USERNAME }}:{{ .Values.env.PSQL_PASSWORD }}@{{ .Release.Name }}-{{ .Values.env.PSQL_HOSTNAME }}:{{ .Values.env.PSQL_PORT }}/{{ .Values.env.PSQL_DATABASE }}?sslmode=disable"
+              value: "postgres://{{ .Values.env.PSQL_USERNAME }}:{{ .Values.env.PSQL_PASSWORD }}@{{ .Release.Name }}-postgresql:{{ .Values.env.PSQL_PORT }}/{{ .Values.env.PSQL_DATABASE }}?sslmode=disable"
               {{ else }}
             - name: "PSQL_HOSTNAME"  
               value: "{{ .Values.env.PSQL_HOSTNAME }}"

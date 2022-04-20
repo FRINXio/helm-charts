@@ -66,7 +66,7 @@ helm uninstall [RELEASE_NAME]
 | `postgresql.postgresql.database` | Name for a custom database to createe | `postgres` |
 | `env.PSQL_USERNAME` | Username for external database | `postgres` |
 | `env.PSQL_PASSWORD` | Password for external database | `postgres` |
-| `env.PSQL_HOSTNAME` | Hostname of external database | `postgresql` |
+| `env.PSQL_HOSTNAME` | Hostname of external database | |
 | `env.PSQL_CREDENTIAL_SECRET` | Secrets with credentials for external database | `""` |
 | `env.PSQL_PORT` | Port of external database | `5432` |
 | `env.RM_API_PORT` | Port for uniresource | `8884` |

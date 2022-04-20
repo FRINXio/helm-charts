@@ -91,7 +91,7 @@ postgresql:
 env:
   PSQL_USERNAME: postgresU
   PSQL_PASSWORD: postgresP
-  PSQL_HOSTNAME: postgresql
+  PSQL_HOSTNAME:
   PSQL_DATABASE: uniresource
   PSQL_CREDENTIAL_SECRET: ""
   PSQL_PORT: 5432
