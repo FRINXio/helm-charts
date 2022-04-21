@@ -83,11 +83,13 @@ tolerations: []
 affinity: {}
 
 env:
-  UNICONFIG_URL_BASE: "http://uniconfig:8181/rests" 
+  UNICONFIG_HOSTNAME: uniconfig
+  UNICONFIG_PORT: 8181
+  UNIFLOW_HOSTNAME: workflow-proxy
+  UNIFLOW_PORT: 8088
+  CONDUCTOR_PORT: 8080
+  INVENTORY_HOSTNAME: inventory
+  INVENTORY_PORT: 8000
   INSTANCES_TO_SIMULATE: ""
   RUN_TESTTOOLS: "./scripts/run_netconf_devices/run_netconf_testtool.sh & ./scripts/run_cli_devices/run_devices_docker.sh"
   X_TENANT_ID: frinx
-  CONDUCTOR_URL_BASE: "http://workflow-proxy:8088/proxy/api"
-  INVENTORY_URL_BASE: "http://inventory:8000/graphql"
-  # X_FROM: demo-workflows
-  # X_AUTH_USER_GROUP: network-admin

@@ -27,6 +27,28 @@ spec:
       serviceAccountName: {{ include "demo-workflows.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: check-uniconfig-ready
+          image: curlimages/curl
+          command: ["/bin/sh","-c"]
+          args: ['while [ $(curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST {{ .Values.env.UNICONFIG_HOSTNAME }}:{{ .Values.env.UNICONFIG_PORT }}/rests/operations/uniconfig-manager:health -H "Content-Type:application/json") -ne 200 ];
+            do sleep 5; echo "waiting for uniconfig";
+            done;
+            echo "connection successful!"']
+        - name: check-uniflow-ready
+          image: curlimages/curl
+          command: ["/bin/sh","-c"]
+          args: ['while [ $(curl -o /dev/null --silent --write-out "%{http_code}" {{ .Values.env.UNIFLOW_HOSTNAME }}:{{ .Values.env.CONDUCTOR_PORT }}/health) -ne 200 ];
+            do sleep 5; echo "waiting for uniflow";
+            done;
+            echo "connection successful!"']
+        - name: check-inventory-ready
+          image: curlimages/curl
+          command: ["/bin/sh","-c"]
+          args: ['while [ $(curl -o /dev/null --silent --write-out "%{http_code}" {{ .Values.env.INVENTORY_HOSTNAME }}:{{ .Values.env.INVENTORY_PORT }}/.well-known/apollo/server-health) -ne 200 ];
+            do sleep 5; echo "waiting for inventory";
+            done;
+            echo "connection successful!"']        
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -34,10 +56,18 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            {{- range $key, $val := .Values.env }}
-            - name: {{ $key | quote }}
-              value: {{ $val | quote }}
-            {{- end }}
+            - name: "UNICONFIG_URL_BASE"
+              value: "http://{{ .Values.env.UNICONFIG_HOSTNAME }}:{{ .Values.env.UNICONFIG_PORT }}/rests"
+            - name: "CONDUCTOR_URL_BASE"
+              value: "http://{{ .Values.env.UNIFLOW_HOSTNAME }}:{{ .Values.env.UNIFLOW_PORT }}/proxy/api"
+            - name: "INVENTORY_URL_BASE"
+              value: "http://{{ .Values.env.INVENTORY_HOSTNAME }}:{{ .Values.env.INVENTORY_PORT }}/graphql"
+            - name: "INSTANCES_TO_SIMULATE"
+              value: {{ .Values.env.INSTANCES_TO_SIMULATE | quote }}
+            - name: "RUN_TESTTOOLS"
+              value: {{ .Values.env.RUN_TESTTOOLS | quote }}
+            - name: "X_TENANT_ID"
+              value: {{ .Values.env.X_TENANT_ID | quote }}
           ports:
             - name: http
               containerPort: 80
