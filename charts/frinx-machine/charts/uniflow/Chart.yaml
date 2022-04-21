@@ -1,0 +1,42 @@
+apiVersion: v2
+name: uniflow
+description: A Helm chart for Kubernetes deploying conductor-server and workflow-proxy
+icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+type: application
+version: 1.1.0
+appVersion: "1.0.5"
+maintainers:
+  - name: FRINX
+dependencies:
+  - condition: postgresql.enabled
+    name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    version: 11.x.x
+  - condition: elasticsearch.enabled
+    name: elasticsearch
+    repository: https://helm.elastic.co
+    version: 6.8.22
+annotations:
+  artifacthub.io/images: |
+    - name: uniflow-conductor-server
+      image: frinx/uniflow-conductor-server:1.0.5
+    - name: workflow-proxy
+      image: frinx/workflow-proxy:1.0.7
+    - name: uniflow-schellar
+      image: frinx/uniflow-schellar:1.9.3
+  artifacthub.io/changes: |
+    - kind: fixed
+      description: Fix DB hostname in initContainer if it is different from the default
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/17
+    - kind: added
+      description: Add SPRING_DATASOURCE_HOSTNAME env variable
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/17
+    - kind: changed
+      description: Increase probes time
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/17

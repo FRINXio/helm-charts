@@ -31,6 +31,7 @@ uniresource:
   postgresql:
     enabled: false
   env:
+    PSQL_HOSTNAME: frinx-postgresql
     RM_DB_CONNECTION_STRING: "postgres://postgresU:postgresP@frinx-postgresql:5432/uniresource?sslmode=disable"
 
 uniflow:
@@ -39,6 +40,7 @@ uniflow:
   postgresql:
     enabled: false
   env:
+    SPRING_DATASOURCE_HOSTNAME: frinx-postgresql
     SPRING_DATASOURCE_URL: jdbc:postgresql://frinx-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
     CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_URL: jdbc:postgresql://frinx-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
   schellarEnv:
@@ -50,7 +52,7 @@ inventory:
   postgresql:
     enabled: false
   env:
-    DATABASE_URL: "postgres://postgresU:postgresP@frinx-postgresql:5432/inventory?sslmode=disable"
+    POSTGRES_HOSTNAME: frinx-postgresql
 
 uniconfig-postgresql:
   enabled: true
@@ -72,3 +74,9 @@ uniconfig:
     connection_dbName: "uniconfig"
     connection_username: "postgresU"
     connection_password: "postgresP"
+
+demo-workflows:
+  enabled: false
+  fullnameOverride: "demo-workflows"
+  sample-topology:
+    fullnameOverride: "sample-topology"

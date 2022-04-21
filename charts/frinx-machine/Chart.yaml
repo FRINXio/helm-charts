@@ -24,18 +24,18 @@ dependencies:
 
   - condition: uniresource.enabled
     name: uniresource
-    repository: https://frinxio.github.io/helm-charts
-    version: 1.x.x
+  #   repository: https://frinxio.github.io/helm-charts
+  #   version: 1.x.x
 
   - condition: uniflow.enabled
     name: uniflow
-    repository: https://frinxio.github.io/helm-charts
-    version: 1.x.x
+  #   repository: https://frinxio.github.io/helm-charts
+  #   version: 1.x.x
 
   - condition: inventory.enabled
     name: inventory
-    repository: https://frinxio.github.io/helm-charts
-    version: 1.x.x
+  #   repository: https://frinxio.github.io/helm-charts
+  #   version: 1.x.x
 
   - condition: uniconfig-postgresql.enabled
     name: postgresql
@@ -45,5 +45,10 @@ dependencies:
 
   - condition: uniconfig.enabled
     name: uniconfig
-    repository: https://frinxio.github.io/helm-charts
-    version: 1.x.x
+  #   repository: https://frinxio.github.io/helm-charts
+  #   version: 1.x.x
+
+  - condition: demo-workflows.enabled
+    name: demo-workflows
+  #   repository: https://frinxio.github.io/helm-charts
+  #   version: 1.x.x
