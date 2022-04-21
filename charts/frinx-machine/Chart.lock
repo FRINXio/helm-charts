@@ -11,6 +11,9 @@ dependencies:
 - name: uniresource
   repository: file://charts/uniresource
   version: 1.0.1
+- name: uniflow
+  repository: file://charts/uniflow
+  version: 1.1.0
 - name: inventory
   repository: file://charts/inventory
   version: 2.0.0
@@ -23,5 +26,5 @@ dependencies:
 - name: demo-workflows
   repository: file://charts/demo-workflows
   version: 0.1.0
-digest: sha256:e34924d36d3e3c76ccbc85b2de983561a6dc04090f723a0cf6d18766f415736f
-generated: "2022-04-21T11:22:50.845472531+02:00"
+digest: sha256:5918526bf9ebe6d18a5fb824f61c0abde0c60a4464ef135c856849ed8581dc51
+generated: "2022-04-21T11:45:40.68703487+02:00"

@@ -28,10 +28,11 @@ dependencies:
   #   repository: https://frinxio.github.io/helm-charts
     version: 1.x.x
 
-  # - condition: uniflow.enabled
-  #   name: uniflow
+  - condition: uniflow.enabled
+    name: uniflow
+    repository: "file://charts/uniflow"
   #   repository: https://frinxio.github.io/helm-charts
-  #   version: 1.x.x
+    version: 1.x.x
 
   - condition: inventory.enabled
     name: inventory
