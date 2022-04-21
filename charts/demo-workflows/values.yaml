@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: simonmisencik/demo-workflows
+  repository: frinx/demo-workflows
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "1.9.1"
+  tag: ""
 
 imagePullSecrets: []
 nameOverride: ""
