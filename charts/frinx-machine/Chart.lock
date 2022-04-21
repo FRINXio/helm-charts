@@ -8,8 +8,20 @@ dependencies:
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
   version: 11.1.22
+- name: uniresource
+  repository: file://charts/uniresource
+  version: 1.0.1
+- name: inventory
+  repository: file://charts/inventory
+  version: 2.0.0
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
   version: 11.1.22
-digest: sha256:3dcf823f2a70ec6f28eb660372da2ce4a38b49dbc42797acae21cb527aea248b
-generated: "2022-04-20T20:53:07.215097092+02:00"
+- name: uniconfig
+  repository: file://charts/uniconfig
+  version: 1.0.1
+- name: demo-workflows
+  repository: file://charts/demo-workflows
+  version: 0.1.0
+digest: sha256:e34924d36d3e3c76ccbc85b2de983561a6dc04090f723a0cf6d18766f415736f
+generated: "2022-04-21T11:22:50.845472531+02:00"
