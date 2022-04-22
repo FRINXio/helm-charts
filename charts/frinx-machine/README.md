@@ -41,6 +41,20 @@ helm uninstall [RELEASE_NAME]
 | `uniconfig` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/uniconfig) |
 | `demo-workflows` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/demo-workflows) |
 
+## Requirements
+
+| **Minimal hardware requirements for production** |                      |
+|--------------------------------------------------|----------------------| 
+| Compute  (vCores)                                | 8                    |  
+| Memory (RAM)                                     | 24 GB                |  
+| Storage 				                                 | 40 GB                |
+
+| **Minimal hardware requirements for development** |                      |
+|---------------------------------------------------|----------------------| 
+| Compute  (vCores)                                 | 4                    |  
+| Memory (RAM)                                      | 16 GB                |  
+| Storage 				                                  | 40 GB                |
+
 ## License
 A 30-day trial license of UniConfig is included, if you would like to change the license, replace the license string in values.yaml `uniconfig.license` env variable with your own.
 
