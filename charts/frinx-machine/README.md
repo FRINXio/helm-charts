@@ -44,15 +44,15 @@ helm uninstall [RELEASE_NAME]
 ## Requirements
 
 | **Minimal hardware requirements for production** |                      |
-|--------------------------------------------------|----------------------| 
-| Compute  (vCores)                                | 8                    |  
-| Memory (RAM)                                     | 24 GB                |  
+|--------------------------------------------------|----------------------|
+| Compute  (vCores)                                | 8                    |
+| Memory (RAM)                                     | 24 GB                |
 | Storage 				                                 | 40 GB                |
 
 | **Minimal hardware requirements for development** |                      |
-|---------------------------------------------------|----------------------| 
-| Compute  (vCores)                                 | 4                    |  
-| Memory (RAM)                                      | 16 GB                |  
+|---------------------------------------------------|----------------------|
+| Compute  (vCores)                                 | 4                    |
+| Memory (RAM)                                      | 16 GB                |
 | Storage 				                                  | 40 GB                |
 
 ## License
