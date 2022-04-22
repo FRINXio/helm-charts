@@ -31,9 +31,15 @@ spec:
       initContainers:
         - name: check-db-ready
           image: postgres:alpine
+      {{ if .Values.env.POSTGRES_HOSTNAME }}
+          command: ['sh', '-c',
+            "until pg_isready -h {{ .Values.env.POSTGRES_HOSTNAME }} -p {{ .Values.env.POSTGRES_PORT }};
+            do echo waiting for database; sleep 2; done;"]
+      {{ else }}
           command: ['sh', '-c',
             "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432;
             do echo waiting for database; sleep 2; done;"]
+      {{ end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -64,7 +70,7 @@ spec:
               value: "postgres://{{ .Values.env.POSTGRES_USER }}:{{ .Values.env.POSTGRES_PASSWORD }}@{{ .Release.Name }}-postgresql:5432/inventory?sslmode=disable"
               {{ else }}
             - name: "DATABASE_URL"
-              value: {{ .Values.env.DATABASE_URL | quote }}
+              value: "postgres://{{ .Values.env.POSTGRES_USER }}:{{ .Values.env.POSTGRES_PASSWORD }}@{{ .Values.env.POSTGRES_HOSTNAME }}:{{ .Values.env.POSTGRES_PORT }}/{{ .Values.env.POSTGRES_DB }}?sslmode=disable"
               {{ end }}
           livenessProbe:
             exec:
@@ -73,7 +79,9 @@ spec:
               - --spider
               - -q
               - 0.0.0.0:8000/.well-known/apollo/server-health
-            initialDelaySeconds: 20
+            initialDelaySeconds: 40
+            timeoutSeconds: 5
+            failureThreshold: 5
           readinessProbe:
             exec:
               command:
@@ -81,6 +89,9 @@ spec:
               - --spider
               - -q
               - 0.0.0.0:8000/.well-known/apollo/server-health
+            initialDelaySeconds: 40
+            timeoutSeconds: 5
+            failureThreshold: 5
           command: ['/bin/sh', '-c']
           args:
           - yarn prisma migrate deploy --schema=prisma/schema.prisma && node index.js

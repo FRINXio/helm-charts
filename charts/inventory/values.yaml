@@ -85,8 +85,9 @@ env:
   X_TENANT_ID: frinx
   POSTGRES_USER: postgresU
   POSTGRES_PASSWORD: postgresP
-  POSTGRES_DB: uniconfig
-  DATABASE_URL: "postgres://postgres:postgres@inventory-postgres-postgresql:5432/inventory?sslmode=disable"
+  POSTGRES_DB: inventory
+  POSTGRES_HOSTNAME:
+  POSTGRES_PORT: 5432
 
 postgresql:
   enabled: true
