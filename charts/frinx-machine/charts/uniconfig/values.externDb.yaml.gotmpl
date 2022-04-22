@@ -1,7 +1,0 @@
-env:
-{{ if eq .Environment.Name "frinx" }}
-  POSTGRES_DB: uniconfig
-  POSTGRES_HOST: {{ .Values.psqlFqn }}
-  POSTGRES_USER: "postgres@frinx-demo-psql"
-  POSTGRES_PASSWORD: {{ .Values.psqlPasswd }}
-{{ end }}
