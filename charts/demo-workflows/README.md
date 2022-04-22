@@ -1,6 +1,6 @@
-# uniresource
+# demo-workflows
 
-A Helm chart for Kubernetes deploying of the Frinx Uniresource
+A Helm chart for the Frinx Machine demo workflows
 
 ## Get Repo Info
 
@@ -12,13 +12,13 @@ helm repo update
 ## Install Chart
 
 ```console
-helm install [RELEASE_NAME] frinx/uniresource
+helm install [RELEASE_NAME] frinx/demo-workflows
 ```
 
 ## Upgrading Chart
 
 ```console
-helm upgrade [RELEASE_NAME] frinx/uniresource
+helm upgrade [RELEASE_NAME] frinx/demo-workflows
 ```
 
 ## Uninstall Chart
@@ -32,7 +32,7 @@ helm uninstall [RELEASE_NAME]
 | Parameter | Description | Default |
 |-----------|-------------|---------|
 | `replicaCount` | Number of nodes | `1` |
-| `image.repository` | Image repository | `frinx/resource-manager` |
+| `image.repository` | Image repository | `frinx/demo-workflows` |
 | `image.pullPolicy` | Image pull policy | `IfNotPresent` |
 | `image.tag` | Image tag | `""` |
 | `imagePullSecrets` | Image pull secrets | `{}` |
@@ -45,7 +45,7 @@ helm uninstall [RELEASE_NAME]
 | `podSecurityContext` | Pod deployment securityContext | `{}` |
 | `securityContext` | Deployment securityContext | `{}` |
 | `service.type` | Kubernetes service type | `ClusterIP` |
-| `service.port` | Kubernetes port where service is exposed | `8888` |
+| `service.port` | Kubernetes port where service is exposed | `80` |
 | `ingress.enabled` | Enables Ingress | `false` |
 | `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
 | `ingress.hosts` | Ingress accepted hostnames  | `[]` |
@@ -53,25 +53,19 @@ helm uninstall [RELEASE_NAME]
 | `resources` | CPU/Memory resource requests/limits | `{}` |
 | `autoscaling.enabled` | Enable replica autoscaling settings | `false` |
 | `autoscaling.minReplicas` | Minimum replicas for the pod autoscaling | `1` |
-| `autoscaling.maxReplicas` | Maximum replicas for the pod autoscaling | `3` |
+| `autoscaling.maxReplicas` | Maximum replicas for the pod autoscaling | `100` |
 | `autoscaling.targetCPUUtilizationPercentage` | Percentage of CPU to consider when autoscaling | `80` |
 | `autoscaling.targetMemoryUtilizationPercentage` | Percentage of Memory to consider when autoscaling | |
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
-| `postgresql.enabled` | Switch to enable or disable the PostgreSQL helm chart | `true` |
-| `postgresql.image.tag` | Image tag | `"12.2"` |
-| `postgresql.postgresql.username` | Name for a custom user to create | `postgres` |
-| `postgresql.postgresql.password` | Password for the custom user to create | `postgres` |
-| `postgresql.postgresql.database` | Name for a custom database to createe | `postgres` |
-| `env.PSQL_USERNAME` | Username for external database | `postgres` |
-| `env.PSQL_PASSWORD` | Password for external database | `postgres` |
-| `env.PSQL_HOSTNAME` | Hostname of external database | |
-| `env.PSQL_CREDENTIAL_SECRET` | Secrets with credentials for external database | `""` |
-| `env.PSQL_PORT` | Port of external database | `5432` |
-| `env.RM_API_PORT` | Port for uniresource | `8884` |
-| `env.RM_ADMIN_ROLES` | Admin roles | `OWNER` |
-| `env.RM_ADMIN_GROUPS` | Admin groups | `NETWORK-ADMIN` |
-| `env.RM_LOG_PATH` | Log path | `/var/log/rm.log` |
-| `env.RM_LOG_LEVEL` | Log level | `info` |
-| `env.RM_DB_CONNECTION_STRING` | Connection string for connection to external database | `"postgres://$(PSQL_USERNAME):$(PSQL_PASSWORD)@$(PSQL_HOSTNAME):$(PSQL_PORT)/postgres?sslmode=disable"` |
+| `env.UNICONFIG_HOSTNAME` | UNICONFIG_HOSTNAME env variable | `uniconfig` |
+| `env.UNICONFIG_PORT` | UNICONFIG_PORT env variable | `8181` |
+| `env.UNIFLOW_HOSTNAME` | UNIFLOW_HOSTNAME env variable | `workflow-proxy` |
+| `env.UNIFLOW_PORT` | UNIFLOW_PORT env variable | `8088` |
+| `env.CONDUCTOR_PORT` | CONDUCTOR_PORT env variable | `8080` |
+| `env.INVENTORY_HOSTNAME` | INVENTORY_HOSTNAME env variable | `inventory` |
+| `env.INVENTORY_PORT` | INVENTORY_PORT env variable | `8000` |
+| `env.INSTANCES_TO_SIMULATE` | INSTANCES_TO_SIMULATE env variable | `""` |
+| `env.RUN_TESTTOOLS` | RUN_TESTTOOLS env variable | `"./scripts/run_netconf_devices/run_netconf_testtool.sh & ./scripts/run_cli_devices/run_devices_docker.sh"` |
+| `env.X_TENANT_ID` | X_TENANT_ID env variable | `frinx` |

@@ -65,8 +65,9 @@ helm uninstall [RELEASE_NAME]
 | `env.X_TENANT_ID` | X_TENANT_ID env value | `frinx` |
 | `env.POSTGRES_USER` | POSTGRES_USER env value | `postgresU` |
 | `env.POSTGRES_PASSWORD` | POSTGRES_PASSWORD env value | `postgresP` |
-| `env.POSTGRES_DB` | POSTGRES_DB env value | `uniconfig` |
-| `env.DATABASE_URL` | DATABASE_URL env value | `"postgres://postgres:postgres@inventory-postgres-postgresql:5432/inventory?sslmode=disable"` |
+| `env.POSTGRES_DB` | POSTGRES_DB env value | `inventory` |
+| `env.POSTGRES_HOSTNAME` | POSTGRES_HOSTNAME env value | |
+| `env.POSTGRES_PORT` | POSTGRES_PORT env value | `5432` |
 | `postgresql.enabled` | Switch to enable or disable the PostgreSQL helm chart | `true` |
 | `postgresql.auth.enablePostgresUser` | Assign a password to the "postgres" admin user. Otherwise, remote access will be blocked for this user | `true` |
 | `postgresql.auth.username` | Name for a custom user to create | `postgresU` |

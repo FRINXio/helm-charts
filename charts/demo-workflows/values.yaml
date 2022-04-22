@@ -1,11 +1,11 @@
-# Default values for uniconfig.
+# Default values for demo-workflows.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: frinx/uniconfig
+  repository: frinx/demo-workflows
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -37,8 +37,8 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: NodePort
-  port: 8181
+  type: ClusterIP
+  port: 80
 
 ingress:
   enabled: false
@@ -47,7 +47,11 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: chart-example.local
-      paths: []
+      paths:
+      - path: /
+        backend:
+          serviceName: chart-example.local
+          servicePort: 80
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
@@ -78,29 +82,14 @@ tolerations: []
 
 affinity: {}
 
-license: e326aaa7b1741bb530d201c49f4311d3d0f391893e15393894a77180e6478289cd1709e4afe3a643100ccd31052430de1955540cf5ae1e510d657bd2af8ef2fc
-mountPath: "/mnt/config_files"
-
-dbPersistence:
-  enabled: true
-  connection_dbName: "uniconfig"
-  connection_username: "postgresU"
-  connection_password: "postgresP"
-  connection_databaseLocations_host: ""
-  connection_databaseLocations_port: "5432"
-
-azure:
-  AKS:
-    enabled: false
-    storage:
-      accountName:
-      accessKey:
-
-postgresql:
-  enabled: true
-  auth:
-    enablePostgresUser: true
-    username: postgresU
-    password: postgresP
-    database: uniconfig
-  architecture: standalone
+env:
+  UNICONFIG_HOSTNAME: uniconfig
+  UNICONFIG_PORT: 8181
+  UNIFLOW_HOSTNAME: workflow-proxy
+  UNIFLOW_PORT: 8088
+  CONDUCTOR_PORT: 8080
+  INVENTORY_HOSTNAME: inventory
+  INVENTORY_PORT: 8000
+  INSTANCES_TO_SIMULATE: ""
+  RUN_TESTTOOLS: "./scripts/run_netconf_devices/run_netconf_testtool.sh & ./scripts/run_cli_devices/run_devices_docker.sh"
+  X_TENANT_ID: frinx

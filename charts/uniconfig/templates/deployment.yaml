@@ -36,11 +36,19 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
+      {{ if .Values.dbPersistence.connection_databaseLocations_host }}
+        - name: check-db-ready
+          image: postgres:alpine
+          command: ['sh', '-c',
+            "until pg_isready -h {{ .Values.dbPersistence.connection_databaseLocations_host }} -p 5432;
+            do echo waiting for database; sleep 2; done;"]
+      {{ else }}
         - name: check-db-ready
           image: postgres:alpine
           command: ['sh', '-c',
             "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432;
             do echo waiting for database; sleep 2; done;"]
+      {{ end }}      
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -71,7 +79,7 @@ spec:
               value: {{ .Values.dbPersistence.connection_username }}
             - name: dbPersistence_connection_password
               value: {{ .Values.dbPersistence.connection_password }}
-              {{ if .Values.postgresql.enabled }}
+              {{- if and (eq .Values.postgresql.enabled true) (not .Values.dbPersistence.connection_databaseLocations_host) }}
             - name: dbPersistence_connection_databaseLocations_host
               value: "{{ .Release.Name }}-postgresql"
               {{ else }}
@@ -96,6 +104,8 @@ spec:
                 - -c
                 - 'curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST localhost:8181/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"'
             initialDelaySeconds: 120
+            timeoutSeconds: 35
+            failureThreshold: 5
           readinessProbe:
             exec:
               command:
@@ -103,6 +113,8 @@ spec:
                 - -c
                 - 'curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST localhost:8181/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"'
             initialDelaySeconds: 120
+            timeoutSeconds: 35
+            failureThreshold: 5
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
