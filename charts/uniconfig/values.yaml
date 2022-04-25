@@ -80,10 +80,20 @@ affinity: {}
 
 license: e326aaa7b1741bb530d201c49f4311d3d0f391893e15393894a77180e6478289cd1709e4afe3a643100ccd31052430de1955540cf5ae1e510d657bd2af8ef2fc
 mountPath: "/mnt/config_files"
+uniconfigCacheFolderPath: ""
+
+proxy:
+  enabled: false
+  http_proxy:
+  https_proxy:
+
+java:
+  max_mem: "10G"
 
 dbPersistence:
   enabled: true
   connection_dbName: "uniconfig"
+  existingSecret:
   connection_username: "postgresU"
   connection_password: "postgresP"
   connection_databaseLocations_host: ""
