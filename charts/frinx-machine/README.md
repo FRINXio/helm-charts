@@ -2,6 +2,11 @@
 
 FRINX Machine is a dockerized deployment of multiple elements. The FRINX Machine enables large scale automation of network devices, services and retrieval of operational state data from a network. User specific workflows are designed through the use of OpenConfig NETCONF & YANG models, vendor native models, and the CLI. The FRINX Machine uses dockerized containers that are designed and tested to work together to create a user specific solution. Further information is available on [docs.frinx.io](https://docs.frinx.io/frinx-machine/getting-started/).
 
+## Prerequisites
+
+* Kubernetes 1.19+
+* Helm 3.2.0+
+
 ## Get Repo Info
 
 ```console
