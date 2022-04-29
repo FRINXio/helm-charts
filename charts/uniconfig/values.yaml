@@ -37,18 +37,25 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: NodePort
+  type: ClusterIP
   port: 8181
 
 ingress:
-  enabled: false
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "uniconfig_server_id"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
+  path: /
   hosts:
     - host: chart-example.local
-      paths: []
-  tls: []
+      paths:
+        - http:
+            paths:
+              - path: /
+  # tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
