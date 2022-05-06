@@ -9,6 +9,10 @@ dependencies:
     name: postgresql
     repository: https://charts.bitnami.com/bitnami
     version: 11.x.x
+  - condition: traefik.enabled
+    name: traefik
+    repository: https://helm.traefik.io/traefik
+    version: 10.19.5
 maintainers:
   - name: FRINX
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
@@ -67,6 +71,16 @@ annotations:
           url: https://github.com/FRINXio/helm-charts/pull/19
     - kind: added
       description: Added configmap for run_uniconfig.sh, logback.xml, lighty-uniconfig-config.json
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/19
+    - kind: added
+      description: Added traefik as ingress controller for sticky header & Refactor ingress template
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/19
+    - kind: added
+      description: Added annotations and loadBalancerIP for service into values.yaml
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/19

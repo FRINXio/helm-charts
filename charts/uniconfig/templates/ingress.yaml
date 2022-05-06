@@ -12,16 +12,24 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
+  defaultBackend:
+    service:
+      name: {{ $fullName }}
+      port:
+        number: {{ $svcPort }}
   rules:
-    {{- if .Values.ingress.path }}
+    {{- if .Values.ingress.host }}
+    - host: {{ .Values.ingress.host | quote }}
+      http:
+    {{- else }}
     - http:
+    {{- end }}
         paths:
-          - backend:
+          - path: {{ .Values.ingress.path }}
+            pathType: {{ .Values.ingress.pathType }}
+            backend:
               service:
-                name: {{ include "uniconfig.fullname" . }}
+                name: {{ $fullName }}
                 port:
                   number: {{ $svcPort }}
-            path: {{ .Values.ingress.path }}
-            pathType: Prefix
-    {{- end }}
 {{- end }}
