@@ -38,17 +38,17 @@ securityContext: {}
 
 service:
   annotations:
-    traefik.ingress.kubernetes.io/service.sticky.cookie: "true"
-    traefik.ingress.kubernetes.io/service.sticky.cookie.name: uniconfig_server_id
-    traefik.ingress.kubernetes.io/service.passhostheader: "true"
+#     traefik.ingress.kubernetes.io/service.sticky.cookie: "true"
+#     traefik.ingress.kubernetes.io/service.sticky.cookie.name: uniconfig_server_id
+#     traefik.ingress.kubernetes.io/service.passhostheader: "true"
   type: ClusterIP
   port: 8181
   loadBalancerIP:
 
 ingress:
-  enabled: true
+  enabled: false
   annotations:
-    kubernetes.io/ingress.class: traefik
+#     kubernetes.io/ingress.class: traefik
   path: /
   pathType: Prefix
   # host: chart-example.local
@@ -116,4 +116,4 @@ postgresql:
   architecture: standalone
 
 traefik:
-  enabled: true
+  enabled: false
