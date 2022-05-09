@@ -37,21 +37,22 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  annotations:
-#     traefik.ingress.kubernetes.io/service.sticky.cookie: "true"
-#     traefik.ingress.kubernetes.io/service.sticky.cookie.name: uniconfig_server_id
-#     traefik.ingress.kubernetes.io/service.passhostheader: "true"
+  annotations: {}
+    # Use this annotations for traefik as ingress
+    # traefik.ingress.kubernetes.io/service.sticky.cookie: "true"
+    # traefik.ingress.kubernetes.io/service.sticky.cookie.name: uniconfig_server_id
+    # traefik.ingress.kubernetes.io/service.passhostheader: "true"
   type: ClusterIP
   port: 8181
   loadBalancerIP:
 
 ingress:
   enabled: false
-  annotations:
-#     kubernetes.io/ingress.class: traefik
+  annotations: {}
+    # Use this annotations for traefik as ingress
+    # kubernetes.io/ingress.class: traefik
   path: /
   pathType: Prefix
-  # host: chart-example.local
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
