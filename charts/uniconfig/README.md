@@ -51,7 +51,7 @@ helm uninstall [RELEASE_NAME]
 | `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
 | `ingress.path` | Path for service  | `/` |
 | `ingress.pathType` | Path type variable | `Prefix` |
-| `ingress.host` | Host variable | `` |
+| `ingress.host` | Host variable | |
 | `resources` | CPU/Memory resource requests/limits | `{}` |
 | `autoscaling.enabled` | Enable replica autoscaling settings | `false` |
 | `autoscaling.minReplicas` | Minimum replicas for the pod autoscaling | `1` |
