@@ -14,3 +14,5 @@ additional-commands:
 excluded-charts:
   # This chart is for testing purposes and has a dependency on uniflow and inventory charts
   - demo-workflows
+  # Insufficient resources in github action for this chart
+  - frinx-machine
