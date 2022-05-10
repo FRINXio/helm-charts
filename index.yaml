@@ -33,6 +33,57 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/frinx-frontend-1.0.0/frinx-frontend-1.0.0.tgz
     version: 1.0.0
+  frinx-machine:
+  - apiVersion: v2
+    created: "2022-05-10T10:09:53.185931337Z"
+    dependencies:
+    - condition: krakend.enabled
+      name: krakend
+      repository: https://FRINXio.github.io/helm-charts
+      version: 1.x.x
+    - condition: frinx-frontend.enabled
+      name: frinx-frontend
+      repository: https://FRINXio.github.io/helm-charts
+      version: 1.x.x
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: uniresource.enabled
+      name: uniresource
+      repository: https://FRINXio.github.io/helm-charts
+      version: 1.x.x
+    - condition: uniflow.enabled
+      name: uniflow
+      repository: https://FRINXio.github.io/helm-charts
+      version: 1.x.x
+    - condition: inventory.enabled
+      name: inventory
+      repository: https://FRINXio.github.io/helm-charts
+      version: 2.x.x
+    - alias: uniconfig-postgresql
+      condition: uniconfig-postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: uniconfig.enabled
+      name: uniconfig
+      repository: https://FRINXio.github.io/helm-charts
+      version: 1.x.x
+    - condition: demo-workflows.enabled
+      name: demo-workflows
+      repository: https://FRINXio.github.io/helm-charts
+      version: 1.x.x
+    description: Kubernetes deployment of FRINX-machine
+    digest: 33f330f1c4cd6a743af1ff7a6ed1d448b6fff9ac7d517b69255d7c924f627ab4
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-machine
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-machine-0.1.0/frinx-machine-0.1.0.tgz
+    version: 0.1.0
   inventory:
   - annotations:
       artifacthub.io/changes: |
@@ -426,4 +477,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/uniresource-1.0.0/uniresource-1.0.0.tgz
     version: 1.0.0
-generated: "2022-05-10T10:04:05.250266311Z"
+generated: "2022-05-10T10:09:53.185963937Z"
