@@ -142,6 +142,96 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Updated uniconfig version to 5.0.5
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/19
+        - kind: added
+          description: Added frinx-uniconfig-controller-logs volume for storing logs
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/19
+        - kind: added
+          description: Added CONTAINER_ID env variable into uniconfig container
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/19
+        - kind: added
+          description: Added PROXY_ENABLED, PROXY_ENABLED, PROXY_ENABLED env variable into uniconfig container
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/19
+        - kind: added
+          description: Added proxy.enabled, proxy.http_proxy, proxy.https_proxy variable into values.yaml
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/19
+        - kind: added
+          description: Added java.max_mem value into values.yaml
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/19
+        - kind: changed
+          description: Update _JAVA_OPTIONS env variable for uniconfig container
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/19
+        - kind: added
+          description: Added uniconfigCacheFolderPath value into values.yaml and create frinx-uniconfig-controller-cache volume
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/19
+        - kind: changed
+          description: Use secret for database name and password for uniconfig container
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/19
+        - kind: added
+          description: Added dbPersistence.existingSecret variable into values.yaml
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/19
+        - kind: added
+          description: Added configmap for run_uniconfig.sh, logback.xml, lighty-uniconfig-config.json
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/19
+        - kind: added
+          description: Added traefik as ingress controller for sticky header & Refactor ingress template
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/19
+        - kind: added
+          description: Added annotations and loadBalancerIP for service into values.yaml
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/19
+    apiVersion: v2
+    appVersion: 5.0.5
+    created: "2022-05-10T10:04:05.250242811Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: traefik.enabled
+      name: traefik
+      repository: https://helm.traefik.io/traefik
+      version: 10.19.5
+    description: A Helm chart for UniConfig Kubernetes deployment
+    digest: 0f1c71d763d95dd469a8c0452884e0071bdd1618b3fbc80e3e3a6caed1b0b65d
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: uniconfig
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniconfig-2.0.0/uniconfig-2.0.0.tgz
+    version: 2.0.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Increase probes time
           links:
             - name: GitHub PR
@@ -336,4 +426,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/uniresource-1.0.0/uniresource-1.0.0.tgz
     version: 1.0.0
-generated: "2022-04-22T09:25:48.22159728Z"
+generated: "2022-05-10T10:04:05.250266311Z"
