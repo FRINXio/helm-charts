@@ -4,11 +4,15 @@ metadata:
   name: {{ include "uniconfig.fullname" . }}
   labels:
     {{- include "uniconfig.labels" . | nindent 4 }}
+  {{- with .Values.service.annotations }}
   annotations:
-    "service.beta.kubernetes.io/azure-load-balancer-resource-group": "dns_shared"
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   type: {{ .Values.service.type }}
-  loadBalancerIP: "20.101.115.184"
+  {{- if .Values.service.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.service.loadBalancerIP | quote }}
+  {{- end}}
   ports:
     - port: {{ .Values.service.port }}
       targetPort: http

@@ -44,12 +44,14 @@ helm uninstall [RELEASE_NAME]
 | `podAnnotations` | Deployment | `{}` |
 | `podSecurityContext` | Pod deployment securityContext | `{}` |
 | `securityContext` | Deployment securityContext | `{}` |
-| `service.type` | Kubernetes service type | `LoadBalancer` |
+| `service.annotations` | Annotations for service resource | `{}` |
+| `service.type` | Kubernetes service type | `ClusterIP` |
 | `service.port` | Kubernetes port where workflow-proxy is exposed | `8181` |
 | `ingress.enabled` | Enables Ingress | `false` |
 | `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
-| `ingress.hosts` | Ingress accepted hostnames  | `[]` |
-| `ingress.tls` | Ingress TLS configuration | `[]` |
+| `ingress.path` | Path for service  | `/` |
+| `ingress.pathType` | Path type variable | `Prefix` |
+| `ingress.host` | Host variable | |
 | `resources` | CPU/Memory resource requests/limits | `{}` |
 | `autoscaling.enabled` | Enable replica autoscaling settings | `false` |
 | `autoscaling.minReplicas` | Minimum replicas for the pod autoscaling | `1` |
@@ -61,10 +63,16 @@ helm uninstall [RELEASE_NAME]
 | `affinity` | Affinity settings for pod assignment | `{}` |
 | `license` | License for uniconfig | |
 | `mountPath` | Mount path for uniconfig config files | |
+| `uniconfigCacheFolderPath` | Path to uniconfig cache folder | `""` |
+| `proxy.enabled` | Enable proxy for uniconfig  | `false` |
+| `proxy.http_proxy` | Http address for proxy | `false` |
+| `proxy.https_proxy` | Https address for proxy | `false` |
+| `java.max_mem` | Max memory for java | `"10G"` |
 | `dbPersistence.enabled` | Database persistence | `true` |
 | `dbPersistence.connection_dbName` | Database name | `"uniconfig"` |
 | `dbPersistence.connection_username` | Database username | `"postgresU"` |
 | `dbPersistence.connection_password` | Database password | `"postgresP"` |
+| `dbPersistence.existingSecret` | Name of existing secret with database credentials | `` |
 | `dbPersistence.connection_databaseLocations_host` | Database host | `"uniconfig-postgres-postgresql"` |
 | `dbPersistence.connection_databaseLocations_port` | Database port | `"5432"` |
 | `azure.AKS.enabled` | Enable AKS azure deployment | `false` |
@@ -76,3 +84,4 @@ helm uninstall [RELEASE_NAME]
 | `postgresql.auth.password` | Password for the custom user to create | `postgresP` |
 | `postgresql.auth.database` | Name for a custom database to create | `conductor` |
 | `postgresql.architecture` | PostgreSQL architecture (`standalone` or `replication`) | `standalone` |
+| `traefik.enabled` | Switch to enable or disable the traefik helm chart | `false` |

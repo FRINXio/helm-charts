@@ -20,14 +20,42 @@ spec:
       labels:
         {{- include "uniconfig.selectorLabels" . | nindent 8 }}
     spec:
-      {{- if .Values.azure.AKS.enabled }}
       volumes:
+        {{- if .Values.azure.AKS.enabled }}
         - name: config
           azureFile:
             secretName: storage-secret
             shareName: frinxmachine-configs/uniconfig
             readOnly: false
-      {{- end }}
+        {{- end }}
+        - name: frinx-uniconfig-controller-logs
+          emptyDir: {}
+        {{- if .Values.uniconfigCacheFolderPath }}
+        - name: frinx-uniconfig-controller-cache
+          hostPath:
+            path: {{ .Values.uniconfigCacheFolderPath }}
+        {{- end }}
+        - name: uniconfig-script
+          configMap:
+            name: {{ template "uniconfig.fullname" . }}-configmap-uniconfig-script
+            defaultMode: 0777
+            items:
+            - key: run_uniconfig.sh
+              path: run_uniconfig.sh
+        - name: logback
+          configMap:
+            name: {{ template "uniconfig.fullname" . }}-configmap-logback
+            defaultMode: 0777
+            items:
+            - key: logback.xml
+              path: logback.xml
+        - name: lighty-uniconfig-config
+          configMap:
+            name: {{ template "uniconfig.fullname" . }}-configmap-lighty-uniconfig-config
+            defaultMode: 0777
+            items:
+            - key: lighty-uniconfig-config.json
+              path: lighty-uniconfig-config.json
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -59,26 +87,39 @@ spec:
           # command: ["/bin/sh","-c"]
           # args: ["cp -r /mnt/config_files/. /opt/uniconfig-frinx/config/; /opt/uniconfig-frinx/run_uniconfig.sh -f -l {{ .Values.license }}"]
           # {{- end }}
-          args:
-            - -f
-            - -l
-            - "{{ .Values.license }}"
-          command:
-            - /opt/uniconfig-frinx/run_uniconfig.sh
+          args: ["-f", "-l", "{{ .Values.license }}"]
           env:
+            - name: CONTAINER_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: PROXY_ENABLED
+              value: {{ .Values.proxy.enabled | quote }}
+            - name: HTTP_PROXY
+              value: {{ .Values.proxy.http_proxy | quote }}
+            - name: HTTPS_PROXY
+              value: {{ .Values.proxy.https_proxy | quote }}
+            - name: NO_PROXY
+              value: {{ .Values.proxy.no_proxy | quote }}
             - name: JAVA_MAX_MEM
-              value: "7G"
+              value: {{ .Values.java.max_mem | quote }}
             - name: _JAVA_OPTIONS
-              #value: "-Xmx6G -XX:+AlwaysPreTouch -Djna.nosys=true -XX:+CrashOnOutOfMemoryError -XX:MaxGCPauseMillis=200 -Xloggc:/opt/uniconfig-frinx/log/gc.log -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintTenuringDistribution -XX:+PrintGCCause -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=5M -XX:+PrintGCDateStamps -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeRSetStatsPeriod=1"
-              value: "-Xmx6G -XX:+AlwaysPreTouch"
+              value: jdbc:postgresql:$(DB_URL_HOSTNAME):$(DB_URL_PORT)/$(DB_URL_DBNAME)
+              value: "-Xmx$(JAVA_MAX_MEM) -XX:+AlwaysPreTouch -Djna.nosys=true -XX:+CrashOnOutOfMemoryError -XX:MaxGCPauseMillis=200 -Xlog:gc:/opt/uniconfig-frinx/log/gc-$(CONTAINER_ID).log:tags,time,uptime,level:filecount=10,filesize=5M -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeRSetStatsPeriod=1"
             - name: dbPersistence_enabled
               value: {{ .Values.dbPersistence.enabled | quote }}
             - name: dbPersistence_connection_dbName
               value: {{ .Values.dbPersistence.connection_dbName }}
             - name: dbPersistence_connection_username
-              value: {{ .Values.dbPersistence.connection_username }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "uniconfig.secretName" . }}
+                  key: dbPersistence_connection_username
             - name: dbPersistence_connection_password
-              value: {{ .Values.dbPersistence.connection_password }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "uniconfig.secretName" . }}
+                  key: dbPersistence_connection_password
               {{- if and (eq .Values.postgresql.enabled true) (not .Values.dbPersistence.connection_databaseLocations_host) }}
             - name: dbPersistence_connection_databaseLocations_host
               value: "{{ .Release.Name }}-postgresql"
@@ -88,7 +129,22 @@ spec:
               {{ end }}
             - name: dbPersistence_connection_databaseLocations_port
               value: {{ .Values.dbPersistence.connection_databaseLocations_port | quote }}
-          # volumeMounts:
+          volumeMounts:
+          - name: frinx-uniconfig-controller-logs
+            mountPath: /opt/uniconfig-frinx/log
+          {{- if .Values.uniconfigCacheFolderPath }}
+          - name: frinx-uniconfig-controller-cache
+            mountPath: /opt/uniconfig-frinx/cache
+          {{- end}}
+          - name: uniconfig-script
+            mountPath: /opt/uniconfig-frinx/run_uniconfig.sh
+            subPath: run_uniconfig.sh
+          - name: logback
+            mountPath: /opt/uniconfig-frinx/config/logback.xml
+            subPath: logback.xml
+          - name: lighty-uniconfig-config
+            mountPath: /opt/uniconfig-frinx/config/lighty-uniconfig-config.json
+            subPath: lighty-uniconfig-config.json
           #   - name: config
           #     mountPath: {{ .Values.mountPath }}
           #   - name: cache
