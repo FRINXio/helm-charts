@@ -1,0 +1,8 @@
+{{ if not .Values.deployment.volumes.azureFile.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "krakend.fullname" . }}-krakend
+data:
+  krakend.json: {{ tpl (.Files.Get "config/krakend.json") . | quote }}
+{{ end }}

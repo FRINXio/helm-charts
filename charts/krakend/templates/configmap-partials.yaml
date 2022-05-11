@@ -1,0 +1,12 @@
+{{ if not .Values.deployment.volumes.azureFile.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "krakend.fullname" . }}-partials
+data:
+  default_tenant_headers.tmpl: {{ tpl (.Files.Get "config/partials/default_tenant_headers.tmpl") . | quote }}
+  jwt_config.tmpl: {{ tpl (.Files.Get "config/partials/jwt_config.tmpl") . | quote }}
+  jwt_fake_config.tmpl: {{ tpl (.Files.Get "config/partials/jwt_fake_config.tmpl") . | quote }}
+  uniconfig_partial_1.tmpl: {{ tpl (.Files.Get "config/partials/uniconfig_partial_1.tmpl") . | quote }}
+  uniconfig_partial_2.tmpl: {{ tpl (.Files.Get "config/partials/uniconfig_partial_2.tmpl") . | quote }}
+{{ end }}

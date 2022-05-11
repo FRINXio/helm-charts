@@ -99,3 +99,11 @@ azure:
     storage:
       accountName:
       accessKey:
+
+deployment:
+  volumes:
+    azureFile:
+      enabled: false
+        storage:
+          accountName:
+          accessKey:
