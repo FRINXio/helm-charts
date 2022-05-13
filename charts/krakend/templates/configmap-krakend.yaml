@@ -4,5 +4,5 @@ kind: ConfigMap
 metadata:
   name: {{ template "krakend.fullname" . }}-krakend
 data:
-  krakend.json: {{ tpl (.Files.Get "config/krakend.json") . | quote }}
+  krakend.json: {{ (.Files.Get "config/krakend.json") | quote }}
 {{ end }}

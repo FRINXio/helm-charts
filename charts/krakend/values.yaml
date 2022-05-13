@@ -42,24 +42,15 @@ service:
   targetPort: 8080
 
 ingress:
-  enabled: false
-  className: ""
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: gateway.local
-      paths: []
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
-  tlsSecret:
-    enabled: false
-    crt: |-
-      # Certificate
-    key: |-
-      # Private key
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/router.tls.certresolver: "production"
+  host: "dev.services.frinx.io"
+  pathType: Prefix
+  path: /
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -101,9 +92,23 @@ azure:
       accessKey:
 
 deployment:
+  env:
+    TLS_DISABLED: true
+    # IF false, THEN Fake-Frinx-Token Used
+    # IF true,  THEN Azure AD Token Required 
+    AUTH_ENABLED: false 
+    PROXY_ENABLED: false
+    HTTP_PROXY:
+    HTTPS_PROXY:
+    NO_PROXY:
+    UNICONFIG_ZONES_LIST: "UC_zone1"
   volumes:
     azureFile:
       enabled: false
-        storage:
-          accountName:
-          accessKey:
+      storage:
+        accountName:
+        accessKey:
+
+middleware:
+  enabled: false 
+  stripPrefix: /dev

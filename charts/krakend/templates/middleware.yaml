@@ -1,0 +1,10 @@
+{{ if .Values.middleware.enabled }}
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ template "krakend.fullname" . }}-middleware
+spec:
+  stripPrefix:
+    prefixes:
+      - {{ .Values.middleware.stripPrefix }}
+{{ end }}

@@ -1,4 +1,4 @@
-{{ if not .Values.azure.AKS.enabled }}
+{{ if not .Values.deployment.volumes.azureFile.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:

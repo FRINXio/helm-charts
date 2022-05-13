@@ -11,6 +11,9 @@ metadata:
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
+  {{ if .Values.middleware.enabled }}
+    traefik.ingress.kubernetes.io/router.middlewares: {{ .Release.Namespace }}-{{ $fullName }}-middleware@kubernetescrd
+  {{- end}}
 spec:
   defaultBackend:
     service:

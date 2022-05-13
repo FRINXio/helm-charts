@@ -2,11 +2,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "krakend.fullname" . }}-partials
+  name: {{ template "krakend.fullname" . }}-scripts
 data:
-  fake_frinx_token.lua: {{ tpl (.Files.Get "config/scripts/fake_frinx_token.lua") . | quote }}
-  uniconfig_query_escape.lua: {{ tpl (.Files.Get "config/scripts/uniconfig_query_escape.lua") . | quote }}
-  uniconfig_rbac.lua: {{ tpl (.Files.Get "config/scripts/uniconfig_rbac.lua") . | quote }}
-  unistore_rbac.lua: {{ tpl (.Files.Get "config/scripts/unistore_rbac.lua") . | quote }}
-  wp_azure_swagger.lua: {{ tpl (.Files.Get "config/scripts/wp_azure_swagger.lua") . | quote }}
+  fake_frinx_token.lua: {{ (.Files.Get "config/scripts/fake_frinx_token.lua") | quote }}
+  uniconfig_query_escape.lua: {{ (.Files.Get "config/scripts/uniconfig_query_escape.lua") | quote }}
+  uniconfig_rbac.lua: {{ (.Files.Get "config/scripts/uniconfig_rbac.lua") | quote }}
+  unistore_rbac.lua: {{ (.Files.Get "config/scripts/unistore_rbac.lua") | quote }}
+  wp_azure_swagger.lua: {{ (.Files.Get "config/scripts/wp_azure_swagger.lua") | quote }}
 {{ end }}

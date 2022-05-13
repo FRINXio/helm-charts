@@ -21,19 +21,31 @@ spec:
         {{- include "krakend.selectorLabels" . | nindent 8 }}
     spec:
       volumes:
-        {{ if .Values.azure.AKS.enabled }}
+        {{ if .Values.deployment.volumes.azureFile.enabled }}
         - name: config
           azureFile:
-            secretName: storage-secret
+            secretName: {{ template "krakend.fullname" . }}-azureStorage
             shareName: frinxmachine-configs/krakend
             readOnly: false
         {{ else }}
         - name: config
           configMap:
-            name: {{ template "krakend.fullname" . }}-krakendconfig
+            name: {{ template "krakend.fullname" . }}-krakend
+        - name: partials
+          configMap:
+            name: {{ template "krakend.fullname" . }}-partials
         - name: scripts
           configMap:
             name: {{ template "krakend.fullname" . }}-scripts
+        - name: settings
+          configMap:
+            name: {{ template "krakend.fullname" . }}-settings
+        - name: templates
+          configMap:
+            name: {{ template "krakend.fullname" . }}-templates
+        - name: configtemp
+          configMap:
+            name: {{ template "krakend.fullname" . }}-krakendconfig
         {{ end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -49,46 +61,64 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
-            {{ if .Values.azure.AKS.enabled }}
-            - name: config
-              mountPath: {{ .Values.mountPath }}
-            {{ else }}
+            {{ if .Values.deployment.volumes.azureFile.enabled }}
             - name: config
               mountPath: /etc/krakend/
+            {{ else }}
+            # - name: configtemp
+            #   mountPath: /etc/krakend/
+            - name: config
+              mountPath: /etc/krakend/
+            - name: partials
+              mountPath: /etc/krakend/partials/
             - name: scripts
               mountPath: /etc/krakend/scripts/
+            - name: settings
+              mountPath: /etc/krakend/settings/
+            - name: templates
+              mountPath: /etc/krakend/templates/
             {{ end }}
           env:
+            - name: FC_ENABLE
+              value: "1"
+            - name: FC_SETTINGS
+              value: "/etc/krakend/settings"
+            - name: FC_PARTIALS
+              value: "/etc/krakend/partials" 
+            - name: FC_TEMPLATES
+              value: "/etc/krakend/templates"
+            - name: TLS_DISABLED
+              value: {{ .Values.deployment.env.TLS_DISABLED | quote }}
+            - name: AUTH_ENABLED
+              value: {{ .Values.deployment.env.AUTH_ENABLED | quote }}
+            - name: GODEBUG
+              value: "x509ignoreCN=0"
+            - name: UNICONFIG_ZONES_LIST
+              value: {{ .Values.deployment.env.UNICONFIG_ZONES_LIST | quote }}
+            {{- if .Values.deployment.env.PROXY_ENABLED }}  
+            - name: PROXY_ENABLED
+              value: {{ .Values.deployment.env.PROXY_ENABLED | quote }}
+            - name: HTTP_PROXY
+              value: {{ .Values.deployment.env.HTTP_PROXY | quote }}
+            - name: HTTPS_PROXY
+              value: {{ .Values.deployment.env.HTTPS_PROXY | quote }}
+            - name: NO_PROXY
+              value: "{{ .Values.deployment.env.NO_PROXY }},$(UNICONFIG_ZONES_LIST)"
+            {{- end }}
+
             {{ if .Values.azure.AKS.enabled }}
             - name: AZURE_KRAKEND_PLUGIN_CLIENT_ID
               valueFrom:
                 secretKeyRef:
-                  name: azure-auth
+                  name: {{ template "krakend.fullname" . }}-azureAuth
                   key: clientId
             - name: AZURE_KRAKEND_PLUGIN_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: azure-auth
+                  name: {{ template "krakend.fullname" . }}-azureAuth
                   key: clientSecret
             - name: AZURE_KRAKEND_PLUGIN_JWT_VALUE_PREFIX
               value: "{{ .Values.azure.httpJwtPrefix }}"
-            - name: KRAKEND_PORT
-              value: "8080"
-            - name: FC_ENABLE
-              value: "1"
-            - name: FC_SETTINGS
-              value: "{{ .Values.mountPath }}settings"
-            - name: FC_PARTIALS
-              value: "{{ .Values.mountPath }}partials"
-            - name: FC_TEMPLATES
-              value: "{{ .Values.mountPath }}templates"
-            {{ else }}
-            - name: KRAKEND_PORT
-              value: "8080"
-            - name: FC_ENABLE
-              value: "1"
-            - name : JWT_PRODUCTION
-              value: "false"
             {{ end }}
           ports:
             - name: http
