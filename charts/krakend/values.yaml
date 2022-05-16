@@ -25,19 +25,17 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext: {}
-  # fsGroup: 2000
+podSecurityContext:
+  # enabled: true
+  # fsGroup: 0
 
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+containerSecurityContext:
+  # enabled: true
+  # runAsUser: 0 
+  # runAsNonRoot: false
 
 service:
-  type: ClusterIP
+  type: NodePort
   port: 80
   targetPort: 8080
 
@@ -79,18 +77,6 @@ tolerations: []
 
 affinity: {}
 
-azure:
-  auth:
-    enabled: false
-    clientId:
-    clientSecret:
-    httpJwtPrefix:
-  AKS:
-    enabled: false
-    storage:
-      accountName:
-      accessKey:
-
 deployment:
   env:
     TLS_DISABLED: true
@@ -102,6 +88,33 @@ deployment:
     HTTPS_PROXY:
     NO_PROXY:
     UNICONFIG_ZONES_LIST: "UC_zone1"
+  azureAuth:
+    enabled: false
+    AZURE_LOGIN_URL: "https://login.microsoftonline.com"
+    AZURE_TENANT_NAME: ""
+    AZURE_TENANT_ID: "frinx"
+    AZURE_KRAKEND_PLUGIN_JWT_VALUE_PREFIX: "Bearer"  
+    AZURE_KRAKEND_PLUGIN_GROUP_DISABLE: false  
+    # secrets
+    existingSecret:
+    AZURE_KRAKEND_PLUGIN_CLIENT_ID: ""
+    AZURE_KRAKEND_PLUGIN_CLIENT_SECRET: ""
+  rbac:
+    enabled: false
+    existingSecret:
+    UNICONFIG_CONTROLLER_ADMIN_GROUP: "network-admin"
+    UNISTORE_CONTROLLER_ADMIN_GROUP: "network-admin"
+    UNISTORE_BEARER_ROLE: ""
+    UNISTORE_SERVICE_ROLE: ""
+    UNISTORE_NETWORK_ROLE: ""
+    UNISTORE_OTHER_PERMITTED_ROLES: ""
+    UNISTORE_BEARER_NODE: "bearer"
+    UNISTORE_SERVICE_NODE: "service"
+    UNISTORE_NETWORK_NODE: "network"
+    RM_ADMIN_GROUPS: "network-admin"
+    RM_ADMIN_ROLES: ""
+    ADMIN_ACCESS_ROLE: "network-admin"
+    X_AUTH_USER_GROUP: "network-admin"
   volumes:
     azureFile:
       enabled: false
