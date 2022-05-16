@@ -25,4 +25,5 @@ jobs:
           VALIDATE_LUA: false
           FILTER_REGEX_EXCLUDE: .*/lighty-uniconfig-config.json
           DEFAULT_BRANCH: main
+          FILTER_REGEX_EXCLUDE: krakend.json
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
