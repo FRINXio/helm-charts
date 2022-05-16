@@ -44,20 +44,16 @@ helm uninstall [RELEASE_NAME]
 | `serviceAccount.name` | Service account name to use, when empty will be set to created account if `serviceAccount.create` is set else to `default` | `""` |
 | `podAnnotations` | Deployment | `{}` |
 | `podSecurityContext` | Pod deployment securityContext | `{}` |
-| `securityContext` | Deployment securityContext | `{}` |
+| `containerSecurityContext` | Deployment container securityContext | `{}` |
 | `service.type` | Kubernetes service type | `ClusterIP` |
 | `service.port` | Kubernetes port where service is exposed | `80` |
 | `service.targetPort` | Port on which the service will send requests to, that your pod will be listening on | `8080` |
 | `ingress.enabled` | Enables Ingress | `false` |
-| `ingress.className` | Class name for Ingress | `""` |
 | `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
-| `ingress.hosts` | Ingress accepted hostnames  | `[]` |
-| `ingress.tls` | Ingress TLS configuration | `[]` |
-| `ingress.tlsSecret.enabled` | Enable Ingress TLS Secret configuration | `false` |
-| `ingress.tlsSecret.crt` | TLS Certificate | `false` |
-| `ingress.tlsSecret.key` | TLS Private key | `false` |
+| `ingress.host` | Ingress accepted hostname  | `""` |
+| `ingress.pathType` | Ingress path type | `Prefix` |
+| `ingress.path` | Ingress path | `/` |
 | `resources` | CPU/Memory resource requests/limits | `{}` |
-| `mountPath` | Mount Path for Config files | `"/etc/krakend/"` |
 | `autoscaling.enabled` | Enable replica autoscaling settings | `false` |
 | `autoscaling.minReplicas` | Minimum replicas for the pod autoscaling | `1` |
 | `autoscaling.maxReplicas` | Maximum replicas for the pod autoscaling | `100` |
@@ -66,6 +62,26 @@ helm uninstall [RELEASE_NAME]
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
+
+| `deployment.env.TLS_DISABLED` | TLS_DISABLED env variable | `true` |
+| `deployment.env.AUTH_ENABLED` | AUTH_ENABLED env variable | `false` |
+| `deployment.env.PROXY_ENABLED` | PROXY_ENABLED env variable | `false` |
+| `deployment.env.HTTP_PROXY` | HTTP_PROXY env variable | `` |
+| `deployment.env.HTTPS_PROXY` | HTTPS_PROXY env variable | `` |
+| `deployment.env.NO_PROXY` | NO_PROXY env variable | `` |
+| `deployment.env.UNICONFIG_ZONES_LIST` | UNICONFIG_ZONES_LIST env variable | `"uniconfig"` |
+| `deployment.azureAuth.enabled` | Enabled azure authentification | `false` |
+| `deployment.azureAuth.AZURE_LOGIN_URL` | AZURE_LOGIN_URL env variable | `"https://login.microsoftonline.com"` |
+| `deployment.azureAuth.AZURE_TENANT_NAME` | AZURE_TENANT_NAME env variable | `""` |
+| `deployment.azureAuth.AZURE_TENANT_ID` | AZURE_TENANT_ID env variable | `"frinx"` |
+| `deployment.azureAuth.AZURE_KRAKEND_PLUGIN_JWT_VALUE_PREFIX` | AZURE_KRAKEND_PLUGIN_JWT_VALUE_PREFIX env variable | `"Bearer"` |
+| `deployment.azureAuth.AZURE_KRAKEND_PLUGIN_GROUP_DISABLE` | AZURE_KRAKEND_PLUGIN_GROUP_DISABLE env variable | `true` |
+| `deployment.azureAuth.existingSecret` | Name for existing Secret for azure authentification | `` |
+| `deployment.azureAuth.AZURE_KRAKEND_PLUGIN_CLIENT_ID` | AZURE_KRAKEND_PLUGIN_CLIENT_ID env variable | `""` |
+| `deployment.azureAuth.AZURE_KRAKEND_PLUGIN_CLIENT_SECRET` | AZURE_KRAKEND_PLUGIN_CLIENT_SECRET env variable | `""` |
+
+
+
 | `azure.auth.enabled` | Enable azure authentication | `false` |
 | `azure.auth.clientId` | Azure cliendId | |
 | `azure.auth.clientSecret` | Azure clientSecret | |
