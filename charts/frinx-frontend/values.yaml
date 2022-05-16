@@ -77,3 +77,22 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+env:
+  AUTH_REDIRECT_SCHEME: "http"
+  AUTH_ENABLED: false
+  URL_BASENAME: "/frinxui"
+  UNIFLOW_ENABLED: true
+  CONDUCTOR_API_URL: "/api/uniflow"
+  UNIFLOW_API_DOCS_URL: "/api/uniflow/docs"
+  UNICONFIG_ENABLED: true
+  UNICONFIG_API_DOCS_URL: "/api/uniflow/docs-uniconfig"
+  INVENTORY_ENABLED: true
+  INVENTORY_API_URL: "/api/inventory"
+  UNIRESOURCE_ENABLED: true
+  UNIRESOURCE_API_URL: "/api/uniresource"
+  UNISTORE_API_URL: "/api/unistore"
+  GAMMA_ENABLED: false
+  AUTH_CLIENT_ID:
+  AUTH_REDIRECT_DOMAIN: localhost
+  MSAL_AUTHORITY: https://login.microsoftonline.com/common/
