@@ -23,6 +23,6 @@ jobs:
           VALIDATE_KUBERNETES_KUBEVAL: false
           VALIDATE_YAML: false
           VALIDATE_LUA: false
-          FILTER_REGEX_EXCLUDE: FILTER_REGEX_EXCLUDE: .*config/.*.json
+          FILTER_REGEX_EXCLUDE: .*config/.*.json
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
