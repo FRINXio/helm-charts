@@ -35,7 +35,7 @@ containerSecurityContext:
   # runAsNonRoot: false
 
 service:
-  type: NodePort
+  type: ClusterIP
   port: 80
   targetPort: 8080
 
@@ -62,8 +62,6 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-mountPath: "/etc/krakend/"
-
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -87,21 +85,19 @@ deployment:
     HTTP_PROXY:
     HTTPS_PROXY:
     NO_PROXY:
-    UNICONFIG_ZONES_LIST: "UC_zone1"
+    UNICONFIG_ZONES_LIST: "uniconfig"
   azureAuth:
     enabled: false
     AZURE_LOGIN_URL: "https://login.microsoftonline.com"
     AZURE_TENANT_NAME: ""
     AZURE_TENANT_ID: "frinx"
     AZURE_KRAKEND_PLUGIN_JWT_VALUE_PREFIX: "Bearer"  
-    AZURE_KRAKEND_PLUGIN_GROUP_DISABLE: false  
+    AZURE_KRAKEND_PLUGIN_GROUP_DISABLE: true  
     # secrets
     existingSecret:
     AZURE_KRAKEND_PLUGIN_CLIENT_ID: ""
     AZURE_KRAKEND_PLUGIN_CLIENT_SECRET: ""
   rbac:
-    enabled: false
-    existingSecret:
     UNICONFIG_CONTROLLER_ADMIN_GROUP: "network-admin"
     UNISTORE_CONTROLLER_ADMIN_GROUP: "network-admin"
     UNISTORE_BEARER_ROLE: ""
@@ -124,4 +120,4 @@ deployment:
 
 middleware:
   enabled: false 
-  stripPrefix: /dev
+  stripPrefix: 
