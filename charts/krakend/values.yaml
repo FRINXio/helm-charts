@@ -25,16 +25,14 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext: {}
-  # fsGroup: 2000
+podSecurityContext:
+  # enabled: true
+  # fsGroup: 0
 
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+containerSecurityContext:
+  # enabled: true
+  # runAsUser: 0
+  # runAsNonRoot: false
 
 service:
   type: ClusterIP
@@ -43,23 +41,13 @@ service:
 
 ingress:
   enabled: false
-  className: ""
   annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: gateway.local
-      paths: []
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
-  tlsSecret:
-    enabled: false
-    crt: |-
-      # Certificate
-    key: |-
-      # Private key
+    # Use this annotations for traefik as ingress
+    # kubernetes.io/ingress.class: traefik
+    # traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
+    # traefik.ingress.kubernetes.io/router.tls: "true"
+    # traefik.ingress.kubernetes.io/router.tls.certresolver: "production"
+  host: "services.frinx.io"
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -72,8 +60,6 @@ resources: {}
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
-
-mountPath: "/etc/krakend/"
 
 autoscaling:
   enabled: false
@@ -88,14 +74,45 @@ tolerations: []
 
 affinity: {}
 
-azure:
-  auth:
+deployment:
+  env:
+    TLS_DISABLED: true
+    # IF false, THEN Fake-Frinx-Token Used
+    # IF true,  THEN Azure AD Token Required
+    AUTH_ENABLED: false
+    PROXY_ENABLED: false
+    HTTP_PROXY:
+    HTTPS_PROXY:
+    NO_PROXY:
+    UNICONFIG_ZONES_LIST: "uniconfig"
+  azureAuth:
     enabled: false
-    clientId:
-    clientSecret:
-    httpJwtPrefix:
-  AKS:
-    enabled: false
-    storage:
-      accountName:
-      accessKey:
+    AZURE_LOGIN_URL: "https://login.microsoftonline.com"
+    AZURE_TENANT_NAME: "frinx"
+    AZURE_TENANT_ID: ""
+    AZURE_KRAKEND_PLUGIN_JWT_VALUE_PREFIX: "Bearer"
+    AZURE_KRAKEND_PLUGIN_GROUP_DISABLE: true
+    # secrets
+    existingSecret:
+    AZURE_KRAKEND_PLUGIN_CLIENT_ID: ""
+    AZURE_KRAKEND_PLUGIN_CLIENT_SECRET: ""
+  rbac:
+    UNICONFIG_CONTROLLER_ADMIN_GROUP: "network-admin"
+    UNISTORE_CONTROLLER_ADMIN_GROUP: "network-admin"
+    UNISTORE_BEARER_ROLE: ""
+    UNISTORE_SERVICE_ROLE: ""
+    UNISTORE_NETWORK_ROLE: ""
+    UNISTORE_OTHER_PERMITTED_ROLES: ""
+    UNISTORE_BEARER_NODE: "bearer"
+    UNISTORE_SERVICE_NODE: "service"
+    UNISTORE_NETWORK_NODE: "network"
+    RM_ADMIN_GROUPS: "network-admin"
+    RM_ADMIN_ROLES: ""
+    ADMIN_ACCESS_ROLE: "network-admin"
+    X_AUTH_USER_GROUP: "network-admin"
+  volumes:
+    azureFile:
+      enabled: false
+      storage:
+        accountName:
+        accessKey:

@@ -1,8 +1,0 @@
-{{ if not .Values.azure.AKS.enabled }}
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ template "krakend.fullname" . }}-krakendconfig
-data:
-  krakend.json: {{ tpl (.Files.Get "config/krakend/krakend.json") . | quote }}
-{{ end }}

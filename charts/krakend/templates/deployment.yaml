@@ -21,19 +21,28 @@ spec:
         {{- include "krakend.selectorLabels" . | nindent 8 }}
     spec:
       volumes:
-        {{ if .Values.azure.AKS.enabled }}
+        {{ if .Values.deployment.volumes.azureFile.enabled }}
         - name: config
           azureFile:
-            secretName: storage-secret
+            secretName: {{ template "krakend.fullname" . }}-azureStorage
             shareName: frinxmachine-configs/krakend
             readOnly: false
         {{ else }}
         - name: config
           configMap:
-            name: {{ template "krakend.fullname" . }}-krakendconfig
+            name: {{ template "krakend.fullname" . }}-krakend
+        - name: partials
+          configMap:
+            name: {{ template "krakend.fullname" . }}-partials
         - name: scripts
           configMap:
             name: {{ template "krakend.fullname" . }}-scripts
+        - name: settings
+          configMap:
+            name: {{ template "krakend.fullname" . }}-settings
+        - name: templates
+          configMap:
+            name: {{ template "krakend.fullname" . }}-templates
         {{ end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -45,51 +54,111 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- toYaml .Values.containerSecurityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
-            {{ if .Values.azure.AKS.enabled }}
+            {{ if .Values.deployment.volumes.azureFile.enabled }}
             - name: config
-              mountPath: {{ .Values.mountPath }}
+              mountPath: /etc/krakend/
             {{ else }}
             - name: config
               mountPath: /etc/krakend/
+            - name: partials
+              mountPath: /etc/krakend/partials/
             - name: scripts
               mountPath: /etc/krakend/scripts/
+            - name: settings
+              mountPath: /etc/krakend/settings/
+            - name: templates
+              mountPath: /etc/krakend/templates/
             {{ end }}
           env:
-            {{ if .Values.azure.AKS.enabled }}
-            - name: AZURE_KRAKEND_PLUGIN_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: azure-auth
-                  key: clientId
-            - name: AZURE_KRAKEND_PLUGIN_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: azure-auth
-                  key: clientSecret
-            - name: AZURE_KRAKEND_PLUGIN_JWT_VALUE_PREFIX
-              value: "{{ .Values.azure.httpJwtPrefix }}"
-            - name: KRAKEND_PORT
-              value: "8080"
             - name: FC_ENABLE
               value: "1"
             - name: FC_SETTINGS
-              value: "{{ .Values.mountPath }}settings"
+              value: "/etc/krakend/settings"
             - name: FC_PARTIALS
-              value: "{{ .Values.mountPath }}partials"
+              value: "/etc/krakend/partials" 
             - name: FC_TEMPLATES
-              value: "{{ .Values.mountPath }}templates"
-            {{ else }}
+              value: "/etc/krakend/templates"
             - name: KRAKEND_PORT
               value: "8080"
-            - name: FC_ENABLE
-              value: "1"
-            - name : JWT_PRODUCTION
-              value: "false"
-            {{ end }}
+            - name: FC_OUT
+              value: "/tmp/output.json"
+            - name: TLS_DISABLED
+              value: {{ .Values.deployment.env.TLS_DISABLED | quote }}
+            - name: AUTH_ENABLED
+              value: {{ .Values.deployment.env.AUTH_ENABLED | quote }}
+            - name: GODEBUG
+              value: "x509ignoreCN=0"
+            - name: UNICONFIG_ZONES_LIST
+              value: {{ .Values.deployment.env.UNICONFIG_ZONES_LIST | quote }}
+            # azureAuth
+            - name: AZURE_LOGIN_URL
+              value: {{ .Values.deployment.azureAuth.AZURE_LOGIN_URL | quote }}
+            - name: AZURE_TENANT_NAME
+              value: {{ .Values.deployment.azureAuth.AZURE_TENANT_NAME | quote }}
+            - name: AZURE_TENANT_ID
+              value: {{ .Values.deployment.azureAuth.AZURE_TENANT_ID | quote }}
+            - name: AZURE_KRAKEND_PLUGIN_JWT_VALUE_PREFIX
+              value: {{ .Values.deployment.azureAuth.AZURE_KRAKEND_PLUGIN_JWT_VALUE_PREFIX | quote }}
+            - name: AZURE_KRAKEND_PLUGIN_GROUP_DISABLE
+              value: {{ .Values.deployment.azureAuth.AZURE_KRAKEND_PLUGIN_GROUP_DISABLE | quote }}
+            {{- if .Values.deployment.azureAuth.enabled }}
+            - name: AZURE_KRAKEND_PLUGIN_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "krakend.fullname" . }}-azure-auth
+                  key: AZURE_KRAKEND_PLUGIN_CLIENT_ID
+            - name: AZURE_KRAKEND_PLUGIN_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "krakend.fullname" . }}-azure-auth
+                  key: AZURE_KRAKEND_PLUGIN_CLIENT_SECRET
+            {{- end }}
+            # RBAC - UNICONFIG
+            - name: UNICONFIG_CONTROLLER_ADMIN_GROUP
+              value: {{ .Values.deployment.rbac.UNICONFIG_CONTROLLER_ADMIN_GROUP | quote }}
+            # RBAC - UNISTORE
+            - name: UNISTORE_CONTROLLER_ADMIN_GROUP
+              value: {{ .Values.deployment.rbac.UNISTORE_CONTROLLER_ADMIN_GROUP | quote }}
+            - name: UNISTORE_BEARER_ROLE
+              value: {{ .Values.deployment.rbac.UNISTORE_BEARER_ROLE | quote }}
+            - name: UNISTORE_SERVICE_ROLE
+              value: {{ .Values.deployment.rbac.UNISTORE_SERVICE_ROLE | quote }}
+            - name: UNISTORE_NETWORK_ROLE
+              value: {{ .Values.deployment.rbac.UNISTORE_NETWORK_ROLE | quote }}
+            - name: UNISTORE_OTHER_PERMITTED_ROLES
+              value: {{ .Values.deployment.rbac.UNISTORE_OTHER_PERMITTED_ROLES | quote }}
+            - name: UNISTORE_BEARER_NODE
+              value: {{ .Values.deployment.rbac.UNISTORE_BEARER_NODE | quote }}
+            - name: UNISTORE_SERVICE_NODE
+              value: {{ .Values.deployment.rbac.UNISTORE_SERVICE_NODE | quote }}
+            - name: UNISTORE_NETWORK_NODE
+              value: {{ .Values.deployment.rbac.UNISTORE_NETWORK_NODE | quote }}
+            # RBAC - UNIRESOURCE
+            - name: RM_ADMIN_GROUPS
+              value: {{ .Values.deployment.rbac.RM_ADMIN_GROUPS | quote }}
+            - name: RM_ADMIN_ROLES
+              value: {{ .Values.deployment.rbac.RM_ADMIN_ROLES | quote }}
+            # RBAC - WORKFLOW_PROXY
+            - name: ADMIN_ACCESS_ROLE
+              value: {{ .Values.deployment.rbac.ADMIN_ACCESS_ROLE | quote }}
+            # RBAC - WORKERS
+            - name: X_AUTH_USER_GROUP
+              value: {{ .Values.deployment.rbac.X_AUTH_USER_GROUP | quote }}
+            # PROXY
+            - name: PROXY_ENABLED
+              value: {{ .Values.deployment.env.PROXY_ENABLED | quote }}
+            {{- if .Values.deployment.env.PROXY_ENABLED }}  
+            - name: HTTP_PROXY
+              value: {{ .Values.deployment.env.HTTP_PROXY | quote }}
+            - name: HTTPS_PROXY
+              value: {{ .Values.deployment.env.HTTPS_PROXY | quote }}
+            - name: NO_PROXY
+              value: "{{ .Values.deployment.env.NO_PROXY }},$(UNICONFIG_ZONES_LIST)"
+            {{- end }}
           ports:
             - name: http
               containerPort: 8080

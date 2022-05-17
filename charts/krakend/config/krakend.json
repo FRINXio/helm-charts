@@ -1,0 +1,65 @@
+{
+  "version": 2,
+  "name": "krakend for FM",
+  "port": 8080,
+  "cache_ttl": "3600s",
+  "tls": {
+    "public_key": "/home/krakend/frinx_krakend_tls_cert.pem",
+    "private_key": "/home/krakend/frinx_krakend_tls_key.pem",
+    "disabled": {{ env "TLS_DISABLED" }}
+  },
+  "timeout": "2m",
+  "plugin": {
+    "pattern": ".so",
+    "folder": "/usr/local/lib/krakend/"
+  },
+  "extra_config": {
+    "github_com/devopsfaith/krakend/transport/http/server/handler": {
+      "name": "krakend-azure-plugin"
+    }, 
+    "github_com/devopsfaith/krakend-cors": {
+      "allow_origins": [
+        "*"
+      ],
+      "allow_methods": [
+        "GET",
+        "HEAD",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "allow_credentials": true
+    },
+    "github_com/devopsfaith/krakend-gologging": {
+      "level": "INFO",
+      "prefix": "[KRAKEND]",
+      "syslog": false,
+      "stdout": true
+    },
+    "github_com/ifaisalalam/krakend-gin-logger": {
+      "enabled": true,
+      "skip_paths": ["/__health"]
+    },
+    "github_com/devopsfaith/krakend-opencensus": {
+      "exporters": {
+        "prometheus": {
+          "port": 9091,
+          "namespace": "krakend",
+          "tag_host": true,
+          "tag_path": true,
+          "tag_method": true,
+          "tag_statuscode": true
+        }
+      }
+    }
+  },
+  "endpoints": [
+    {{ template "workflow_proxy.tmpl" .workflow_proxy_settings.endpoints }},
+    {{ template "workflow_proxy_docs.tmpl" .workflow_proxy_docs_settings.endpoints }},
+    {{ template "inventory.tmpl" }},
+    {{ template "uniconfig.tmpl" .uniconfig_settings }},
+    {{ template "unistore.tmpl" .unistore_settings }},
+    {{ template "uniresource.tmpl" .uniresource_settings.endpoints }},
+    {{ template "frinx_frontend.tmpl" .frinx_frontend_settings}}
+  ]
+}

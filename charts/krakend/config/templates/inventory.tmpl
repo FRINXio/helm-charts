@@ -1,0 +1,79 @@
+{
+    "endpoint": "/api/inventory",
+    "method": "POST",
+    "output_encoding": "no-op",
+    "headers_to_pass": ["*"],
+
+    "extra_config": {
+        {{ $jwt_production := env "AUTH_ENABLED" }}
+        {{ if eq $jwt_production "true" }}
+            {{ include "jwt_config.tmpl" }}
+        {{ else if eq $jwt_production "false" }}
+            {{ include "jwt_fake_config.tmpl" }}
+        {{ end }}
+    },
+
+    "backend": [
+        {
+            "url_pattern": "/graphql",
+            "encoding": "no-op",
+            "sd": "static",
+            "disable_host_sanitize": false,
+            "extra_config": {
+                "github.com/devopsfaith/krakend-martian": {
+                    "fifo.Group": {
+                        "scope": ["request", "response"],
+                        "aggregateErrors": true,
+                        "modifiers": [
+                            {
+                                "header.Modifier": {
+                                    "scope": ["request"],
+                                    "name": "Content-Type",
+                                    "value":  "application/json"
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            "host": [
+                "inventory:8000"
+            ]
+        }
+    ]
+}, 
+{
+    "endpoint": "/api/inventory",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "headers_to_pass": ["*"],
+
+    "backend": [
+        {
+            "url_pattern": "/graphql",
+            "encoding": "no-op",
+            "sd": "static",
+            "disable_host_sanitize": false,
+            "extra_config": {
+                "github.com/devopsfaith/krakend-martian": {
+                    "fifo.Group": {
+                        "scope": ["request", "response"],
+                        "aggregateErrors": true,
+                        "modifiers": [
+                            {
+                                "header.Modifier": {
+                                    "scope": ["request"],
+                                    "name": "Content-Type",
+                                    "value":  "application/json"
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            "host": [
+                "inventory:8000"
+            ]
+        }
+    ]
+}
