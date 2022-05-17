@@ -20,6 +20,26 @@ entries:
     - https://github.com/FRINXio/helm-charts/releases/download/demo-workflows-1.0.0/demo-workflows-1.0.0.tgz
     version: 1.0.0
   frinx-frontend:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Add env variable
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/21
+    apiVersion: v2
+    appVersion: 0.1.2-gamma
+    created: "2022-05-17T13:40:11.950197583Z"
+    description: A Helm chart for Kubernetes deployment of the Frinx UI
+    digest: 3a6ddb8d919af95d657f3b69903606f9ee5bbb7c5d25526f56d140a9fcc9d733
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-frontend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-frontend-1.1.0/frinx-frontend-1.1.0.tgz
+    version: 1.1.0
   - apiVersion: v2
     appVersion: 1.0.6
     created: "2022-04-04T08:05:46.036779862Z"
@@ -477,4 +497,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/uniresource-1.0.0/uniresource-1.0.0.tgz
     version: 1.0.0
-generated: "2022-05-10T10:09:53.185963937Z"
+generated: "2022-05-17T13:40:11.950222483Z"
