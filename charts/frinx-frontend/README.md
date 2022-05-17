@@ -59,3 +59,21 @@ helm uninstall [RELEASE_NAME]
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
+
+| `env.AUTH_REDIRECT_SCHEME` | AUTH_REDIRECT_SCHEME env variable | `"http"` |
+| `env.AUTH_ENABLED` | AUTH_ENABLED env variable | `false` |
+| `env.URL_BASENAME` | URL_BASENAME env variable | `"/frinxui"` |
+| `env.UNIFLOW_ENABLED` | UNIFLOW_ENABLED env variable | `true` |
+| `env.CONDUCTOR_API_URL` | CONDUCTOR_API_URL env variable | `"/api/uniflow"` |
+| `env.UNIFLOW_API_DOCS_URL` | UNIFLOW_API_DOCS_URL env variable | `"/api/uniflow/docs"` |
+| `env.UNICONFIG_ENABLED` | UNICONFIG_ENABLED env variable | `true` |
+| `env.UNICONFIG_API_DOCS_URL` | UNICONFIG_API_DOCS_URL env variable | `"/api/uniflow/docs-uniconfig"` |
+| `env.INVENTORY_ENABLED` | INVENTORY_ENABLED env variable | `true` |
+| `env.INVENTORY_API_URL` | INVENTORY_API_URL env variable | `"/api/inventory"` |
+| `env.UNIRESOURCE_ENABLED` | UNIRESOURCE_ENABLED env variable | `true` |
+| `env.UNIRESOURCE_API_URL` | UNIRESOURCE_API_URL env variable | `"/api/uniresource"` |
+| `env.UNISTORE_API_URL` | UNISTORE_API_URL env variable | `"/api/unistore"` |
+| `env.GAMMA_ENABLED` | GAMMA_ENABLED env variable | `false` |
+| `env.AUTH_CLIENT_ID` | AUTH_CLIENT_ID env variable | `` |
+| `env.AUTH_REDIRECT_DOMAIN` | AUTH_REDIRECT_DOMAIN env variable | `localhost` |
+| `env.MSAL_AUTHORITY` | MSAL_AUTHORITY env variable | `https://login.microsoftonline.com/common/` |

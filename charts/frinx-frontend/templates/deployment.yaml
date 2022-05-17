@@ -20,13 +20,6 @@ spec:
       labels:
         {{- include "frinx-frontend.selectorLabels" . | nindent 8 }}
     spec:
-      volumes:
-        - name: config
-          configMap:
-            name: {{ template "frinx-frontend.fullname" . }}-configmap
-            items:
-            - key: config.json
-              path: config.json
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -46,12 +39,10 @@ spec:
               containerPort: 8888
               protocol: TCP
           env:
-            - name: TLS_PROTOCOL
-              value: "http"
-          volumeMounts:
-            - name: config
-              mountPath: /usr/share/nginx/html/config.json
-              subPath: config.json
+          {{- range $key, $val := .Values.env }}
+            - name: {{ $key | quote }}
+              value: {{ $val | quote }}
+          {{- end }}
           livenessProbe:
             httpGet:
               path: /
