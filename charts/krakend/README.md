@@ -62,7 +62,6 @@ helm uninstall [RELEASE_NAME]
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
-
 | `deployment.env.TLS_DISABLED` | TLS_DISABLED env variable | `true` |
 | `deployment.env.AUTH_ENABLED` | AUTH_ENABLED env variable | `false` |
 | `deployment.env.PROXY_ENABLED` | PROXY_ENABLED env variable | `false` |
@@ -79,13 +78,21 @@ helm uninstall [RELEASE_NAME]
 | `deployment.azureAuth.existingSecret` | Name for existing Secret for azure authentification | `` |
 | `deployment.azureAuth.AZURE_KRAKEND_PLUGIN_CLIENT_ID` | AZURE_KRAKEND_PLUGIN_CLIENT_ID env variable | `""` |
 | `deployment.azureAuth.AZURE_KRAKEND_PLUGIN_CLIENT_SECRET` | AZURE_KRAKEND_PLUGIN_CLIENT_SECRET env variable | `""` |
-
-
-
-| `azure.auth.enabled` | Enable azure authentication | `false` |
-| `azure.auth.clientId` | Azure cliendId | |
-| `azure.auth.clientSecret` | Azure clientSecret | |
-| `azure.auth.httpJwtPrefix` | Azure httpJwtPrefix | |
-| `azure.AKS.enabled` | Enable AKS azure deployment | `false` |
-| `azure.AKS.storage.accountName` | Azure storage account name | |
-| `azure.AKS.storage.accessKey` | Azure storage accessKey | |
+| `deployment.rbac.UNICONFIG_CONTROLLER_ADMIN_GROUP` | UNICONFIG_CONTROLLER_ADMIN_GROUP env variable | `"network-admin"` |
+| `deployment.rbac.UNISTORE_CONTROLLER_ADMIN_GROUP` | UNISTORE_CONTROLLER_ADMIN_GROUP env variable | `"network-admin"` |
+| `deployment.rbac.UNISTORE_BEARER_ROLE` | UNISTORE_BEARER_ROLE env variable | `""` |
+| `deployment.rbac.UNISTORE_SERVICE_ROLE` | UNISTORE_SERVICE_ROLE env variable | `""` |
+| `deployment.rbac.UNISTORE_NETWORK_ROLE` | UNISTORE_NETWORK_ROLE env variable | `""` |
+| `deployment.rbac.UNISTORE_OTHER_PERMITTED_ROLES` | UNISTORE_OTHER_PERMITTED_ROLES env variable | `""` |
+| `deployment.rbac.UNISTORE_BEARER_NODE` | UNISTORE_BEARER_NODE env variable | `"bearer"` |
+| `deployment.rbac.UNISTORE_SERVICE_NODE` | UNISTORE_SERVICE_NODE env variable | `"service"` |
+| `deployment.rbac.UNISTORE_NETWORK_NODE` | UNISTORE_NETWORK_NODE env variable | `"network"` |
+| `deployment.rbac.RM_ADMIN_GROUPS` | RM_ADMIN_GROUPS env variable | `"network-admin"` |
+| `deployment.rbac.RM_ADMIN_ROLES` | RM_ADMIN_ROLES env variable | `""` |
+| `deployment.rbac.ADMIN_ACCESS_ROLE` | ADMIN_ACCESS_ROLE env variable | `"network-admin"` |
+| `deployment.rbac.X_AUTH_USER_GROUP` | X_AUTH_USER_GROUP env variable | `"network-admin"` |
+| `deployment.volumes.azureFile.enabled` | Enable azureFile for config | `false` |
+| `deployment.volumes.azureFile.storage.accountName` | accountName for azure storage | `` |
+| `deployment.volumes.azureFile.storage.accessKey` | accessKey for azure storage | `` |
+| `middleware.enabled` | enable traefik middleware | `false` |
+| `middleware.stripPrefix` | stripPrefix definition | `` |
