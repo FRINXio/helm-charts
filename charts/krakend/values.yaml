@@ -40,13 +40,14 @@ service:
   targetPort: 8080
 
 ingress:
-  enabled: true
-  annotations:
-    kubernetes.io/ingress.class: traefik
-    traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
-    traefik.ingress.kubernetes.io/router.tls: "true"
-    traefik.ingress.kubernetes.io/router.tls.certresolver: "production"
-  host: "dev.services.frinx.io"
+  enabled: false
+  annotations: {}
+    # Use this annotations for traefik as ingress
+    # kubernetes.io/ingress.class: traefik
+    # traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
+    # traefik.ingress.kubernetes.io/router.tls: "true"
+    # traefik.ingress.kubernetes.io/router.tls.certresolver: "production"
+  host: "services.frinx.io"
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
