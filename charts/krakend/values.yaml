@@ -47,8 +47,6 @@ ingress:
     traefik.ingress.kubernetes.io/router.tls: "true"
     traefik.ingress.kubernetes.io/router.tls.certresolver: "production"
   host: "dev.services.frinx.io"
-  pathType: Prefix
-  path: /
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -89,8 +87,8 @@ deployment:
   azureAuth:
     enabled: false
     AZURE_LOGIN_URL: "https://login.microsoftonline.com"
-    AZURE_TENANT_NAME: ""
-    AZURE_TENANT_ID: "frinx"
+    AZURE_TENANT_NAME: "frinx"
+    AZURE_TENANT_ID: ""
     AZURE_KRAKEND_PLUGIN_JWT_VALUE_PREFIX: "Bearer"
     AZURE_KRAKEND_PLUGIN_GROUP_DISABLE: true
     # secrets
@@ -117,7 +115,3 @@ deployment:
       storage:
         accountName:
         accessKey:
-
-middleware:
-  enabled: false
-  stripPrefix:

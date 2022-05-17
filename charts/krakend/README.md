@@ -94,5 +94,3 @@ helm uninstall [RELEASE_NAME]
 | `deployment.volumes.azureFile.enabled` | Enable azureFile for config | `false` |
 | `deployment.volumes.azureFile.storage.accountName` | accountName for azure storage | |
 | `deployment.volumes.azureFile.storage.accessKey` | accessKey for azure storage | |
-| `middleware.enabled` | enable traefik middleware | `false` |
-| `middleware.stripPrefix` | stripPrefix definition | |

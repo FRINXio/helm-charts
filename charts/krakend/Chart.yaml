@@ -11,3 +11,24 @@ annotations:
   artifacthub.io/images: |
     - name: krakend
       image: frinx/krakend:1.0.2
+  artifacthub.io/changes: |
+    - kind: changed
+      description: Update ingress resource
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/20
+    - kind: added
+      description: Add env variables for authentication
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/20
+    - kind: added
+      description: Add auto generated config for krakenD
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/20
+    - kind: security
+      description: Add secrets for sensitive data
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/20
