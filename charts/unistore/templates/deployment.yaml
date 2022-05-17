@@ -1,0 +1,187 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "uniconfig.fullname" . }}
+  labels:
+    {{- include "uniconfig.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "uniconfig.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "uniconfig.selectorLabels" . | nindent 8 }}
+    spec:
+      volumes:
+        {{- if .Values.azure.AKS.enabled }}
+        - name: config
+          azureFile:
+            secretName: storage-secret
+            shareName: frinxmachine-configs/uniconfig
+            readOnly: false
+        {{- end }}
+        - name: frinx-uniconfig-controller-logs
+          emptyDir: {}
+        {{- if .Values.uniconfigCacheFolderPath }}
+        - name: frinx-uniconfig-controller-cache
+          hostPath:
+            path: {{ .Values.uniconfigCacheFolderPath }}
+        {{- end }}
+        - name: uniconfig-script
+          configMap:
+            name: {{ template "uniconfig.fullname" . }}-configmap-uniconfig-script
+            defaultMode: 0777
+            items:
+            - key: run_uniconfig.sh
+              path: run_uniconfig.sh
+        - name: logback
+          configMap:
+            name: {{ template "uniconfig.fullname" . }}-configmap-logback
+            defaultMode: 0777
+            items:
+            - key: logback.xml
+              path: logback.xml
+        - name: lighty-uniconfig-config
+          configMap:
+            name: {{ template "uniconfig.fullname" . }}-configmap-lighty-uniconfig-config
+            defaultMode: 0777
+            items:
+            - key: lighty-uniconfig-config.json
+              path: lighty-uniconfig-config.json
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "uniconfig.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+      {{ if .Values.dbPersistence.connection_databaseLocations_host }}
+        - name: check-db-ready
+          image: postgres:alpine
+          command: ['sh', '-c',
+            "until pg_isready -h {{ .Values.dbPersistence.connection_databaseLocations_host }} -p 5432;
+            do echo waiting for database; sleep 2; done;"]
+      {{ else }}
+        - name: check-db-ready
+          image: postgres:alpine
+          command: ['sh', '-c',
+            "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432;
+            do echo waiting for database; sleep 2; done;"]
+      {{ end }}      
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          # {{- if .Values.azure.AKS.enabled }}
+          # command: ["/bin/sh","-c"]
+          # args: ["cp -r /mnt/config_files/. /opt/uniconfig-frinx/config/; /opt/uniconfig-frinx/run_uniconfig.sh -f -l {{ .Values.license }}"]
+          # {{- end }}
+          args: ["-f", "-l", "{{ .Values.license }}"]
+          env:
+            - name: CONTAINER_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: PROXY_ENABLED
+              value: {{ .Values.proxy.enabled | quote }}
+            - name: HTTP_PROXY
+              value: {{ .Values.proxy.http_proxy | quote }}
+            - name: HTTPS_PROXY
+              value: {{ .Values.proxy.https_proxy | quote }}
+            - name: NO_PROXY
+              value: {{ .Values.proxy.no_proxy | quote }}
+            - name: JAVA_MAX_MEM
+              value: {{ .Values.java.max_mem | quote }}
+            - name: _JAVA_OPTIONS
+              value: jdbc:postgresql:$(DB_URL_HOSTNAME):$(DB_URL_PORT)/$(DB_URL_DBNAME)
+              value: "-Xmx$(JAVA_MAX_MEM) -XX:+AlwaysPreTouch -Djna.nosys=true -XX:+CrashOnOutOfMemoryError -XX:MaxGCPauseMillis=200 -Xlog:gc:/opt/uniconfig-frinx/log/gc-$(CONTAINER_ID).log:tags,time,uptime,level:filecount=10,filesize=5M -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeRSetStatsPeriod=1"
+            - name: dbPersistence_enabled
+              value: {{ .Values.dbPersistence.enabled | quote }}
+            - name: dbPersistence_connection_dbName
+              value: {{ .Values.dbPersistence.connection_dbName }}
+            - name: dbPersistence_connection_username
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "uniconfig.secretName" . }}
+                  key: dbPersistence_connection_username
+            - name: dbPersistence_connection_password
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "uniconfig.secretName" . }}
+                  key: dbPersistence_connection_password
+              {{- if and (eq .Values.postgresql.enabled true) (not .Values.dbPersistence.connection_databaseLocations_host) }}
+            - name: dbPersistence_connection_databaseLocations_host
+              value: "{{ .Release.Name }}-postgresql"
+              {{ else }}
+            - name: dbPersistence_connection_databaseLocations_host
+              value: {{ .Values.dbPersistence.connection_databaseLocations_host }}
+              {{ end }}
+            - name: dbPersistence_connection_databaseLocations_port
+              value: {{ .Values.dbPersistence.connection_databaseLocations_port | quote }}
+          volumeMounts:
+          - name: frinx-uniconfig-controller-logs
+            mountPath: /opt/uniconfig-frinx/log
+          {{- if .Values.uniconfigCacheFolderPath }}
+          - name: frinx-uniconfig-controller-cache
+            mountPath: /opt/uniconfig-frinx/cache
+          {{- end}}
+          - name: uniconfig-script
+            mountPath: /opt/uniconfig-frinx/run_uniconfig.sh
+            subPath: run_uniconfig.sh
+          - name: logback
+            mountPath: /opt/uniconfig-frinx/config/logback.xml
+            subPath: logback.xml
+          - name: lighty-uniconfig-config
+            mountPath: /opt/uniconfig-frinx/config/lighty-uniconfig-config.json
+            subPath: lighty-uniconfig-config.json
+          #   - name: config
+          #     mountPath: {{ .Values.mountPath }}
+          #   - name: cache
+          #     mountPath: "/opt/uniconfig-frinx/cache"
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - 'curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST localhost:8181/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"'
+            initialDelaySeconds: 120
+            timeoutSeconds: 35
+            failureThreshold: 5
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - 'curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST localhost:8181/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"'
+            initialDelaySeconds: 120
+            timeoutSeconds: 35
+            failureThreshold: 5
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
