@@ -5,28 +5,28 @@ FRINX KrakenD API Gateway for FRINX-machine
 
 ## Get Repo Info
 
-` ``console
+```console
 helm repo add frinx https://FRINXio.github.io/helm-charts
 helm repo update
-` ``
+```
 
 ## Install Chart
 
-` ``console
+```console
 helm install [RELEASE_NAME] frinx/krakend
-` ``
+```
 
 ## Upgrading Chart
 
-` ``console
+```console
 helm upgrade [RELEASE_NAME] frinx/krakend
-` ``
+```
 
 ## Uninstall Chart
 
-` ``console
+```console
 helm uninstall [RELEASE_NAME]
-` ``
+```
 
 ## Configuration
 
@@ -65,9 +65,9 @@ helm uninstall [RELEASE_NAME]
 | `deployment.env.TLS_DISABLED` | TLS_DISABLED env variable | `true` |
 | `deployment.env.AUTH_ENABLED` | AUTH_ENABLED env variable | `false` |
 | `deployment.env.PROXY_ENABLED` | PROXY_ENABLED env variable | `false` |
-| `deployment.env.HTTP_PROXY` | HTTP_PROXY env variable | ` ` |
-| `deployment.env.HTTPS_PROXY` | HTTPS_PROXY env variable | ` ` |
-| `deployment.env.NO_PROXY` | NO_PROXY env variable | ` ` |
+| `deployment.env.HTTP_PROXY` | HTTP_PROXY env variable | `` |
+| `deployment.env.HTTPS_PROXY` | HTTPS_PROXY env variable | `` |
+| `deployment.env.NO_PROXY` | NO_PROXY env variable | `` |
 | `deployment.env.UNICONFIG_ZONES_LIST` | UNICONFIG_ZONES_LIST env variable | `"uniconfig"` |
 | `deployment.azureAuth.enabled` | Enabled azure authentication | `false` |
 | `deployment.azureAuth.AZURE_LOGIN_URL` | AZURE_LOGIN_URL env variable | `"https://login.microsoftonline.com"` |
@@ -75,7 +75,7 @@ helm uninstall [RELEASE_NAME]
 | `deployment.azureAuth.AZURE_TENANT_ID` | AZURE_TENANT_ID env variable | `"frinx"` |
 | `deployment.azureAuth.AZURE_KRAKEND_PLUGIN_JWT_VALUE_PREFIX` | AZURE_KRAKEND_PLUGIN_JWT_VALUE_PREFIX env variable | `"Bearer"` |
 | `deployment.azureAuth.AZURE_KRAKEND_PLUGIN_GROUP_DISABLE` | AZURE_KRAKEND_PLUGIN_GROUP_DISABLE env variable | `true` |
-| `deployment.azureAuth.existingSecret` | Name for existing Secret for azure authentication | ` ` |
+| `deployment.azureAuth.existingSecret` | Name for existing Secret for azure authentication | `` |
 | `deployment.azureAuth.AZURE_KRAKEND_PLUGIN_CLIENT_ID` | AZURE_KRAKEND_PLUGIN_CLIENT_ID env variable | `""` |
 | `deployment.azureAuth.AZURE_KRAKEND_PLUGIN_CLIENT_SECRET` | AZURE_KRAKEND_PLUGIN_CLIENT_SECRET env variable | `""` |
 | `deployment.rbac.UNICONFIG_CONTROLLER_ADMIN_GROUP` | UNICONFIG_CONTROLLER_ADMIN_GROUP env variable | `"network-admin"` |
@@ -92,7 +92,7 @@ helm uninstall [RELEASE_NAME]
 | `deployment.rbac.ADMIN_ACCESS_ROLE` | ADMIN_ACCESS_ROLE env variable | `"network-admin"` |
 | `deployment.rbac.X_AUTH_USER_GROUP` | X_AUTH_USER_GROUP env variable | `"network-admin"` |
 | `deployment.volumes.azureFile.enabled` | Enable azureFile for config | `false` |
-| `deployment.volumes.azureFile.storage.accountName` | accountName for azure storage | ` ` |
-| `deployment.volumes.azureFile.storage.accessKey` | accessKey for azure storage | ` ` |
+| `deployment.volumes.azureFile.storage.accountName` | accountName for azure storage | `` |
+| `deployment.volumes.azureFile.storage.accessKey` | accessKey for azure storage | `` |
 | `middleware.enabled` | enable traefik middleware | `false` |
-| `middleware.stripPrefix` | stripPrefix definition | ` ` |
+| `middleware.stripPrefix` | stripPrefix definition | `` |
