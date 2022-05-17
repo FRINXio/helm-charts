@@ -69,13 +69,13 @@ helm uninstall [RELEASE_NAME]
 | `deployment.env.HTTPS_PROXY` | HTTPS_PROXY env variable | `` |
 | `deployment.env.NO_PROXY` | NO_PROXY env variable | `` |
 | `deployment.env.UNICONFIG_ZONES_LIST` | UNICONFIG_ZONES_LIST env variable | `"uniconfig"` |
-| `deployment.azureAuth.enabled` | Enabled azure authentification | `false` |
+| `deployment.azureAuth.enabled` | Enabled azure authentication | `false` |
 | `deployment.azureAuth.AZURE_LOGIN_URL` | AZURE_LOGIN_URL env variable | `"https://login.microsoftonline.com"` |
 | `deployment.azureAuth.AZURE_TENANT_NAME` | AZURE_TENANT_NAME env variable | `""` |
 | `deployment.azureAuth.AZURE_TENANT_ID` | AZURE_TENANT_ID env variable | `"frinx"` |
 | `deployment.azureAuth.AZURE_KRAKEND_PLUGIN_JWT_VALUE_PREFIX` | AZURE_KRAKEND_PLUGIN_JWT_VALUE_PREFIX env variable | `"Bearer"` |
 | `deployment.azureAuth.AZURE_KRAKEND_PLUGIN_GROUP_DISABLE` | AZURE_KRAKEND_PLUGIN_GROUP_DISABLE env variable | `true` |
-| `deployment.azureAuth.existingSecret` | Name for existing Secret for azure authentification | `` |
+| `deployment.azureAuth.existingSecret` | Name for existing Secret for azure authentication | `` |
 | `deployment.azureAuth.AZURE_KRAKEND_PLUGIN_CLIENT_ID` | AZURE_KRAKEND_PLUGIN_CLIENT_ID env variable | `""` |
 | `deployment.azureAuth.AZURE_KRAKEND_PLUGIN_CLIENT_SECRET` | AZURE_KRAKEND_PLUGIN_CLIENT_SECRET env variable | `""` |
 | `deployment.rbac.UNICONFIG_CONTROLLER_ADMIN_GROUP` | UNICONFIG_CONTROLLER_ADMIN_GROUP env variable | `"network-admin"` |
