@@ -3,7 +3,14 @@ name: frinx-frontend
 description: A Helm chart for Kubernetes deployment of the Frinx UI
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 1.0.0
-appVersion: "1.0.6"
+version: 1.1.0
+appVersion: "0.1.2-gamma"
 maintainers:
   - name: FRINX
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Add env variable
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/21
