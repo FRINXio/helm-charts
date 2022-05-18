@@ -3,7 +3,7 @@ name: krakend
 description: FRINX KrakenD API Gateway for FRINX-machine
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 2.0.0
+version: 2.0.1
 appVersion: "1.0.2"
 maintainers:
   - name: FRINX
@@ -12,23 +12,8 @@ annotations:
     - name: krakend
       image: frinx/krakend:1.0.2
   artifacthub.io/changes: |
-    - kind: changed
-      description: Update ingress resource
+    - kind: fix
+      description: Add default tenant id
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/20
-    - kind: added
-      description: Add env variables for authentication
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/20
-    - kind: added
-      description: Add auto generated config for krakenD
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/20
-    - kind: security
-      description: Add secrets for sensitive data
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/20
+          url: https://github.com/FRINXio/helm-charts/pull/24
