@@ -69,7 +69,7 @@ helm uninstall [RELEASE_NAME]
 | `deployment.env.UNICONFIG_ZONES_LIST` | UNICONFIG_ZONES_LIST env variable | `"uniconfig"` |
 | `deployment.azureAuth.enabled` | Enabled azure authentication | `false` |
 | `deployment.azureAuth.AZURE_LOGIN_URL` | AZURE_LOGIN_URL env variable | `"https://login.microsoftonline.com"` |
-| `deployment.azureAuth.AZURE_TENANT_NAME` | AZURE_TENANT_NAME env variable | `""` |
+| `deployment.azureAuth.AZURE_TENANT_NAME` | AZURE_TENANT_NAME env variable | `"frinx"` |
 | `deployment.azureAuth.AZURE_TENANT_ID` | AZURE_TENANT_ID env variable | `"frinx"` |
 | `deployment.azureAuth.AZURE_KRAKEND_PLUGIN_JWT_VALUE_PREFIX` | AZURE_KRAKEND_PLUGIN_JWT_VALUE_PREFIX env variable | `"Bearer"` |
 | `deployment.azureAuth.AZURE_KRAKEND_PLUGIN_GROUP_DISABLE` | AZURE_KRAKEND_PLUGIN_GROUP_DISABLE env variable | `true` |

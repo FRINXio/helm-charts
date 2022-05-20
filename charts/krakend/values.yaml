@@ -89,7 +89,7 @@ deployment:
     enabled: false
     AZURE_LOGIN_URL: "https://login.microsoftonline.com"
     AZURE_TENANT_NAME: "frinx"
-    AZURE_TENANT_ID: ""
+    AZURE_TENANT_ID: "frinx"
     AZURE_KRAKEND_PLUGIN_JWT_VALUE_PREFIX: "Bearer"
     AZURE_KRAKEND_PLUGIN_GROUP_DISABLE: true
     # secrets
