@@ -68,6 +68,8 @@ spec:
               value: {{ .Values.env.RUN_TESTTOOLS | quote }}
             - name: "X_TENANT_ID"
               value: {{ .Values.env.X_TENANT_ID | quote }}
+            - name: "X_AUTH_USER_GROUP"
+              value: {{ .Values.env.X_AUTH_USER_GROUP | quote }}
           ports:
             - name: http
               containerPort: 80

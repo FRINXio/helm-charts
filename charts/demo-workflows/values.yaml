@@ -93,3 +93,4 @@ env:
   INSTANCES_TO_SIMULATE: ""
   RUN_TESTTOOLS: "./scripts/run_netconf_devices/run_netconf_testtool.sh & ./scripts/run_cli_devices/run_devices_docker.sh"
   X_TENANT_ID: frinx
+  X_AUTH_USER_GROUP: network-admin
