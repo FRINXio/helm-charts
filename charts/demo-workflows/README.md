@@ -69,3 +69,4 @@ helm uninstall [RELEASE_NAME]
 | `env.INSTANCES_TO_SIMULATE` | INSTANCES_TO_SIMULATE env variable | `""` |
 | `env.RUN_TESTTOOLS` | RUN_TESTTOOLS env variable | `"./scripts/run_netconf_devices/run_netconf_testtool.sh & ./scripts/run_cli_devices/run_devices_docker.sh"` |
 | `env.X_TENANT_ID` | X_TENANT_ID env variable | `frinx` |
+| `env.X_AUTH_USER_GROUP` | X_AUTH_USER_GROUP env variable | `network-admin` |
