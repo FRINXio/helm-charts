@@ -105,6 +105,7 @@ env:
   CONDUCTOR_ELASTICSEARCH_URL: http://elasticsearch-master-headless:9200
 
 proxyEnv:
+  AUTH_ENABLED: false
   OAUTH2_AUTH_URL: "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
   OAUTH2_TOKEN_URL: "/api/uniflow/docs/token"
   ADMIN_ACCESS_ROLE: "network-admin"

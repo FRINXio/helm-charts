@@ -81,6 +81,7 @@ helm uninstall [RELEASE_NAME]
 | `env.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_USERNAME` | CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_USERNAME env value | `postgres` |
 | `env.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_PASSWORD` | CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_PASSWORD env value | `postgres` |
 | `env.CONDUCTOR_ELASTICSEARCH_URL` | CONDUCTOR_ELASTICSEARCH_URL env value | `http://elasticsearch-master-headless:9200` |
+| `proxyEnv.AUTH_ENABLED` | AUTH_ENABLED env value | `false` |
 | `proxyEnv.OAUTH2_AUTH_URL` | OAUTH2_AUTH_URL env value | `"https://login.microsoftonline.com/common/oauth2/v2.0/authorize"` |
 | `proxyEnv.OAUTH2_TOKEN_URL` | OAUTH2_TOKEN_URL env value | `"/api/uniflow/docs/token"` |
 | `proxyEnv.ADMIN_ACCESS_ROLE` | ADMIN_ACCESS_ROLE env value | `"network-admin"` |
