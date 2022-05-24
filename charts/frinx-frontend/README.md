@@ -74,6 +74,6 @@ helm uninstall [RELEASE_NAME]
 | `env.UNIRESOURCE_API_URL` | UNIRESOURCE_API_URL env variable | `"/api/uniresource"` |
 | `env.UNISTORE_API_URL` | UNISTORE_API_URL env variable | `"/api/unistore"` |
 | `env.GAMMA_ENABLED` | GAMMA_ENABLED env variable | `false` |
-| `env.AUTH_CLIENT_ID` | AUTH_CLIENT_ID env variable | `` |
+| `env.AUTH_CLIENT_ID` | AUTH_CLIENT_ID env variable | `"frinx"` |
 | `env.AUTH_REDIRECT_DOMAIN` | AUTH_REDIRECT_DOMAIN env variable | `localhost` |
 | `env.MSAL_AUTHORITY` | MSAL_AUTHORITY env variable | `https://login.microsoftonline.com/common/` |

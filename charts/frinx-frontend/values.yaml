@@ -93,6 +93,6 @@ env:
   UNIRESOURCE_API_URL: "/api/uniresource"
   UNISTORE_API_URL: "/api/unistore"
   GAMMA_ENABLED: false
-  AUTH_CLIENT_ID:
+  AUTH_CLIENT_ID: "frinx"
   AUTH_REDIRECT_DOMAIN: localhost
   MSAL_AUTHORITY: https://login.microsoftonline.com/common/
