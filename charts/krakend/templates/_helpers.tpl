@@ -60,3 +60,23 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Return true if a secret object should be created
+*/}}
+{{- define "krakend.createSecret" -}}
+{{- if and (not .Values.deployment.azureAuth.existingSecret) (.Values.deployment.azureAuth.enabled) -}}
+    {{- true -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Get the password secret.
+*/}}
+{{- define "krakend.secretName" -}}
+{{- if .Values.deployment.azureAuth.existingSecret }}
+    {{- printf "%s" (tpl .Values.deployment.azureAuth.existingSecret $) -}}
+{{- else -}}
+    {{- printf "%s-azure-auth"  (include "krakend.fullname" .) -}}
+{{- end -}}
+{{- end -}}
