@@ -109,12 +109,12 @@ spec:
             - name: AZURE_KRAKEND_PLUGIN_CLIENT_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "uniconfig.secretName" . }}
+                  name: {{ include "krakend.secretName" . }}
                   key: AZURE_KRAKEND_PLUGIN_CLIENT_ID
             - name: AZURE_KRAKEND_PLUGIN_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "uniconfig.secretName" . }}
+                  name: {{ include "krakend.secretName" . }}
                   key: AZURE_KRAKEND_PLUGIN_CLIENT_SECRET
             {{- end }}
             # RBAC - UNICONFIG
