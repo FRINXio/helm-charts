@@ -1,6 +1,31 @@
 apiVersion: v1
 entries:
   demo-workflows:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Add X_AUTH_USER_GROUP env variable
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/26
+    apiVersion: v2
+    appVersion: 1.9.1
+    created: "2022-05-24T09:58:01.390127297Z"
+    dependencies:
+    - condition: sample-topology.enabled
+      name: sample-topology
+      repository: https://FRINXio.github.io/helm-charts
+      version: 1.x.x
+    description: A Helm chart for the Frinx Machine demo workflows
+    digest: 3fbf2c08ecc5c2811146a93679663706c93edcb30f1890a2793f59512cfbb710
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: demo-workflows
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/demo-workflows-1.1.0/demo-workflows-1.1.0.tgz
+    version: 1.1.0
   - apiVersion: v2
     appVersion: 1.9.1
     created: "2022-04-22T09:25:47.674987077Z"
@@ -558,4 +583,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/uniresource-1.0.0/uniresource-1.0.0.tgz
     version: 1.0.0
-generated: "2022-05-20T09:39:53.16755817Z"
+generated: "2022-05-24T09:58:01.390462616Z"
