@@ -12,7 +12,7 @@ annotations:
     - name: krakend
       image: frinx/krakend:1.0.2
   artifacthub.io/changes: |
-    - kind: fix
+    - kind: fixed
       description: Add default tenant id
       links:
         - name: GitHub PR
