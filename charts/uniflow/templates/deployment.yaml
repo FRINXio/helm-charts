@@ -81,6 +81,14 @@ spec:
           env:
             - name: "PROXY_TARGET"
               value: http://localhost:8080
+            - name: OAUTH2
+              value: {{ .Values.proxyEnv.AUTH_ENABLED | quote }}
+            - name: OAUTH2_AUTH_URL
+              value: {{ .Values.proxyEnv.OAUTH2_AUTH_URL | quote }}
+            - name: OAUTH2_TOKEN_URL
+              value: {{ .Values.proxyEnv.OAUTH2_TOKEN_URL | quote }}
+            - name: ADMIN_ACCESS_ROLE
+              value: {{ .Values.proxyEnv.ADMIN_ACCESS_ROLE | quote }}
         # conductor
         - name: {{ .Chart.Name }}
           securityContext:
