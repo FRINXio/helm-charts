@@ -193,6 +193,29 @@ entries:
   krakend:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Fix existingSecret variable
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/29
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:1.0.2
+    apiVersion: v2
+    appVersion: 1.0.2
+    created: "2022-05-25T06:21:18.091018482Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: acc2ad81ee3d3ae7e5d5a57541b1aa1b940fb00deb2424169341c385d0892527
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-2.0.2/krakend-2.0.2.tgz
+    version: 2.0.2
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fix
           description: Add default tenant id
           links:
@@ -619,4 +642,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/uniresource-1.0.0/uniresource-1.0.0.tgz
     version: 1.0.0
-generated: "2022-05-24T10:57:43.136587594Z"
+generated: "2022-05-25T06:21:18.091062782Z"
