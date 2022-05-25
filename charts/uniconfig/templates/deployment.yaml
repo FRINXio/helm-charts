@@ -83,11 +83,12 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          # {{- if .Values.azure.AKS.enabled }}
-          # command: ["/bin/sh","-c"]
-          # args: ["cp -r /mnt/config_files/. /opt/uniconfig-frinx/config/; /opt/uniconfig-frinx/run_uniconfig.sh -f -l {{ .Values.license }}"]
-          # {{- end }}
+          {{- if .Values.uniconfigCacheFolderPath }}
+          command: ["/bin/sh","-c"]
+          args: ["cp -r /mnt/cache/. /opt/uniconfig-frinx/cache; /opt/uniconfig-frinx/run_uniconfig.sh -f -l {{ .Values.license }}"]
+          {{- else }}
           args: ["-f", "-l", "{{ .Values.license }}"]
+          {{- end }}
           env:
             - name: CONTAINER_ID
               valueFrom:
@@ -134,7 +135,7 @@ spec:
             mountPath: /opt/uniconfig-frinx/log
           {{- if .Values.uniconfigCacheFolderPath }}
           - name: frinx-uniconfig-controller-cache
-            mountPath: /opt/uniconfig-frinx/cache
+            mountPath: /mnt/cache/
           {{- end}}
           - name: uniconfig-script
             mountPath: /opt/uniconfig-frinx/run_uniconfig.sh
