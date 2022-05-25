@@ -45,6 +45,17 @@ service:
   type: ClusterIP
   port: 8181
   loadBalancerIP:
+  extraService:
+    enabled: false
+    name: unistore
+    annotations: {}
+    # Use this annotations for traefik as ingress
+    # traefik.ingress.kubernetes.io/service.sticky.cookie: "true"
+    # traefik.ingress.kubernetes.io/service.sticky.cookie.name: uniconfig_server_id
+    # traefik.ingress.kubernetes.io/service.passhostheader: "true"
+    type: ClusterIP
+    port: 8181
+    loadBalancerIP:
 
 ingress:
   enabled: false

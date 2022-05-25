@@ -46,7 +46,12 @@ helm uninstall [RELEASE_NAME]
 | `securityContext` | Deployment securityContext | `{}` |
 | `service.annotations` | Annotations for service resource | `{}` |
 | `service.type` | Kubernetes service type | `ClusterIP` |
-| `service.port` | Kubernetes port where workflow-proxy is exposed | `8181` |
+| `service.port` | Kubernetes port of service | `8181` |
+| `service.extraService.enabled` | Enable extra service | `disable` |
+| `service.extraService.name` | Name of extra service | `unistore` |
+| `service.extraService.annotations` | Annotations for extra service resource | `{}` |
+| `service.extraService.type` | Kubernetes extra service type | `ClusterIP` |
+| `service.extraService.port` | Kubernetes port of extra service | `8181` |
 | `ingress.enabled` | Enables Ingress | `false` |
 | `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
 | `ingress.path` | Path for service  | `/` |
