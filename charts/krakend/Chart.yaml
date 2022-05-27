@@ -18,7 +18,7 @@ annotations:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/31
     - kind: added
-      description: Updated config for krakend 
+      description: Updated config for krakend
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/31
