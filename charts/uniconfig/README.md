@@ -47,11 +47,6 @@ helm uninstall [RELEASE_NAME]
 | `service.annotations` | Annotations for service resource | `{}` |
 | `service.type` | Kubernetes service type | `ClusterIP` |
 | `service.port` | Kubernetes port of service | `8181` |
-| `service.extraService.enabled` | Enable extra service | `disable` |
-| `service.extraService.name` | Name of extra service | `unistore` |
-| `service.extraService.annotations` | Annotations for extra service resource | `{}` |
-| `service.extraService.type` | Kubernetes extra service type | `ClusterIP` |
-| `service.extraService.port` | Kubernetes port of extra service | `8181` |
 | `ingress.enabled` | Enables Ingress | `false` |
 | `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
 | `ingress.path` | Path for service  | `/` |
@@ -89,4 +84,6 @@ helm uninstall [RELEASE_NAME]
 | `postgresql.auth.password` | Password for the custom user to create | `postgresP` |
 | `postgresql.auth.database` | Name for a custom database to create | `conductor` |
 | `postgresql.architecture` | PostgreSQL architecture (`standalone` or `replication`) | `standalone` |
+| `traefikExtraService.enabled` | Enable extra service for traefik | `true` |
+| `traefikExtraService.name` | Name for extra service for traefik | `"unistore"` |
 | `traefik.enabled` | Switch to enable or disable the traefik helm chart | `false` |

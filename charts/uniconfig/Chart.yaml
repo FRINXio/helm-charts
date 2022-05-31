@@ -29,3 +29,8 @@ annotations:
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/30
+    - kind: changed
+      description: Enable traefik subchart
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/30
