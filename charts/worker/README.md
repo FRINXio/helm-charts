@@ -32,7 +32,7 @@ helm uninstall [RELEASE_NAME]
 | Parameter | Description | Default |
 |-----------|-------------|---------|
 | `replicaCount` | Number of nodes | `1` |
-| `image.repository` | Image repository | `frinx/worker` |
+| `image.repository` | Image repository | `frinx/demo-workflows` |
 | `image.pullPolicy` | Image pull policy | `IfNotPresent` |
 | `image.tag` | Image tag | `""` |
 | `imagePullSecrets` | Image pull secrets | `[]` |
