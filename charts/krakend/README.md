@@ -87,6 +87,7 @@ helm uninstall [RELEASE_NAME]
 | `deployment.rbac.UNISTORE_NETWORK_NODE` | UNISTORE_NETWORK_NODE env variable | `"network"` |
 | `deployment.rbac.RM_ADMIN_GROUPS` | RM_ADMIN_GROUPS env variable | `"network-admin"` |
 | `deployment.rbac.RM_ADMIN_ROLES` | RM_ADMIN_ROLES env variable | `""` |
+| `deployment.rbac.INVENTORY_ADMIN_GROUP` | INVENTORY_ADMIN_GROUP env variable | `"network-admin"` |
 | `deployment.rbac.ADMIN_ACCESS_ROLE` | ADMIN_ACCESS_ROLE env variable | `"network-admin"` |
 | `deployment.rbac.X_AUTH_USER_GROUP` | X_AUTH_USER_GROUP env variable | `"network-admin"` |
 | `deployment.volumes.azureFile.enabled` | Enable azureFile for config | `false` |

@@ -108,6 +108,7 @@ deployment:
     UNISTORE_NETWORK_NODE: "network"
     RM_ADMIN_GROUPS: "network-admin"
     RM_ADMIN_ROLES: ""
+    INVENTORY_ADMIN_GROUP: "network-admin"
     ADMIN_ACCESS_ROLE: "network-admin"
     X_AUTH_USER_GROUP: "network-admin"
   volumes:
