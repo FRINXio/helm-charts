@@ -86,7 +86,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.uniconfigCacheFolderPath }}
           command: ["/bin/sh","-c"]
-          args: ["cp -r /mnt/cache/. /opt/uniconfig-frinx/cache; /opt/uniconfig-frinx/run_uniconfig.sh -f -l {{ .Values.license }}"]
+          args: ["/opt/uniconfig-frinx/run_uniconfig.sh -f -l {{ .Values.license }}"]
           {{- else }}
           args: ["-f", "-l", "{{ .Values.license }}"]
           {{- end }}
@@ -136,7 +136,7 @@ spec:
             mountPath: /opt/uniconfig-frinx/log
           {{- if .Values.uniconfigCacheFolderPath }}
           - name: frinx-uniconfig-controller-cache
-            mountPath: /mnt/cache/
+            mountPath: {{ .Values.mountCachePath }}
           {{- end}}
           - name: uniconfig-script
             mountPath: /opt/uniconfig-frinx/run_uniconfig.sh
