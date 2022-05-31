@@ -47,7 +47,7 @@ helm uninstall [RELEASE_NAME]
 | `service.annotations` | Annotations for service resource | `{}` |
 | `service.type` | Kubernetes service type | `ClusterIP` |
 | `service.port` | Kubernetes port of service | `8181` |
-| `ingress.enabled` | Enables Ingress | `false` |
+| `ingress.enabled` | Enables Ingress | `true` |
 | `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
 | `ingress.path` | Path for service  | `/` |
 | `ingress.pathType` | Path type variable | `Prefix` |
@@ -86,4 +86,4 @@ helm uninstall [RELEASE_NAME]
 | `postgresql.architecture` | PostgreSQL architecture (`standalone` or `replication`) | `standalone` |
 | `traefikExtraService.enabled` | Enable extra service for traefik | `true` |
 | `traefikExtraService.name` | Name for extra service for traefik | `"unistore"` |
-| `traefik.enabled` | Switch to enable or disable the traefik helm chart | `false` |
+| `traefik.enabled` | Switch to enable or disable the traefik helm chart | `true` |
