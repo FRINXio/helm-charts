@@ -12,7 +12,7 @@ image:
 
 imagePullSecrets: []
 nameOverride: ""
-fullnameOverride: ""
+fullnameOverride: "uniconfig-controller"
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -37,33 +37,23 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  annotations: {}
+  annotations:
     # Use this annotations for traefik as ingress
-    # traefik.ingress.kubernetes.io/service.sticky.cookie: "true"
-    # traefik.ingress.kubernetes.io/service.sticky.cookie.name: uniconfig_server_id
-    # traefik.ingress.kubernetes.io/service.passhostheader: "true"
+    traefik.ingress.kubernetes.io/service.sticky.cookie: "true"
+    traefik.ingress.kubernetes.io/service.sticky.cookie.name: uniconfig_server_id
+    traefik.ingress.kubernetes.io/service.passhostheader: "true"
   type: ClusterIP
   port: 8181
   loadBalancerIP:
-  extraService:
-    enabled: false
-    name: unistore
-    annotations: {}
-    # Use this annotations for traefik as ingress
-    # traefik.ingress.kubernetes.io/service.sticky.cookie: "true"
-    # traefik.ingress.kubernetes.io/service.sticky.cookie.name: uniconfig_server_id
-    # traefik.ingress.kubernetes.io/service.passhostheader: "true"
-    type: ClusterIP
-    port: 8181
-    loadBalancerIP:
 
 ingress:
-  enabled: false
-  annotations: {}
+  enabled: true
+  annotations:
     # Use this annotations for traefik as ingress
-    # kubernetes.io/ingress.class: traefik
+    kubernetes.io/ingress.class: traefik
   path: /
   pathType: Prefix
+  # host: skusme
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -92,7 +82,7 @@ affinity: {}
 
 license: e326aaa7b1741bb530d201c49f4311d3d0f391893e15393894a77180e6478289cd1709e4afe3a643100ccd31052430de1955540cf5ae1e510d657bd2af8ef2fc
 mountPath: "/mnt/config_files"
-uniconfigCacheFolderPath: "frinxmachine-configs/cache"
+uniconfigCacheFolderPath: ""
 
 proxy:
   enabled: false
@@ -127,5 +117,16 @@ postgresql:
     database: uniconfig
   architecture: standalone
 
+traefikExtraService:
+  enabled: true
+  name: "unistore"
+
 traefik:
-  enabled: false
+  fullnameOverride: "uniconfig"
+  enabled: true
+  ports: 
+    uniconfig:
+      port: 8181
+      expose: true
+      exposedPort: 8181
+      protocol: TCP
