@@ -117,7 +117,7 @@ postgresql:
   architecture: standalone
 
 traefikExtraService:
-  enabled: true
+  enabled: false
   name: "unistore"
 
 traefik:
