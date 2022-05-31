@@ -124,7 +124,9 @@ traefikExtraService:
 traefik:
   fullnameOverride: "uniconfig"
   enabled: true
-  ports: 
+  service:
+    type: ClusterIP
+  ports:
     uniconfig:
       port: 8181
       expose: true

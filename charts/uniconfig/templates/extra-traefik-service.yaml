@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: {{ .Values.traefikExtraService.name }}
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app.kubernetes.io/name: traefik
     app.kubernetes.io/instance: uniconfig

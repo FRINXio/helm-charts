@@ -77,7 +77,7 @@ spec:
           command: ['sh', '-c',
             "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432;
             do echo waiting for database; sleep 2; done;"]
-      {{ end }}      
+      {{ end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
