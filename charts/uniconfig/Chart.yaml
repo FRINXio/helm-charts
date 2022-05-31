@@ -25,7 +25,7 @@ annotations:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/30
     - kind: added
-      description: Add extra Service option
+      description: Add option for extra Service for traefik
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/30
