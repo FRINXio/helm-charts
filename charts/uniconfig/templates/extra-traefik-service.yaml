@@ -6,8 +6,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app.kubernetes.io/name: traefik
-    app.kubernetes.io/instance: uniconfig
+    {{- include "uniconfig.selectorLabelsForTraefik" . | nindent 4 }}
   ports:
   - port: 8181
     name: uniconfig
