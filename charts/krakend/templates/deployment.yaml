@@ -142,6 +142,9 @@ spec:
               value: {{ .Values.deployment.rbac.RM_ADMIN_GROUPS | quote }}
             - name: RM_ADMIN_ROLES
               value: {{ .Values.deployment.rbac.RM_ADMIN_ROLES | quote }}
+            # RBAC - INVENTORY
+            - name: INVENTORY_ADMIN_GROUP
+              value: {{ .Values.deployment.rbac.INVENTORY_ADMIN_GROUP | quote }}
             # RBAC - WORKFLOW_PROXY
             - name: ADMIN_ACCESS_ROLE
               value: {{ .Values.deployment.rbac.ADMIN_ACCESS_ROLE | quote }}
