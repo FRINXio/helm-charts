@@ -62,3 +62,8 @@ dependencies:
     name: grafana
     repository: "https://charts.bitnami.com/bitnami"
     version: 7.9.8
+
+  - condition: influxdb.enabled
+    name: influxdb2
+    repository: "https://helm.influxdata.com"
+    version: 2.1.0

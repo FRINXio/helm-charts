@@ -110,3 +110,29 @@ grafana:
       - name: grafana-dashboards
         mountPath: /etc/grafana/provisioning/dashboards
         readOnly: false
+
+influxdb2:
+  enabled: true
+  fullnameOverride: influxdb
+  adminUser:
+    ## @param auth.admin.username InfluxDB&trade; admin user name
+    ##
+    user: "frinx"
+    ## @param auth.admin.password InfluxDB&trade; admin user's password
+    ##
+    password: "frinx123!"
+    ## @param auth.admin.token InfluxDB&trade; admin user's token. Only valid with InfluxDB&trade; v2
+    ##
+    token: "eyJrIjoiN09MSVpVZjlVRG1xNHlLNXpVbmZJOXFLWU1GOXFxNEIiLCJuIjoic3Nzc3MiLCJpZCI6MX0"
+    ## @param auth.admin.org InfluxDB&trade; admin user's org. Only valid with InfluxDB&trade; v2
+    ##
+    organization: "frinx-machine"
+    ## @param auth.admin.bucket InfluxDB&trade; admin user's bucket. Only valid with InfluxDB&trade; v2
+    ##
+    bucket: "frinx"
+
+    retention_policy: "2d"
+
+  env:
+    - name: DOCKER_INFLUXDB_INIT_MODE
+      value: setup
