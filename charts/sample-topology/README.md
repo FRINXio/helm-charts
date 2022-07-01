@@ -63,6 +63,6 @@ helm uninstall [RELEASE_NAME]
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
-| `env.DOCKER_GWBRIDGE_IP` | DOCKER_GWBRIDGE_IP env value |  |
+| `env.DOCKER_GWBRIDGE_IP` | DOCKER_GWBRIDGE_IP env value | `"localhost"` |
 | `env.INSTANCES_TO_SIMULATE` | INSTANCES_TO_SIMULATE env value | `""` |
 | `env.RUN_TESTTOOLS` | RUN_TESTTOOLS env value | `"./scripts/run_netconf_devices/run_netconf_testtool.sh & ./scripts/run_cli_devices/run_devices_docker.sh"` |
