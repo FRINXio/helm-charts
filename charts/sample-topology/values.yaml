@@ -82,7 +82,6 @@ tolerations: []
 
 affinity: {}
 
-
 env:
   DOCKER_GWBRIDGE_IP:
   INSTANCES_TO_SIMULATE: ""
