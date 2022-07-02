@@ -136,3 +136,69 @@ influxdb2:
   env:
     - name: DOCKER_INFLUXDB_INIT_MODE
       value: setup
+
+telegraf-ds:
+  enabled: true
+  fullnameOverride: telegraf-ds
+  env:
+    - name: NAMESPACE
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.namespace
+    - name: HOSTNAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
+
+  config:
+      docker_endpoint: ""
+
+  override_config:
+    toml: |
+      [agent]
+        collection_jitter = "0s"
+        debug = false
+        flush_interval = "10s"
+        flush_jitter = "0s"
+        hostname = "$HOSTNAME"
+        interval = "10s"
+        logfile = ""
+        metric_batch_size = 1000
+        metric_buffer_limit = 10000
+        omit_hostname = false
+        precision = ""
+        quiet = false
+        round_interval = true
+
+      [[outputs.influxdb_v2]]
+        bucket = "frinx"
+        organization = "frinx-machine"
+        token = "eyJrIjoiN09MSVpVZjlVRG1xNHlLNXpVbmZJOXFLWU1GOXFxNEIiLCJuIjoic3Nzc3MiLCJpZCI6MX0"
+        urls = ["http://influxdb"]
+
+      [[outputs.health]]
+        service_address = "http://:8080"
+        
+      [[inputs.diskio]]
+      [[inputs.kernel]]
+      [[inputs.mem]]
+      [[inputs.net]]
+      [[inputs.processes]]
+      [[inputs.swap]]
+      [[inputs.system]]
+
+      [[inputs.cpu]]
+        percpu = true
+        totalcpu = true
+        collect_cpu_time = false
+        report_active = false
+
+      [[inputs.disk]]
+        ignore_fs = ["tmpfs", "devtmpfs", "devfs", "iso9660", "overlay", "aufs", "squashfs"]
+
+      [[inputs.kubernetes]]
+        url = "https://$HOSTIP:10250"
+        bearer_token = "/var/run/secrets/kubernetes.io/serviceaccount/token"
+        insecure_skip_verify = true
+        [inputs.kubernetes.tagpass]
+          namespace = [ "${NAMESPACE}" ]
