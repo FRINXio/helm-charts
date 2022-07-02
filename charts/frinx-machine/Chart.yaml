@@ -72,3 +72,8 @@ dependencies:
     name: telegraf-ds
     repository: https://helm.influxdata.com
     version: 1.1.0
+
+  - condition: loki.enabled
+    name: loki
+    repository: https://grafana.github.io/helm-charts
+    version: 2.12.2
