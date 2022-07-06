@@ -14,3 +14,8 @@ annotations:
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/34
+    - kind: added
+      description: Add extra init container option
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/34
