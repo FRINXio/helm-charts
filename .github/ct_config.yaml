@@ -16,3 +16,5 @@ excluded-charts:
   - demo-workflows
   # Insufficient resources in github action for this chart
   - frinx-machine
+  # This chart has a dependency on uniconfig, uniflow and inventory charts
+  - worker
