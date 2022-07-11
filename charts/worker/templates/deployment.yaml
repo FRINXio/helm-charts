@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "worker.fullname" . }}
+  labels:
+    {{- include "worker.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "worker.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "worker.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "worker.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: check-uniconfig-ready
+          image: curlimages/curl
+          command: ["/bin/sh","-c"]
+          args: ['while [ $(curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST {{ .Values.env.UNICONFIG_HOSTNAME }}:{{ .Values.env.UNICONFIG_PORT }}/rests/operations/uniconfig-manager:health -H "Content-Type:application/json") -ne 200 ];
+            do sleep 5; echo "waiting for uniconfig";
+            done;
+            echo "connection successful!"']
+        - name: check-uniflow-ready
+          image: curlimages/curl
+          command: ["/bin/sh","-c"]
+          args: ['while [ $(curl -o /dev/null --silent --write-out "%{http_code}" {{ .Values.env.UNIFLOW_HOSTNAME }}:{{ .Values.env.CONDUCTOR_PORT }}/health) -ne 200 ];
+            do sleep 5; echo "waiting for uniflow";
+            done;
+            echo "connection successful!"']
+        - name: check-inventory-ready
+          image: curlimages/curl
+          command: ["/bin/sh","-c"]
+          args: ['while [ $(curl -o /dev/null --silent --write-out "%{http_code}" {{ .Values.env.INVENTORY_HOSTNAME }}:{{ .Values.env.INVENTORY_PORT }}/.well-known/apollo/server-health) -ne 200 ];
+            do sleep 5; echo "waiting for inventory";
+            done;
+            echo "connection successful!"']
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          env:
+            - name: "X_TENANT_ID"
+              value: {{ .Values.env.X_TENANT_ID | quote }}
+            - name: "X_AUTH_USER_GROUP"
+              value: {{ .Values.env.X_AUTH_USER_GROUP | quote }}  
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
