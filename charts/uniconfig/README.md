@@ -64,6 +64,7 @@ helm uninstall [RELEASE_NAME]
 | `license` | License for uniconfig | |
 | `mountPath` | Mount path for uniconfig config files | |
 | `uniconfigCacheFolderPath` | Path to uniconfig cache folder | `""` |
+| `serviceName` | serviceName env variable | `"uniconfig"` |
 | `proxy.enabled` | Enable proxy for uniconfig  | `false` |
 | `proxy.http_proxy` | Http address for proxy | `false` |
 | `proxy.https_proxy` | Https address for proxy | `false` |

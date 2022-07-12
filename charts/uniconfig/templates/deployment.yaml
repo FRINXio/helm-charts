@@ -95,6 +95,8 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+            - name: SERVICE_NAME
+              value: {{ .Values.serviceName | quote }}
             - name: PROXY_ENABLED
               value: {{ .Values.proxy.enabled | quote }}
             - name: HTTP_PROXY

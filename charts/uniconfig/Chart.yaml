@@ -16,7 +16,7 @@ dependencies:
 maintainers:
   - name: FRINX
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
-appVersion: "5.0.5"
+appVersion: "5.0.9"
 annotations:
   artifacthub.io/changes: |
     - kind: fixed
@@ -31,6 +31,21 @@ annotations:
           url: https://github.com/FRINXio/helm-charts/pull/30
     - kind: changed
       description: Enable traefik subchart
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/30
+    - kind: added
+      description: Add serviceName env variable
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/30
+    - kind: changed
+      description: Update config files
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/30
+    - kind: changed
+      description: Update image version
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/30
