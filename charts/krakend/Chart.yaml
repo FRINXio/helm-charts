@@ -12,13 +12,13 @@ annotations:
     - name: krakend
       image: frinx/krakend:1.0.2
   artifacthub.io/changes: |
-    - kind: added
-      description: Add INVENTORY_ADMIN_GROUP env variable
+    - kind: changed
+      description: Update krakend config files
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/31
+          url: https://github.com/FRINXio/helm-charts/pull/35
     - kind: added
-      description: Updated config for krakend
+      description: Add KRAKEND_TLS_PROTOCOL env variable
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/31
+          url: https://github.com/FRINXio/helm-charts/pull/35
