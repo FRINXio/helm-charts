@@ -88,10 +88,10 @@ spec:
               value: "/tmp/output.json"
             - name: TLS_DISABLED
               value: {{ .Values.deployment.env.TLS_DISABLED | quote }}
+            - name: KRAKEND_TLS_PROTOCOL
+              value: {{ .Values.deployment.env.KRAKEND_TLS_PROTOCOL | quote }}
             - name: AUTH_ENABLED
               value: {{ .Values.deployment.env.AUTH_ENABLED | quote }}
-            - name: GODEBUG
-              value: "x509ignoreCN=0"
             - name: UNICONFIG_ZONES_LIST
               value: {{ .Values.deployment.env.UNICONFIG_ZONES_LIST | quote }}
             # azureAuth
