@@ -50,7 +50,7 @@ annotations:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/30
     - kind: fixed
-      description: Add namespace specific rbac configuration for traefik to prevent resource conficts
+      description: Add namespace specific rbac configuration for traefik to prevent resource conflicts
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/30
