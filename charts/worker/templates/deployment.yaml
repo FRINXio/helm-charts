@@ -61,7 +61,9 @@ spec:
             - name: "X_TENANT_ID"
               value: {{ .Values.env.X_TENANT_ID | quote }}
             - name: "X_AUTH_USER_GROUP"
-              value: {{ .Values.env.X_AUTH_USER_GROUP | quote }}  
+              value: {{ .Values.env.X_AUTH_USER_GROUP | quote }}
+            - name: "UNICONFIG_URL_BASE"
+              value: {{ .Values.env.UNICONFIG_URL_BASE | quote }}
           # livenessProbe:
           #   httpGet:
           #     path: /
