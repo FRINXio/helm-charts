@@ -80,3 +80,11 @@ Return true if a secret object should be created
     {{- true -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Selector labels
+*/}}
+{{- define "uniconfig.selectorLabelsForTraefik" -}}
+app.kubernetes.io/name: traefik
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}

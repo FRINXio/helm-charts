@@ -46,8 +46,8 @@ helm uninstall [RELEASE_NAME]
 | `securityContext` | Deployment securityContext | `{}` |
 | `service.annotations` | Annotations for service resource | `{}` |
 | `service.type` | Kubernetes service type | `ClusterIP` |
-| `service.port` | Kubernetes port where workflow-proxy is exposed | `8181` |
-| `ingress.enabled` | Enables Ingress | `false` |
+| `service.port` | Kubernetes port of service | `8181` |
+| `ingress.enabled` | Enables Ingress | `true` |
 | `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
 | `ingress.path` | Path for service  | `/` |
 | `ingress.pathType` | Path type variable | `Prefix` |
@@ -64,6 +64,7 @@ helm uninstall [RELEASE_NAME]
 | `license` | License for uniconfig | |
 | `mountPath` | Mount path for uniconfig config files | |
 | `uniconfigCacheFolderPath` | Path to uniconfig cache folder | `""` |
+| `serviceName` | serviceName env variable | `"uniconfig"` |
 | `proxy.enabled` | Enable proxy for uniconfig  | `false` |
 | `proxy.http_proxy` | Http address for proxy | `false` |
 | `proxy.https_proxy` | Https address for proxy | `false` |
@@ -84,4 +85,6 @@ helm uninstall [RELEASE_NAME]
 | `postgresql.auth.password` | Password for the custom user to create | `postgresP` |
 | `postgresql.auth.database` | Name for a custom database to create | `conductor` |
 | `postgresql.architecture` | PostgreSQL architecture (`standalone` or `replication`) | `standalone` |
-| `traefik.enabled` | Switch to enable or disable the traefik helm chart | `false` |
+| `traefikExtraService.enabled` | Enable extra service for traefik | `true` |
+| `traefikExtraService.name` | Name for extra service for traefik | `"unistore"` |
+| `traefik.enabled` | Switch to enable or disable the traefik helm chart | `true` |

@@ -22,19 +22,20 @@ spec:
     spec:
       volumes:
         {{- if .Values.azure.AKS.enabled }}
-        - name: config
+        - name: frinx-uniconfig-controller-cache
           azureFile:
             secretName: storage-secret
-            shareName: frinxmachine-configs/uniconfig
+            shareName: {{ .Values.uniconfigCacheFolderPath }}
             readOnly: false
-        {{- end }}
-        - name: frinx-uniconfig-controller-logs
-          emptyDir: {}
+        {{- else}}
         {{- if .Values.uniconfigCacheFolderPath }}
         - name: frinx-uniconfig-controller-cache
           hostPath:
             path: {{ .Values.uniconfigCacheFolderPath }}
         {{- end }}
+        {{- end }}
+        - name: frinx-uniconfig-controller-logs
+          emptyDir: {}
         - name: uniconfig-script
           configMap:
             name: {{ template "uniconfig.fullname" . }}-configmap-uniconfig-script
@@ -76,23 +77,26 @@ spec:
           command: ['sh', '-c',
             "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432;
             do echo waiting for database; sleep 2; done;"]
-      {{ end }}      
+      {{ end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          # {{- if .Values.azure.AKS.enabled }}
-          # command: ["/bin/sh","-c"]
-          # args: ["cp -r /mnt/config_files/. /opt/uniconfig-frinx/config/; /opt/uniconfig-frinx/run_uniconfig.sh -f -l {{ .Values.license }}"]
-          # {{- end }}
+          {{- if .Values.uniconfigCacheFolderPath }}
+          command: ["/bin/sh","-c"]
+          args: ["/opt/uniconfig-frinx/run_uniconfig.sh -f -l {{ .Values.license }}"]
+          {{- else }}
           args: ["-f", "-l", "{{ .Values.license }}"]
+          {{- end }}
           env:
             - name: CONTAINER_ID
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+            - name: SERVICE_NAME
+              value: {{ .Values.serviceName | quote }}
             - name: PROXY_ENABLED
               value: {{ .Values.proxy.enabled | quote }}
             - name: HTTP_PROXY
@@ -134,7 +138,7 @@ spec:
             mountPath: /opt/uniconfig-frinx/log
           {{- if .Values.uniconfigCacheFolderPath }}
           - name: frinx-uniconfig-controller-cache
-            mountPath: /opt/uniconfig-frinx/cache
+            mountPath: {{ .Values.mountCachePath }}
           {{- end}}
           - name: uniconfig-script
             mountPath: /opt/uniconfig-frinx/run_uniconfig.sh
@@ -159,18 +163,18 @@ spec:
                 - /bin/sh
                 - -c
                 - 'curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST localhost:8181/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"'
-            initialDelaySeconds: 120
+            initialDelaySeconds: 60
             timeoutSeconds: 35
-            failureThreshold: 5
+            failureThreshold: 20
           readinessProbe:
             exec:
               command:
                 - /bin/sh
                 - -c
                 - 'curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST localhost:8181/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"'
-            initialDelaySeconds: 120
+            initialDelaySeconds: 60
             timeoutSeconds: 35
-            failureThreshold: 5
+            failureThreshold: 20
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
