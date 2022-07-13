@@ -131,3 +131,5 @@ traefik:
       expose: true
       exposedPort: 8181
       protocol: TCP
+  rbac:
+    namespaced: true
