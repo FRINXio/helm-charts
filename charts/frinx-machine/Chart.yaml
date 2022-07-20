@@ -52,3 +52,8 @@ dependencies:
     name: demo-workflows
     repository: https://FRINXio.github.io/helm-charts
     version: 1.x.x
+
+  - condition: grafana.enabled
+    name: grafana-config
+    repository: "file://../grafana-config"
+    version: 1.x.x
