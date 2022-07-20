@@ -92,13 +92,13 @@ Return true if a storage secret object should be created
 {{- end -}}
 
 {{/*
-Get the password secret.
+Get storage secret name.
 */}}
 {{- define "uniconfig.storageSecretName" -}}
 {{- if .Values.azure.AKS.storage.existingSecret }}
     {{- printf "%s" (tpl .Values.azure.AKS.storage.existingSecret $) -}}
 {{- else -}}
-    {{- printf "storage-secret" -}}
+    {{- printf "%s" "storage-secret" -}}
 {{- end -}}
 {{- end -}}
 
