@@ -104,6 +104,7 @@ azure:
   AKS:
     enabled: false
     storage:
+      existingSecret:
       accountName:
       accessKey:
 
