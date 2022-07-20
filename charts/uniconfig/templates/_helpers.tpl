@@ -98,7 +98,7 @@ Get storage secret name.
 {{- if .Values.azure.AKS.storage.existingSecret }}
     {{- printf "%s" (tpl .Values.azure.AKS.storage.existingSecret $) -}}
 {{- else -}}
-    {{- printf "%s" "storage-secret" -}}
+    {{- printf "storage-secret" -}}
 {{- end -}}
 {{- end -}}
 
