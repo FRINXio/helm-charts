@@ -77,6 +77,7 @@ helm uninstall [RELEASE_NAME]
 | `dbPersistence.connection_databaseLocations_host` | Database host | `"uniconfig-postgres-postgresql"` |
 | `dbPersistence.connection_databaseLocations_port` | Database port | `"5432"` |
 | `azure.AKS.enabled` | Enable AKS azure deployment | `false` |
+| `azure.AKS.storage.existingSecret` | Use existing secrets for storage credentials | `` |
 | `azure.AKS.storage.accountName` | Azure storage account name | |
 | `azure.AKS.storage.accessKey` | Azure storage accessKey | |
 | `postgresql.enabled` | Switch to enable or disable the PostgreSQL helm chart | `true` |
