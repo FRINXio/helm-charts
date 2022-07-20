@@ -20,7 +20,7 @@ appVersion: "5.0.9"
 annotations:
   artifacthub.io/changes: |
     - kind: added
-      description: Add useExistingSecret option for storage credentials 
+      description: Add useExistingSecret option for storage credentials
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/37
