@@ -14,3 +14,8 @@ annotations:
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/40
+    - kind: changed
+      description: Update image version to 1.0.10
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/40
