@@ -4,21 +4,21 @@ description: FRINX KrakenD API Gateway for FRINX-machine
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
 version: 2.2.0
-appVersion: "1.0.3"
+appVersion: "1.0.4"
 maintainers:
   - name: FRINX
 annotations:
   artifacthub.io/images: |
     - name: krakend
-      image: frinx/krakend:1.0.3
+      image: frinx/krakend:1.0.4
   artifacthub.io/changes: |
     - kind: changed
-      description: Update krakend image version
+      description: Update krakend image version to 1.0.4
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/35
     - kind: changed
-      description: Update krakend config files
+      description: Update krakend config files for traefik:1.0.4 
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/35
@@ -27,3 +27,14 @@ annotations:
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/35
+    - kind: security
+      description: Drop all capabilities
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/35
+    - kind: added
+      description: Add services into NO_PROXY
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/35
+    

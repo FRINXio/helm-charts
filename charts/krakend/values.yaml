@@ -30,9 +30,9 @@ podSecurityContext:
   # fsGroup: 0
 
 containerSecurityContext:
-  # enabled: true
-  # runAsUser: 0
-  # runAsNonRoot: false
+  capabilities:
+    drop:
+    - ALL
 
 service:
   type: ClusterIP
