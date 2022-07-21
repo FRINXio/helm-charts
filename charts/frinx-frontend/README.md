@@ -59,7 +59,6 @@ helm uninstall [RELEASE_NAME]
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
-
 | `env.AUTH_REDIRECT_SCHEME` | AUTH_REDIRECT_SCHEME env variable | `"http"` |
 | `env.AUTH_ENABLED` | AUTH_ENABLED env variable | `false` |
 | `env.URL_BASENAME` | URL_BASENAME env variable | `"/frinxui"` |
