@@ -81,6 +81,27 @@ Return true if a secret object should be created
 {{- end -}}
 {{- end -}}
 
+
+{{/*
+Return true if a storage secret object should be created
+*/}}
+{{- define "uniconfig.createStorageSecret" -}}
+{{- if and (not .Values.azure.AKS.storage.existingSecret) (.Values.azure.AKS.enabled) -}}
+    {{- true -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Get storage secret name.
+*/}}
+{{- define "uniconfig.storageSecretName" -}}
+{{- if .Values.azure.AKS.storage.existingSecret }}
+    {{- printf "%s" (tpl .Values.azure.AKS.storage.existingSecret $) -}}
+{{- else -}}
+    {{- printf "storage-secret" -}}
+{{- end -}}
+{{- end -}}
+
 {{/*
 Selector labels
 */}}

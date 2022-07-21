@@ -24,7 +24,7 @@ spec:
         {{- if .Values.azure.AKS.enabled }}
         - name: frinx-uniconfig-controller-cache
           azureFile:
-            secretName: storage-secret
+            secretName: {{ include "uniconfig.storageSecretName" . }}
             shareName: {{ .Values.uniconfigCacheFolderPath }}
             readOnly: false
         {{- else}}
