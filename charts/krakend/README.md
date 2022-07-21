@@ -44,7 +44,7 @@ helm uninstall [RELEASE_NAME]
 | `serviceAccount.name` | Service account name to use, when empty will be set to created account if `serviceAccount.create` is set else to `default` | `""` |
 | `podAnnotations` | Deployment | `{}` |
 | `podSecurityContext` | Pod deployment securityContext | `{}` |
-| `containerSecurityContext` | Deployment container securityContext | `{}` |
+| `containerSecurityContext` | Deployment container securityContext | [See values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/krakend/values.yaml#L32) |
 | `service.type` | Kubernetes service type | `ClusterIP` |
 | `service.port` | Kubernetes port where service is exposed | `80` |
 | `service.targetPort` | Port on which the service will send requests to, that your pod will be listening on | `8080` |
