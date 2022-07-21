@@ -18,7 +18,7 @@ annotations:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/35
     - kind: changed
-      description: Update krakend config files for traefik:1.0.4 
+      description: Update krakend config files for traefik:1.0.4
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/35
@@ -37,4 +37,3 @@ annotations:
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/35
-    
