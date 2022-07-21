@@ -2,7 +2,7 @@
     "endpoint": "/api/inventory",
     "method": "POST",
     "output_encoding": "no-op",
-    "input_headers": ["*"],
+    "input_headers": [ {{ include "allowed_headers.tmpl" }} ],
 
     "extra_config": {
         {{ $jwt_production := env "AUTH_ENABLED" }}
@@ -12,28 +12,15 @@
             {{ include "jwt_fake_config.tmpl" }}
         {{ end }}
     },
+
     "backend": [
         {
             "url_pattern": "/graphql",
-            "encoding": "no-op",
             "sd": "static",
+            "encoding": "no-op",
             "disable_host_sanitize": false,
             "extra_config": {
-                "modifier/martian": {
-                    "fifo.Group": {
-                        "scope": ["request", "response"],
-                        "aggregateErrors": true,
-                        "modifiers": [
-                            {
-                                "header.Modifier": {
-                                    "scope": ["request"],
-                                    "name": "Content-Type",
-                                    "value":  "application/json"
-                                }
-                            }
-                        ]
-                    }
-                }
+                {{ include "modifiers.tmpl" }}
             },
             "host": [
                 "inventory:8000"
@@ -51,25 +38,6 @@
         {
             "url_pattern": "/graphql",
             "encoding": "no-op",
-            "sd": "static",
-            "disable_host_sanitize": false,
-            "extra_config": {
-                "modifier/martian": {
-                    "fifo.Group": {
-                        "scope": ["request", "response"],
-                        "aggregateErrors": true,
-                        "modifiers": [
-                            {
-                                "header.Modifier": {
-                                    "scope": ["request"],
-                                    "name": "Content-Type",
-                                    "value":  "application/json"
-                                }
-                            }
-                        ]
-                    }
-                }
-            },
             "host": [
                 "inventory:8000"
             ]
