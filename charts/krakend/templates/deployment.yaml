@@ -160,7 +160,7 @@ spec:
             - name: HTTPS_PROXY
               value: {{ .Values.deployment.env.HTTPS_PROXY | quote }}
             - name: NO_PROXY
-              value: "workflow-proxy,frinx-frontend,inventory,krakend,unistore,uniresource,$(UNICONFIG_ZONES_LIST),{{ .Values.deployment.env.NO_PROXY }}"
+              value: "workflow-proxy,frinx-frontend,inventory,krakend,unistore,uniresource,$(UNICONFIG_ZONES_LIST)" #",{{ .Values.deployment.env.NO_PROXY }}"
             {{- end }}
           ports:
             - name: http
