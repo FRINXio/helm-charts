@@ -37,7 +37,10 @@ helm uninstall [RELEASE_NAME]
 | `image.tag` | Image tag | `""` |
 | `imageProxy.repository` | Image repository | `frinx/workflow-proxy` |
 | `imageProxy.pullPolicy` | Image pull policy | `IfNotPresent` |
-| `imageProxy.tag` | Image tag | `"1.0.7"` |
+| `imageProxy.tag` | Image tag | `"1.0.9"` |
+| `imageSchellar.repository` | Image repository | `frinx/uniflow-schellar` |
+| `imageSchellar.pullPolicy` | Image pull policy | `IfNotPresent` |
+| `imageSchellar.tag` | Image tag | `"1.9.4"` |
 | `imagePullSecrets` | Image pull secrets | `[]` |
 | `nameOverride` | Replaces the name of the chart in the Chart.yaml file | `""` |
 | `fullnameOverride` |  Completely replaces the generated name | `""` |
@@ -46,7 +49,8 @@ helm uninstall [RELEASE_NAME]
 | `serviceAccount.name` | Service account name to use, when empty will be set to created account if `serviceAccount.create` is set else to `default` | `"workflow-proxy"` |
 | `podAnnotations` | Deployment | `{}` |
 | `podSecurityContext` | Pod deployment securityContext | `{}` |
-| `securityContext` | Deployment securityContext | `{}` |
+| `conductorSecurityContext` | Deployment securityContext | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/uniflow/values.yaml) |
+| `securityContext` | Deployment securityContext | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/uniflow/values.yaml) |
 | `service.type` | Kubernetes service type | `ClusterIP` |
 | `service.port` | Kubernetes port where workflow-proxy is exposed | `8088` |
 | `service.portWorkers` | Kubernetes port where worker is exposed | `8089` |
@@ -85,6 +89,7 @@ helm uninstall [RELEASE_NAME]
 | `proxyEnv.OAUTH2_AUTH_URL` | OAUTH2_AUTH_URL env value | `"https://login.microsoftonline.com/common/oauth2/v2.0/authorize"` |
 | `proxyEnv.OAUTH2_TOKEN_URL` | OAUTH2_TOKEN_URL env value | `"/api/uniflow/docs/token"` |
 | `proxyEnv.ADMIN_ACCESS_ROLE` | ADMIN_ACCESS_ROLE env value | `"network-admin"` |
+| `proxyEnv.UNICONFIG_ZONES_LIST` | UNICONFIG_ZONES_LIST env value | `"uniconfig"` |
 | `schellarEnv.LOG_LEVEL` | LOG_LEVEL env value for schellar | `debug` |
 | `schellarEnv.CHECK_INTERVAL_SECONDS` | CHECK_INTERVAL_SECONDS env value for schellar | `debug` |
 | `schellarEnv.CONDUCTOR_API_URL` | CONDUCTOR_API_URL env value for schellar | `http://conductor:8080/api` |
