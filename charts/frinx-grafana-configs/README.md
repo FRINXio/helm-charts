@@ -42,3 +42,5 @@ helm uninstall [RELEASE_NAME]
 | `datasources.influxdb2.httpMode` | InfluxDB datasource http method | `POST` |
 | `datasources.loki.name` | InfluxDB datasource name | `Loki` |
 | `datasources.loki.url` | InfluxDB datasource url | `http://loki:3100` |
+| `extraDatasources` | Additional grafana datasources (yaml format) |  |
+

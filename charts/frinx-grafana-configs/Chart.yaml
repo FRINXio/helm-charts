@@ -10,7 +10,7 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - kind: added
-      description: Add default datasources and dashboards for Frinx Frinx-grafana-configs
+      description: Pass additional datasources to frinx-grafana-datasources
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/39
+          url: https://github.com/FRINXio/helm-charts/pull/42

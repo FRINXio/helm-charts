@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: frinx-grafana-datasources
 data:
-  datasource.yml: |
+  datasource.yml: |+
     apiVersion: 1
     datasources:      
       - name: {{ .Values.datasources.influxdb2.name }}
@@ -25,3 +25,4 @@ data:
         access: proxy
         url: {{ .Values.datasources.loki.url }}
         jsonData:
+  {{ nindent 6 .Values.extraDatasources }}
