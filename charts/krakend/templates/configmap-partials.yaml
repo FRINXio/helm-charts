@@ -4,9 +4,8 @@ kind: ConfigMap
 metadata:
   name: {{ template "krakend.fullname" . }}-partials
 data:
-  default_tenant_headers.tmpl: {{ (.Files.Get "config/partials/default_tenant_headers.tmpl") | quote }}
+  allowed_headers.tmpl: {{ (.Files.Get "config/partials/allowed_headers.tmpl") | quote }}
   jwt_config.tmpl: {{ (.Files.Get "config/partials/jwt_config.tmpl") | quote }}
   jwt_fake_config.tmpl: {{ (.Files.Get "config/partials/jwt_fake_config.tmpl") | quote }}
-  uniconfig_partial_1.tmpl: {{ (.Files.Get "config/partials/uniconfig_partial_1.tmpl") | quote }}
-  uniconfig_partial_2.tmpl: {{ (.Files.Get "config/partials/uniconfig_partial_2.tmpl") | quote }}
+  modifiers.tmpl: {{ (.Files.Get "config/partials/modifiers.tmpl") | quote }}
 {{ end }}
