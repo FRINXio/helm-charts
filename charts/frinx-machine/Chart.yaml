@@ -54,8 +54,8 @@ dependencies:
     version: 1.x.x
 
   - condition: grafana.enabled
-    name: grafana-config
-    repository: "file://../grafana-config"
+    name: frinx-grafana-configs
+    repository: "https://FRINXio.github.io/helm-charts"
     version: 1.x.x
 
   - condition: grafana.enabled

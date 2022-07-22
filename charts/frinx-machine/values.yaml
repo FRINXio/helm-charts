@@ -95,19 +95,19 @@ grafana:
 
   grafana:
     extraVolumes:
-      - name: grafana-datasources
+      - name: frinx-grafana-datasources
         configMap: 
           defaultMode: 420
-          name: grafana-datasources
-      - name: grafana-dashboards
+          name: frinx-grafana-datasources
+      - name: frinx-grafana-dashboards
         configMap: 
-          name: grafana-dashboards
+          name: frinx-grafana-dashboards
           
     extraVolumeMounts:
-      - name: grafana-datasources
+      - name: frinx-grafana-datasources
         mountPath: /etc/grafana/provisioning/datasources
         readOnly: false
-      - name: grafana-dashboards
+      - name: frinx-grafana-dashboards
         mountPath: /etc/grafana/provisioning/dashboards
         readOnly: false
 
