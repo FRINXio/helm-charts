@@ -4,7 +4,7 @@ description: A Helm chart for Kubernetes deploying conductor-server and workflow
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
 version: 1.2.0
-appVersion: "1.0.5"
+appVersion: "1.0.8"
 maintainers:
   - name: FRINX
 dependencies:
@@ -19,7 +19,7 @@ dependencies:
 annotations:
   artifacthub.io/images: |
     - name: uniflow-conductor-server
-      image: frinx/uniflow-conductor-server:1.0.5
+      image: frinx/uniflow-conductor-server:1.0.8
     - name: workflow-proxy
       image: frinx/workflow-proxy:1.0.7
     - name: uniflow-schellar

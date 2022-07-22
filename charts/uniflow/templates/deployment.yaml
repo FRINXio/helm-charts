@@ -50,6 +50,8 @@ spec:
       containers:
         # conductor-proxy
         - name: {{ .Chart.Name }}-proxy
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.imageProxy.repository }}:{{ .Values.imageProxy.tag }}"
           imagePullPolicy: {{ .Values.imageProxy.pullPolicy }}
           ports:
@@ -89,10 +91,12 @@ spec:
               value: {{ .Values.proxyEnv.OAUTH2_TOKEN_URL | quote }}
             - name: ADMIN_ACCESS_ROLE
               value: {{ .Values.proxyEnv.ADMIN_ACCESS_ROLE | quote }}
+            - name: UNICONFIG_ZONES_LIST
+              value: {{ .Values.proxyEnv.UNICONFIG_ZONES_LIST | quote }}
         # conductor
         - name: {{ .Chart.Name }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- toYaml .Values.conductorSecurityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
@@ -149,6 +153,8 @@ spec:
               mountPath: /app/config/
         # schellar
         - name: {{ .Chart.Name }}-schellar
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.imageSchellar.repository }}:{{ .Values.imageSchellar.tag }}"
           imagePullPolicy: {{ .Values.imageSchellar.pullPolicy }}
           ports:

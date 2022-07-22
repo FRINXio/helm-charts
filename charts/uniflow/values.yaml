@@ -38,13 +38,18 @@ podAnnotations: {}
 podSecurityContext: {}
   # fsGroup: 2000
 
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+conductorSecurityContext:
+  capabilities:
+    drop:
+    - ALL
+  sysctls:
+  - name: net.ipv4.tcp_keepalive_time
+    value: "300"
+
+securityContext:
+  capabilities:
+    drop:
+    - ALL
 
 service:
   type: ClusterIP
@@ -109,6 +114,7 @@ proxyEnv:
   OAUTH2_AUTH_URL: "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
   OAUTH2_TOKEN_URL: "/api/uniflow/docs/token"
   ADMIN_ACCESS_ROLE: "network-admin"
+  UNICONFIG_ZONES_LIST: "uniconfig"
 
 schellarEnv:
   LOG_LEVEL: debug
