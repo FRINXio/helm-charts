@@ -108,7 +108,7 @@ spec:
             - name: JAVA_MAX_MEM
               value: {{ .Values.java.max_mem | quote }}
             - name: _JAVA_OPTIONS
-              value: "-Xmx$(JAVA_MAX_MEM) -XX:+AlwaysPreTouch -Djna.nosys=true -XX:+AlwaysPreTouch -Djna.nosys=true -XX:+CrashOnOutOfMemoryError -XX:MaxGCPauseMillis=200 -Xlog:gc:/opt/uniconfig-frinx/log/{{.Service.Name}}/{{.Task.Slot}}/gc.log:tags,time,uptime,level:filecount=10,filesize=5M -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeRSetStatsPeriod=1"
+              value: "-Xmx$(JAVA_MAX_MEM) -XX:+AlwaysPreTouch -Djna.nosys=true -XX:+AlwaysPreTouch -Djna.nosys=true -XX:+CrashOnOutOfMemoryError -XX:MaxGCPauseMillis=200 -Xlog:gc:/opt/uniconfig-frinx/log/$(SERVICE_NAME)/$(CONTAINER_ID)/gc.log:tags,time,uptime,level:filecount=10,filesize=5M -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeRSetStatsPeriod=1"
             - name: tls_keystorePassword 
               value: {{ .Values.tls_keystorePassword | quote }}
             - name: dbPersistence_enabled
