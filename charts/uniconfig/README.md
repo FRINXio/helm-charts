@@ -65,6 +65,7 @@ helm uninstall [RELEASE_NAME]
 | `mountPath` | Mount path for uniconfig config files | |
 | `uniconfigCacheFolderPath` | Path to uniconfig cache folder | `""` |
 | `serviceName` | serviceName env variable | `"uniconfig"` |
+| `tls_keystorePassword` | tls_keystorePassword env variable | `"password"` |
 | `proxy.enabled` | Enable proxy for uniconfig  | `false` |
 | `proxy.http_proxy` | Http address for proxy | `false` |
 | `proxy.https_proxy` | Https address for proxy | `false` |
