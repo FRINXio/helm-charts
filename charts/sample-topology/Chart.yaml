@@ -13,4 +13,4 @@ annotations:
       description: Update sample-topology image version
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/34
+          url: https://github.com/FRINXio/helm-charts/pull/46
