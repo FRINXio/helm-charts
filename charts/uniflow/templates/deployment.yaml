@@ -96,7 +96,7 @@ spec:
         # conductor
         - name: {{ .Chart.Name }}
           securityContext:
-            {{- toYaml .Values.conductorSecurityContext | nindent 12 }}
+            {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:

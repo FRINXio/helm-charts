@@ -38,14 +38,6 @@ podAnnotations: {}
 podSecurityContext: {}
   # fsGroup: 2000
 
-conductorSecurityContext:
-  capabilities:
-    drop:
-    - ALL
-  sysctls:
-  - name: net.ipv4.tcp_keepalive_time
-    value: "300"
-
 securityContext:
   capabilities:
     drop:

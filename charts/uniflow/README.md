@@ -49,7 +49,6 @@ helm uninstall [RELEASE_NAME]
 | `serviceAccount.name` | Service account name to use, when empty will be set to created account if `serviceAccount.create` is set else to `default` | `"workflow-proxy"` |
 | `podAnnotations` | Deployment | `{}` |
 | `podSecurityContext` | Pod deployment securityContext | `{}` |
-| `conductorSecurityContext` | Deployment securityContext | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/uniflow/values.yaml) |
 | `securityContext` | Deployment securityContext | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/uniflow/values.yaml) |
 | `service.type` | Kubernetes service type | `ClusterIP` |
 | `service.port` | Kubernetes port where workflow-proxy is exposed | `8088` |
