@@ -34,3 +34,8 @@ annotations:
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/45
+    - kind: security
+      description: Add capabilities
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/45
