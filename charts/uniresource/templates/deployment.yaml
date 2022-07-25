@@ -113,7 +113,7 @@ spec:
             - name: "RM_LOG_LEVEL"
               value: {{ .Values.env.RM_LOG_LEVEL }}
             - name: "WASMER_MAX_TIMEOUT_MILLIS"
-              value: {{ .Values.env.WASMER_MAX_TIMEOUT_MILLIS }}
+              value: {{ .Values.env.WASMER_MAX_TIMEOUT_MILLIS | quote }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
