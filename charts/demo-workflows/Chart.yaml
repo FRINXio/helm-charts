@@ -14,8 +14,8 @@ dependencies:
     version: 1.x.x
 annotations:
   artifacthub.io/changes: |
-    - kind: added
-      description: Add X_AUTH_USER_GROUP env variable
+    - kind: changed
+      description: Update demo-workflows image to 1.10
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/26
+          url: https://github.com/FRINXio/helm-charts/pull/47
