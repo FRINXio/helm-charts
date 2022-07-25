@@ -83,6 +83,8 @@ license: e326aaa7b1741bb530d201c49f4311d3d0f391893e15393894a77180e6478289cd1709e
 mountCachePath: "/opt/uniconfig-frinx/cache"
 uniconfigCacheFolderPath: ""
 serviceName: "uniconfig"
+tls_keystorePassword: "password"
+
 proxy:
   enabled: false
   http_proxy:
