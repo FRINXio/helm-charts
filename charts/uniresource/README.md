@@ -43,7 +43,7 @@ helm uninstall [RELEASE_NAME]
 | `serviceAccount.name` | Service account name to use, when empty will be set to created account if `serviceAccount.create` is set else to `default` | `""` |
 | `podAnnotations` | Deployment | `{}` |
 | `podSecurityContext` | Pod deployment securityContext | `{}` |
-| `securityContext` | Deployment securityContext | `{}` |
+| `securityContext` | Deployment securityContext | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/uniresource/values.yaml) |
 | `service.type` | Kubernetes service type | `ClusterIP` |
 | `service.port` | Kubernetes port where service is exposed | `8888` |
 | `ingress.enabled` | Enables Ingress | `false` |
@@ -74,4 +74,5 @@ helm uninstall [RELEASE_NAME]
 | `env.RM_ADMIN_GROUPS` | Admin groups | `NETWORK-ADMIN` |
 | `env.RM_LOG_PATH` | Log path | `/var/log/rm.log` |
 | `env.RM_LOG_LEVEL` | Log level | `info` |
+| `env.WASMER_MAX_TIMEOUT_MILLIS` | WASMER_MAX_TIMEOUT_MILLIS env value | `1000` |
 | `env.RM_DB_CONNECTION_STRING` | Connection string for connection to external database | `"postgres://$(PSQL_USERNAME):$(PSQL_PASSWORD)@$(PSQL_HOSTNAME):$(PSQL_PORT)/postgres?sslmode=disable"` |
