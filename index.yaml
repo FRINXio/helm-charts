@@ -469,6 +469,56 @@ entries:
   uniconfig:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Update uniconfig image to 5.0.11
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/45
+        - kind: changed
+          description: Update uniconfig config files
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/45
+        - kind: added
+          description: Add tls_keystorePassword env variable
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/45
+        - kind: fixed
+          description: Fix _JAVA_OPTIONS variable value
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/45
+        - kind: security
+          description: Add capabilities
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/45
+    apiVersion: v2
+    appVersion: 5.0.11
+    created: "2022-07-26T13:10:22.216395509Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: traefik.enabled
+      name: traefik
+      repository: https://helm.traefik.io/traefik
+      version: 10.19.5
+    description: A Helm chart for UniConfig Kubernetes deployment
+    digest: 8b7eaed4f28478bb5a3ddd132a16d1114648e29101ee01574e0af233fbf245fa
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: uniconfig
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniconfig-2.3.0/uniconfig-2.3.0.tgz
+    version: 2.3.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Add useExistingSecret option for storage credentials
           links:
@@ -916,4 +966,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/worker-1.0.0/worker-1.0.0.tgz
     version: 1.0.0
-generated: "2022-07-26T09:43:10.536229385Z"
+generated: "2022-07-26T13:10:22.216466913Z"
