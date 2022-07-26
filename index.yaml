@@ -3,6 +3,31 @@ entries:
   demo-workflows:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Update demo-workflows image to 1.10
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/47
+    apiVersion: v2
+    appVersion: "1.10"
+    created: "2022-07-26T14:13:32.97217272Z"
+    dependencies:
+    - condition: sample-topology.enabled
+      name: sample-topology
+      repository: https://FRINXio.github.io/helm-charts
+      version: 1.x.x
+    description: A Helm chart for the Frinx Machine demo workflows
+    digest: c347620f0abf71cd40d418086bd5a194143146e831f3ee90bb809700104ce9bc
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: demo-workflows
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/demo-workflows-1.1.1/demo-workflows-1.1.1.tgz
+    version: 1.1.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Add X_AUTH_USER_GROUP env variable
           links:
@@ -45,6 +70,31 @@ entries:
     - https://github.com/FRINXio/helm-charts/releases/download/demo-workflows-1.0.0/demo-workflows-1.0.0.tgz
     version: 1.0.0
   frinx-frontend:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: security
+          description: Drop all capabilities
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/40
+        - kind: changed
+          description: Update image version to 1.0.10
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/40
+    apiVersion: v2
+    appVersion: 1.0.10
+    created: "2022-07-26T14:13:33.077588624Z"
+    description: A Helm chart for Kubernetes deployment of the Frinx UI
+    digest: a3010c3dd65cdb93aab1feefe7930305e579b7724b974ced86766dbc5f05e1af
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-frontend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-frontend-1.1.2/frinx-frontend-1.1.2.tgz
+    version: 1.1.2
   - annotations:
       artifacthub.io/changes: |
         - kind: added
@@ -317,6 +367,49 @@ entries:
     - https://github.com/FRINXio/helm-charts/releases/download/inventory-1.0.0/inventory-1.0.0.tgz
     version: 1.0.0
   krakend:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Update krakend image version to 1.0.4
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/35
+        - kind: changed
+          description: Update krakend config files for traefik:1.0.4
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/35
+        - kind: added
+          description: Add KRAKEND_TLS_PROTOCOL env variable
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/35
+        - kind: security
+          description: Drop all capabilities
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/35
+        - kind: added
+          description: Add services into NO_PROXY
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/35
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:1.0.4
+    apiVersion: v2
+    appVersion: 1.0.4
+    created: "2022-07-26T14:13:33.187252869Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: 51a66563d846ea1dae5c533c26d34279bd64a0810bae64aa59f8afb50c6bddc2
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-2.2.0/krakend-2.2.0.tgz
+    version: 2.2.0
   - annotations:
       artifacthub.io/changes: |
         - kind: added
@@ -822,6 +915,62 @@ entries:
   uniflow:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Update conductor version to 1.0.8
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/41
+        - kind: changed
+          description: Update workflow-proxy version to 1.0.9
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/41
+        - kind: changed
+          description: Update schellar version to 1.9.4
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/41
+        - kind: added
+          description: Add UNICONFIG_ZONES_LIST env variable to workflow-proxy
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/41
+        - kind: security
+          description: Add security context to containers
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/41
+      artifacthub.io/images: |
+        - name: uniflow-conductor-server
+          image: frinx/uniflow-conductor-server:1.0.8
+        - name: workflow-proxy
+          image: frinx/workflow-proxy:1.0.9
+        - name: uniflow-schellar
+          image: frinx/uniflow-schellar:1.9.4
+    apiVersion: v2
+    appVersion: 1.0.8
+    created: "2022-07-26T14:13:33.315297389Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: elasticsearch.enabled
+      name: elasticsearch
+      repository: https://helm.elastic.co
+      version: 6.8.22
+    description: A Helm chart for Kubernetes deploying conductor-server and workflow-proxy
+    digest: 528f418c312272b47c5b1b989a436b756f8741b025af815eaff4ae44cd2a44e6
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: uniflow
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniflow-1.3.0/uniflow-1.3.0.tgz
+    version: 1.3.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Add proxy env variable for authentication
           links:
@@ -935,6 +1084,41 @@ entries:
   uniresource:
   - annotations:
       artifacthub.io/changes: |
+        - kind: security
+          description: Add security context to container
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/43
+        - kind: added
+          description: Add WASMER_MAX_TIMEOUT_MILLIS env variable
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/43
+        - kind: changed
+          description: Update uniresource version to 1.0.4
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/43
+    apiVersion: v2
+    appVersion: 1.0.4
+    created: "2022-07-26T14:13:33.421661903Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deploying of the Frinx Uniresource
+    digest: de7b1c823b30c0255a8d6512c134ddaa1c9538e10a9f93122d3c499162535289
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: uniresource
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniresource-1.1.0/uniresource-1.1.0.tgz
+    version: 1.1.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: Fix DB hostname in initContainer if it is different from the default
           links:
@@ -1017,4 +1201,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/worker-1.0.0/worker-1.0.0.tgz
     version: 1.0.0
-generated: "2022-07-26T13:14:39.72298414Z"
+generated: "2022-07-26T14:13:33.421767604Z"
