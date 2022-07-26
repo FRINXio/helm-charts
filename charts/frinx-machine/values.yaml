@@ -84,32 +84,20 @@ demo-workflows:
 grafana:
   enabled: true
   fullnameOverride: "grafana"
-  admin:
-    ## @param admin.user Grafana admin username
-    ##
-    user: "frinx"
-    ## @param admin.password Admin password. If a password is not provided a random password will be generated
-    ##
-    password: "frinx123!"
-    ## @param admin.existingSecret Name of the existing secret containing admin password
+  adminUser: frinx
+  adminPassword: frinx123!
 
-  grafana:
-    extraVolumes:
-      - name: frinx-grafana-datasources
-        configMap: 
-          defaultMode: 420
-          name: frinx-grafana-datasources
-      - name: frinx-grafana-dashboards
-        configMap: 
-          name: frinx-grafana-dashboards
-          
-    extraVolumeMounts:
-      - name: frinx-grafana-datasources
-        mountPath: /etc/grafana/provisioning/datasources
-        readOnly: false
-      - name: frinx-grafana-dashboards
-        mountPath: /etc/grafana/provisioning/dashboards
-        readOnly: false
+  extraConfigmapMounts:    
+  - name: frinx-grafana-datasources
+    mountPath: /etc/grafana/provisioning/datasources
+    subPath: ""
+    configMap: frinx-grafana-datasources
+    readOnly: false
+  - name: frinx-grafana-dashboards
+    mountPath: /etc/grafana/provisioning/dashboards
+    subPath: ""
+    configMap: frinx-grafana-dashboards
+    readOnly: false
 
 influxdb2:
   enabled: true
