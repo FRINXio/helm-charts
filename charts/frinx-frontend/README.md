@@ -43,7 +43,7 @@ helm uninstall [RELEASE_NAME]
 | `serviceAccount.name` | Service account name to use, when empty will be set to created account if `serviceAccount.create` is set else to `default` | `""` |
 | `podAnnotations` | Deployment | `{}` |
 | `podSecurityContext` | Pod deployment securityContext | `{}` |
-| `securityContext` | Deployment securityContext | `{}` |
+| `securityContext` | Deployment securityContext | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/frinx-frontend/values.yaml#L31) |
 | `service.type` | Kubernetes service type | `ClusterIP` |
 | `service.port` | Kubernetes port where service is exposed | `8888` |
 | `ingress.enabled` | Enables Ingress | `false` |
@@ -59,7 +59,6 @@ helm uninstall [RELEASE_NAME]
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
-
 | `env.AUTH_REDIRECT_SCHEME` | AUTH_REDIRECT_SCHEME env variable | `"http"` |
 | `env.AUTH_ENABLED` | AUTH_ENABLED env variable | `false` |
 | `env.URL_BASENAME` | URL_BASENAME env variable | `"/frinxui"` |
