@@ -4,11 +4,11 @@
     "endpoint": "{{ .endpoint }}",
     "method": "{{ .method }}",
     "output_encoding": "no-op",
-    "headers_to_pass": ["*"],
+    "input_headers": [ {{ include "allowed_headers.tmpl" }} ],
 
-    {{ if .querystring_params }}
-    "querystring_params": [ 
-        {{range $query_enabled, $query := .querystring_params}} {{if gt $query_enabled 0}},{{end}} "{{$query}}" {{ end }} 
+    {{ if .input_query_strings }}
+    "input_query_strings": [ 
+        {{range $query_enabled, $query := .input_query_strings}} {{if gt $query_enabled 0}},{{end}} "{{$query}}" {{ end }} 
         ],
     {{end}}
 
@@ -25,31 +25,8 @@
     {
         "url_pattern": "{{ .url_pattern }}",
         "encoding": "no-op",
-        "sd": "static",
-        "disable_host_sanitize": false,
         "extra_config": {
-            "github.com/devopsfaith/krakend-martian": {
-                "fifo.Group": {
-                    "scope": ["request", "response"],
-                    "aggregateErrors": true,
-                    "modifiers": [
-                        {
-                            "header.Modifier": {
-                                "scope": ["request"],
-                                "name": "Accept-Encoding",
-                                "value": "identity"
-                            }
-                        },
-                        {
-                            "header.Modifier": {
-                                "scope": ["response"],
-                                "name": "Content-Type",
-                                "value": "application/json; charset=utf-8"
-                            }
-                        }
-                    ]
-                }
-              }
+            {{ include "modifiers.tmpl" }}
         },
         "host": [
             "uniresource:8884"

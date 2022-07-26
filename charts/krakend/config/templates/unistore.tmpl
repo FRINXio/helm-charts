@@ -7,13 +7,14 @@
     {
         "endpoint": "/api/{{$host}}/operations{{range $index_for_uri, $not_used_element2 := $.range -}} {{- if le $index_for_uri $index_in_range -}} /{{"{"}}n_{{$index_for_uri}}{{"}" -}} {{end}}{{end}}",
         "method": "POST",
-        {{ include "uniconfig_partial_1.tmpl" }}
-
+        "output_encoding": "no-op",
+        "input_query_strings": ["*"],
+        "input_headers": [ {{ include "allowed_headers.tmpl" }}, "Accept", "cookie" ],
         "extra_config": {
             {{ $jwt_production := env "AUTH_ENABLED" }}
             {{ if eq $jwt_production "true" }}
                 {{ include "jwt_config.tmpl" }},
-                "github.com/devopsfaith/krakend-lua/router": {
+                "modifier/lua-endpoint": {
                     "sources": ["scripts/unistore_rbac.lua"],
                     "allow_open_libs": true,
                     "pre": "local r = ctx.load(); user_group_auth(r)",
@@ -27,7 +28,10 @@
         "backend": [
             {
                 "url_pattern": "/rests/operations{{range $index_for_uri, $not_used_element2 := $.range -}} {{- if le $index_for_uri $index_in_range -}} /{{"{"}}n_{{$index_for_uri}}{{"}" -}} {{end}}{{end}}",
-                {{ include "uniconfig_partial_2.tmpl" }}
+                "extra_config": {
+                    {{ include "modifiers.tmpl" }}
+                },
+                "encoding": "no-op",
                 "host": [
                     "http://{{$host}}:8181"
                 ]
@@ -50,21 +54,21 @@
             {
                 "endpoint": "/api/{{$host}}/data{{range $index_for_uri, $not_used_element2 := $.range -}} {{- if le $index_for_uri $index_in_range -}} /{{"{"}}n_{{$index_for_uri}}{{"}" -}} {{end}}{{end}}",
                 "method": "{{$method}}",
-                {{ include "uniconfig_partial_1.tmpl" }}
-
-
+                "output_encoding": "no-op",
+                "input_query_strings": ["*"],
+                "input_headers": [ {{ include "allowed_headers.tmpl" }}, "Accept", "cookie" ],
                 "extra_config": {
                     {{ $jwt_production := env "AUTH_ENABLED" }}
                     {{ if eq $jwt_production "true" }}
                         {{ include "jwt_config.tmpl" }},
-                        "github.com/devopsfaith/krakend-lua/router": {
+                        "modifier/lua-endpoint": {
                             "sources": ["scripts/uniconfig_query_escape.lua", "scripts/unistore_rbac.lua"],
                             "allow_open_libs": true,
                             "pre": "local r = ctx.load(); r:url(urlencode(r)); user_group_auth(r)",
                             "live": true
                         }
                     {{ else if eq $jwt_production "false" }}
-                        "github.com/devopsfaith/krakend-lua/router": {
+                        "modifier/lua-endpoint": {
                             "@comment": "Fixing escape queries with multiple fields separated by semicolon",
                             "sources": ["scripts/uniconfig_query_escape.lua", "scripts/fake_frinx_token.lua"],
                             "allow_open_libs": true,
@@ -77,7 +81,10 @@
                 "backend": [
                     {
                         "url_pattern": "/rests/data{{range $index_for_uri, $not_used_element2 := $.range -}} {{- if le $index_for_uri $index_in_range -}} /{{"{"}}n_{{$index_for_uri}}{{"}" -}} {{end}}{{end}}",
-                        {{ include "uniconfig_partial_2.tmpl" }}
+                        "extra_config": {
+                            {{ include "modifiers.tmpl" }}
+                        },
+                        "encoding": "no-op",
                         "host": [
                             "http://{{$host}}:8181"
                         ]
