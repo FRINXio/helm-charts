@@ -7,6 +7,7 @@ krakend:
 frinx-frontend:
   enabled: true
   fullnameOverride: "frinx-frontend"
+  AUTH_CLIENT_ID: "frinx"
 
 postgresql:
   enabled: true
