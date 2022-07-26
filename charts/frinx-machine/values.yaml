@@ -7,6 +7,8 @@ krakend:
 frinx-frontend:
   enabled: true
   fullnameOverride: "frinx-frontend"
+  env:
+    AUTH_CLIENT_ID: "frinx"
 
 postgresql:
   enabled: true
@@ -80,3 +82,175 @@ demo-workflows:
   fullnameOverride: "demo-workflows"
   sample-topology:
     fullnameOverride: "sample-topology"
+
+grafana:
+  enabled: true
+  fullnameOverride: "grafana"
+  adminUser: frinx
+  adminPassword: frinx123!
+
+  extraConfigmapMounts:    
+  - name: frinx-grafana-datasources
+    mountPath: /etc/grafana/provisioning/datasources
+    subPath: ""
+    configMap: frinx-grafana-datasources
+    readOnly: false
+  - name: frinx-grafana-dashboards
+    mountPath: /etc/grafana/provisioning/dashboards
+    subPath: ""
+    configMap: frinx-grafana-dashboards
+    readOnly: false
+
+influxdb2:
+  enabled: true
+  fullnameOverride: influxdb
+  adminUser:
+    ## @param auth.admin.username InfluxDB&trade; admin user name
+    ##
+    user: "frinx"
+    ## @param auth.admin.password InfluxDB&trade; admin user's password
+    ##
+    password: "frinx123!"
+    ## @param auth.admin.token InfluxDB&trade; admin user's token. Only valid with InfluxDB&trade; v2
+    ##
+    token: "eyJrIjoiN09MSVpVZjlVRG1xNHlLNXpVbmZJOXFLWU1GOXFxNEIiLCJuIjoic3Nzc3MiLCJpZCI6MX0"
+    ## @param auth.admin.org InfluxDB&trade; admin user's org. Only valid with InfluxDB&trade; v2
+    ##
+    organization: "frinx-machine"
+    ## @param auth.admin.bucket InfluxDB&trade; admin user's bucket. Only valid with InfluxDB&trade; v2
+    ##
+    bucket: "frinx"
+
+    retention_policy: "2d"
+
+  env:
+    - name: DOCKER_INFLUXDB_INIT_MODE
+      value: setup
+
+telegraf-ds:
+  enabled: true
+  fullnameOverride: telegraf-ds
+  env:
+    - name: NAMESPACE
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.namespace
+    - name: HOSTNAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
+
+  config:
+      docker_endpoint: ""
+
+  override_config:
+    toml: |
+      [agent]
+        collection_jitter = "0s"
+        debug = false
+        flush_interval = "10s"
+        flush_jitter = "0s"
+        hostname = "$HOSTNAME"
+        interval = "10s"
+        logfile = ""
+        metric_batch_size = 1000
+        metric_buffer_limit = 10000
+        omit_hostname = false
+        precision = ""
+        quiet = false
+        round_interval = true
+
+      [[outputs.influxdb_v2]]
+        bucket = "frinx"
+        organization = "frinx-machine"
+        token = "eyJrIjoiN09MSVpVZjlVRG1xNHlLNXpVbmZJOXFLWU1GOXFxNEIiLCJuIjoic3Nzc3MiLCJpZCI6MX0"
+        urls = ["http://influxdb"]
+
+      [[outputs.health]]
+        service_address = "http://:8080"
+        
+      [[inputs.diskio]]
+      [[inputs.kernel]]
+      [[inputs.mem]]
+      [[inputs.net]]
+      [[inputs.processes]]
+      [[inputs.swap]]
+      [[inputs.system]]
+
+      [[inputs.cpu]]
+        percpu = true
+        totalcpu = true
+        collect_cpu_time = false
+        report_active = false
+
+      [[inputs.disk]]
+        ignore_fs = ["tmpfs", "devtmpfs", "devfs", "iso9660", "overlay", "aufs", "squashfs"]
+
+      [[inputs.kubernetes]]
+        url = "https://$HOSTIP:10250"
+        bearer_token = "/var/run/secrets/kubernetes.io/serviceaccount/token"
+        insecure_skip_verify = true
+        [inputs.kubernetes.tagpass]
+          namespace = [ "${NAMESPACE}" ]
+
+loki:
+  enabled: true
+  fullnameOverride: loki
+  config:
+    chunk_store_config:
+      max_look_back_period: 24h
+    table_manager:
+      retention_deletes_enabled: true
+      retention_period: 24h
+
+promtail:
+  fullnameOverride: promtail
+  config:
+    clients:
+      - url: http://loki:3100/loki/api/v1/push
+    snippets:
+      pipelineStages:
+        - cri: {}
+      scrapeConfigs: |
+        - job_name: kubernetes-pods
+          pipeline_stages:
+            {{- toYaml .Values.config.snippets.pipelineStages | nindent 4 }}
+          kubernetes_sd_configs:
+            - role: pod
+              namespaces:
+                names:
+                  - {{ .Release.Namespace }}
+          relabel_configs:
+            - source_labels:
+                - __meta_kubernetes_pod_controller_name
+              regex: ([0-9a-z-.]+?)(-[0-9a-f]{8,10})?
+              action: replace
+              target_label: __tmp_controller_name
+            - source_labels:
+                - __meta_kubernetes_pod_label_app_kubernetes_io_name
+                - __meta_kubernetes_pod_label_app
+                - __tmp_controller_name
+                - __meta_kubernetes_pod_name
+              regex: ^;*([^;]+)(;.*)?$
+              action: replace
+              target_label: app
+            - source_labels:
+                - __meta_kubernetes_pod_label_app_kubernetes_io_instance
+                - __meta_kubernetes_pod_label_release
+              regex: ^;*([^;]+)(;.*)?$
+              action: replace
+              target_label: instance
+            - source_labels:
+                - __meta_kubernetes_pod_label_app_kubernetes_io_component
+                - __meta_kubernetes_pod_label_component
+              regex: ^;*([^;]+)(;.*)?$
+              action: replace
+              target_label: component
+            {{- if .Values.config.snippets.addScrapeJobLabel }}
+            - replacement: kubernetes-pods
+              target_label: scrape_job
+            {{- end }}
+            {{- toYaml .Values.config.snippets.common | nindent 4 }}
+            {{- with .Values.config.snippets.extraRelabelConfigs }}
+            {{- toYaml . | nindent 4 }}
+            {{- end }}

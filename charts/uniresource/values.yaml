@@ -28,13 +28,10 @@ podAnnotations: {}
 podSecurityContext: {}
   # fsGroup: 2000
 
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+securityContext:
+  capabilities:
+    drop:
+    - ALL
 
 service:
   type: ClusterIP
@@ -99,5 +96,6 @@ env:
   RM_ADMIN_ROLES: OWNER
   RM_ADMIN_GROUPS: NETWORK-ADMIN
   RM_LOG_PATH: /var/log/rm.log
-  RM_LOG_LEVEL: info
+  RM_LOG_LEVEL: warn
+  WASMER_MAX_TIMEOUT_MILLIS: 10000
   RM_DB_CONNECTION_STRING: "postgres://$(PSQL_USERNAME):$(PSQL_PASSWORD)@$(PSQL_HOSTNAME):$(PSQL_PORT)/postgres?sslmode=disable"

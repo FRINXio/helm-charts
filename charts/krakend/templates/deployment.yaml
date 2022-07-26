@@ -88,10 +88,10 @@ spec:
               value: "/tmp/output.json"
             - name: TLS_DISABLED
               value: {{ .Values.deployment.env.TLS_DISABLED | quote }}
+            - name: KRAKEND_TLS_PROTOCOL
+              value: {{ .Values.deployment.env.KRAKEND_TLS_PROTOCOL | quote }}
             - name: AUTH_ENABLED
               value: {{ .Values.deployment.env.AUTH_ENABLED | quote }}
-            - name: GODEBUG
-              value: "x509ignoreCN=0"
             - name: UNICONFIG_ZONES_LIST
               value: {{ .Values.deployment.env.UNICONFIG_ZONES_LIST | quote }}
             # azureAuth
@@ -160,7 +160,7 @@ spec:
             - name: HTTPS_PROXY
               value: {{ .Values.deployment.env.HTTPS_PROXY | quote }}
             - name: NO_PROXY
-              value: "{{ .Values.deployment.env.NO_PROXY }},$(UNICONFIG_ZONES_LIST)"
+              value: "workflow-proxy,frinx-frontend,inventory,krakend,unistore,uniresource,{{ .Values.deployment.env.NO_PROXY }},$(UNICONFIG_ZONES_LIST)"
             {{- end }}
           ports:
             - name: http

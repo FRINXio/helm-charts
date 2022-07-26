@@ -44,7 +44,7 @@ helm uninstall [RELEASE_NAME]
 | `serviceAccount.name` | Service account name to use, when empty will be set to created account if `serviceAccount.create` is set else to `default` | `""` |
 | `podAnnotations` | Deployment | `{}` |
 | `podSecurityContext` | Pod deployment securityContext | `{}` |
-| `containerSecurityContext` | Deployment container securityContext | `{}` |
+| `containerSecurityContext` | Deployment container securityContext | [See values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/krakend/values.yaml#L32) |
 | `service.type` | Kubernetes service type | `ClusterIP` |
 | `service.port` | Kubernetes port where service is exposed | `80` |
 | `service.targetPort` | Port on which the service will send requests to, that your pod will be listening on | `8080` |
@@ -61,6 +61,7 @@ helm uninstall [RELEASE_NAME]
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
 | `deployment.env.TLS_DISABLED` | TLS_DISABLED env variable | `true` |
+| `deployment.env.KRAKEND_TLS_PROTOCOL` | KRAKEND_TLS_PROTOCOL env variable | `"http"` |
 | `deployment.env.AUTH_ENABLED` | AUTH_ENABLED env variable | `false` |
 | `deployment.env.PROXY_ENABLED` | PROXY_ENABLED env variable | `false` |
 | `deployment.env.HTTP_PROXY` | HTTP_PROXY env variable | |

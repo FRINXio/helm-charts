@@ -28,13 +28,13 @@ podAnnotations: {}
 podSecurityContext: {}
   # fsGroup: 2000
 
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+    add:
+    - CAP_NET_BIND_SERVICE
+    - NET_ADMIN
 
 service:
   annotations:
@@ -83,6 +83,8 @@ license: e326aaa7b1741bb530d201c49f4311d3d0f391893e15393894a77180e6478289cd1709e
 mountCachePath: "/opt/uniconfig-frinx/cache"
 uniconfigCacheFolderPath: ""
 serviceName: "uniconfig"
+tls_keystorePassword: "password"
+
 proxy:
   enabled: false
   http_proxy:

@@ -3,8 +3,8 @@ name: uniflow
 description: A Helm chart for Kubernetes deploying conductor-server and workflow-proxy
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 1.2.0
-appVersion: "1.0.5"
+version: 1.3.0
+appVersion: "1.0.8"
 maintainers:
   - name: FRINX
 dependencies:
@@ -19,14 +19,34 @@ dependencies:
 annotations:
   artifacthub.io/images: |
     - name: uniflow-conductor-server
-      image: frinx/uniflow-conductor-server:1.0.5
+      image: frinx/uniflow-conductor-server:1.0.8
     - name: workflow-proxy
-      image: frinx/workflow-proxy:1.0.7
+      image: frinx/workflow-proxy:1.0.9
     - name: uniflow-schellar
-      image: frinx/uniflow-schellar:1.9.3
+      image: frinx/uniflow-schellar:1.9.4
   artifacthub.io/changes: |
-    - kind: added
-      description: Add proxy env variable for authentication
+    - kind: changed
+      description: Update conductor version to 1.0.8
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/25
+          url: https://github.com/FRINXio/helm-charts/pull/41
+    - kind: changed
+      description: Update workflow-proxy version to 1.0.9
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/41
+    - kind: changed
+      description: Update schellar version to 1.9.4
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/41
+    - kind: added
+      description: Add UNICONFIG_ZONES_LIST env variable to workflow-proxy
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/41
+    - kind: security
+      description: Add security context to containers
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/41

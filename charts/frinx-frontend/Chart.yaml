@@ -3,14 +3,19 @@ name: frinx-frontend
 description: A Helm chart for Kubernetes deployment of the Frinx UI
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 1.1.1
-appVersion: "0.1.2-gamma"
+version: 1.1.2
+appVersion: "1.0.10"
 maintainers:
   - name: FRINX
 annotations:
   artifacthub.io/changes: |
-    - kind: added
-      description: Add default value for AUTH_CLIENT_ID env variable
+    - kind: security
+      description: Drop all capabilities
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/27
+          url: https://github.com/FRINXio/helm-charts/pull/40
+    - kind: changed
+      description: Update image version to 1.0.10
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/40
