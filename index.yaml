@@ -227,6 +227,37 @@ entries:
   inventory:
   - annotations:
       artifacthub.io/changes: |
+        - kind: security
+          description: Add capabilities
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/44
+        - kind: changed
+          description: Update inventory image to 1.3.0
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/44
+    apiVersion: v2
+    appVersion: 1.3.0
+    created: "2022-07-26T13:13:42.744309986Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deployment of the Device Inventory
+    digest: d127678e1f35c51b1f43db9141eade37339ed799ddf653756fcf701fcf9a2bfb
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: inventory
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/inventory-2.0.1/inventory-2.0.1.tgz
+    version: 2.0.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: Fix DB hostname in initContainer if it is different from the default
           links:
@@ -966,4 +997,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/worker-1.0.0/worker-1.0.0.tgz
     version: 1.0.0
-generated: "2022-07-26T13:10:22.216466913Z"
+generated: "2022-07-26T13:13:42.744365888Z"
