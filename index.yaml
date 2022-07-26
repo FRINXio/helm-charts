@@ -462,6 +462,26 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Update sample-topology image version
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/46
+    apiVersion: v2
+    appVersion: "1.10"
+    created: "2022-07-26T13:14:39.722926341Z"
+    description: A Helm chart for the Frinx Machine sample-topology Kubernetes deployment
+    digest: 5f31a42646980a3df46e6eaa310abb350a86ac53a204814bc875bae2da1ce3d8
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: sample-topology
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/sample-topology-1.1.1/sample-topology-1.1.1.tgz
+    version: 1.1.1
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Specify DOCKER_GWBRIDGE_IP address
           links:
             - name: GitHub PR
@@ -997,4 +1017,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/worker-1.0.0/worker-1.0.0.tgz
     version: 1.0.0
-generated: "2022-07-26T13:13:42.744365888Z"
+generated: "2022-07-26T13:14:39.72298414Z"
