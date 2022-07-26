@@ -31,6 +31,8 @@ jobs:
           helm repo add elastic https://helm.elastic.co
           helm repo add frinx https://FRINXio.github.io/helm-charts
           helm repo add traefik https://helm.traefik.io/traefik
+          helm repo add influx https://helm.influxdata.com
+          helm repo add grafana https://grafana.github.io/helm-charts
       
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.0
