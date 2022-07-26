@@ -31,6 +31,8 @@ helm uninstall [RELEASE_NAME]
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
+| `dashboards.files` | Rexeg to select frinx-machine dashboards | `config/*` |
+| `datasources.influxdb2.url` | InfluxDB datasource url | `http://influxdb` |
 | `datasources.influxdb2.name` | InfluxDB datasource name | `InfluxDB` |
 | `datasources.influxdb2.url` | InfluxDB datasource url | `http://influxdb` |
 | `datasources.influxdb2.basicAuth` | InfluxDB datasource basic auth setup | `true` |
