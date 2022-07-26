@@ -43,7 +43,7 @@ helm uninstall [RELEASE_NAME]
 | `serviceAccount.name` | Service account name to use, when empty will be set to created account if `serviceAccount.create` is set else to `default` | `""` |
 | `podAnnotations` | Deployment | `{}` |
 | `podSecurityContext` | Pod deployment securityContext | `{}` |
-| `securityContext` | Deployment securityContext | `{}` |
+| `securityContext` | Deployment securityContext | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/uniconfig/values.yaml) |
 | `service.annotations` | Annotations for service resource | `{}` |
 | `service.type` | Kubernetes service type | `ClusterIP` |
 | `service.port` | Kubernetes port of service | `8181` |
@@ -65,6 +65,7 @@ helm uninstall [RELEASE_NAME]
 | `mountPath` | Mount path for uniconfig config files | |
 | `uniconfigCacheFolderPath` | Path to uniconfig cache folder | `""` |
 | `serviceName` | serviceName env variable | `"uniconfig"` |
+| `tls_keystorePassword` | tls_keystorePassword env variable | `"password"` |
 | `proxy.enabled` | Enable proxy for uniconfig  | `false` |
 | `proxy.http_proxy` | Http address for proxy | `false` |
 | `proxy.https_proxy` | Https address for proxy | `false` |
