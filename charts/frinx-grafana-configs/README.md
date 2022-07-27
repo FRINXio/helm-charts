@@ -31,6 +31,8 @@ helm uninstall [RELEASE_NAME]
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
+| `dashboards.files` | Rexeg to select frinx-machine dashboards | `config/*` |
+| `datasources.influxdb2.url` | InfluxDB datasource url | `http://influxdb` |
 | `datasources.influxdb2.name` | InfluxDB datasource name | `InfluxDB` |
 | `datasources.influxdb2.url` | InfluxDB datasource url | `http://influxdb` |
 | `datasources.influxdb2.basicAuth` | InfluxDB datasource basic auth setup | `true` |
@@ -42,3 +44,5 @@ helm uninstall [RELEASE_NAME]
 | `datasources.influxdb2.httpMode` | InfluxDB datasource http method | `POST` |
 | `datasources.loki.name` | InfluxDB datasource name | `Loki` |
 | `datasources.loki.url` | InfluxDB datasource url | `http://loki:3100` |
+| `extraDatasources` | Additional grafana datasources (yaml format) |  |
+

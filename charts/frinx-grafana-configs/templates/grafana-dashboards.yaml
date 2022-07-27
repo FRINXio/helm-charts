@@ -3,18 +3,6 @@ kind: ConfigMap
 metadata:
   name: frinx-grafana-dashboards
 data:
-  db_device_monitoring.json: {{ .Files.Get "config/db_device_monitoring.json" | quote }}
-  db_cert_monitoring.json: {{ .Files.Get "config/db_cert_monitoring.json" | quote }}
-  db_loki_search.json: {{ .Files.Get "config/db_loki_search.json" | quote }}
-  db_uniconfig_monitoring.json: {{ .Files.Get "config/db_uniconfig_monitoring.json" | quote }}
-  db_node_monitoring.json: {{ .Files.Get "config/db_node_monitoring.json" | quote }}
-  db_kube_monitoring.json: {{ .Files.Get "config/db_kube_monitoring.json" | quote }}
-  default.yml: |-
-    apiVersion: 1
-
-    providers:
-      - name: Default    # A uniquely identifiable name for the provider
-        folder: Frinx-Machine # The folder where to place the dashboards
-        type: file
-        options:
-          path:  /etc/grafana/provisioning/dashboards
+{{ if ne .Values.dashboards.files "" }}
+{{ (.Files.Glob .Values.dashboards.files).AsConfig | indent 2 }}
+{{ end }}
