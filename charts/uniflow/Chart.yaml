@@ -25,28 +25,8 @@ annotations:
     - name: uniflow-schellar
       image: frinx/uniflow-schellar:1.9.4
   artifacthub.io/changes: |
-    - kind: changed
-      description: Update conductor version to 1.0.8
+    - kind: fixed
+      description: Fix schellar
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/41
-    - kind: changed
-      description: Update workflow-proxy version to 1.0.9
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/41
-    - kind: changed
-      description: Update schellar version to 1.9.4
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/41
-    - kind: added
-      description: Add UNICONFIG_ZONES_LIST env variable to workflow-proxy
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/41
-    - kind: security
-      description: Add security context to containers
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/41
+          url: https://github.com/FRINXio/helm-charts/pull/49

@@ -91,7 +91,7 @@ helm uninstall [RELEASE_NAME]
 | `proxyEnv.UNICONFIG_ZONES_LIST` | UNICONFIG_ZONES_LIST env value | `"uniconfig"` |
 | `schellarEnv.LOG_LEVEL` | LOG_LEVEL env value for schellar | `debug` |
 | `schellarEnv.CHECK_INTERVAL_SECONDS` | CHECK_INTERVAL_SECONDS env value for schellar | `debug` |
-| `schellarEnv.CONDUCTOR_API_URL` | CONDUCTOR_API_URL env value for schellar | `http://conductor:8080/api` |
+| `schellarEnv.CONDUCTOR_API_URL` | CONDUCTOR_API_URL env value for schellar | `http://localhost:8080/api` |
 | `schellarEnv.BACKEND` | BACKEND env value for schellar | `postgres` |
 | `schellarEnv.POSTGRES_MIGRATIONS_DIR` | POSTGRES_MIGRATIONS_DIR env value for schellar | `postgres` |
 | `schellarEnv.POSTGRES_PORT` | POSTGRES_PORT env value for schellar | `5432` |
