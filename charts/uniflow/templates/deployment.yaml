@@ -83,6 +83,8 @@ spec:
           env:
             - name: "PROXY_TARGET"
               value: http://localhost:8080
+            - name: "SCHELLAR_TARGET"
+              value: http://localhost:3000
             - name: OAUTH2
               value: {{ .Values.proxyEnv.AUTH_ENABLED | quote }}
             - name: OAUTH2_AUTH_URL
