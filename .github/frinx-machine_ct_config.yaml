@@ -1,0 +1,15 @@
+# See https://github.com/helm/chart-testing#configuration
+remote: origin
+target-branch: main
+chart-dirs:
+  - charts
+chart-repos:
+  - bitnami=https://charts.bitnami.com/bitnami
+  - elastic=https://helm.elastic.co
+  - frinx=https://FRINXio.github.io/helm-charts
+  - traefik=https://helm.traefik.io/traefik
+helm-extra-args: --timeout 600s
+additional-commands:
+  - helm unittest --helm3 --strict --file unittests/*.yaml --file 'unittests/**/*.yaml' {{ .Path }}
+charts:
+  - frinx-machine
