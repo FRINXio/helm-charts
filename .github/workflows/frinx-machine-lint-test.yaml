@@ -1,4 +1,4 @@
-name: Lint and Test Charts
+name: Lint and Test Frinx-machine
 
 on: pull_request
 
