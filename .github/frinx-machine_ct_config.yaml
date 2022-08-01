@@ -10,7 +10,7 @@ chart-repos:
   - traefik=https://helm.traefik.io/traefik
   - grafana=https://grafana.github.io/helm-charts
   - influx=https://helm.influxdata.com
-helm-extra-args: --timeout 600s
+helm-extra-args: --timeout 1200s
 excluded-charts:
   - demo-workflows
   - frinx-frontend
