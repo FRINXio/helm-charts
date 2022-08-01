@@ -91,17 +91,17 @@ grafana:
   adminUser: frinx
   adminPassword: frinx123!
 
-  extraConfigmapMounts:    
-  - name: frinx-grafana-datasources
-    mountPath: /etc/grafana/provisioning/datasources
-    subPath: ""
-    configMap: frinx-grafana-datasources
-    readOnly: false
-  - name: frinx-grafana-dashboards
-    mountPath: /etc/grafana/provisioning/dashboards
-    subPath: ""
-    configMap: frinx-grafana-dashboards
-    readOnly: false
+  extraConfigmapMounts:
+    - name: frinx-grafana-datasources
+      mountPath: /etc/grafana/provisioning/datasources
+      subPath: ""
+      configMap: frinx-grafana-datasources
+      readOnly: false
+    - name: frinx-grafana-dashboards
+      mountPath: /etc/grafana/provisioning/dashboards
+      subPath: ""
+      configMap: frinx-grafana-dashboards
+      readOnly: false
 
 influxdb2:
   enabled: true
@@ -143,7 +143,7 @@ telegraf-ds:
           fieldPath: spec.nodeName
 
   config:
-      docker_endpoint: ""
+    docker_endpoint: ""
 
   override_config:
     toml: |
@@ -170,7 +170,7 @@ telegraf-ds:
 
       [[outputs.health]]
         service_address = "http://:8080"
-        
+
       [[inputs.diskio]]
       [[inputs.kernel]]
       [[inputs.mem]]
