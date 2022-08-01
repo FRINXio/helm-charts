@@ -9,8 +9,6 @@ chart-repos:
   - frinx=https://FRINXio.github.io/helm-charts
   - traefik=https://helm.traefik.io/traefik
 helm-extra-args: --timeout 600s
-additional-commands:
-  - helm unittest --helm3 --strict --file unittests/*.yaml --file 'unittests/**/*.yaml' {{ .Path }}
 excluded-charts:
   - demo-workflows
   - frinx-frontend
