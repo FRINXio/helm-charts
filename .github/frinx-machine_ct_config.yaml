@@ -2,7 +2,7 @@
 remote: origin
 target-branch: main
 chart-dirs:
-  - charts
+  - charts/
 chart-repos:
   - bitnami=https://charts.bitnami.com/bitnami
   - elastic=https://helm.elastic.co
@@ -11,5 +11,14 @@ chart-repos:
 helm-extra-args: --timeout 600s
 additional-commands:
   - helm unittest --helm3 --strict --file unittests/*.yaml --file 'unittests/**/*.yaml' {{ .Path }}
-charts:
-  - frinx-machine
+excluded-charts:
+  - demo-workflows
+  - frinx-frontend
+  - frinx-grafana-configs
+  - inventory
+  - krakend
+  - sample-topology
+  - uniconfig
+  - uniflow
+  - uniresource
+  - worker
