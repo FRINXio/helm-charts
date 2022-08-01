@@ -8,6 +8,8 @@ chart-repos:
   - elastic=https://helm.elastic.co
   - frinx=https://FRINXio.github.io/helm-charts
   - traefik=https://helm.traefik.io/traefik
+  - grafana=https://grafana.github.io/helm-charts
+  - influx=https://helm.influxdata.com
 helm-extra-args: --timeout 600s
 excluded-charts:
   - demo-workflows
