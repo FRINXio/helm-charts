@@ -3,7 +3,7 @@ name: Lint and Test Frinx-machine
 on: pull_request
 
 jobs:
-  lint-test:
+  lint-test-frinx-machine:
     runs-on:
       - self-hosted
       - frinx-internal
