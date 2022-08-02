@@ -36,8 +36,8 @@ jobs:
             echo "::set-output name=changed::true"
           fi
 
-      - name: Run chart-testing (lint)
-        run: ct lint --config .github/frinx-machine_lint_test_config.yaml
+      # - name: Run chart-testing (lint)
+      #   run: ct lint --config .github/frinx-machine_lint_test_config.yaml
 
       - name: Create kind cluster
         uses: helm/kind-action@v1.2.0
@@ -48,6 +48,5 @@ jobs:
       
       - name: Install helm-chart for e2e tests
         run: |
-          tree
           helm dependency update
           helm install frinx-dev .
