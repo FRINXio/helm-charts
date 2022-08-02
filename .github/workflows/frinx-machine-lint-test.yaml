@@ -45,3 +45,9 @@ jobs:
 
       - name: Run chart-testing (install)
         run: ct install --config .github/frinx-machine_ct_config.yaml
+      
+      - name: Install helm-chart for e2e tests
+        run: |
+          tree
+          helm dependency update
+          helm install frinx-dev .
