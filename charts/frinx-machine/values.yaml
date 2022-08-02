@@ -70,7 +70,7 @@ uniconfig-postgresql:
 
 uniconfig:
   enabled: true
-  fullnameOverride: "uniconfig"
+  # fullnameOverride: "uniconfig"
   postgresql:
     enabled: false
   dbPersistence:
