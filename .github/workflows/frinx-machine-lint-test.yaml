@@ -69,3 +69,5 @@ jobs:
           command: run
           resource: test
           parameters: "frinx-e2e"
+        env:
+          KUBERNETES_MASTER: /home/frinx/.kube/config
