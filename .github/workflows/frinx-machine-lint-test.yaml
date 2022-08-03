@@ -49,4 +49,23 @@ jobs:
       - name: Install helm-chart for e2e tests
         run: |
           helm dependency update charts/frinx-machine
-          helm install frinx-dev charts/frinx-machine --wait
+          helm install frinx-dev charts/frinx-machine --wait --timeout 20m0s
+
+      # Creating test
+      - name: Create test
+        id: create_test
+        uses: kubeshop/testkube-docker-action@v1
+        with:
+          command: create
+          resource: test
+          namespace: testkube
+          parameters: "--git-uri https://github.com/FRINXio/frinx-machine-e2e-tests.git --git-branch main --name frinx-e2e --type cypress/project"
+
+      # Running test
+      - name: Run test
+        id: run_test
+        uses: kubeshop/testkube-docker-action@v1
+        with:
+          command: run
+          resource: test
+          parameters: "frinx-e2e"
