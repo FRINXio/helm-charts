@@ -60,6 +60,8 @@ jobs:
           resource: test
           namespace: testkube
           parameters: "--git-uri https://github.com/FRINXio/frinx-machine-e2e-tests.git --git-branch main --name frinx-e2e --type cypress/project"
+        env:
+          KUBERNETES_MASTER: /home/frinx/.kube/config
 
       # Running test
       - name: Run test
