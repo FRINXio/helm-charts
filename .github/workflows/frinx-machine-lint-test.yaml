@@ -71,15 +71,16 @@ jobs:
         run: |
           helm dependency update charts/frinx-machine
           helm install --namespace testkube frinx-dev charts/frinx-machine --wait --timeout 20m0s
+        # helm install --namespace testkube frinx-dev charts/frinx-machine --set demo-workflows.enabled=true  --wait --timeout 20m0s
 
       # Creating test
       - name: Create test
         id: create_test
         run: |
-          kubectl testkube create test --git-uri https://github.com/FRINXio/frinx-machine-e2e-tests.git --git-branch main --git-path examples --name kubeshop-cypress --type cypress/project
+          kubectl testkube create test --git-uri https://github.com/FRINXio/frinx-machine-e2e-tests.git --git-branch main --git-path examples --name frinx-e2e --type cypress/project
 
       # Running test
       - name: Run test
         id: run_test
         run: |
-          kubectl testkube run test kubeshop-cypress -f
+          kubectl testkube run test frinx-e2e -f
