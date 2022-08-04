@@ -76,7 +76,7 @@ jobs:
       - name: Create test
         id: create_test
         run: |
-          kubectl testkube create test --git-uri https://github.com/kubeshop/testkube-executor-cypress.git --git-branch main --git-path examples --name kubeshop-cypress --type cypress/project
+          kubectl testkube create test --git-uri https://github.com/FRINXio/frinx-machine-e2e-tests.git --git-branch main --git-path examples --name kubeshop-cypress --type cypress/project
 
       # Running test
       - name: Run test
