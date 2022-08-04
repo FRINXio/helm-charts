@@ -70,8 +70,7 @@ jobs:
       - name: Install helm-chart for e2e tests
         run: |
           helm dependency update charts/frinx-machine
-          helm install --namespace testkube frinx-dev charts/frinx-machine --wait --timeout 20m0s
-        # helm install --namespace testkube frinx-dev charts/frinx-machine --set demo-workflows.enabled=true  --wait --timeout 20m0s
+          helm install --namespace testkube frinx-dev charts/frinx-machine --set demo-workflows.enabled=true  --wait --timeout 20m0s
 
       # Creating test
       - name: Create test
