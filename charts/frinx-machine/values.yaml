@@ -78,6 +78,9 @@ uniconfig:
     connection_dbName: "uniconfig"
     connection_username: "postgresU"
     connection_password: "postgresP"
+  traefik:
+    rbac:
+      namespaced: false
 
 demo-workflows:
   enabled: false
