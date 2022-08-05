@@ -36,15 +36,15 @@ jobs:
             echo "::set-output name=changed::true"
           fi
 
-      # - name: Run chart-testing (lint)
-      #   run: ct lint --config .github/frinx-machine_lint_test_config.yaml
+      - name: Run chart-testing (lint)
+        run: ct lint --config .github/frinx-machine_lint_test_config.yaml
 
       - name: Create kind cluster
         uses: helm/kind-action@v1.2.0
         if: steps.list-changed.outputs.changed == 'true'
 
-      # - name: Run chart-testing (install)
-      #   run: ct install --config .github/frinx-machine_lint_test_config.yaml
+      - name: Run chart-testing (install)
+        run: ct install --config .github/frinx-machine_lint_test_config.yaml
       
       - name: Install testkube plugin
         run: |
@@ -76,7 +76,7 @@ jobs:
       - name: Create test
         id: create_test
         run: |
-          kubectl testkube create test --git-uri https://github.com/FRINXio/frinx-machine-e2e-tests.git --git-branch fix_install_test --name frinx-e2e --type cypress/project
+          kubectl testkube create test --git-uri https://github.com/FRINXio/frinx-machine-e2e-tests.git --git-branch main --name frinx-e2e --type cypress/project
 
       # Running test
       - name: Run test
