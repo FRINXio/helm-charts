@@ -72,13 +72,13 @@ jobs:
           helm dependency update charts/frinx-machine
           helm install frinx-dev charts/frinx-machine --set demo-workflows.enabled=true  --wait --timeout 20m0s
 
-      # Creating test
+      # Creating e2e tests
       - name: Create test
         id: create_test
         run: |
           kubectl testkube create test --git-uri https://github.com/FRINXio/frinx-machine-e2e-tests.git --git-branch main --name frinx-e2e --type cypress/project
 
-      # Running test
+      # Running e2e tests
       - name: Run test
         id: run_test
         run: |
