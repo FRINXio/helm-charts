@@ -9,17 +9,17 @@ jobs:
   lint-test-frinx-machine:
     runs-on:
       - self-hosted
-      - frinx-runner-1
+      - frinx-runner-0
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
-      - name: Helm tool installer
-        uses: Azure/setup-helm@v3.3
-        with:
-          version: v3.8.1
+#      - name: Helm tool installer
+#        uses: Azure/setup-helm@v3.3
+#        with:
+#          version: v3.8.1
 
       - uses: actions/setup-python@v2
         with:
@@ -70,7 +70,7 @@ jobs:
       - name: Install helm-chart for e2e tests
         run: |
           helm dependency update charts/frinx-machine
-          helm install frinx-dev charts/frinx-machine --set demo-workflows.enabled=true  --wait --timeout 20m0s
+          helm install frinx-dev charts/frinx-machine --set demo-workflows.enabled=true -n frinx-e2e --create-namespace --wait --timeout 20m0s
 
       # Creating e2e tests
       - name: Create test
