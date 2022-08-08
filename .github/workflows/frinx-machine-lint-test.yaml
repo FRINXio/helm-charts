@@ -9,7 +9,7 @@ jobs:
   lint-test-frinx-machine:
     runs-on:
       - self-hosted
-      - frinx-runner-0
+      - frinx-runner-3
     steps:
       - name: Checkout
         uses: actions/checkout@v2
