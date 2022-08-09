@@ -12,8 +12,14 @@ jobs:
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+#       - run: |
+#           az aks create --resource-group github-e2e-tests --name aks-e2e-tests --node-count 1 --node-vm-size standard_e4as_v4 --generate-ssh-keys
+      - uses: azure/aks-set-context@v3
+        with:
+           resource-group: 'github-e2e-tests'
+           cluster-name: 'aks-e2e-tests'
       - run: |
-          az aks create --resource-group github-e2e-tests --name aks-e2e-tests --node-count 1 --node-vm-size standard_e4as_v4 --generate-ssh-keys
+          kubectl get pods
 
 #   lint-test-frinx-machine:
 #     runs-on:
