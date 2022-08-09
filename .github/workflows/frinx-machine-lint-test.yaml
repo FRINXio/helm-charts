@@ -13,7 +13,7 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - run: |
-          az webapp list --query "[?state=='Running']"
+          az aks create --resource-group github-e2e-tests --name aks-e2e-tests --node-count 1 --node-vm-size standard_e4as_v4
 
 #   lint-test-frinx-machine:
 #     runs-on:
