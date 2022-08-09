@@ -3,11 +3,15 @@
 krakend:
   enabled: true
   fullnameOverride: "krakend"
+  image:
+    repository: "frinx/krakend"
+    tag: "1.0.4"
 
 frinx-frontend:
   enabled: true
   fullnameOverride: "frinx-frontend"
   image:
+    repository: "frinx/frinx-frontend"
     tag: "1.0.13"
   env:
     AUTH_CLIENT_ID: "frinx"
@@ -32,6 +36,9 @@ postgresql:
 uniresource:
   enabled: true
   fullnameOverride: "uniresource"
+  image:
+    repository: "frinx/resource-manager"
+    tag: "1.0.4"
   postgresql:
     enabled: false
   env:
@@ -41,6 +48,15 @@ uniresource:
 uniflow:
   enabled: true
   fullnameOverride: "workflow-proxy"
+  image:
+    repository: "frinx/uniflow-conductor-server"
+    tag: "1.0.8"
+  imageProxy:
+    repository: "frinx/workflow-proxy"
+    tag: "1.0.9"
+  imageSchellar:
+    repository: "frinx/uniflow-schellar"
+    tag: "1.9.4"
   postgresql:
     enabled: false
   env:
@@ -53,6 +69,9 @@ uniflow:
 inventory:
   enabled: true
   fullnameOverride: "inventory"
+  image:
+    repository: "frinx/frinx-inventory-server"
+    tag: "1.3.0"
   postgresql:
     enabled: false
   env:
@@ -70,7 +89,9 @@ uniconfig-postgresql:
 
 uniconfig:
   enabled: true
-  # fullnameOverride: "uniconfig"
+  image:
+    repository: "frinx/uniconfig"
+    tag: "5.0.9"
   postgresql:
     enabled: false
   dbPersistence:
@@ -85,8 +106,14 @@ uniconfig:
 demo-workflows:
   enabled: false
   fullnameOverride: "demo-workflows"
+  image:
+    repository: "frinx/demo-workflows"
+    tag: "1.10"
   sample-topology:
     fullnameOverride: "sample-topology"
+    image:
+      repository: "frinx/sample-topology"
+      tag: "1.10"
 
 grafana:
   enabled: true
