@@ -9,17 +9,51 @@ jobs:
   build-ask-cluster:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      
+      - name: Helm tool installer
+        uses: Azure/setup-helm@v3.3
+        with:
+          version: v3.8.1
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.2.1
+
+      - name: Run chart-testing (list-changed)
+        id: list-changed
+        run: |
+          changed=$(ct list-changed --config .github/frinx-machine_lint_test_config.yaml)
+          if [[ -n "$changed" ]]; then
+            echo "::set-output name=changed::true"
+          fi
+
+      - name: Run chart-testing (lint)
+        run: ct lint --config .github/frinx-machine_lint_test_config.yaml
+
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
 #       - run: |
 #           az aks create --resource-group github-e2e-tests --name aks-e2e-tests --node-count 1 --node-vm-size standard_e4as_v4 --generate-ssh-keys
+
       - uses: azure/aks-set-context@v3
         with:
            resource-group: 'github-e2e-tests'
            cluster-name: 'aks-e2e-tests'
-      - run: |
-          kubectl get pods
+      
+      - name: Run chart-testing (install)
+        run: ct install --config .github/frinx-machine_lint_test_config.yaml      
+      
+#       - run: |
+#           kubectl get pods
 
 #   lint-test-frinx-machine:
 #     runs-on:
