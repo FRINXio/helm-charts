@@ -52,8 +52,8 @@ spec:
         - name: {{ .Chart.Name }}-proxy
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.imageProxy.repository }}:{{ .Values.imageProxy.tag }}"
-          imagePullPolicy: {{ .Values.imageProxy.pullPolicy }}
+          image: "{{ .Values.proxyImage.repository }}:{{ .Values.proxyImage.tag }}"
+          imagePullPolicy: {{ .Values.proxyImage.pullPolicy }}
           ports:
             - name: http
               containerPort: 8088
@@ -157,8 +157,8 @@ spec:
         - name: {{ .Chart.Name }}-schellar
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.imageSchellar.repository }}:{{ .Values.imageSchellar.tag }}"
-          imagePullPolicy: {{ .Values.imageSchellar.pullPolicy }}
+          image: "{{ .Values.schellarImage.repository }}:{{ .Values.schellarImage.tag }}"
+          imagePullPolicy: {{ .Values.schellarImage.pullPolicy }}
           ports:
             - name: http
               containerPort: 3000
