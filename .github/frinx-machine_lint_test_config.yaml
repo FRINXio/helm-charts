@@ -1,0 +1,24 @@
+# See https://github.com/helm/chart-testing#configuration
+remote: origin
+target-branch: main
+chart-dirs:
+  - charts/
+chart-repos:
+  - bitnami=https://charts.bitnami.com/bitnami
+  - elastic=https://helm.elastic.co
+  - frinx=https://FRINXio.github.io/helm-charts
+  - traefik=https://helm.traefik.io/traefik
+  - grafana=https://grafana.github.io/helm-charts
+  - influx=https://helm.influxdata.com
+helm-extra-args: --timeout 1200s
+excluded-charts:
+  - demo-workflows
+  - frinx-frontend
+  - frinx-grafana-configs
+  - inventory
+  - krakend
+  - sample-topology
+  - uniconfig
+  - uniflow
+  - uniresource
+  - worker

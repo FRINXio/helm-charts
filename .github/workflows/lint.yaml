@@ -1,11 +1,10 @@
-name: Lint and Test Charts
+name: Lint Charts
 
 on:
   pull_request:
     paths:
-      - '!charts/frinx-machine/**'
-      - '!charts/demo-workflows/**'
-      - '!charts/worker/**'
+      - 'charts/demo-workflows/**'
+      - 'charts/worker/**'
 
 jobs:
   lint-test:
@@ -44,10 +43,3 @@ jobs:
 
       - name: Run chart-testing (lint)
         run: ct lint --config .github/ct_config.yaml
-
-      - name: Create kind cluster
-        uses: helm/kind-action@v1.2.0
-        if: steps.list-changed.outputs.changed == 'true'
-
-      - name: Run chart-testing (install)
-        run: ct install --config .github/ct_config.yaml
