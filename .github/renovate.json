@@ -4,5 +4,8 @@
     "config:base"
   ],
   "includePaths": ["charts/frinx-machine/**"],
-  "bumpVersion": "patch"
+  "bumpVersion": "patch",
+  "rebaseWhen": "behind-base-branch",
+  "rollbackPrs":true,
+  "labels": ["dependencies"]
 }
