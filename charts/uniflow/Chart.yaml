@@ -25,8 +25,10 @@ annotations:
     - name: uniflow-schellar
       image: frinx/uniflow-schellar:1.9.4
   artifacthub.io/changes: |
-    - kind: fixed
-      description: Fix schellar
+    - kind: changed
+      description: Change the naming convention for images to match helm standard
       links:
+        - name: Renovate docs
+          url: https://docs.renovatebot.com/modules/manager/helm-values/
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/49
+          url: https://github.com/FRINXio/helm-charts/pull/52
