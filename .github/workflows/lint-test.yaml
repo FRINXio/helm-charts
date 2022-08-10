@@ -1,11 +1,6 @@
 name: Lint and Test Charts
 
-on:
-  pull_request:
-    paths:
-      - '!charts/frinx-machine/**'
-      - '!charts/demo-workflows/**'
-      - '!charts/worker/**'
+on: pull_request
 
 jobs:
   lint-test:
