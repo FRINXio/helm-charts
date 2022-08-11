@@ -46,11 +46,12 @@ helm uninstall [RELEASE_NAME]
 | `podSecurityContext` | Pod deployment securityContext | `{}` |
 | `containerSecurityContext` | Deployment container securityContext | [See values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/krakend/values.yaml#L32) |
 | `service.type` | Kubernetes service type | `ClusterIP` |
-| `service.port` | Kubernetes port where service is exposed | `80` |
+| `service.port` | Kubernetes port where service is exposed | `8080` |
 | `service.targetPort` | Port on which the service will send requests to, that your pod will be listening on | `8080` |
 | `ingress.enabled` | Enables Ingress | `false` |
 | `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
 | `ingress.host` | Ingress accepted hostname  | `""` |
+| `ingress.port` | Port where ingress is exposed  | `""` |
 | `resources` | CPU/Memory resource requests/limits | `{}` |
 | `autoscaling.enabled` | Enable replica autoscaling settings | `false` |
 | `autoscaling.minReplicas` | Minimum replicas for the pod autoscaling | `1` |
