@@ -36,7 +36,7 @@ containerSecurityContext:
 
 service:
   type: ClusterIP
-  port: 80
+  port: 8080
   targetPort: 8080
 
 ingress:
@@ -48,6 +48,7 @@ ingress:
     # traefik.ingress.kubernetes.io/router.tls: "true"
     # traefik.ingress.kubernetes.io/router.tls.certresolver: "production"
   host: "services.frinx.io"
+  port: 80
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

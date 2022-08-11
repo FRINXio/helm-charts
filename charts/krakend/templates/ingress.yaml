@@ -27,5 +27,5 @@ spec:
               service:
                 name: {{ $fullName }}
                 port:
-                  number: {{ $svcPort }}
+                  number: {{ .Values.ingress.host }}
 {{- end }}
