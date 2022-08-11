@@ -51,7 +51,6 @@ helm uninstall [RELEASE_NAME]
 | `ingress.enabled` | Enables Ingress | `false` |
 | `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
 | `ingress.host` | Ingress accepted hostname  | `""` |
-| `ingress.port` | Port where ingress is exposed  | `""` |
 | `resources` | CPU/Memory resource requests/limits | `{}` |
 | `autoscaling.enabled` | Enable replica autoscaling settings | `false` |
 | `autoscaling.minReplicas` | Minimum replicas for the pod autoscaling | `1` |
