@@ -27,5 +27,5 @@ spec:
               service:
                 name: {{ $fullName }}
                 port:
-                  number: {{ .Values.ingress.host }}
+                  number: {{ .Values.ingress.port }}
 {{- end }}
