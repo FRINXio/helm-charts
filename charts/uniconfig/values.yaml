@@ -24,6 +24,7 @@ serviceAccount:
   name: ""
 
 podAnnotations: {}
+  # rollme: {{ randAlphaNum 5 | quote }}
 
 podSecurityContext: {}
   # fsGroup: 2000
@@ -89,6 +90,11 @@ proxy:
   enabled: false
   http_proxy:
   https_proxy:
+
+alwaysRollAfterUpgrade: false
+extraScriptConfigMap:
+extraLightyConfigMap:
+extraLogbackConfigMap:
 
 java:
   max_mem: "10G"

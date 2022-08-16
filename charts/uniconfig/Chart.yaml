@@ -29,3 +29,8 @@ annotations:
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/53
+    - kind: added
+      description: Add extra config map options
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/53
