@@ -70,9 +70,9 @@ helm uninstall [RELEASE_NAME]
 | `proxy.http_proxy` | Http address for proxy | `false` |
 | `proxy.https_proxy` | Https address for proxy | `false` |
 | `alwaysRollAfterUpgrade` | Always roll after upgrade option | `false` |
-| `extraScriptConfigMap` | Mount diffrent config map with script for uniconfig | |
-| `extraLightyConfigMap` | Mount diffrent config map with lighty configuration file for uniconfig | |
-| `extraLogbackConfigMap` | Mount diffrent config map with logback configuration file for uniconfig | |
+| `extraScriptConfigMap` | Mount different config map with script for uniconfig | |
+| `extraLightyConfigMap` | Mount different config map with lighty configuration file for uniconfig | |
+| `extraLogbackConfigMap` | Mount different config map with logback configuration file for uniconfig | |
 | `java.max_mem` | Max memory for java | `"10G"` |
 | `dbPersistence.enabled` | Database persistence | `true` |
 | `dbPersistence.connection_dbName` | Database name | `"uniconfig"` |
