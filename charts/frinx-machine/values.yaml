@@ -5,7 +5,7 @@ krakend:
   fullnameOverride: "krakend"
   image:
     repository: "frinx/krakend"
-    tag: "1.0.4"
+    tag: "1.2.0"
 
 frinx-frontend:
   enabled: true
