@@ -1,6 +1,8 @@
+{{- if (include "uniconfig.createScriptConfigMap" .) }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ include "uniconfig.fullname" . }}-configmap-uniconfig-script
 data:
 {{- (.Files.Glob "config/run_uniconfig.sh").AsConfig | nindent 2 }}
+{{ end }}
