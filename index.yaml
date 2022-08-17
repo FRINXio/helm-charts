@@ -1004,6 +1004,53 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Update uniconfig image to 5.0.12
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/53
+        - kind: fixed
+          description: Fix namespaced rbac for traefik in local env
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/53
+        - kind: added
+          description: Add extra config map options
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/53
+        - kind: added
+          description: Add alwaysRollAfterUpgrade option
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/53
+            - name: Helm documentation
+              url: https://helm.sh/docs/howto/charts_tips_and_tricks/#automatically-roll-deployments
+    apiVersion: v2
+    appVersion: 5.0.12
+    created: "2022-08-17T13:07:50.67567788Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: traefik.enabled
+      name: traefik
+      repository: https://helm.traefik.io/traefik
+      version: 10.19.5
+    description: A Helm chart for UniConfig Kubernetes deployment
+    digest: 35c59e8e959da37618b865586fc8933340d6a5a4b18968c9edc1c9d1834d3b53
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: uniconfig
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniconfig-2.4.0/uniconfig-2.4.0.tgz
+    version: 2.4.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Update uniconfig image to 5.0.11
           links:
             - name: GitHub PR
@@ -1627,4 +1674,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/worker-1.0.0/worker-1.0.0.tgz
     version: 1.0.0
-generated: "2022-08-17T13:00:25.359991814Z"
+generated: "2022-08-17T13:07:50.675961078Z"
