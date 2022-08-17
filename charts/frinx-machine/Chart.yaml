@@ -3,7 +3,7 @@ name: frinx-machine
 description: Kubernetes deployment of FRINX-machine
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 0.2.3
+version: 0.2.5
 maintainers:
   - name: FRINX
 dependencies:
@@ -71,12 +71,12 @@ dependencies:
   - condition: telegraf-ds.enabled
     name: telegraf-ds
     repository: https://helm.influxdata.com
-    version: 1.1.0
+    version: 1.1.1
 
   - condition: loki.enabled
     name: loki
     repository: https://grafana.github.io/helm-charts
-    version: 2.12.2
+    version: 2.14.1
 
   - condition: loki.enabled
     name: promtail
