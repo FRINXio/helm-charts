@@ -7,5 +7,6 @@
   "bumpVersion": "patch",
   "rebaseWhen": "behind-base-branch",
   "rollbackPrs":true,
-  "labels": ["dependencies"]
+  "labels": ["dependencies"],
+  "prConcurrentLimit": 1
 }

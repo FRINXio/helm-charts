@@ -90,6 +90,11 @@ proxy:
   http_proxy:
   https_proxy:
 
+alwaysRollAfterUpgrade: false
+extraScriptConfigMap:
+extraLightyConfigMap:
+extraLogbackConfigMap:
+
 java:
   max_mem: "10G"
 
@@ -134,5 +139,3 @@ traefik:
       expose: true
       exposedPort: 8181
       protocol: TCP
-  rbac:
-    namespaced: true
