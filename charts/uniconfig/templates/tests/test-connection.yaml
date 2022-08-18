@@ -11,5 +11,5 @@ spec:
     - name: check-uniconfig
       image: curlimages/curl
       command: ["/bin/sh","-c"]
-      args: ['curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST {{ include "uniconfig.fullname" . }}:{{ .Values.service.port }}/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"']
+      args: ['curl --fail --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST {{ .Values.traefik.fullnameOverride }}:{{ .Values.traefik.ports.uniconfig.port }}/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"']
   restartPolicy: Never
