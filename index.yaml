@@ -1056,6 +1056,29 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Change default port for krakend from 80 to 8080
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/54
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:1.0.4
+    apiVersion: v2
+    appVersion: 1.0.4
+    created: "2022-08-23T07:30:45.88782912Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: 51135a12d507a0edf18ace7dcefce4aa73117fb143674dc9db40c18103c30f09
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-2.2.1/krakend-2.2.1.tgz
+    version: 2.2.1
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Update krakend image version to 1.0.4
           links:
             - name: GitHub PR
@@ -2006,4 +2029,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/worker-1.0.0/worker-1.0.0.tgz
     version: 1.0.0
-generated: "2022-08-23T07:21:46.780573559Z"
+generated: "2022-08-23T07:30:45.888015026Z"
