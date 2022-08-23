@@ -7,7 +7,7 @@ on:
 
 jobs:
   lint-test-frinx-machine-chart:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -72,7 +72,7 @@ jobs:
         id: install_testkube
         run: |
           helm repo add testkube https://kubeshop.github.io/helm-charts
-          helm install --create-namespace --namespace testkube testkube testkube/testkube --wait
+          helm install --create-namespace --namespace testkube --version 1.4.5 testkube testkube/testkube --wait
 
       - name: Install helm-chart for e2e tests
         run: |
