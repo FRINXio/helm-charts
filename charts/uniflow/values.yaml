@@ -10,12 +10,12 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
-imageProxy:
+proxyImage:
   repository: frinx/workflow-proxy
   pullPolicy: IfNotPresent
   tag: "1.0.9"
 
-imageSchellar:
+schellarImage:
   repository: frinx/uniflow-schellar
   pullPolicy: IfNotPresent
   tag: "1.9.4"
