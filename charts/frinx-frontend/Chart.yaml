@@ -13,9 +13,9 @@ annotations:
       description: Add DEVICE_TOPOLOGY_ENABLED env variable
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/71
+          url: https://github.com/FRINXio/helm-charts/pull/72
     - kind: changed
       description: Change supported version of image to 1.0.17+
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/40
+          url: https://github.com/FRINXio/helm-charts/pull/72
