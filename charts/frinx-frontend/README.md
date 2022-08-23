@@ -76,3 +76,4 @@ helm uninstall [RELEASE_NAME]
 | `env.AUTH_CLIENT_ID` | AUTH_CLIENT_ID env variable | `"frinx"` |
 | `env.AUTH_REDIRECT_DOMAIN` | AUTH_REDIRECT_DOMAIN env variable | `localhost` |
 | `env.MSAL_AUTHORITY` | MSAL_AUTHORITY env variable | `https://login.microsoftonline.com/common/` |
+| `env.DEVICE_TOPOLOGY_ENABLED` | DEVICE_TOPOLOGY_ENABLED env variable | `false` |
