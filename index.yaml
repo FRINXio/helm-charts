@@ -72,6 +72,31 @@ entries:
   frinx-frontend:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Add DEVICE_TOPOLOGY_ENABLED env variable
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/72
+        - kind: changed
+          description: Change supported version of image to 1.0.17+
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/72
+    apiVersion: v2
+    appVersion: 1.0.17
+    created: "2022-08-23T09:00:14.641569048Z"
+    description: A Helm chart for Kubernetes deployment of the Frinx UI
+    digest: 92f14c7309b3c9d81735f2c37703a40ad22a25f3f00548d4d9ddd20b46bdc582
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-frontend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-frontend-1.2.0/frinx-frontend-1.2.0.tgz
+    version: 1.2.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: security
           description: Drop all capabilities
           links:
@@ -2067,4 +2092,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/worker-1.0.0/worker-1.0.0.tgz
     version: 1.0.0
-generated: "2022-08-23T07:31:53.732131639Z"
+generated: "2022-08-23T09:00:14.64173275Z"
