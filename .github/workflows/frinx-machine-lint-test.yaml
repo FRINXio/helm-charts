@@ -91,7 +91,7 @@ jobs:
         run: |
           kubectl testkube run test frinx-e2e -f
       
-      #- name: Delete AKS cluster
-      #  if: ${{ always() }}
-      #  run: |
-      #    az aks delete --resource-group github-e2e-tests --name aks-e2e-tests --yes
+      - name: Delete AKS cluster
+        if: ${{ always() }}
+        run: |
+          az aks delete --resource-group github-e2e-tests --name aks-e2e-tests --yes
