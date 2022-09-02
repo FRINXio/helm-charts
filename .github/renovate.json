@@ -8,5 +8,7 @@
   "rebaseWhen": "behind-base-branch",
   "rollbackPrs":true,
   "labels": ["dependencies"],
-  "prConcurrentLimit": 1
+  "prConcurrentLimit": 1,
+  "ignoreDeps": ["grafana", "loki", "postgresql"],
+  "commitMessageAction": "[frinx-machine] Update"
 }
