@@ -76,7 +76,6 @@ inventory:
     enabled: false
   env:
     POSTGRES_HOSTNAME: frinx-postgresql
-    UNICONFIG_LIST_URL: http://krakend:8080/static/list/uniconfig
 
 uniconfig-postgresql:
   enabled: true
