@@ -78,7 +78,7 @@ affinity: {}
 env:
   UNICONFIG_API_PROTOCOL: http
   UNICONFIG_API_PORT: 8181
-  UNICONFIG_LIST_URL: http://krakend:80/static/list/uniconfig
+  UNICONFIG_LIST_URL: http://krakend:8080/static/list/uniconfig
   X_TENANT_ID: frinx
   POSTGRES_USER: postgresU
   POSTGRES_PASSWORD: postgresP

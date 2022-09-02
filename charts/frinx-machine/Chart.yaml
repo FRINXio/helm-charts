@@ -3,7 +3,7 @@ name: frinx-machine
 description: Kubernetes deployment of FRINX-machine
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 0.2.1
+version: 0.2.12
 maintainers:
   - name: FRINX
 dependencies:
@@ -15,7 +15,7 @@ dependencies:
   - condition: frinx-frontend.enabled
     name: frinx-frontend
     repository: https://FRINXio.github.io/helm-charts
-    version: 1.1.2
+    version: 1.2.0
 
   - condition: postgresql.enabled
     name: postgresql
@@ -30,7 +30,7 @@ dependencies:
   - condition: uniflow.enabled
     name: uniflow
     repository: https://FRINXio.github.io/helm-charts
-    version: 1.3.1
+    version: 2.0.0
 
   - condition: inventory.enabled
     name: inventory
@@ -46,7 +46,7 @@ dependencies:
   - condition: uniconfig.enabled
     name: uniconfig
     repository: https://FRINXio.github.io/helm-charts
-    version: 2.2.0
+    version: 2.4.0
 
   - condition: demo-workflows.enabled
     name: demo-workflows
@@ -61,7 +61,7 @@ dependencies:
   - condition: grafana.enabled
     name: grafana
     repository: "https://grafana.github.io/helm-charts"
-    version: 6.32.7
+    version: 6.32.14
 
   - condition: influxdb.enabled
     name: influxdb2
@@ -71,14 +71,14 @@ dependencies:
   - condition: telegraf-ds.enabled
     name: telegraf-ds
     repository: https://helm.influxdata.com
-    version: 1.1.0
+    version: 1.1.1
 
   - condition: loki.enabled
     name: loki
     repository: https://grafana.github.io/helm-charts
-    version: 2.12.2
+    version: 2.14.1
 
   - condition: loki.enabled
     name: promtail
     repository: https://grafana.github.io/helm-charts
-    version: 6.0.2
+    version: 6.3.0

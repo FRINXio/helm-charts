@@ -61,7 +61,7 @@ helm uninstall [RELEASE_NAME]
 | `affinity` | Affinity settings for pod assignment | `{}` |
 | `env.UNICONFIG_API_PROTOCOL` | UNICONFIG_API_PROTOCOL env value | `http` |
 | `env.UNICONFIG_API_PORT` | UNICONFIG_API_PORT env value | `8181` |
-| `env.UNICONFIG_LIST_URL` | UNICONFIG_LIST_URL env value | `http://krakend:80/static/list/uniconfig` |
+| `env.UNICONFIG_LIST_URL` | UNICONFIG_LIST_URL env value | `http://krakend:8080/static/list/uniconfig` |
 | `env.X_TENANT_ID` | X_TENANT_ID env value | `frinx` |
 | `env.POSTGRES_USER` | POSTGRES_USER env value | `postgresU` |
 | `env.POSTGRES_PASSWORD` | POSTGRES_PASSWORD env value | `postgresP` |

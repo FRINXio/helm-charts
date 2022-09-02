@@ -13,8 +13,11 @@ spec:
       {{- include "uniconfig.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
+        {{- if .Values.alwaysRollAfterUpgrade }}
+        rollme: {{ randAlphaNum 5 | quote }}
+        {{- end }}
+      {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
@@ -38,21 +41,21 @@ spec:
           emptyDir: {}
         - name: uniconfig-script
           configMap:
-            name: {{ template "uniconfig.fullname" . }}-configmap-uniconfig-script
+            name: {{ include "uniconfig.scriptConfigMapName" . }}
             defaultMode: 0777
             items:
             - key: run_uniconfig.sh
               path: run_uniconfig.sh
         - name: logback
           configMap:
-            name: {{ template "uniconfig.fullname" . }}-configmap-logback
+            name: {{ include "uniconfig.logbackConfigMapName" . }}
             defaultMode: 0777
             items:
             - key: logback.xml
               path: logback.xml
         - name: lighty-uniconfig-config
           configMap:
-            name: {{ template "uniconfig.fullname" . }}-configmap-lighty-uniconfig-config
+            name: {{ include "uniconfig.lightyConfigMapName" . }}
             defaultMode: 0777
             items:
             - key: lighty-uniconfig-config.json
@@ -150,10 +153,6 @@ spec:
           - name: lighty-uniconfig-config
             mountPath: /opt/uniconfig-frinx/config/lighty-uniconfig-config.json
             subPath: lighty-uniconfig-config.json
-          #   - name: config
-          #     mountPath: {{ .Values.mountPath }}
-          #   - name: cache
-          #     mountPath: "/opt/uniconfig-frinx/cache"
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
