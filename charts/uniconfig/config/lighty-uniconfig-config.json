@@ -473,7 +473,7 @@
         }
     },
     "tls": {
-        "enabledTls": true,
+        "enabledTls": false,
         "enabledClientAuthentication": false,
         "keystorePath": ".keystore",
         "keystorePassword": "passtest"
