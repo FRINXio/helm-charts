@@ -51,10 +51,10 @@ uniflow:
   image:
     repository: "frinx/uniflow-conductor-server"
     tag: "1.0.9"
-  imageProxy:
+  proxyImage:
     repository: "frinx/workflow-proxy"
     tag: "1.0.9"
-  imageSchellar:
+  schellarImage:
     repository: "frinx/uniflow-schellar"
     tag: "1.9.4"
   postgresql:
