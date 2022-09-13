@@ -9,6 +9,6 @@
   "rollbackPrs":true,
   "labels": ["dependencies"],
   "prConcurrentLimit": 1,
-  "ignoreDeps": ["grafana", "loki", "postgresql"],
+  "ignoreDeps": ["grafana", "loki", "postgresql", "promtail"],
   "commitMessageAction": "[frinx-machine] Update"
 }
