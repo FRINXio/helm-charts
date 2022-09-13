@@ -85,6 +85,10 @@ env:
   POSTGRES_DB: inventory
   POSTGRES_HOSTNAME:
   POSTGRES_PORT: 5432
+  ARANGO_URL: http://arangodb:8529
+  ARANGO_USER: frinx
+  ARANGO_PASSWORD: frinx
+  ARANGO_DB: lldp
 
 postgresql:
   enabled: true
