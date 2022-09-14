@@ -113,7 +113,7 @@ demo-workflows:
     fullnameOverride: "sample-topology"
     image:
       repository: "frinx/sample-topology"
-      tag: "1.10"
+      tag: "2.0"
 
 grafana:
   enabled: true
