@@ -80,6 +80,8 @@ spec:
               value: {{ .Values.env.ARANGO_PASSWORD | quote }}
             - name: "ARANGO_DB"
               value: {{ .Values.env.ARANGO_DB | quote }}
+            - name: "ARANGO_TOKEN"
+              value: {{ .Values.env.ARANGO_TOKEN | quote }}
           livenessProbe:
             exec:
               command:
