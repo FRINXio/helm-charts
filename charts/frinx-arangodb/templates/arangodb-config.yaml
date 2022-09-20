@@ -1,0 +1,11 @@
+apiVersion: "database.arangodb.com/v1alpha"
+kind: "ArangoDeployment"
+metadata:
+  name: "arangodb"
+spec:
+  mode: Single
+  tls:
+    caSecretName: None
+  auth:
+    jwtSecretName: {{ .Values.arangodb_config.initSecretName }}
+  image: {{ .Values.arangodb_config.image }}

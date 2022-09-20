@@ -1,0 +1,10 @@
+arangodb_config:
+  image: arangodb/arangodb:3.9.1
+  initSecretName: arangodb-jwt
+  token: 6647ee8a9129b388eabc6c788697197e0fd805346b4867a5d117f0c691c6bfc1
+  bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhcmFuZ29kYiIsInNlcnZlcl9pZCI6ImZvbyJ9.OxGlpYQYzOysECGkonaEP8d64UH1wQeo_XxeIqK8Vgg
+
+arango_operator_secret:
+  initSecretName: arangodb-operator-dashboard
+  username: frinx
+  password: frinx
