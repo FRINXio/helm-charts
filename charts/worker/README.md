@@ -58,3 +58,4 @@ helm uninstall [RELEASE_NAME]
 | `env.X_TENANT_ID` | X_TENANT_ID env variable | `frinx` |
 | `env.X_AUTH_USER_GROUP` | X_AUTH_USER_GROUP env variable | `network-admin` |
 | `env.UNICONFIG_URL_BASE` | UNICONFIG_URL_BASE env variable | `https://uniconfig:8181/rests` |
+| `extraInitContainers` | extraInitContainers env variable | `[]` |
