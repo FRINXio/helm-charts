@@ -47,6 +47,9 @@ spec:
             do sleep 5; echo "waiting for inventory";
             done;
             echo "connection successful!"']
+        {{- with .Values.extraInitContainers }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -58,12 +61,10 @@ spec:
               containerPort: 80
               protocol: TCP
           env:
-            - name: "X_TENANT_ID"
-              value: {{ .Values.env.X_TENANT_ID | quote }}
-            - name: "X_AUTH_USER_GROUP"
-              value: {{ .Values.env.X_AUTH_USER_GROUP | quote }}
-            - name: "UNICONFIG_URL_BASE"
-              value: {{ .Values.env.UNICONFIG_URL_BASE | quote }}
+            {{- range $key, $val := .Values.env }}
+            - name: {{ $key | quote }}
+              value: {{ $val | quote }}
+            {{- end }}
           # livenessProbe:
           #   httpGet:
           #     path: /
