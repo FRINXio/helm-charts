@@ -28,7 +28,6 @@ def execute(body, variables):
     response = client.execute(query=body, variables=variables)
     if response.get('errors'):
         print("IMPORT DEVICES:", response)
-        exit(1)
     return response
 
 install_device_template = """ 
@@ -78,6 +77,7 @@ def get_zone_id(zone_name):
     for node in body['data']['zones']['edges']:
         if node['node']['name'] == zone_name:
             return node['node']['id']
+
 
 
 def get_label_id(label_name):

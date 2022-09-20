@@ -1,17 +1,19 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: arango-seed-{{ .Release.Revision }}
+  name: device-discovery-seed-{{ .Release.Revision }}
   annotations:
     # This is what defines this resource as a hook. Without this line, the
     # job is considered part of the release.
-    "helm.sh/hook": post-install
+    # "helm.sh/hook": post-install, post-upgrade
     # "helm.sh/hook-weight": "-5"
     # "helm.sh/hook-delete-policy": hook-succeeded
 spec:
+  # parallelism: 2
+  ttlSecondsAfterFinished: 10
   template:
     spec:
-      containers:
+      initContainers:
       # ArangoDB database feeding
       - name: arango-seed
         image: {{ .Values.frinx_machine.arango_seed.image }}
@@ -35,18 +37,23 @@ spec:
         command:
           - /bin/bash
           - -c 
-          - "pip3 install python_graphql_client==0.4.3 && python3 /app/importDevices.py /app/device_values.csv /app/device_blueprint.txt || exit 1"
+          - "pip3 install python_graphql_client==0.4.3 && python3 /app/importDevices.py /app/device_values.csv /app/device_blueprint.txt"
         volumeMounts:
         - name: {{ .Values.frinx_machine.arango_seed.configName | quote }}
           mountPath: /app
       # Load configmap with arangodb and inventory datas/scripts
+      containers:
+        - name: job-done
+          image: busybox
+          command: ['sh', '-c', 'echo "Check job container logs to see import results"']
+      restartPolicy: Never
       volumes:
         - name: {{ .Values.frinx_machine.arango_seed.configName | quote }}
           configMap:
             name: {{ .Values.frinx_machine.arango_seed.configName | quote }}
             defaultMode: 0777
-      restartPolicy: Never
-  backoffLimit: 1
+
+  backoffLimit: 10
   # podFailurePolicy:
   #   rules:
   #   - action: FailJob

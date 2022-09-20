@@ -72,7 +72,7 @@ inventory:
   fullnameOverride: "inventory"
   image:
     repository: "frinx/frinx-inventory-server"
-    tag: "arango"
+    tag: "latest"
   postgresql:
     enabled: false
   env:
