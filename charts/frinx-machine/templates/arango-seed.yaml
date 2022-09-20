@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.frinx_machine.arango_seed.configName}}
+data:
+{{ if ne .Values.frinx_machine.arango_seed.files "" }}
+{{ (.Files.Glob .Values.frinx_machine.arango_seed.files).AsConfig | print | indent 2 }}
+{{ end }}

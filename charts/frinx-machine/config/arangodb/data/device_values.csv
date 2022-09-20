@@ -1,0 +1,9 @@
+device_id,device_type,device_version,password,username,port,zone_name,service_state,host,labels
+R1,ios xr,5.3.*,cisco,cisco,22,uniconfig,IN_SERVICE,192.168.1.41,DT
+R2,ios xr,5.3.*,cisco,cisco,22,uniconfig,IN_SERVICE,192.168.1.52,DT
+R3,ios xr,5.3.*,cisco,cisco,22,uniconfig,IN_SERVICE,192.168.1.43,DT
+R4,ios xr,5.3.*,cisco,cisco,22,uniconfig,IN_SERVICE,192.168.1.44,DT
+R5,ios xr,5.3.*,cisco,cisco,22,uniconfig,IN_SERVICE,192.168.1.45,DT
+R6,ios xr,5.3.*,cisco,cisco,22,uniconfig,IN_SERVICE,192.168.1.46,DT
+R7,ios xr,5.3.*,cisco,cisco,22,uniconfig,IN_SERVICE,192.168.1.47,DT
+R9,ios xr,5.3.*,cisco,cisco,22,uniconfig,IN_SERVICE,192.168.1.49,DT

@@ -34,8 +34,9 @@ dependencies:
 
   - condition: inventory.enabled
     name: inventory
-    repository: https://FRINXio.github.io/helm-charts
-    version: 2.0.2
+    # repository: https://FRINXio.github.io/helm-charts
+    repository: "file://../inventory"
+    version: 2.1.x
 
   - condition: uniconfig-postgresql.enabled
     name: postgresql
@@ -82,3 +83,14 @@ dependencies:
     name: promtail
     repository: https://grafana.github.io/helm-charts
     version: 6.3.0
+
+  - condition: arangodb.enabled
+    name: frinx-arangodb
+    # repository: https://FRINXio.github.io/helm-charts
+    repository: "file://../frinx-arangodb"
+    version: 0.0.1
+
+  - condition: arangodb.enabled
+    name: kube-arangodb
+    version: 1.2.12
+    repository: https://arangodb.github.io/kube-arangodb

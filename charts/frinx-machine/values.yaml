@@ -12,9 +12,10 @@ frinx-frontend:
   fullnameOverride: "frinx-frontend"
   image:
     repository: "frinx/frinx-frontend"
-    tag: "1.0.17"
+    tag: "1.0.18"
   env:
     AUTH_CLIENT_ID: "frinx"
+    DEVICE_TOPOLOGY_ENABLED: true
 
 postgresql:
   enabled: true
@@ -71,11 +72,14 @@ inventory:
   fullnameOverride: "inventory"
   image:
     repository: "frinx/frinx-inventory-server"
-    tag: "1.4.0"
+    tag: "arango"
   postgresql:
     enabled: false
   env:
     POSTGRES_HOSTNAME: frinx-postgresql
+    ARANGO_PASSWORD: " "
+    ARANGO_USER: "root"
+    ARANGO_TOKEN: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhcmFuZ29kYiIsInNlcnZlcl9pZCI6ImZvbyJ9.OxGlpYQYzOysECGkonaEP8d64UH1wQeo_XxeIqK8Vgg"
 
 uniconfig-postgresql:
   enabled: true
@@ -116,7 +120,7 @@ demo-workflows:
       tag: "1.10"
 
 grafana:
-  enabled: true
+  enabled: false
   fullnameOverride: "grafana"
   adminUser: frinx
   adminPassword: frinx123!
@@ -134,7 +138,7 @@ grafana:
       readOnly: false
 
 influxdb2:
-  enabled: true
+  enabled: false
   fullnameOverride: influxdb
   adminUser:
     ## @param auth.admin.username InfluxDB&trade; admin user name
@@ -160,7 +164,7 @@ influxdb2:
       value: setup
 
 telegraf-ds:
-  enabled: true
+  enabled: false
   fullnameOverride: telegraf-ds
   env:
     - name: NAMESPACE
@@ -226,7 +230,7 @@ telegraf-ds:
           namespace = [ "${NAMESPACE}" ]
 
 loki:
-  enabled: true
+  enabled: false
   fullnameOverride: loki
   config:
     chunk_store_config:
@@ -286,3 +290,53 @@ promtail:
             {{- with .Values.config.snippets.extraRelabelConfigs }}
             {{- toYaml . | nindent 4 }}
             {{- end }}
+
+
+arangodb:
+  enabled: true
+
+frinx-arangodb:
+  arangodb_config:
+    image: arangodb/arangodb:3.9.1
+    initSecretName: arangodb-jwt
+    token: 6647ee8a9129b388eabc6c788697197e0fd805346b4867a5d117f0c691c6bfc1
+    bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhcmFuZ29kYiIsInNlcnZlcl9pZCI6ImZvbyJ9.OxGlpYQYzOysECGkonaEP8d64UH1wQeo_XxeIqK8Vgg
+
+  arango_operator_secret:
+    initSecretName: arangodb-operator-dashboard
+    username: frinx
+    password: frinx
+
+kube-arangodb:
+  operator:
+    replicaCount: 1
+  rbac:
+    enabled: true
+    extensions:
+      monitoring: false
+      acs: false
+      at: false
+
+  resources:
+    limits:
+      cpu: 1
+      memory: 256Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi
+
+frinx_machine:
+  arango_seed:
+    configName: frinx-arango-seed
+    files: "config/arangodb/**"
+    image: frinx/arango-tools:1.0.0
+    env:
+      ARANGO_PASSWORD: ""
+      ARANGO_USER: root
+      ARANGO_URL: tcp://arangodb:8529
+      ARANGO_DB: lldp
+  inventory_seed:
+    image: python:3.10-buster
+    env:
+      X_TENANT_ID: frinx
+      INVENTORY_URL: http://inventory:8000/graphql

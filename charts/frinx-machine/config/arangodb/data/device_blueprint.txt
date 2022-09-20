@@ -1,0 +1,16 @@
+{
+  "cli": {
+      "cli-topology:host" : "{{host}}",
+      "cli-topology:port" : {{port}},
+      "cli-topology:transport-type": "ssh",
+      "cli-topology:device-type": "{{device_type}}",
+      "cli-topology:device-version": "{{device_version}}",
+      "cli-topology:username": "{{username}}",
+      "cli-topology:password": "{{password}}",
+      "cli-topology:journal-size": 150,
+      "cli-topology:dry-run-journal-size": 150,
+      "cli:topology:parsing-engine" : "tree-parser",
+      "node-extension:reconcile": false,
+      "uniconfig-config:install-uniconfig-node-enabled": true
+  }
+}
