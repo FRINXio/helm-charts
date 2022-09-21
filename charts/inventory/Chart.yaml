@@ -15,7 +15,7 @@ icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 appVersion: "1.5.2"
 annotations:
   artifacthub.io/changes: |
-    - kind: fixed
+    - kind: added
       description: Device discovery functionality in inventory server
       links:
         - name: GitHub PR
