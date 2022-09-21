@@ -68,6 +68,11 @@ helm uninstall [RELEASE_NAME]
 | `env.POSTGRES_DB` | POSTGRES_DB env value | `inventory` |
 | `env.POSTGRES_HOSTNAME` | POSTGRES_HOSTNAME env value | |
 | `env.POSTGRES_PORT` | POSTGRES_PORT env value | `5432` |
+| `env.ARANGO_URL` | ARANGO_URL env value | `http://arangodb:8529` |
+| `env.ARANGO_DB` | ARANGO_DB env value | `lldp` |
+| `env.ARANGO_USER` | ARANGO_USER env value | `root` |
+| `env.ARANGO_PASSWORD` | ARANGO_PASSWORD env value | `" "` |
+| `env.ARANGO_TOKEN` | ARANGO_TOKEN env use bearer token auth instead of basic auth | `""` |
 | `postgresql.enabled` | Switch to enable or disable the PostgreSQL helm chart | `true` |
 | `postgresql.auth.enablePostgresUser` | Assign a password to the "postgres" admin user. Otherwise, remote access will be blocked for this user | `true` |
 | `postgresql.auth.username` | Name for a custom user to create | `postgresU` |
