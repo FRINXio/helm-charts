@@ -1876,6 +1876,32 @@ entries:
   inventory:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Device discovery functionality in inventory server
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/92
+    apiVersion: v2
+    appVersion: 1.5.2
+    created: "2022-09-21T12:11:35.523576647Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deployment of the Device Inventory
+    digest: f2128f3138847f700756b38c9e731ac5375c21f96dbc4566fcdd5c007786cd3b
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: inventory
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/inventory-2.1.0/inventory-2.1.0.tgz
+    version: 2.1.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: Fix uniconfig port in url
           links:
@@ -3006,4 +3032,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/worker-1.0.0/worker-1.0.0.tgz
     version: 1.0.0
-generated: "2022-09-16T11:16:33.503527391Z"
+generated: "2022-09-21T12:11:35.52393377Z"
