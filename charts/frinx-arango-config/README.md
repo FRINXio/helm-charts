@@ -1,4 +1,4 @@
-# frinx-arangodb
+# frinx-arango-config
 
 A Helm chart for Kubernetes deployment of the Arango CRD and ArangoDB configuration files
 
@@ -12,13 +12,13 @@ helm repo update
 ## Install Chart
 
 ```console
-helm install [RELEASE_NAME] frinx/frinx-arangodb
+helm install [RELEASE_NAME] frinx/frinx-arango-config
 ```
 
 ## Upgrading Chart
 
 ```console
-helm upgrade [RELEASE_NAME] frinx/frinx-arangodb
+helm upgrade [RELEASE_NAME] frinx/frinx-arango-config
 ```
 
 ## Uninstall Chart
