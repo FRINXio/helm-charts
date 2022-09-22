@@ -1,6 +1,6 @@
 # frinx-arangodb
 
-A Helm chart for Kubernetes deployment of the Device frinx-arangodb
+A Helm chart for Kubernetes deployment of the Arango CRD and ArangoDB configuration files
 
 ## Get Repo Info
 
