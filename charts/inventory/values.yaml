@@ -85,6 +85,11 @@ env:
   POSTGRES_DB: inventory
   POSTGRES_HOSTNAME:
   POSTGRES_PORT: 5432
+  ARANGO_URL: http://arangodb:8529
+  ARANGO_DB: lldp
+  ARANGO_USER: root
+  ARANGO_PASSWORD:
+  ARANGO_TOKEN:
 
 postgresql:
   enabled: true
