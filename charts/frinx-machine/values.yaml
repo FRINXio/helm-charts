@@ -108,7 +108,7 @@ demo-workflows:
   fullnameOverride: "demo-workflows"
   image:
     repository: "frinx/demo-workflows"
-    tag: "1.10.2"
+    tag: "2.0"
   sample-topology:
     fullnameOverride: "sample-topology"
     image:
