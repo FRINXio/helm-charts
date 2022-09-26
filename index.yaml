@@ -219,6 +219,80 @@ entries:
     version: 1.0.0
   frinx-machine:
   - apiVersion: v2
+    created: "2022-09-26T12:21:48.658780638Z"
+    dependencies:
+    - condition: krakend.enabled
+      name: krakend
+      repository: https://FRINXio.github.io/helm-charts
+      version: 2.2.1
+    - condition: frinx-frontend.enabled
+      name: frinx-frontend
+      repository: https://FRINXio.github.io/helm-charts
+      version: 1.2.0
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.2.3
+    - condition: uniresource.enabled
+      name: uniresource
+      repository: https://FRINXio.github.io/helm-charts
+      version: 1.1.0
+    - condition: uniflow.enabled
+      name: uniflow
+      repository: https://FRINXio.github.io/helm-charts
+      version: 2.0.0
+    - condition: inventory.enabled
+      name: inventory
+      repository: https://FRINXio.github.io/helm-charts
+      version: 2.1.0
+    - alias: uniconfig-postgresql
+      condition: uniconfig-postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.2.3
+    - condition: uniconfig.enabled
+      name: uniconfig
+      repository: https://FRINXio.github.io/helm-charts
+      version: 2.4.0
+    - condition: demo-workflows.enabled
+      name: demo-workflows
+      repository: https://FRINXio.github.io/helm-charts
+      version: 1.1.1
+    - condition: grafana.enabled
+      name: frinx-grafana-configs
+      repository: https://FRINXio.github.io/helm-charts
+      version: 1.x.x
+    - condition: grafana.enabled
+      name: grafana
+      repository: https://grafana.github.io/helm-charts
+      version: 6.32.14
+    - condition: influxdb.enabled
+      name: influxdb2
+      repository: https://helm.influxdata.com
+      version: 2.1.0
+    - condition: telegraf-ds.enabled
+      name: telegraf-ds
+      repository: https://helm.influxdata.com
+      version: 1.1.1
+    - condition: loki.enabled
+      name: loki
+      repository: https://grafana.github.io/helm-charts
+      version: 2.14.1
+    - condition: loki.enabled
+      name: promtail
+      repository: https://grafana.github.io/helm-charts
+      version: 6.3.0
+    description: Kubernetes deployment of FRINX-machine
+    digest: 805e386570f346b353492f3db9ed6256f5232acffc041e554894e20557d2f0d7
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-machine
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-machine-0.2.25/frinx-machine-0.2.25.tgz
+    version: 0.2.25
+  - apiVersion: v2
     created: "2022-09-23T08:42:55.446437336Z"
     dependencies:
     - condition: krakend.enabled
@@ -3203,4 +3277,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/worker-1.0.0/worker-1.0.0.tgz
     version: 1.0.0
-generated: "2022-09-23T08:42:55.446683931Z"
+generated: "2022-09-26T12:21:48.659193543Z"
