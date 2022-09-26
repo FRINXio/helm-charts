@@ -26,16 +26,16 @@ jobs:
       - name: Set up chart-testing
         uses: helm/chart-testing-action@v2.2.1
 
-      - name: Run chart-testing (list-changed)
-        id: list-changed
-        run: |
-          changed=$(ct list-changed --config .github/frinx-machine_lint_test_config.yaml)
-          if [[ -n "$changed" ]]; then
-            echo "::set-output name=changed::true"
-          fi
+      #- name: Run chart-testing (list-changed)
+      #  id: list-changed
+      #  run: |
+      #    changed=$(ct list-changed --config .github/frinx-machine_lint_test_config.yaml)
+      #    if [[ -n "$changed" ]]; then
+      #      echo "::set-output name=changed::true"
+      #    fi
 
-      - name: Run chart-testing (lint)
-        run: ct lint --config .github/frinx-machine_lint_test_config.yaml
+      #- name: Run chart-testing (lint)
+      #  run: ct lint --config .github/frinx-machine_lint_test_config.yaml
 
       - uses: azure/login@v1
         with:
@@ -50,8 +50,8 @@ jobs:
            resource-group: 'github-e2e-tests'
            cluster-name: 'aks-e2e-tests'
       
-      - name: Run chart-testing (install)
-        run: ct install --config .github/frinx-machine_lint_test_config.yaml      
+      #- name: Run chart-testing (install)
+      #  run: ct install --config .github/frinx-machine_lint_test_config.yaml      
 
       - name: Install testkube plugin
         run: |
