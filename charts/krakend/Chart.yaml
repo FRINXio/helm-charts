@@ -12,8 +12,13 @@ annotations:
     - name: krakend
       image: frinx/krakend:1.0.4
   artifacthub.io/changes: |
-    - kind: changed
-      description: Change default port for krakend from 80 to 8080
+    - kind: added
+      description: Add tls option into ingress
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/54
+          url: https://github.com/FRINXio/helm-charts/pull/104
+    - kind: added
+      description: Add ingressClassName option into ingress
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/104
