@@ -12,6 +12,14 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
+  {{- if .Values.ingress.ingressClassName }}
+  ingressClassName: {{ .Values.ingress.ingressClassName }}
+  {{- end }}
+  {{- if .Values.ingress.tls }}
+  tls:
+  - hosts:
+    {{- printf "- %s" .Values.ingress.host | nindent 4 }}
+  {{- end }}
   defaultBackend:
     service:
       name: {{ $fullName }}

@@ -50,6 +50,8 @@ helm uninstall [RELEASE_NAME]
 | `service.targetPort` | Port on which the service will send requests to, that your pod will be listening on | `8080` |
 | `ingress.enabled` | Enables Ingress | `false` |
 | `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
+| `ingress.ingressClassName` | ingressClassName value for ingress | |
+| `ingress.tls` | Enable or disable tls attribute in ingress | `false` |
 | `ingress.host` | Ingress accepted hostname  | `""` |
 | `resources` | CPU/Memory resource requests/limits | `{}` |
 | `autoscaling.enabled` | Enable replica autoscaling settings | `false` |
