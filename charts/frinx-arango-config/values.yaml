@@ -1,4 +1,5 @@
 arangodb_config:
+  enabled: false
   image:
     repository: arangodb/arangodb
     # Overrides the image tag whose default is the chart appVersion.
