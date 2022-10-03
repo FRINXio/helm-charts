@@ -20,7 +20,7 @@ annotations:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/105
     - kind: added
-      description: Add emptyDir valume for logs
+      description: Add emptyDir volume for logs
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/105
