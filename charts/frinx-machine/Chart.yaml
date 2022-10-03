@@ -86,7 +86,7 @@ dependencies:
   - condition: frinx-arango-config.enabled
     name: frinx-arango-config
     repository: https://FRINXio.github.io/helm-charts
-    version: 1.0.0
+    version: 1.0.1
 
   - condition: frinx-arango-config.enabled
     name: kube-arangodb
