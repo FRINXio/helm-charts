@@ -14,18 +14,13 @@ dependencies:
     version: 11.x.x
 annotations:
   artifacthub.io/changes: |
-    - kind: security
-      description: Add security context to container
+    - kind: fixed
+      description: Fix stuck initContainer
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/43
+          url: https://github.com/FRINXio/helm-charts/pull/105
     - kind: added
       description: Add emptyDir valume for logs
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/43
-    - kind: changed
-      description: Update uniresource version to 1.0.4
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/43
+          url: https://github.com/FRINXio/helm-charts/pull/105
