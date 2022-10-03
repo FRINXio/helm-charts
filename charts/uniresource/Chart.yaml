@@ -3,7 +3,7 @@ name: uniresource
 description: A Helm chart for Kubernetes deploying of the Frinx Uniresource
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 1.1.0
+version: 1.1.1
 appVersion: "1.0.4"
 maintainers:
   - name: FRINX
@@ -14,18 +14,13 @@ dependencies:
     version: 11.x.x
 annotations:
   artifacthub.io/changes: |
-    - kind: security
-      description: Add security context to container
+    - kind: fixed
+      description: Fix stuck initContainer
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/43
+          url: https://github.com/FRINXio/helm-charts/pull/105
     - kind: added
-      description: Add WASMER_MAX_TIMEOUT_MILLIS env variable
+      description: Add emptyDir volume for logs
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/43
-    - kind: changed
-      description: Update uniresource version to 1.0.4
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/43
+          url: https://github.com/FRINXio/helm-charts/pull/105

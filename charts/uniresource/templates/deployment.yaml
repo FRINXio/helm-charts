@@ -33,11 +33,11 @@ spec:
         image: postgres:alpine
         {{ if .Values.env.PSQL_HOSTNAME }}
         command: ['sh', '-c',
-          "until pg_isready -h {{ .Values.env.PSQL_HOSTNAME }} -p 5432;
+          "until pg_isready -h {{ .Values.env.PSQL_HOSTNAME }} -p 5432 -U {{ .Values.env.PSQL_USERNAME }};
           do echo waiting for database; sleep 2; done;"]
         {{ else }}
         command: ['sh', '-c',
-          "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432;
+          "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432 -U {{ .Values.env.PSQL_USERNAME }};
           do echo waiting for database; sleep 2; done;"]
         {{ end }}
       containers:
@@ -114,6 +114,12 @@ spec:
               value: {{ .Values.env.RM_LOG_LEVEL }}
             - name: "WASMER_MAX_TIMEOUT_MILLIS"
               value: {{ .Values.env.WASMER_MAX_TIMEOUT_MILLIS | quote }}
+          volumeMounts:
+          - mountPath: /var/log
+            name: log-volume
+      volumes:
+      - name: log-volume
+        emptyDir: {}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
