@@ -3188,6 +3188,36 @@ entries:
   uniresource:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Fix stuck initContainer
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/105
+        - kind: added
+          description: Add emptyDir volume for logs
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/105
+    apiVersion: v2
+    appVersion: 1.0.4
+    created: "2022-10-03T10:28:42.176405186Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deploying of the Frinx Uniresource
+    digest: 2cbfe8c944c9b38ed900321e16c9456da7bf9b18e6a548dc3002b90c695f769d
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: uniresource
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniresource-1.1.1/uniresource-1.1.1.tgz
+    version: 1.1.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: security
           description: Add security context to container
           links:
@@ -3305,4 +3335,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/worker-1.0.0/worker-1.0.0.tgz
     version: 1.0.0
-generated: "2022-09-30T10:23:30.493672197Z"
+generated: "2022-10-03T10:28:42.176643993Z"
