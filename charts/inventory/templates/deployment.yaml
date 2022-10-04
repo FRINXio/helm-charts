@@ -33,11 +33,11 @@ spec:
           image: postgres:alpine
       {{ if .Values.env.POSTGRES_HOSTNAME }}
           command: ['sh', '-c',
-            "until pg_isready -h {{ .Values.env.POSTGRES_HOSTNAME }} -p {{ .Values.env.POSTGRES_PORT }};
+            "until pg_isready -h {{ .Values.env.POSTGRES_HOSTNAME }} -p {{ .Values.env.POSTGRES_PORT }} -U {{ .Values.env.POSTGRES_USER }};
             do echo waiting for database; sleep 2; done;"]
       {{ else }}
           command: ['sh', '-c',
-            "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432;
+            "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432 -U {{ .Values.env.POSTGRES_USER }};
             do echo waiting for database; sleep 2; done;"]
       {{ end }}
       containers:
