@@ -3,7 +3,7 @@ name: uniflow
 description: A Helm chart for Kubernetes deploying conductor-server and workflow-proxy
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 2.0.0
+version: 2.0.1
 appVersion: "1.0.8"
 maintainers:
   - name: FRINX
@@ -25,10 +25,13 @@ annotations:
     - name: uniflow-schellar
       image: frinx/uniflow-schellar:1.9.4
   artifacthub.io/changes: |
-    - kind: changed
-      description: Change the naming convention for images to match helm standard
+    - kind: fixed
+      description: Fix stuck check-db-ready init container
       links:
-        - name: Renovate docs
-          url: https://docs.renovatebot.com/modules/manager/helm-values/
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/52
+          url: https://github.com/FRINXio/helm-charts/pull/108
+    - kind: fixed
+      description: Fix elasticsearch compatibility problem with kubernetes >= 1.25
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/108
