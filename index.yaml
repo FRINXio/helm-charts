@@ -2931,6 +2931,47 @@ entries:
   uniflow:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Fix stuck check-db-ready init container
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/108
+        - kind: fixed
+          description: Fix elasticsearch compatibility problem with kubernetes >= 1.25
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/108
+      artifacthub.io/images: |
+        - name: uniflow-conductor-server
+          image: frinx/uniflow-conductor-server:1.0.8
+        - name: workflow-proxy
+          image: frinx/workflow-proxy:1.0.9
+        - name: uniflow-schellar
+          image: frinx/uniflow-schellar:1.9.4
+    apiVersion: v2
+    appVersion: 1.0.8
+    created: "2022-10-04T08:25:43.99240952Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: elasticsearch.enabled
+      name: elasticsearch
+      repository: https://helm.elastic.co
+      version: 6.8.22
+    description: A Helm chart for Kubernetes deploying conductor-server and workflow-proxy
+    digest: e1f3d9da1d6817561e676f9f40de8bfd9c3b0c6d7b72c34a8a3790e3c1316108
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: uniflow
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniflow-2.0.1/uniflow-2.0.1.tgz
+    version: 2.0.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Change the naming convention for images to match helm standard
           links:
@@ -3357,4 +3398,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/worker-1.0.0/worker-1.0.0.tgz
     version: 1.0.0
-generated: "2022-10-04T08:20:15.53529075Z"
+generated: "2022-10-04T08:25:43.992695123Z"
