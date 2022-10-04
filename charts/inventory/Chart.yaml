@@ -15,8 +15,8 @@ icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 appVersion: "1.5.2"
 annotations:
   artifacthub.io/changes: |
-    - kind: added
-      description: Device discovery functionality in inventory server
+    - kind: fixed
+      description: Fix stuck check-db-ready init container
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/92
+          url: https://github.com/FRINXio/helm-charts/pull/109
