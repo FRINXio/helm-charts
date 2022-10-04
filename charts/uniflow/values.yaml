@@ -133,7 +133,7 @@ elasticsearch:
         storage: 1Gi
   clusterHealthCheckParams: "wait_for_status=yellow&timeout=5s"
   sysctlInitContainer:
-    enabled: false 
+    enabled: false
   maxUnavailable: 0
 
 postgresql:
