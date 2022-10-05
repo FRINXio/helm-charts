@@ -3,7 +3,7 @@ name: frinx-machine
 description: Kubernetes deployment of FRINX-machine
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 0.2.26
+version: 0.3.0
 maintainers:
   - name: FRINX
 dependencies:
@@ -82,3 +82,13 @@ dependencies:
     name: promtail
     repository: https://grafana.github.io/helm-charts
     version: 6.3.0
+
+  - condition: frinx-arango-config.enabled
+    name: frinx-arango-config
+    repository: https://FRINXio.github.io/helm-charts
+    version: 1.0.1
+
+  - condition: frinx-arango-config.enabled
+    name: kube-arangodb
+    version: 1.2.15
+    repository: https://arangodb.github.io/kube-arangodb
