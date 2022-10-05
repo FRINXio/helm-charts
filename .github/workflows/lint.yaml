@@ -42,4 +42,4 @@ jobs:
           helm plugin install https://github.com/quintush/helm-unittest.git --version 0.2.8
 
       - name: Run chart-testing (lint)
-        run: ct lint --config .github/ct_config.yaml
+        run: ct lint --config .github/lint_config.yaml
