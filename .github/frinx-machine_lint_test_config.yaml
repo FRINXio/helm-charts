@@ -10,11 +10,14 @@ chart-repos:
   - traefik=https://helm.traefik.io/traefik
   - grafana=https://grafana.github.io/helm-charts
   - influx=https://helm.influxdata.com
+  - arango=https://arangodb.github.io/kube-arangodb
 helm-extra-args: --timeout 1200s
+helm-extra-set-args: "--set=frinx-arango-config.enabled=true"
 excluded-charts:
   - demo-workflows
   - frinx-frontend
   - frinx-grafana-configs
+  - frinx-arango-config
   - inventory
   - krakend
   - sample-topology
