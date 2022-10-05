@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "uniconfig.fullname" . }}-config
+data:
+  logback.xml: {{ (.Files.Get "config/logback.xml") | quote }}
+  lighty-uniconfig-config.json: {{ (.Files.Get "config/lighty-uniconfig-config.json") | quote }}
