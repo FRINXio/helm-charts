@@ -1,3 +1,4 @@
+{{ if eq .Values.arangodb_config.enabled true }}
 apiVersion: "database.arangodb.com/v1alpha"
 kind: "ArangoDeployment"
 metadata:
@@ -9,4 +10,4 @@ spec:
   auth:
     jwtSecretName: {{ .Values.arangodb_config.tokenSecretName }}
   image: "{{ .Values.arangodb_config.image.repository }}:{{ .Values.arangodb_config.image.tag | default .Chart.AppVersion }}"
-
+{{ end }}

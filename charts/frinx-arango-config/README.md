@@ -31,6 +31,7 @@ helm uninstall [RELEASE_NAME]
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
+| `arangodb_config.enabled` | Deploy custom ArangoDeployment | `false` |
 | `arangodb_config.image.repository` | Image repository | `arangodb/arangodb` |
 | `arangodb_config.image.tag` | mage tag | `""` |
 | `arangodb_config.tokenSecretName` | ArangoDB jwt token name | `arangodb-jwt` |

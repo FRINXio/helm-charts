@@ -10,7 +10,7 @@ dependencies:
   - condition: krakend.enabled
     name: krakend
     repository: https://FRINXio.github.io/helm-charts
-    version: 2.2.1
+    version: 2.3.0
 
   - condition: frinx-frontend.enabled
     name: frinx-frontend

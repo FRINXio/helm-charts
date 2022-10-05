@@ -33,11 +33,11 @@ spec:
         image: postgres:alpine
         {{ if .Values.env.SPRING_DATASOURCE_HOSTNAME }}
         command: ['sh', '-c',
-          "until pg_isready -h {{ .Values.env.SPRING_DATASOURCE_HOSTNAME }} -p 5432;
+          "until pg_isready -h {{ .Values.env.SPRING_DATASOURCE_HOSTNAME }} -p 5432 -U {{ .Values.env.SPRING_DATASOURCE_USERNAME }};
           do echo waiting for database; sleep 2; done;"]
         {{ else }}
         command: ['sh', '-c',
-          "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432;
+          "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432 -U {{ .Values.env.SPRING_DATASOURCE_USERNAME }};
           do echo waiting for database; sleep 2; done;"]
         {{ end }}
       - name: check-elk-ready
