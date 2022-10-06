@@ -3,6 +3,31 @@ entries:
   demo-workflows:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Fix deployment in read-only file systems
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/117
+    apiVersion: v2
+    appVersion: "1.10"
+    created: "2022-10-06T11:28:29.152347828Z"
+    dependencies:
+    - condition: sample-topology.enabled
+      name: sample-topology
+      repository: https://FRINXio.github.io/helm-charts
+      version: 1.x.x
+    description: A Helm chart for the Frinx Machine demo workflows
+    digest: 61fd3b8c24c485be809b39d5c792fecf9cf1d81fa43e021f4c14eeae40880454
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: demo-workflows
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/demo-workflows-1.1.2/demo-workflows-1.1.2.tgz
+    version: 1.1.2
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Update demo-workflows image to 1.10
           links:
@@ -3882,4 +3907,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/worker-1.0.0/worker-1.0.0.tgz
     version: 1.0.0
-generated: "2022-10-06T11:20:53.752110206Z"
+generated: "2022-10-06T11:28:29.152738028Z"
