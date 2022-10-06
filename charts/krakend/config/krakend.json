@@ -57,6 +57,7 @@
     {{ template "uniconfig.tmpl" .uniconfig_settings }},
     {{ template "unistore.tmpl" .unistore_settings }},
     {{ template "uniresource.tmpl" .uniresource_settings.endpoints }},
-    {{ template "frinx_frontend.tmpl" .frinx_frontend_settings}}
+    {{ template "frinx_frontend.tmpl" .frinx_frontend_settings}},
+    {{ template "topology_discovery.tmpl" .topology_discovery_settings.endpoints }}
   ]
 }
