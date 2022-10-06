@@ -11,4 +11,5 @@ data:
   unistore.tmpl: {{ (.Files.Get "config/templates/unistore.tmpl") | quote }}
   workflow_proxy_docs.tmpl: {{ (.Files.Get "config/templates/workflow_proxy_docs.tmpl") | quote }}
   workflow_proxy.tmpl: {{ (.Files.Get "config/templates/workflow_proxy.tmpl") | quote }}
+  topology_discovery.tmpl: {{ (.Files.Get "config/templates/topology_discovery.tmpl") | quote }}
 {{ end }}
