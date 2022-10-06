@@ -24,6 +24,8 @@ spec:
         {{- include "uniconfig.selectorLabels" . | nindent 8 }}
     spec:
       volumes:
+        - name: uniconfig-frinx-volume
+          emptyDir: {}
         {{- if .Values.azure.AKS.enabled }}
         - name: frinx-uniconfig-controller-cache
           azureFile:
@@ -72,15 +74,24 @@ spec:
         - name: check-db-ready
           image: postgres:alpine
           command: ['sh', '-c',
-            "until pg_isready -h {{ .Values.dbPersistence.connection_databaseLocations_host }} -p 5432;
+            "until pg_isready -h {{ .Values.dbPersistence.connection_databaseLocations_host }} -p 5432 -U {{ .Values.dbPersistence.connection_username }};
             do echo waiting for database; sleep 2; done;"]
       {{ else }}
         - name: check-db-ready
           image: postgres:alpine
           command: ['sh', '-c',
-            "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432;
+            "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432 -U {{ .Values.dbPersistence.connection_username }};
             do echo waiting for database; sleep 2; done;"]
       {{ end }}
+        - name: copy-config-files
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command:
+            - sh
+            - '-c'
+            - 'cp -r /opt/uniconfig-frinx/* /tmp/uniconfig-frinx/'
+          volumeMounts:
+            - name: uniconfig-frinx-volume
+              mountPath: /tmp/uniconfig-frinx/
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -140,6 +151,8 @@ spec:
           volumeMounts:
           - name: frinx-uniconfig-controller-logs
             mountPath: /opt/uniconfig-frinx/log
+          - name: uniconfig-frinx-volume
+            mountPath: /opt/uniconfig-frinx
           {{- if .Values.uniconfigCacheFolderPath }}
           - name: frinx-uniconfig-controller-cache
             mountPath: {{ .Values.mountCachePath }}
