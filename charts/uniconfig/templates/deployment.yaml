@@ -24,6 +24,8 @@ spec:
         {{- include "uniconfig.selectorLabels" . | nindent 8 }}
     spec:
       volumes:
+        - name: uniconfig-frinx-volume
+          emptyDir: {}
         {{- if .Values.azure.AKS.enabled }}
         - name: frinx-uniconfig-controller-cache
           azureFile:
@@ -37,29 +39,6 @@ spec:
             path: {{ .Values.uniconfigCacheFolderPath }}
         {{- end }}
         {{- end }}
-        - name: config
-          configMap:
-            name: {{ include "uniconfig.fullname" . }}-config
-            defaultMode: 0777
-        # - name: license-volume
-        #   configMap:
-        #     name: {{ include "uniconfig.fullname" . }}-configmap-license
-        #     defaultMode: 0777
-        #     items:
-        #     - key: frinx.license.cfg
-        #       path: frinx.license.cfg
-        - name: crypto-volume
-          emptyDir: {}
-        - name: sql-volume
-          emptyDir: {}
-        - name: schemas-volume
-          emptyDir: {}
-        - name: config-volume
-          emptyDir: {}
-        - name: data-volume
-          emptyDir: {}
-        - name: frinx-uniconfig-controller-logs
-          emptyDir: {}
         - name: uniconfig-script
           configMap:
             name: {{ include "uniconfig.scriptConfigMapName" . }}
@@ -67,20 +46,20 @@ spec:
             items:
             - key: run_uniconfig.sh
               path: run_uniconfig.sh
-        # - name: logback
-        #   configMap:
-        #     name: {{ include "uniconfig.logbackConfigMapName" . }}
-        #     defaultMode: 0777
-        #     items:
-        #     - key: logback.xml
-        #       path: logback.xml
-        # - name: lighty-uniconfig-config
-        #   configMap:
-        #     name: {{ include "uniconfig.lightyConfigMapName" . }}
-        #     defaultMode: 0777
-        #     items:
-        #     - key: lighty-uniconfig-config.json
-        #       path: lighty-uniconfig-config.json
+        - name: logback
+          configMap:
+            name: {{ include "uniconfig.logbackConfigMapName" . }}
+            defaultMode: 0777
+            items:
+            - key: logback.xml
+              path: logback.xml
+        - name: lighty-uniconfig-config
+          configMap:
+            name: {{ include "uniconfig.lightyConfigMapName" . }}
+            defaultMode: 0777
+            items:
+            - key: lighty-uniconfig-config.json
+              path: lighty-uniconfig-config.json
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -107,13 +86,10 @@ spec:
           command:
             - sh
             - '-c'
-            - 'cp -r /opt/uniconfig-frinx/config/* /tmp/config/'
-            - 'cp -r /opt/uniconfig-frinx/sql/* /tmp/sql/'
+            - 'cp -r /opt/uniconfig-frinx/* /tmp/uniconfig-frinx/'
           volumeMounts:
-            - name: config-volume
-              mountPath: /tmp/config/
-            - name: sql-volume
-              mountPath: /tmp/sql/
+            - name: uniconfig-frinx-volume
+              mountPath: /tmp/uniconfig-frinx/
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -124,8 +100,6 @@ spec:
           command: ["/bin/sh","-c"]
           args: ["/opt/uniconfig-frinx/run_uniconfig.sh -f -l {{ .Values.license }}"]
           {{- else }}
-          # command: ["/bin/sh","-c"]
-          # args: ["sleep 365d"]
           args: ["-f", "-l", "{{ .Values.license }}"]
           {{- end }}
           env:
@@ -173,8 +147,8 @@ spec:
             - name: dbPersistence_connection_databaseLocations_port
               value: {{ .Values.dbPersistence.connection_databaseLocations_port | quote }}
           volumeMounts:
-          - name: frinx-uniconfig-controller-logs
-            mountPath: /opt/uniconfig-frinx/log
+          - name: uniconfig-frinx-volume
+            mountPath: /opt/uniconfig-frinx
           {{- if .Values.uniconfigCacheFolderPath }}
           - name: frinx-uniconfig-controller-cache
             mountPath: {{ .Values.mountCachePath }}
@@ -182,27 +156,12 @@ spec:
           - name: uniconfig-script
             mountPath: /opt/uniconfig-frinx/run_uniconfig.sh
             subPath: run_uniconfig.sh
-          # - name: logback
-          #   mountPath: /opt/uniconfig-frinx/config/logback.xml
-          #   subPath: logback.xml
-          # - name: lighty-uniconfig-config
-          #   mountPath: /opt/uniconfig-frinx/config/lighty-uniconfig-config.json
-          #   subPath: lighty-uniconfig-config.json
-          # - name: license-volume
-          #   mountPath: /opt/uniconfig-frinx/config/frinx.license.cfg
-          #   subPath: frinx.license.cfg
-          - mountPath: /opt/uniconfig-frinx/data
-            name: data-volume
-          - mountPath: /opt/uniconfig-frinx/config
-            name: config-volume
-          - mountPath: /opt/uniconfig-frinx/schemas
-            name: schemas-volume
-          - mountPath: /opt/uniconfig-frinx/sql
-            name: sql-volume
-          - mountPath: /opt/uniconfig-frinx/crypto
-            name: crypto-volume
-          # - name: config
-          #   mountPath: /opt/uniconfig-frinx/config/
+          - name: logback
+            mountPath: /opt/uniconfig-frinx/config/logback.xml
+            subPath: logback.xml
+          - name: lighty-uniconfig-config
+            mountPath: /opt/uniconfig-frinx/config/lighty-uniconfig-config.json
+            subPath: lighty-uniconfig-config.json
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
