@@ -2741,6 +2741,29 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Add topology discovery endpoints
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/120
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:1.0.4
+    apiVersion: v2
+    appVersion: 1.0.4
+    created: "2022-10-06T12:52:47.070537788Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: 2cfba9115cd6d3e7c6c409359c296489e678c2b7c3da5146ea9402b318886cba
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-2.4.0/krakend-2.4.0.tgz
+    version: 2.4.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Add tls option into ingress
           links:
             - name: GitHub PR
@@ -3907,4 +3930,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/worker-1.0.0/worker-1.0.0.tgz
     version: 1.0.0
-generated: "2022-10-06T11:28:29.152738028Z"
+generated: "2022-10-06T12:52:47.07110429Z"
