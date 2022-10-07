@@ -1,0 +1,24 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "/api/topology/health",
+            "method": "GET",
+            "url_pattern": "/health"
+        },
+        {
+            "endpoint": "/api/topology/providers",
+            "method": "GET",
+            "url_pattern": "/api/providers"
+        },
+        {
+            "endpoint": "/api/topology/providers/{provider}",
+            "method": "GET",
+            "url_pattern": "/api/providers/{provider}"
+        },
+        {
+            "endpoint": "/api/topology/providers/{provider}/trigger",
+            "method": "POST",
+            "url_pattern": "/api/providers/{provider}/trigger"
+        }
+    ]
+}
