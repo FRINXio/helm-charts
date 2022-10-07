@@ -18,6 +18,7 @@ excluded-charts:
   - frinx-frontend
   - frinx-grafana-configs
   - frinx-arango-config
+  - topology-discovery
   - inventory
   - krakend
   - sample-topology

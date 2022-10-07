@@ -79,6 +79,12 @@ inventory:
     POSTGRES_HOSTNAME: frinx-postgresql
     ARANGO_TOKEN: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhcmFuZ29kYiIsInNlcnZlcl9pZCI6ImZvbyJ9.OxGlpYQYzOysECGkonaEP8d64UH1wQeo_XxeIqK8Vgg"
 
+topology-discovery:
+  enabled: false
+  image:
+    repository: "frinx/topology-discovery"
+    tag: "1.0.0"
+
 frinx-arango-config:
   enabled: false
 
