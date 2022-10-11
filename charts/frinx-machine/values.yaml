@@ -83,7 +83,7 @@ topology-discovery:
   enabled: false
   image:
     repository: "frinx/topology-discovery"
-    tag: "1.0.0"
+    tag: "0.0.1"
 
 frinx-arango-config:
   enabled: false
