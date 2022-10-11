@@ -2914,6 +2914,32 @@ entries:
   inventory:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Add additional env parameters to inventory chart
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/124
+    apiVersion: v2
+    appVersion: 1.5.2
+    created: "2022-10-11T07:19:14.174043624Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deployment of the Device Inventory
+    digest: d4bd97a03aeae45090371d01a1030270355344495218c34a151a9919e028d378
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: inventory
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/inventory-2.2.0/inventory-2.2.0.tgz
+    version: 2.2.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: Fix stuck check-db-ready init container
           links:
@@ -4274,4 +4300,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/worker-1.0.0/worker-1.0.0.tgz
     version: 1.0.0
-generated: "2022-10-07T08:29:00.611828025Z"
+generated: "2022-10-11T07:19:14.174358652Z"
