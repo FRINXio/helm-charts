@@ -90,6 +90,9 @@ env:
   ARANGO_USER: root
   ARANGO_PASSWORD:
   ARANGO_TOKEN:
+  ARANGO_ENABLED: true
+
+extraEnv: []
 
 postgresql:
   enabled: true
