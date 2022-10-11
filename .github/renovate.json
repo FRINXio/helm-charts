@@ -9,6 +9,6 @@
   "rollbackPrs":true,
   "labels": ["dependencies"],
   "prConcurrentLimit": 1,
-  "ignoreDeps": ["grafana", "loki", "postgresql", "promtail", "telegraf-ds", "kube-arangodb"],
+  "ignoreDeps": ["grafana", "loki", "postgresql", "promtail", "telegraf-ds", "kube-arangodb", "influxdb2"],
   "commitMessageAction": "[frinx-machine] Update"
 }
