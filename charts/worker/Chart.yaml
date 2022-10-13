@@ -1,6 +1,6 @@
 apiVersion: v2
 name: worker
-version: 1.1.0
+version: 1.1.1
 description: A Helm chart for uniflow worker
 type: application
 home: https://github.com/FRINXio/helm-charts
@@ -10,8 +10,8 @@ icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 appVersion: "1.9.1"
 annotations:
   artifacthub.io/changes: |
-    - kind: added
-      description: Add UNICONFIG_URL_BASE env variable
+    - kind: fixed
+      description: Fix deployment in read-only file systems
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/36
+          url: https://github.com/FRINXio/helm-charts/pull/127

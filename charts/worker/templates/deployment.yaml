@@ -18,6 +18,9 @@ spec:
       labels:
         {{- include "worker.selectorLabels" . | nindent 8 }}
     spec:
+      volumes:
+        - name: app-volume
+          emptyDir: {}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -47,6 +50,15 @@ spec:
             do sleep 5; echo "waiting for inventory";
             done;
             echo "connection successful!"']
+        - name: copy-worker-files
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command:
+            - sh
+            - '-c'
+            - 'cp -r /home/app/* /tmp/app/'
+          volumeMounts:
+            - name: app-volume
+              mountPath: /tmp/app/
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -64,6 +76,9 @@ spec:
               value: {{ .Values.env.X_AUTH_USER_GROUP | quote }}
             - name: "UNICONFIG_URL_BASE"
               value: {{ .Values.env.UNICONFIG_URL_BASE | quote }}
+          volumeMounts:
+          - name: app-volume
+            mountPath: /home/app
           # livenessProbe:
           #   httpGet:
           #     path: /
