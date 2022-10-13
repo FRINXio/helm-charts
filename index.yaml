@@ -3,6 +3,36 @@ entries:
   demo-workflows:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Add switch to enable/disable toplogy-discovery backup workflow schedule
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/128
+        - kind: added
+          description: Additional env variables in demo-workflows helm chart
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/128
+    apiVersion: v2
+    appVersion: "1.10"
+    created: "2022-10-13T15:02:55.015365133Z"
+    dependencies:
+    - condition: sample-topology.enabled
+      name: sample-topology
+      repository: https://FRINXio.github.io/helm-charts
+      version: 1.x.x
+    description: A Helm chart for the Frinx Machine demo workflows
+    digest: 17a0eb50e0d574ce331365ced11e5617b6de38db666c0c320a1ee6577c2f7905
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: demo-workflows
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/demo-workflows-1.2.0/demo-workflows-1.2.0.tgz
+    version: 1.2.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: Fix deployment in read-only file systems
           links:
@@ -4579,4 +4609,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/worker-1.0.0/worker-1.0.0.tgz
     version: 1.0.0
-generated: "2022-10-13T12:10:26.311435308Z"
+generated: "2022-10-13T15:02:55.015873042Z"
