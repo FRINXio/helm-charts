@@ -3,7 +3,7 @@ name: demo-workflows
 description: A Helm chart for the Frinx Machine demo workflows
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 1.1.2
+version: 1.2.0
 appVersion: "1.10"
 maintainers:
   - name: FRINX
@@ -14,8 +14,13 @@ dependencies:
     version: 1.x.x
 annotations:
   artifacthub.io/changes: |
-    - kind: fixed
-      description: Fix deployment in read-only file systems
+    - kind: added
+      description: Add switch to enable/disable toplogy-discovery backup workflow schedule
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/117
+          url: https://github.com/FRINXio/helm-charts/pull/128
+    - kind: added
+      description: Additional env variables in demo-workflows helm chart
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/128
