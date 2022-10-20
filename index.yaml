@@ -3737,6 +3737,41 @@ entries:
   uniconfig:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Add option to specify extraInitContainers
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/129
+        - kind: added
+          description: Add option to specify cacheImage
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/129
+    apiVersion: v2
+    appVersion: 5.0.12
+    created: "2022-10-20T14:40:40.795087539Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: traefik.enabled
+      name: traefik
+      repository: https://helm.traefik.io/traefik
+      version: 10.19.5
+    description: A Helm chart for UniConfig Kubernetes deployment
+    digest: bf6e332696407d350d069226c6762262da33e0ab30f99b7763994b3eacaeb357
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: uniconfig
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniconfig-2.5.0/uniconfig-2.5.0.tgz
+    version: 2.5.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: Fixed check-db-ready init container
           links:
@@ -4609,4 +4644,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/worker-1.0.0/worker-1.0.0.tgz
     version: 1.0.0
-generated: "2022-10-13T15:02:55.015873042Z"
+generated: "2022-10-20T14:40:40.795424543Z"
