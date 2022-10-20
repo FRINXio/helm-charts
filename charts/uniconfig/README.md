@@ -94,7 +94,7 @@ helm uninstall [RELEASE_NAME]
 | `cacheImage.enabled` | Enable cacheImage | `false` |
 | `cacheImage.repository` | cacheImage repository | |
 | `cacheImage.tag` | cacheImage tag | `""` |
-| `cacheImage.cachePath` | cacheImage cachePath | |
+| `cacheImage.cachePath` | Path to cache files in cacheImage | |
 | `extraInitContainers` | Option to add extraInitContainers | `[]` |
 | `traefikExtraService.enabled` | Enable extra service for traefik | `true` |
 | `traefikExtraService.name` | Name for extra service for traefik | `"unistore"` |
