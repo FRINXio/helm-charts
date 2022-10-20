@@ -124,6 +124,14 @@ postgresql:
     database: uniconfig
   architecture: standalone
 
+cacheImage:
+  enabled: false
+  repository: 
+  tag: ""
+  cachePath:
+
+extraInitContainers: []
+
 traefikExtraService:
   enabled: false
   name: "unistore"

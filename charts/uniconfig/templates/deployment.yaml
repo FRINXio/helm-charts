@@ -92,6 +92,20 @@ spec:
           volumeMounts:
             - name: uniconfig-frinx-volume
               mountPath: /tmp/uniconfig-frinx/
+        {{ if .Values.cacheImage.enabled }}
+        - name: copy-uniconfig-cache
+          image: {{ .Values.cacheImage.repository }}:{{ .Values.cacheImage.tag }}
+          command:
+            - sh
+            - '-c'
+            - 'cp -r {{ .Values.cacheImage.cachePath }} /tmp/uniconfig-frinx/cache'
+          volumeMounts:
+            - name: uniconfig-frinx-volume
+              mountPath: /tmp/uniconfig-frinx/
+        {{ end }}
+        {{- with .Values.extraInitContainers }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
