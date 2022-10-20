@@ -126,7 +126,7 @@ postgresql:
 
 cacheImage:
   enabled: false
-  repository: 
+  repository:
   tag: ""
   cachePath:
 
