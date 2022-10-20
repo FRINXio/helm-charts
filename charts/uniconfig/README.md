@@ -91,6 +91,11 @@ helm uninstall [RELEASE_NAME]
 | `postgresql.auth.password` | Password for the custom user to create | `postgresP` |
 | `postgresql.auth.database` | Name for a custom database to create | `conductor` |
 | `postgresql.architecture` | PostgreSQL architecture (`standalone` or `replication`) | `standalone` |
+| `cacheImage.enabled` | Enable cacheImage | `false` |
+| `cacheImage.repository` | cacheImage repository | |
+| `cacheImage.tag` | cacheImage tag | `""` |
+| `cacheImage.cachePath` | Path to cache files in cacheImage | |
+| `extraInitContainers` | Option to add extraInitContainers | `[]` |
 | `traefikExtraService.enabled` | Enable extra service for traefik | `true` |
 | `traefikExtraService.name` | Name for extra service for traefik | `"unistore"` |
 | `traefik.enabled` | Switch to enable or disable the traefik helm chart | `true` |
