@@ -81,6 +81,7 @@ inventory:
 
 topology-discovery:
   enabled: false
+  fullnameOverride: "topology-discovery"
   image:
     repository: "frinx/topology-discovery"
     tag: "0.0.1"
