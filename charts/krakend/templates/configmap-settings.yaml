@@ -6,7 +6,7 @@ metadata:
 data:
   frinx_frontend_settings.json: {{ (.Files.Get "config/settings/frinx_frontend_settings.json") | quote }}
   uniconfig_settings.json: {{ (.Files.Get "config/settings/uniconfig_settings.json") | quote }}
-  uniresource_settings.json: {{ (.Files.Get "config/settings/uniresource_settings.json") | quote }}
+  resource_settings.json: {{ (.Files.Get "config/settings/resource_settings.json") | quote }}
   unistore_settings.json: {{ (.Files.Get "config/settings/unistore_settings.json") | quote }}
   workflow_proxy_docs_settings.json: {{ (.Files.Get "config/settings/workflow_proxy_docs_settings.json") | quote }}
   workflow_proxy_settings.json: {{ (.Files.Get "config/settings/workflow_proxy_settings.json") | quote }}
