@@ -20,6 +20,11 @@ spec:
       labels:
         {{- include "sample-topology.selectorLabels" . | nindent 8 }}
     spec:
+      volumes:
+      - name: sample-topology-volume
+      #   emptyDir: {}
+      # - name: netconf-testtool-volume
+        emptyDir: {}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -27,8 +32,26 @@ spec:
       serviceAccountName: {{ include "sample-topology.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      {{- with .Values.extraInitContainers }}
       initContainers:
+      - name: copy-netconf-device-files
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        command:
+          - sh
+          - '-c'
+          - 'cp -r /sample-topology/* /tmp/sample-topology/'
+        volumeMounts:
+          - name: sample-topology-volume
+            mountPath: /tmp/sample-topology/
+      # - name: copy-netconf-testtool-files
+      #   image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+      #   command:
+      #     - sh
+      #     - '-c'
+      #     - 'cp -r /netconf-testtool/* /tmp/netconf-testtool/'
+      #   volumeMounts:
+      #     - name: netconf-testtool-volume
+      #       mountPath: /tmp/netconf-testtool/
+      {{- with .Values.extraInitContainers }}
       {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
@@ -43,6 +66,11 @@ spec:
             - name: {{ $key | quote }}
               value: {{ $val | quote }}
             {{- end }}
+          volumeMounts:
+          - name: sample-topology-volume
+            mountPath: /sample-topology
+          # - name: netconf-testtool-volume
+          #   mountPath: /netconf-testtool
           ports:
             - name: http
               containerPort: 80
