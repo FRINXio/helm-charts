@@ -22,8 +22,6 @@ spec:
     spec:
       volumes:
       - name: sample-topology-volume
-      #   emptyDir: {}
-      # - name: netconf-testtool-volume
         emptyDir: {}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -42,15 +40,6 @@ spec:
         volumeMounts:
           - name: sample-topology-volume
             mountPath: /tmp/sample-topology/
-      # - name: copy-netconf-testtool-files
-      #   image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-      #   command:
-      #     - sh
-      #     - '-c'
-      #     - 'cp -r /netconf-testtool/* /tmp/netconf-testtool/'
-      #   volumeMounts:
-      #     - name: netconf-testtool-volume
-      #       mountPath: /tmp/netconf-testtool/
       {{- with .Values.extraInitContainers }}
       {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -69,8 +58,6 @@ spec:
           volumeMounts:
           - name: sample-topology-volume
             mountPath: /sample-topology
-          # - name: netconf-testtool-volume
-          #   mountPath: /netconf-testtool
           ports:
             - name: http
               containerPort: 80

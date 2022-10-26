@@ -9,8 +9,8 @@ maintainers:
   - name: FRINX
 annotations:
   artifacthub.io/changes: |
-    - kind: changed
-      description: Update sample-topology image version
+    - kind: fixed
+      description: Fix deployment in read-only file systems
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/46
+          url: https://github.com/FRINXio/helm-charts/pull/136
