@@ -3823,6 +3823,36 @@ entries:
   uniconfig:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Fix problem with cache permissions
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/130
+    apiVersion: v2
+    appVersion: 5.0.12
+    created: "2022-10-26T10:22:25.309424071Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: traefik.enabled
+      name: traefik
+      repository: https://helm.traefik.io/traefik
+      version: 10.19.5
+    description: A Helm chart for UniConfig Kubernetes deployment
+    digest: bcce50139127ae7ba998e7882c031670c6a091f6067273197dc3848d64fbb368
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: uniconfig
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniconfig-2.5.1/uniconfig-2.5.1.tgz
+    version: 2.5.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Add option to specify extraInitContainers
           links:
@@ -4730,4 +4760,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/worker-1.0.0/worker-1.0.0.tgz
     version: 1.0.0
-generated: "2022-10-24T11:32:45.980429231Z"
+generated: "2022-10-26T10:22:25.309719182Z"
