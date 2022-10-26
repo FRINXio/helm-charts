@@ -3769,6 +3769,26 @@ entries:
   sample-topology:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Fix deployment in read-only file systems
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/136
+    apiVersion: v2
+    appVersion: "1.10"
+    created: "2022-10-26T11:16:59.86886202Z"
+    description: A Helm chart for the Frinx Machine sample-topology Kubernetes deployment
+    digest: fa1e600ba0b498fa6cfa733e137ef32abaefb72d08408b53cd5c7af8506caea6
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: sample-topology
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/sample-topology-1.1.2/sample-topology-1.1.2.tgz
+    version: 1.1.2
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Update sample-topology image version
           links:
@@ -4786,4 +4806,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/worker-1.0.0/worker-1.0.0.tgz
     version: 1.0.0
-generated: "2022-10-26T10:53:04.007341952Z"
+generated: "2022-10-26T11:16:59.869478827Z"
