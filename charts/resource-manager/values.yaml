@@ -1,4 +1,4 @@
-# Default values for uniresource and proxy.
+# Default values for resource-manager and proxy.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -82,14 +82,14 @@ postgresql:
     enablePostgresUser: true
     username: postgresU
     password: postgresP
-    database: uniresource
+    database: resource-manager
   architecture: standalone
 
 env:
   PSQL_USERNAME: postgresU
   PSQL_PASSWORD: postgresP
   PSQL_HOSTNAME:
-  PSQL_DATABASE: uniresource
+  PSQL_DATABASE: resource-manager
   PSQL_CREDENTIAL_SECRET: ""
   PSQL_PORT: 5432
   RM_API_PORT: 8884
