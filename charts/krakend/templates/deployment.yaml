@@ -137,7 +137,7 @@ spec:
               value: {{ .Values.deployment.rbac.UNISTORE_SERVICE_NODE | quote }}
             - name: UNISTORE_NETWORK_NODE
               value: {{ .Values.deployment.rbac.UNISTORE_NETWORK_NODE | quote }}
-            # RBAC - UNIRESOURCE
+            # RBAC - RESOURCE-MANAGER
             - name: RM_ADMIN_GROUPS
               value: {{ .Values.deployment.rbac.RM_ADMIN_GROUPS | quote }}
             - name: RM_ADMIN_ROLES
@@ -160,7 +160,7 @@ spec:
             - name: HTTPS_PROXY
               value: {{ .Values.deployment.env.HTTPS_PROXY | quote }}
             - name: NO_PROXY
-              value: "workflow-proxy,frinx-frontend,inventory,krakend,unistore,uniresource,{{ .Values.deployment.env.NO_PROXY }},$(UNICONFIG_ZONES_LIST)"
+              value: "workflow-proxy,frinx-frontend,inventory,krakend,unistore,resource-manager,{{ .Values.deployment.env.NO_PROXY }},$(UNICONFIG_ZONES_LIST)"
             {{- end }}
           ports:
             - name: http

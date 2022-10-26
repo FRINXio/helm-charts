@@ -7,7 +7,7 @@ data:
   frinx_frontend.tmpl: {{ (.Files.Get "config/templates/frinx_frontend.tmpl") | quote }}
   inventory.tmpl: {{ (.Files.Get "config/templates/inventory.tmpl") | quote }}
   uniconfig.tmpl: {{ (.Files.Get "config/templates/uniconfig.tmpl") | quote }}
-  uniresource.tmpl: {{ (.Files.Get "config/templates/uniresource.tmpl") | quote }}
+  resource.tmpl: {{ (.Files.Get "config/templates/resource.tmpl") | quote }}
   unistore.tmpl: {{ (.Files.Get "config/templates/unistore.tmpl") | quote }}
   workflow_proxy_docs.tmpl: {{ (.Files.Get "config/templates/workflow_proxy_docs.tmpl") | quote }}
   workflow_proxy.tmpl: {{ (.Files.Get "config/templates/workflow_proxy.tmpl") | quote }}
