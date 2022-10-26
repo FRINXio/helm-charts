@@ -104,7 +104,7 @@ env:
 proxyEnv:
   AUTH_ENABLED: false
   OAUTH2_AUTH_URL: "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
-  OAUTH2_TOKEN_URL: "/api/uniflow/docs/token"
+  OAUTH2_TOKEN_URL: "/api/workflow-manager/docs/token"
   ADMIN_ACCESS_ROLE: "network-admin"
   UNICONFIG_ZONES_LIST: "uniconfig"
 

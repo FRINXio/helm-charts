@@ -23,6 +23,6 @@ excluded-charts:
   - krakend
   - sample-topology
   - uniconfig
-  - uniflow
+  - workflow-manager
   - resource-manager
   - worker
