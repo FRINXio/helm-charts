@@ -14,13 +14,8 @@ dependencies:
     version: 11.x.x
 annotations:
   artifacthub.io/changes: |
-    - kind: fixed
-      description: Fix stuck initContainer
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/105
     - kind: added
-      description: Add emptyDir volume for logs
+      description: Create resource-manager helm charts
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/105
+          url: https://github.com/FRINXio/helm-charts/pull/134
