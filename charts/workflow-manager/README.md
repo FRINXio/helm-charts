@@ -1,6 +1,6 @@
-# uniflow
+# workflow-manager
 
-FRINX UniFlow enables customers to create automated, repeatable, digital processes to build, grow and operate their digital communication infrastructure.
+FRINX Workflow-Manager enables customers to create automated, repeatable, digital processes to build, grow and operate their digital communication infrastructure.
 
 ## Get Repo Info
 
@@ -12,13 +12,13 @@ helm repo update
 ## Install Chart
 
 ```console
-helm install [RELEASE_NAME] frinx/uniflow
+helm install [RELEASE_NAME] frinx/workflow-manager
 ```
 
 ## Upgrading Chart
 
 ```console
-helm upgrade [RELEASE_NAME] frinx/uniflow
+helm upgrade [RELEASE_NAME] frinx/workflow-manager
 ```
 
 ## Uninstall Chart
@@ -49,7 +49,7 @@ helm uninstall [RELEASE_NAME]
 | `serviceAccount.name` | Service account name to use, when empty will be set to created account if `serviceAccount.create` is set else to `default` | `"workflow-proxy"` |
 | `podAnnotations` | Deployment | `{}` |
 | `podSecurityContext` | Pod deployment securityContext | `{}` |
-| `securityContext` | Deployment securityContext | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/uniflow/values.yaml) |
+| `securityContext` | Deployment securityContext | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/workflow-manager/values.yaml) |
 | `service.type` | Kubernetes service type | `ClusterIP` |
 | `service.port` | Kubernetes port where workflow-proxy is exposed | `8088` |
 | `service.portWorkers` | Kubernetes port where worker is exposed | `8089` |
@@ -86,7 +86,7 @@ helm uninstall [RELEASE_NAME]
 | `env.CONDUCTOR_ELASTICSEARCH_URL` | CONDUCTOR_ELASTICSEARCH_URL env value | `http://elasticsearch-master-headless:9200` |
 | `proxyEnv.AUTH_ENABLED` | AUTH_ENABLED env value | `false` |
 | `proxyEnv.OAUTH2_AUTH_URL` | OAUTH2_AUTH_URL env value | `"https://login.microsoftonline.com/common/oauth2/v2.0/authorize"` |
-| `proxyEnv.OAUTH2_TOKEN_URL` | OAUTH2_TOKEN_URL env value | `"/api/uniflow/docs/token"` |
+| `proxyEnv.OAUTH2_TOKEN_URL` | OAUTH2_TOKEN_URL env value | `"/api/workflow-manager/docs/token"` |
 | `proxyEnv.ADMIN_ACCESS_ROLE` | ADMIN_ACCESS_ROLE env value | `"network-admin"` |
 | `proxyEnv.UNICONFIG_ZONES_LIST` | UNICONFIG_ZONES_LIST env value | `"uniconfig"` |
 | `schellarEnv.LOG_LEVEL` | LOG_LEVEL env value for schellar | `debug` |
@@ -100,7 +100,7 @@ helm uninstall [RELEASE_NAME]
 | `elasticsearch.replicas` | Number of replics | `1` |
 | `elasticsearch.minimumMasterNodes` | Minimum number of master nodes | `1` |
 | `elasticsearch.imageTag` | Image tag| `6.7.1` |
-| `resources` | Resources for elasticsearch | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/uniflow/values.yaml) |
+| `resources` | Resources for elasticsearch | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/workflow-manager/values.yaml) |
 | `elasticsearch.volumeClaimTemplate.resources.requests.storage` | Requests for storage space | `1Gi` |
 | `elasticsearch.clusterHealthCheckParams` | Cluster health check params | `"wait_for_status=yellow&timeout=5s"` |
 | `postgresql.enabled` | Switch to enable or disable the PostgreSQL helm chart | `true` |
@@ -109,4 +109,4 @@ helm uninstall [RELEASE_NAME]
 | `postgresql.auth.password` | Password for the custom user to create | `postgresP` |
 | `postgresql.auth.database` | Name for a custom database to create | `conductor` |
 | `postgresql.architecture` | PostgreSQL architecture (`standalone` or `replication`) | `standalone` |
-| `postgresql.primary.initdb.scripts.init_db.sql` | Init script for creating another databases | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/uniflow/values.yaml) |
+| `postgresql.primary.initdb.scripts.init_db.sql` | Init script for creating another databases | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/workflow-manager/values.yaml) |
