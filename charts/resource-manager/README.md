@@ -1,6 +1,6 @@
-# uniresource
+# resource-manager
 
-A Helm chart for Kubernetes deploying of the Frinx Uniresource
+A Helm chart for Kubernetes deploying of the Frinx Resource-Manager
 
 ## Get Repo Info
 
@@ -12,13 +12,13 @@ helm repo update
 ## Install Chart
 
 ```console
-helm install [RELEASE_NAME] frinx/uniresource
+helm install [RELEASE_NAME] frinx/resource-manager
 ```
 
 ## Upgrading Chart
 
 ```console
-helm upgrade [RELEASE_NAME] frinx/uniresource
+helm upgrade [RELEASE_NAME] frinx/resource-manager
 ```
 
 ## Uninstall Chart
@@ -43,7 +43,7 @@ helm uninstall [RELEASE_NAME]
 | `serviceAccount.name` | Service account name to use, when empty will be set to created account if `serviceAccount.create` is set else to `default` | `""` |
 | `podAnnotations` | Deployment | `{}` |
 | `podSecurityContext` | Pod deployment securityContext | `{}` |
-| `securityContext` | Deployment securityContext | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/uniresource/values.yaml) |
+| `securityContext` | Deployment securityContext | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/resource-manager/values.yaml) |
 | `service.type` | Kubernetes service type | `ClusterIP` |
 | `service.port` | Kubernetes port where service is exposed | `8888` |
 | `ingress.enabled` | Enables Ingress | `false` |
@@ -69,7 +69,7 @@ helm uninstall [RELEASE_NAME]
 | `env.PSQL_HOSTNAME` | Hostname of external database | |
 | `env.PSQL_CREDENTIAL_SECRET` | Secrets with credentials for external database | `""` |
 | `env.PSQL_PORT` | Port of external database | `5432` |
-| `env.RM_API_PORT` | Port for uniresource | `8884` |
+| `env.RM_API_PORT` | Port for resource-manager | `8884` |
 | `env.RM_ADMIN_ROLES` | Admin roles | `OWNER` |
 | `env.RM_ADMIN_GROUPS` | Admin groups | `NETWORK-ADMIN` |
 | `env.RM_LOG_PATH` | Log path | `/var/log/rm.log` |

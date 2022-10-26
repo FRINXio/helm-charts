@@ -98,7 +98,7 @@ spec:
           command:
             - sh
             - '-c'
-            - 'cp -r {{ .Values.cacheImage.cachePath }} /tmp/uniconfig-frinx/cache'
+            - 'cp -rp {{ .Values.cacheImage.cachePath }} /tmp/uniconfig-frinx/cache'
           volumeMounts:
             - name: uniconfig-frinx-volume
               mountPath: /tmp/uniconfig-frinx/

@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "uniresource.fullname" . }}
+  name: {{ include "resource-manager.fullname" . }}
   labels:
-    {{- include "uniresource.labels" . | nindent 4 }}
+    {{- include "resource-manager.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "uniresource.fullname" . }}
+    name: {{ include "resource-manager.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
