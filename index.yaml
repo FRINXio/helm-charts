@@ -3766,6 +3766,36 @@ entries:
   resource-manager:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Change default resource-manager db connection
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/137
+        - kind: added
+          description: Added extra environment variables to deployment chart
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/137
+    apiVersion: v2
+    appVersion: 1.0.4
+    created: "2022-10-27T12:13:12.943853981Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deploying of the Frinx Resource-Manager
+    digest: bb0f2859c7cf2ac1908ee599348b44d09f9d4ef737691f4265a1edac69cefd35
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: resource-manager
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/resource-manager-1.1.0/resource-manager-1.1.0.tgz
+    version: 1.1.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Create resource-manager helm charts
           links:
@@ -4866,4 +4896,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2022-10-26T12:02:49.717691606Z"
+generated: "2022-10-27T12:13:12.944086125Z"
