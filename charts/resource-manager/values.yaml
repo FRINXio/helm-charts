@@ -82,14 +82,14 @@ postgresql:
     enablePostgresUser: true
     username: postgresU
     password: postgresP
-    database: resource-manager
+    database: postgres
   architecture: standalone
 
 env:
   PSQL_USERNAME: postgresU
   PSQL_PASSWORD: postgresP
   PSQL_HOSTNAME:
-  PSQL_DATABASE: resource-manager
+  PSQL_DATABASE: postgres
   PSQL_CREDENTIAL_SECRET: ""
   PSQL_PORT: 5432
   RM_API_PORT: 8884
@@ -99,3 +99,5 @@ env:
   RM_LOG_LEVEL: warn
   WASMER_MAX_TIMEOUT_MILLIS: 10000
   RM_DB_CONNECTION_STRING: "postgres://$(PSQL_USERNAME):$(PSQL_PASSWORD)@$(PSQL_HOSTNAME):$(PSQL_PORT)/postgres?sslmode=disable"
+
+extraEnv: []

@@ -114,6 +114,10 @@ spec:
               value: {{ .Values.env.RM_LOG_LEVEL }}
             - name: "WASMER_MAX_TIMEOUT_MILLIS"
               value: {{ .Values.env.WASMER_MAX_TIMEOUT_MILLIS | quote }}
+          {{- range $key, $val := .Values.extraEnv }}
+            - name: {{ $key | quote }}
+              value: {{ $val | quote }}
+          {{- end }}
           volumeMounts:
           - mountPath: /var/log
             name: log-volume
