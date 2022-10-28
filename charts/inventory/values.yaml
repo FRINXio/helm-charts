@@ -90,7 +90,8 @@ env:
   ARANGO_USER: root
   ARANGO_PASSWORD:
   ARANGO_TOKEN:
-  ARANGO_ENABLED: true
+  ARANGO_ENABLED: false
+  DEVICE_DISCOVERY_SEED: false
 
 extraEnv: []
 
