@@ -3923,6 +3923,36 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
+          description: Update traefik helm chart version which contains a fix for rbac
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/137
+    apiVersion: v2
+    appVersion: 5.0.12
+    created: "2022-10-28T07:08:24.352965719Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: traefik.enabled
+      name: traefik
+      repository: https://helm.traefik.io/traefik
+      version: 18.0.0
+    description: A Helm chart for UniConfig Kubernetes deployment
+    digest: ed82654ab4974252fdedddc8e1a057a16216d87086eb98c536ca6846c3376d7a
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: uniconfig
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniconfig-3.0.0/uniconfig-3.0.0.tgz
+    version: 3.0.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
           description: Fix problem with cache permissions
           links:
             - name: GitHub PR
@@ -4896,4 +4926,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2022-10-27T12:13:12.944086125Z"
+generated: "2022-10-28T07:08:24.353518821Z"
