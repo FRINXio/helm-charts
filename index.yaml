@@ -4893,6 +4893,42 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Set new docker images for services
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/141
+      artifacthub.io/images: |
+        - name: conductor-server
+          image: frinx/conductor-server:1.0.10
+        - name: workflow-proxy
+          image: frinx/workflow-proxy:1.0.11
+        - name: schellar
+          image: frinx/schellar:2.0.0
+    apiVersion: v2
+    appVersion: 1.0.10
+    created: "2022-10-28T12:32:51.439398517Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: elasticsearch.enabled
+      name: elasticsearch
+      repository: https://helm.elastic.co
+      version: 6.8.22
+    description: A Helm chart for Kubernetes deploying conductor-server and workflow-proxy
+    digest: de48fe5ab9901c014ec3b27e0a223a725c077e7b171f6b7ef05b5180c98c8ed8
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: workflow-manager
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.1/workflow-manager-1.0.1.tgz
+    version: 1.0.1
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Create workflow-manager helm charts
           links:
             - name: GitHub PR
@@ -4926,4 +4962,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2022-10-28T07:08:24.353518821Z"
+generated: "2022-10-28T12:32:51.439807321Z"
