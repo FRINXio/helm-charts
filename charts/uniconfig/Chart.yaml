@@ -20,7 +20,7 @@ appVersion: "5.0.12"
 annotations:
   artifacthub.io/changes: |
     - kind: fixed
-      description: Update traefik deployment which contains a fix for rbac
+      description: Update traefik helm chart version which contains a fix for rbac
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/137
