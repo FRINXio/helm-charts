@@ -67,6 +67,7 @@ helm uninstall [RELEASE_NAME]
 | `env.PSQL_USERNAME` | Username for external database | `postgres` |
 | `env.PSQL_PASSWORD` | Password for external database | `postgres` |
 | `env.PSQL_HOSTNAME` | Hostname of external database | |
+| `env.PSQL_DATABASE` | External database name | `postgres` |
 | `env.PSQL_CREDENTIAL_SECRET` | Secrets with credentials for external database | `""` |
 | `env.PSQL_PORT` | Port of external database | `5432` |
 | `env.RM_API_PORT` | Port for resource-manager | `8884` |
@@ -76,3 +77,4 @@ helm uninstall [RELEASE_NAME]
 | `env.RM_LOG_LEVEL` | Log level | `info` |
 | `env.WASMER_MAX_TIMEOUT_MILLIS` | WASMER_MAX_TIMEOUT_MILLIS env value | `1000` |
 | `env.RM_DB_CONNECTION_STRING` | Connection string for connection to external database | `"postgres://$(PSQL_USERNAME):$(PSQL_PASSWORD)@$(PSQL_HOSTNAME):$(PSQL_PORT)/postgres?sslmode=disable"` |
+| `extraEnv` | Additional env variables |  |
