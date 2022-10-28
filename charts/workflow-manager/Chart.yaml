@@ -3,8 +3,8 @@ name: workflow-manager
 description: A Helm chart for Kubernetes deploying conductor-server and workflow-proxy
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 1.0.0
-appVersion: "1.0.8"
+version: 1.0.1
+appVersion: "1.0.10"
 maintainers:
   - name: FRINX
 dependencies:
@@ -18,15 +18,15 @@ dependencies:
     version: 6.8.22
 annotations:
   artifacthub.io/images: |
-    - name: uniflow-conductor-server
-      image: frinx/uniflow-conductor-server:1.0.8
+    - name: conductor-server
+      image: frinx/conductor-server:1.0.10
     - name: workflow-proxy
-      image: frinx/workflow-proxy:1.0.9
-    - name: uniflow-schellar
-      image: frinx/uniflow-schellar:1.9.4
+      image: frinx/workflow-proxy:1.0.11
+    - name: schellar
+      image: frinx/schellar:2.0.0
   artifacthub.io/changes: |
     - kind: added
-      description: Create workflow-manager helm charts
+      description: Set new docker images for services
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/135
+          url: https://github.com/FRINXio/helm-charts/pull/141

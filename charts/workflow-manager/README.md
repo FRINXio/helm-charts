@@ -37,10 +37,10 @@ helm uninstall [RELEASE_NAME]
 | `image.tag` | Image tag | `""` |
 | `proxyImage.repository` | Image repository | `frinx/workflow-proxy` |
 | `proxyImage.pullPolicy` | Image pull policy | `IfNotPresent` |
-| `proxyImage.tag` | Image tag | `"1.0.9"` |
+| `proxyImage.tag` | Image tag | `"1.0.11"` |
 | `schellarImage.repository` | Image repository | `frinx/uniflow-schellar` |
 | `schellarImage.pullPolicy` | Image pull policy | `IfNotPresent` |
-| `schellarImage.tag` | Image tag | `"1.9.4"` |
+| `schellarImage.tag` | Image tag | `"2.0.0"` |
 | `imagePullSecrets` | Image pull secrets | `[]` |
 | `nameOverride` | Replaces the name of the chart in the Chart.yaml file | `""` |
 | `fullnameOverride` |  Completely replaces the generated name | `""` |
