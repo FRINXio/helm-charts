@@ -107,5 +107,5 @@ Selector labels
 */}}
 {{- define "uniconfig.selectorLabelsForTraefik" -}}
 app.kubernetes.io/name: traefik
-app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/instance: {{ .Release.Name }}-{{ .Release.Namespace }}
 {{- end }}
