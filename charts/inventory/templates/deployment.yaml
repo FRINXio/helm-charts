@@ -30,6 +30,8 @@ spec:
       restartPolicy: Always
       initContainers:
         - name: check-db-ready
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
           image: postgres:alpine
       {{ if .Values.env.POSTGRES_HOSTNAME }}
           command: ['sh', '-c',
@@ -39,6 +41,24 @@ spec:
           command: ['sh', '-c',
             "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432 -U {{ .Values.env.POSTGRES_USER }};
             do echo waiting for database; sleep 2; done;"]
+      {{ end }}
+      {{ if eq ( toString .Values.env.ARANGO_ENABLED ) "true"}}
+        - name: check-arangodb-ready
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: curlimages/curl
+          command: ["/bin/sh","-c"]
+          {{ if .Values.env.ARANGO_TOKEN }}
+          args: ['while [ $(curl -ksw "%{http_code}" --header "Authorization: Bearer {{ .Values.env.ARANGO_TOKEN }}" "{{ .Values.env.ARANGO_URL }}/_api/version" -o /dev/null) -ne 200 ];
+            do sleep 5; echo "waiting for arangodb";
+            done;
+            echo "connection successful!"']
+          {{ else }}
+          args: ['while [ $(curl -ksw "%{http_code}" --user "{{ .Values.env.ARANGO_USER }}:{{ .Values.env.ARANGO_PASSWORD }}" "{{ .Values.env.ARANGO_URL }}/_api/version" -o /dev/null) -ne 200 ];
+            do sleep 5; echo "waiting for arangodb";
+            done;
+            echo "connection successful!"']
+          {{ end }}
       {{ end }}
       containers:
         - name: {{ .Chart.Name }}
@@ -59,12 +79,6 @@ spec:
               value: {{ .Values.env.UNICONFIG_LIST_URL | quote }}
             - name: "X_TENANT_ID"
               value: {{ .Values.env.X_TENANT_ID | quote }}
-            - name: "POSTGRES_USER"
-              value: {{ .Values.env.POSTGRES_USER | quote }}
-            - name: "POSTGRES_PASSWORD"
-              value: {{ .Values.env.POSTGRES_PASSWORD | quote }}
-            - name: "POSTGRES_DB"
-              value: {{ .Values.env.POSTGRES_DB | quote }}
               {{ if .Values.postgresql.enabled }}
             - name: "DATABASE_URL"
               value: "postgres://{{ .Values.env.POSTGRES_USER }}:{{ .Values.env.POSTGRES_PASSWORD }}@{{ .Release.Name }}-postgresql:5432/inventory?sslmode=disable"
