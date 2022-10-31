@@ -101,7 +101,7 @@ jobs:
           webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
           status: ${{ job.status }}
           channel: '#helm-charts'
-          message: "E2E tests with latest images: ${{ job.status }} - branch: ${{ github.event.inputs.e2e_branch }} - test-id: ${{ steps.build_id.outputs.id }}"
+          message: "Latest E2E tests: ${{ job.status }} - branch: ${{ github.event.inputs.e2e_branch }} - test-id: ${{ steps.build_id.outputs.id }}"
 
       - name: Delete AKS cluster
         if: ${{ always() }}
