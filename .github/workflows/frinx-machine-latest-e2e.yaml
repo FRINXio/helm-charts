@@ -1,4 +1,4 @@
-name: Lint and Test Frinx-machine
+name: FRINX-machine latest E2E tests
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ on:
         default: 'main'
 
 jobs:
-  latest-test-frinx-machine-chart:
+  latest-test-frinx-machine:
     runs-on: ubuntu-latest
     steps:
       - name: slack - GitHub Actions Slack integration
