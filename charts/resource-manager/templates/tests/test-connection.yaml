@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "resource-manager.fullname" . }}-test-connection"
+  labels:
+    {{- include "resource-manager.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "resource-manager.fullname" . }}:{{ .Values.service.port }}/healthz/readiness']
+  restartPolicy: Never

@@ -1,0 +1,9 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "/api/resource",
+            "method": "POST",
+            "url_pattern": "/query"
+        }
+    ]
+}

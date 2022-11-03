@@ -20,6 +20,9 @@ spec:
       labels:
         {{- include "sample-topology.selectorLabels" . | nindent 8 }}
     spec:
+      volumes:
+      - name: sample-topology-volume
+        emptyDir: {}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -27,8 +30,17 @@ spec:
       serviceAccountName: {{ include "sample-topology.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      {{- with .Values.extraInitContainers }}
       initContainers:
+      - name: copy-sample-topology-files
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        command:
+          - sh
+          - '-c'
+          - 'cp -r /sample-topology/* /tmp/sample-topology/'
+        volumeMounts:
+          - name: sample-topology-volume
+            mountPath: /tmp/sample-topology/
+      {{- with .Values.extraInitContainers }}
       {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
@@ -43,6 +55,9 @@ spec:
             - name: {{ $key | quote }}
               value: {{ $val | quote }}
             {{- end }}
+          volumeMounts:
+          - name: sample-topology-volume
+            mountPath: /sample-topology
           ports:
             - name: http
               containerPort: 80

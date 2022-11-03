@@ -12,9 +12,9 @@ helm-extra-args: --timeout 600s
 additional-commands:
   - helm unittest --helm3 --strict --file unittests/*.yaml --file 'unittests/**/*.yaml' {{ .Path }}
 excluded-charts:
-  # This chart is for testing purposes and has a dependency on uniflow and inventory charts
+  # This chart is for testing purposes and has a dependency on workflow-manager and inventory charts
   - demo-workflows
   # Insufficient resources in github action for this chart
   - frinx-machine
-  # This chart has a dependency on uniconfig, uniflow and inventory charts
+  # This chart has a dependency on uniconfig, workflow-manager and inventory charts
   - worker

@@ -1,11 +1,11 @@
-# Default values for inventory.
+# Default values for resource-manager and proxy.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: frinx/frinx-inventory-server
+  name: frinx/resource-manager
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -35,7 +35,7 @@ securityContext:
 
 service:
   type: ClusterIP
-  port: 8000
+  port: 8884
 
 ingress:
   enabled: false
@@ -65,7 +65,7 @@ resources: {}
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 100
+  maxReplicas: 3
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
@@ -75,31 +75,29 @@ tolerations: []
 
 affinity: {}
 
-env:
-  UNICONFIG_API_PROTOCOL: http
-  UNICONFIG_API_PORT: 8181
-  UNICONFIG_LIST_URL: http://krakend:8080/static/list/uniconfig
-  X_TENANT_ID: frinx
-  POSTGRES_USER: postgresU
-  POSTGRES_PASSWORD: postgresP
-  POSTGRES_DB: inventory
-  POSTGRES_HOSTNAME:
-  POSTGRES_PORT: 5432
-  ARANGO_URL: http://arangodb:8529
-  ARANGO_DB: lldp
-  ARANGO_USER: root
-  ARANGO_PASSWORD:
-  ARANGO_TOKEN:
-  ARANGO_ENABLED: false
-  DEVICE_DISCOVERY_SEED: false
-
-extraEnv: []
-
+## PostgreSQL chart configuration
 postgresql:
   enabled: true
   auth:
     enablePostgresUser: true
     username: postgresU
     password: postgresP
-    database: inventory
+    database: postgres
   architecture: standalone
+
+env:
+  PSQL_USERNAME: postgresU
+  PSQL_PASSWORD: postgresP
+  PSQL_HOSTNAME:
+  PSQL_DATABASE: postgres
+  PSQL_CREDENTIAL_SECRET: ""
+  PSQL_PORT: 5432
+  RM_API_PORT: 8884
+  RM_ADMIN_ROLES: OWNER
+  RM_ADMIN_GROUPS: NETWORK-ADMIN
+  RM_LOG_PATH: /var/log/rm.log
+  RM_LOG_LEVEL: warn
+  WASMER_MAX_TIMEOUT_MILLIS: 10000
+  RM_DB_CONNECTION_STRING: "postgres://$(PSQL_USERNAME):$(PSQL_PASSWORD)@$(PSQL_HOSTNAME):$(PSQL_PORT)/postgres?sslmode=disable"
+
+extraEnv: []

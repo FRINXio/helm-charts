@@ -1,9 +1,0 @@
-{
-    "endpoints": [
-        {
-            "endpoint": "/api/uniresource",
-            "method": "POST",
-            "url_pattern": "/query"
-        }
-    ]
-}

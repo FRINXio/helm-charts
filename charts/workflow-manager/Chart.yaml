@@ -1,0 +1,32 @@
+apiVersion: v2
+name: workflow-manager
+description: A Helm chart for Kubernetes deploying conductor-server and workflow-proxy
+icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+type: application
+version: 1.0.1
+appVersion: "1.0.10"
+maintainers:
+  - name: FRINX
+dependencies:
+  - condition: postgresql.enabled
+    name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    version: 11.x.x
+  - condition: elasticsearch.enabled
+    name: elasticsearch
+    repository: https://helm.elastic.co
+    version: 6.8.22
+annotations:
+  artifacthub.io/images: |
+    - name: conductor-server
+      image: frinx/conductor-server:1.0.10
+    - name: workflow-proxy
+      image: frinx/workflow-proxy:1.0.11
+    - name: schellar
+      image: frinx/schellar:2.0.0
+  artifacthub.io/changes: |
+    - kind: added
+      description: Set new docker images for services
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/141
