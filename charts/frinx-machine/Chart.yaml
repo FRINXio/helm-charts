@@ -23,15 +23,15 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     version: 11.2.3
 
-  - condition: uniresource.enabled
-    name: uniresource
+  - condition: resource-manager.enabled
+    name: resource-manager
     repository: https://FRINXio.github.io/helm-charts
-    version: 1.1.1
+    version: 1.1.0
 
-  - condition: uniflow.enabled
-    name: uniflow
+  - condition: workflow-manager.enabled
+    name: workflow-manager
     repository: https://FRINXio.github.io/helm-charts
-    version: 2.0.0
+    version: 1.0.1
 
   - condition: inventory.enabled
     name: inventory
