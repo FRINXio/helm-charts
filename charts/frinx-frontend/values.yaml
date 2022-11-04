@@ -94,3 +94,4 @@ env:
   AUTH_REDIRECT_DOMAIN: localhost
   MSAL_AUTHORITY: https://login.microsoftonline.com/common/
   DEVICE_TOPOLOGY_ENABLED: false
+  DACO: "nieco"
