@@ -67,6 +67,9 @@ workflow-manager:
     CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_URL: jdbc:postgresql://frinx-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
   schellarEnv:
     POSTGRES_DATABASE_URL: "host=frinx-postgresql port=5432 user=postgresU password=postgresP database=schellar"
+  elasticsearch:
+    sysctlInitContainer:
+      enabled: true
 
 inventory:
   enabled: true
