@@ -92,6 +92,7 @@ env:
   ARANGO_TOKEN:
   ARANGO_ENABLED: false
   DEVICE_DISCOVERY_SEED: false
+  DACO: "nieco"
 
 extraEnv: []
 
