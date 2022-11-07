@@ -93,27 +93,9 @@ jobs:
         id: run_test
         run: |
           kubectl testkube run test frinx-e2e -f
-  
-      - name: slack - GitHub Actions Slack integration SUCCESS
-        if: ${{ success() }}
-        uses: act10ns/slack@v1.6.0
-        with:
-          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          status: ${{ job.status }}
-          channel: '#helm-charts'
-          message: "E2E tests: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
-
-      - name: slack - GitHub Actions Slack integration FAILURE
-        if: ${{ failure() }}
-        uses: act10ns/slack@v1.6.0
-        with:
-          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          status: ${{ job.status }}
-          channel: '#helm-charts'
-          message: "E2E tests: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
 
       - name: slack - GitHub Actions Slack integration CANCELLED
-        if: ${{ cancelled() }}
+        if: ${{ always() }}
         uses: act10ns/slack@v1.6.0
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
