@@ -172,6 +172,26 @@ entries:
   frinx-frontend:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Rename/Change ENV variables and REST API endpoints
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/133
+    apiVersion: v2
+    appVersion: 1.0.24
+    created: "2022-11-07T08:05:39.655483897Z"
+    description: A Helm chart for Kubernetes deployment of the Frinx UI
+    digest: 49f0e2f07a09bc39c658bb2fd483e3f7264e8802c1c8b2202e99b3f2b3252fb8
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-frontend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-frontend-2.0.0/frinx-frontend-2.0.0.tgz
+    version: 2.0.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Add DEVICE_TOPOLOGY_ENABLED env variable
           links:
@@ -4988,4 +5008,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2022-10-31T10:19:26.648693728Z"
+generated: "2022-11-07T08:05:39.656024605Z"
