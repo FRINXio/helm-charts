@@ -16,8 +16,7 @@ frinx-frontend:
   fullnameOverride: "frinx-frontend"
   image:
     repository: "frinx/frinx-frontend"
-    pullPolicy: "Always"
-    tag: "latest"
+    tag: "1.0.24"
   env:
     AUTH_CLIENT_ID: "frinx"
     DEVICE_TOPOLOGY_ENABLED: true

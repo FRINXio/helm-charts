@@ -14,9 +14,8 @@ dependencies:
 
   - condition: frinx-frontend.enabled
     name: frinx-frontend
-    # repository: https://FRINXio.github.io/helm-charts
-    repository: "file://charts/frinx-frontend"
-    version: 1.3.0
+    repository: https://FRINXio.github.io/helm-charts
+    version: 2.0.0
 
   - condition: postgresql.enabled
     name: postgresql
