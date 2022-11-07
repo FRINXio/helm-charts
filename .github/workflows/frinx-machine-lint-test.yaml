@@ -94,7 +94,7 @@ jobs:
         run: |
           kubectl testkube run test frinx-e2e -f
 
-      - name: slack - GitHub Actions Slack integration CANCELLED
+      - name: slack - GitHub Actions Slack integration
         if: ${{ always() }}
         uses: act10ns/slack@v1.6.0
         with:
