@@ -172,6 +172,26 @@ entries:
   frinx-frontend:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Fixed image version
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/146
+    apiVersion: v2
+    appVersion: 1.0.25
+    created: "2022-11-07T16:19:16.497681048Z"
+    description: A Helm chart for Kubernetes deployment of the Frinx UI
+    digest: d0249b39fe5a2a0096d2b3a50607d89080efecb9fe18c0cfc26d3bacb2bd7ccc
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-frontend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-frontend-2.0.1/frinx-frontend-2.0.1.tgz
+    version: 2.0.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Rename/Change ENV variables and REST API endpoints
           links:
@@ -5094,4 +5114,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2022-11-07T08:08:13.95431693Z"
+generated: "2022-11-07T16:19:16.49911826Z"
