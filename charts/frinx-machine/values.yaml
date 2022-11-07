@@ -145,7 +145,7 @@ uniconfig:
       namespaced: false
 
 demo-workflows:
-  enabled: true
+  enabled: false
   fullnameOverride: "demo-workflows"
   image:
     repository: "frinx/demo-workflows"
