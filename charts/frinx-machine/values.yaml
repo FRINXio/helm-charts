@@ -16,7 +16,7 @@ frinx-frontend:
   fullnameOverride: "frinx-frontend"
   image:
     repository: "frinx/frinx-frontend"
-    tag: "1.0.19"
+    tag: "1.0.25"
   env:
     AUTH_CLIENT_ID: "frinx"
     DEVICE_TOPOLOGY_ENABLED: true
@@ -28,7 +28,7 @@ postgresql:
     enablePostgresUser: true
     username: postgresU
     password: postgresP
-    database: uniresource
+    database: postgres
   architecture: standalone
   primary:
     initdb:
@@ -38,9 +38,9 @@ postgresql:
           CREATE DATABASE conductor;
           CREATE DATABASE inventory;
 
-uniresource:
+resource-manager:
   enabled: true
-  fullnameOverride: "uniresource"
+  fullnameOverride: "resource-manager"
   image:
     repository: "frinx/resource-manager"
     tag: "1.0.6"
@@ -48,20 +48,20 @@ uniresource:
     enabled: false
   env:
     PSQL_HOSTNAME: frinx-postgresql
-    RM_DB_CONNECTION_STRING: "postgres://postgresU:postgresP@frinx-postgresql:5432/uniresource?sslmode=disable"
+    RM_DB_CONNECTION_STRING: "postgres://postgresU:postgresP@frinx-postgresql:5432/postgres?sslmode=disable"
 
-uniflow:
+workflow-manager:
   enabled: true
   fullnameOverride: "workflow-proxy"
   image:
-    repository: "frinx/uniflow-conductor-server"
-    tag: "1.0.9"
+    repository: "frinx/conductor-server"
+    tag: "1.0.10"
   proxyImage:
     repository: "frinx/workflow-proxy"
     tag: "1.0.11"
   schellarImage:
-    repository: "frinx/uniflow-schellar"
-    tag: "1.9.4"
+    repository: "frinx/schellar"
+    tag: "2.0.0"
   postgresql:
     enabled: false
   env:
@@ -70,6 +70,9 @@ uniflow:
     CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_URL: jdbc:postgresql://frinx-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
   schellarEnv:
     POSTGRES_DATABASE_URL: "host=frinx-postgresql port=5432 user=postgresU password=postgresP database=schellar"
+  elasticsearch:
+    sysctlInitContainer:
+      enabled: true
 
 inventory:
   enabled: true
