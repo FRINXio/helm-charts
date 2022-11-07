@@ -9,15 +9,14 @@ krakend:
   fullnameOverride: "krakend"
   image:
     repository: "frinx/krakend"
-    pullPolicy: Always
-    tag: "latest"
+    tag: "1.0.4"
 
 frinx-frontend:
   enabled: true
   fullnameOverride: "frinx-frontend"
   image:
     repository: "frinx/frinx-frontend"
-    tag: "1.0.24"
+    tag: "1.0.25"
   env:
     AUTH_CLIENT_ID: "frinx"
     DEVICE_TOPOLOGY_ENABLED: true
