@@ -9,7 +9,8 @@ krakend:
   fullnameOverride: "krakend"
   image:
     repository: "frinx/krakend"
-    tag: "1.0.4"
+    pullPolicy: Always
+    tag: "latest"
 
 frinx-frontend:
   enabled: true
