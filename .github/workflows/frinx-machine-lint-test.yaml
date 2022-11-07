@@ -112,7 +112,7 @@ jobs:
           channel: '#helm-charts'
           message: "E2E tests: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
 
-      - name: slack - GitHub Actions Slack integration FAILURE
+      - name: slack - GitHub Actions Slack integration CANCELLED
         if: ${{ cancelled() }}
         uses: act10ns/slack@v1.6.0
         with:
