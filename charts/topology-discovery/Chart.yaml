@@ -4,7 +4,7 @@ description: A Helm chart for Kubernetes deployment of the Topology Discovery
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
 version: 1.1.0
-appVersion: "0.0.2"
+appVersion: "0.0.3"
 maintainers:
   - name: FRINX
 annotations:
@@ -13,4 +13,4 @@ annotations:
       description: Update env variables for topology discovery
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/107
+          url: https://github.com/FRINXio/helm-charts/pull/158

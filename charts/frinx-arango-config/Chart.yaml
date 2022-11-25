@@ -14,4 +14,4 @@ annotations:
       description: Add default password for root user
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/106
+          url: https://github.com/FRINXio/helm-charts/pull/158
