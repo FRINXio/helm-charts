@@ -128,6 +128,28 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Add default password for root user
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/158
+    apiVersion: v2
+    appVersion: 3.9.1
+    created: "2022-11-25T13:53:24.225227044Z"
+    description: A Helm chart for Kubernetes deployment of the Arango CRD and ArangoDB
+      configuration files
+    digest: a7b58c58bc4967d8cd80ab8ffab1f82a37650ee0734cfcc674aa89b5619d668f
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-arango-config
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-arango-config-1.1.0/frinx-arango-config-1.1.0.tgz
+    version: 1.1.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Optional deployment of ArangoDB
           links:
             - name: GitHub PR
@@ -4656,6 +4678,26 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Update env variables for topology discovery
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/158
+    apiVersion: v2
+    appVersion: 0.0.3
+    created: "2022-11-25T13:53:24.325857158Z"
+    description: A Helm chart for Kubernetes deployment of the Topology Discovery
+    digest: 6d3b0b3795443deaccf4bc743ec53295e083a22635dfb972d20bedd567084d68
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: topology-discovery
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/topology-discovery-2.0.0/topology-discovery-2.0.0.tgz
+    version: 2.0.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Create topology discovery helm charts
           links:
             - name: GitHub PR
@@ -5716,4 +5758,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2022-11-24T07:13:43.657825433Z"
+generated: "2022-11-25T13:53:24.32635437Z"
