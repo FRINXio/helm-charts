@@ -76,7 +76,13 @@ tolerations: []
 affinity: {}
 
 env:
-  UNICONFIG_URL: http://uniconfig:8181/rests
-  ARANGODB_USERNAME: 'root'
-  ARANGODB_PASSWORD: ''
-  ARANGODB_URL: 'http://arangodb:8529'
+  UC_URL_BASE: http://uniconfig:8181/rests/
+  ARANGO_USERNAME: 'root'
+  ARANGO_ROOT_PASSWORD: 'frinx'
+  ARANGO_URL: 'http://arangodb:8529'
+  BGPLS_ENABLED: false
+  BGPLS_NETWORK: 172.18.0.0/16
+  BGPLS_ROUTER_ID: 192.168.99.1
+  BGPLS_NEIGHBOR_IP: 192.168.99.100
+  BGPLS_LOCAL_AS: 100
+  BGPLS_PEER_AS: 100

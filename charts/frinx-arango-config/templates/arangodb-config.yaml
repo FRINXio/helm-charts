@@ -5,6 +5,9 @@ metadata:
   name: "arangodb"
 spec:
   mode: Single
+  bootstrap:
+    passwordSecretNames:
+      root: {{ .Values.arangodb_config.rootSecretName }}
   tls:
     caSecretName: None
   auth:

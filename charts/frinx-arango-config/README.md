@@ -38,6 +38,7 @@ helm uninstall [RELEASE_NAME]
 | `arangodb_config.bearerSecretName` | ArangoDB bearer token name | `arangodb-bearer` |
 | `arangodb_config.token` | ArangoDB jwt token value | `""` |
 | `arangodb_config.bearer` | ArangoDB bearer token value generated from jwt token | `""` |
+| `arangodb_config.rootSecretName` | Secret name for ArangoDB root password configuration  | `frinx` |
+| `arangodb_config.rootSecretPassword` | Default password for ArangoDB root user | `frinx` |
 | `arango_operator_secret.username` | Default user for Arango operator  | `frinx` |
 | `arango_operator_secret.password` | Default password for Arango operator | `frinx` |
-

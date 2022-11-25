@@ -59,7 +59,14 @@ helm uninstall [RELEASE_NAME]
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
-| `env.UNICONFIG_URL` | UNICONFIG_HOSTNAME env variable | `http://uniconfig:8181/rests` |
-| `env.ARANGODB_USERNAME` | ARANGODB_USERNAME env variable | `root` |
-| `env.ARANGODB_PASSWORD` | UNICONFIG_HOSTNAME env variable | `` |
-| `env.ARANGODB_URL` | UNICONFIG_HOSTNAME env variable | `http://arangodb:8529` |
+| `env.UC_URL_BASE` | UC_URL_BASE env variable | `http://uniconfig:8181/rests` |
+| `env.ARANGO_USERNAME` | ARANGO_USERNAME env variable | `root` |
+| `env.ARANGO_ROOT_PASSWORD` | ARANGO_ROOT_PASSWORD env variable | `frinx` |
+| `env.ARANGO_URL` | ARANGO_URL env variable | `http://arangodb:8529` |
+| `env.BGPLS_ENABLED` | BGPLS_ENABLED env variable | `false` |
+| `env.BGPLS_NETWORK` | BGPLS_NETWORK env variable | `172.18.0.0/16` |
+| `env.BGPLS_ROUTER_ID` | BGPLS_ROUTER_ID env variable | `192.168.99.1` |
+| `env.BGPLS_NEIGHBOR_IP` | BGPLS_NEIGHBOR_IP env variable | `192.168.99.100` |
+| `env.BGPLS_LOCAL_AS` | BGPLS_LOCAL_AS env variable | `100` |
+| `env.BGPLS_PEER_AS` | BGPLS_PEER_AS env variable | `100` |
+
