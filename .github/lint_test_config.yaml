@@ -18,3 +18,5 @@ excluded-charts:
   - frinx-machine
   # This chart has a dependency on uniconfig, workflow-manager and inventory charts
   - worker
+  # This chart has a dependency to arangodb 
+  - topology-discovery
