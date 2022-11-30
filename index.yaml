@@ -4346,6 +4346,29 @@ entries:
   krakend:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Disable redirect URI
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/161
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:1.0.4
+    apiVersion: v2
+    appVersion: 1.0.4
+    created: "2022-11-30T15:02:57.330006193Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: 29b6bcf0980802c0ac6fac20ffa0d7c6072bda72622ce11a8e6a98a21eb8a0bb
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-2.5.1/krakend-2.5.1.tgz
+    version: 2.5.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Rename Uniflow/Uniresource REST API
           links:
@@ -5844,4 +5867,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2022-11-28T09:23:28.745348081Z"
+generated: "2022-11-30T15:02:57.330437198Z"
