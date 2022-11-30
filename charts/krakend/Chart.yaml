@@ -16,4 +16,4 @@ annotations:
       description: Disable redirect URI
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/132
+          url: https://github.com/FRINXio/helm-charts/pull/161
