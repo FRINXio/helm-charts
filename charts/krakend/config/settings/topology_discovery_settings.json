@@ -3,7 +3,27 @@
         {
             "endpoint": "/api/topology/health",
             "method": "GET",
-            "url_pattern": "/health"
+            "url_pattern": "/api/health"
+        },
+        {
+            "endpoint": "/api/topology/data/diff",
+            "method": "POST",
+            "url_pattern": "/api/data/diff"
+        },
+        {
+            "endpoint": "/api/topology/data/backup",
+            "method": "POST",
+            "url_pattern": "/api/data/backup"
+        },
+        {
+            "endpoint": "/api/topology/data/backup",
+            "method": "GET",
+            "url_pattern": "/api/data/backup"
+        },
+        {
+            "endpoint": "/api/topology/data/backup",
+            "method": "DELETE",
+            "url_pattern": "/api/data/backup"
         },
         {
             "endpoint": "/api/topology/providers",
@@ -19,6 +39,26 @@
             "endpoint": "/api/topology/providers/{provider}/trigger",
             "method": "POST",
             "url_pattern": "/api/providers/{provider}/trigger"
+        },
+        {
+            "endpoint": "/api/topology/bgp-ls/{neighbor}",
+            "method": "GET",
+            "url_pattern": "/api/bgp-ls/{neighbor}"
+        },
+        {
+            "endpoint": "/api/topology/bgp-ls/{neighbor}/{summary}",
+            "method": "GET",
+            "url_pattern": "/api/bgp-ls/{neighbor}/{summary}"
+        },
+        {
+            "endpoint": "/api/topology/bgp-ls/{neighbor}",
+            "method": "POST",
+            "url_pattern": "/api/bgp-ls/{neighbor}"
+        },
+        {
+            "endpoint": "/api/topology/bgp-ls/{neighbor}",
+            "method": "DELETE",
+            "url_pattern": "/api/bgp-ls/{neighbor}"
         }
     ]
 }
