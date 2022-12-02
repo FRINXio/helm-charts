@@ -48,13 +48,9 @@ helm uninstall [RELEASE_NAME]
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
-| `env.UNICONFIG_HOSTNAME` | UNICONFIG_HOSTNAME env variable | `uniconfig` |
-| `env.UNICONFIG_PORT` | UNICONFIG_PORT env variable | `8181` |
-| `env.UNIFLOW_HOSTNAME` | UNIFLOW_HOSTNAME env variable | `workflow-proxy` |
-| `env.UNIFLOW_PORT` | UNIFLOW_PORT env variable | `8088` |
-| `env.CONDUCTOR_PORT` | CONDUCTOR_PORT env variable | `8080` |
-| `env.INVENTORY_HOSTNAME` | INVENTORY_HOSTNAME env variable | `inventory` |
-| `env.INVENTORY_PORT` | INVENTORY_PORT env variable | `8000` |
+| `initContainersUrl.UNICONFIG_URL_BASE` | UNICONFIG_URL_BASE env variable | `http://uniconfig:8181` |
+| `initContainersUrl.CONDUCTOR_URL_BASE` | CONDUCTOR_URL_BASE env variable | `http://workflow-proxy:8080` |
+| `initContainersUrl.INVENTORY_URL_BASE` | INVENTORY_URL_BASE env variable | `http://inventory:8000` |
 | `env.X_TENANT_ID` | X_TENANT_ID env variable | `frinx` |
 | `env.X_AUTH_USER_GROUP` | X_AUTH_USER_GROUP env variable | `network-admin` |
-| `env.UNICONFIG_URL_BASE` | UNICONFIG_URL_BASE env variable | `https://uniconfig:8181/rests` |
+| `env.UNICONFIG_URL_BASE` | UNICONFIG_URL_BASE env variable | `http://uniconfig:8181/rests` |
