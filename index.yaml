@@ -194,6 +194,31 @@ entries:
   frinx-frontend:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Rename ENV variable for L3VPN
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/157
+        - kind: changed
+          description: Update frinx-frontend image version
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/157
+    apiVersion: v2
+    appVersion: 1.0.26
+    created: "2022-12-02T14:13:59.214827414Z"
+    description: A Helm chart for Kubernetes deployment of the Frinx UI
+    digest: 18305674d545031903e5f535ab9c85315c48bb10333f7b70827b3fa41e14d28a
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-frontend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-frontend-3.0.0/frinx-frontend-3.0.0.tgz
+    version: 3.0.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: Fixed image version
           links:
@@ -4433,6 +4458,34 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Generate endpoint based on ENV settings
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/157
+        - kind: changed
+          description: Update KrakenD image version
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/157
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:1.0.5
+    apiVersion: v2
+    appVersion: 1.0.5
+    created: "2022-12-02T14:13:59.343494914Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: f78891e0b2b72ab4d127f4e850c002cddbddc0fc2cf873208817a81a7110233b
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-2.6.0/krakend-2.6.0.tgz
+    version: 2.6.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Add topology-discovery REST API
           links:
             - name: GitHub PR
@@ -6007,4 +6060,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2022-12-02T13:09:09.015499079Z"
+generated: "2022-12-02T14:13:59.344561943Z"
