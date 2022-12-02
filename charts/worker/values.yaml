@@ -64,4 +64,4 @@ env:
   INVENTORY_PORT: 8000
   X_TENANT_ID: frinx
   X_AUTH_USER_GROUP: network-admin
-  UNICONFIG_URL_BASE: https://uniconfig:8181/rests
+  UNICONFIG_URL_BASE: http://uniconfig:8181/rests
