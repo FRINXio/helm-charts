@@ -4235,6 +4235,32 @@ entries:
   inventory:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Set default zone to uniconfig
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/160
+    apiVersion: v2
+    appVersion: 1.6.2
+    created: "2022-12-02T14:32:44.702054237Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deployment of the Device Inventory
+    digest: 582d62a8674d5099000e6f335476cde50a3a2f46a53def9be4a7d82c2c56ae58
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: inventory
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/inventory-2.3.1/inventory-2.3.1.tgz
+    version: 2.3.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Device discovery seed data in startup
           links:
@@ -6060,4 +6086,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2022-12-02T14:13:59.344561943Z"
+generated: "2022-12-02T14:32:44.702467039Z"
