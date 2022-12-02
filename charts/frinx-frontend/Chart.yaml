@@ -9,8 +9,13 @@ maintainers:
   - name: FRINX
 annotations:
   artifacthub.io/changes: |
-    - kind: fixed
-      description: Fixed image version
+    - kind: changed
+      description: Changed L3VPN_ENABLED variable name
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/146
+          url: https://github.com/FRINXio/helm-charts/pull/166
+    - kind: changed
+      description: Changed supported appVersion to 1.0.26+
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/166
