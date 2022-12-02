@@ -11,7 +11,7 @@ appVersion: "1.9.1"
 annotations:
   artifacthub.io/changes: |
     - kind: changed
-      description: Moved env variables for initContainers co initContainersUrl
+      description: Moved env variables for initContainers to initContainersUrl
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/164
