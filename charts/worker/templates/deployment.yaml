@@ -32,21 +32,21 @@ spec:
         - name: check-uniconfig-ready
           image: curlimages/curl
           command: ["/bin/sh","-c"]
-          args: ['while [ $(curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST {{ .Values.env.UNICONFIG_HOSTNAME }}:{{ .Values.env.UNICONFIG_PORT }}/rests/operations/uniconfig-manager:health -H "Content-Type:application/json") -ne 200 ];
+          args: ['while [ $(curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST {{ .Values.initContainersUrl.UNICONFIG_URL_BASE }}/rests/operations/uniconfig-manager:health -H "Content-Type:application/json") -ne 200 ];
             do sleep 5; echo "waiting for uniconfig";
             done;
             echo "connection successful!"']
-        - name: check-uniflow-ready
+        - name: check-conductor-ready
           image: curlimages/curl
           command: ["/bin/sh","-c"]
-          args: ['while [ $(curl -o /dev/null --silent --write-out "%{http_code}" {{ .Values.env.UNIFLOW_HOSTNAME }}:{{ .Values.env.CONDUCTOR_PORT }}/health) -ne 200 ];
-            do sleep 5; echo "waiting for uniflow";
+          args: ['while [ $(curl -o /dev/null --silent --write-out "%{http_code}" {{ .Values.initContainersUrl.CONDUCTOR_URL_BASE }}/health) -ne 200 ];
+            do sleep 5; echo "waiting for conductor";
             done;
             echo "connection successful!"']
         - name: check-inventory-ready
           image: curlimages/curl
           command: ["/bin/sh","-c"]
-          args: ['while [ $(curl -o /dev/null --silent --write-out "%{http_code}" {{ .Values.env.INVENTORY_HOSTNAME }}:{{ .Values.env.INVENTORY_PORT }}/.well-known/apollo/server-health) -ne 200 ];
+          args: ['while [ $(curl -o /dev/null --silent --write-out "%{http_code}" {{ .Values.initContainersUrl.INVENTORY_URL_BASE }}/.well-known/apollo/server-health) -ne 200 ];
             do sleep 5; echo "waiting for inventory";
             done;
             echo "connection successful!"']

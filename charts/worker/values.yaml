@@ -54,14 +54,12 @@ tolerations: []
 
 affinity: {}
 
+initContainersUrl:
+  UNICONFIG_URL_BASE: http://uniconfig:8181
+  CONDUCTOR_URL_BASE: http://workflow-proxy:8080
+  INVENTORY_URL_BASE: http://inventory:8000
+
 env:
-  UNICONFIG_HOSTNAME: uniconfig
-  UNICONFIG_PORT: 8181
-  UNIFLOW_HOSTNAME: workflow-proxy
-  UNIFLOW_PORT: 8088
-  CONDUCTOR_PORT: 8080
-  INVENTORY_HOSTNAME: inventory
-  INVENTORY_PORT: 8000
   X_TENANT_ID: frinx
   X_AUTH_USER_GROUP: network-admin
   UNICONFIG_URL_BASE: http://uniconfig:8181/rests
