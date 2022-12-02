@@ -3,17 +3,22 @@ name: krakend
 description: FRINX KrakenD API Gateway for FRINX-machine
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 2.5.2
-appVersion: "1.0.4"
+version: 2.6.0
+appVersion: "1.0.5"
 maintainers:
   - name: FRINX
 annotations:
   artifacthub.io/images: |
     - name: krakend
-      image: frinx/krakend:1.0.4
+      image: frinx/krakend:1.0.5
   artifacthub.io/changes: |
     - kind: added
-      description: Add topology-discovery REST API
+      description: Generate endpoint based on ENV settings
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/163
+          url: https://github.com/FRINXio/helm-charts/pull/157
+    - kind: changed
+      description: Update KrakenD image version
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/157

@@ -70,6 +70,14 @@ helm uninstall [RELEASE_NAME]
 | `deployment.env.HTTPS_PROXY` | HTTPS_PROXY env variable | |
 | `deployment.env.NO_PROXY` | NO_PROXY env variable | |
 | `deployment.env.UNICONFIG_ZONES_LIST` | UNICONFIG_ZONES_LIST env variable | `"uniconfig"` |
+| `deployment.env.ALLOWED_HOSTS` | ALLOWED_HOSTS env variable | `""` |
+| `deployment.env.ALLOWED_ORIGINS` | ALLOWED_ORIGINS env variable | `""` |
+| `deployment.env.WORKFLOW_MANAGER_ENABLED` | WORKFLOW_MANAGER_ENABLED env variable | `true` |
+| `deployment.env.UNICONFIG_ENABLED` | UNICONFIG_ENABLED env variable | `true` |
+| `deployment.env.INVENTORY_ENABLED` | INVENTORY_ENABLED env variable | `true` |
+| `deployment.env.RESOURCE_MANAGER_ENABLED` | RESOURCE_MANAGER_ENABLED env variable | `true` |
+| `deployment.env.DEVICE_TOPOLOGY_ENABLED` | DEVICE_TOPOLOGY_ENABLED env variable | `false` |
+| `deployment.env.L3VPN_ENABLED` | L3VPN_ENABLED env variable | `false` |
 | `deployment.azureAuth.enabled` | Enabled azure authentication | `false` |
 | `deployment.azureAuth.AZURE_LOGIN_URL` | AZURE_LOGIN_URL env variable | `"https://login.microsoftonline.com"` |
 | `deployment.azureAuth.AZURE_TENANT_NAME` | AZURE_TENANT_NAME env variable | `"frinx"` |
@@ -93,6 +101,7 @@ helm uninstall [RELEASE_NAME]
 | `deployment.rbac.INVENTORY_ADMIN_GROUP` | INVENTORY_ADMIN_GROUP env variable | `"network-admin"` |
 | `deployment.rbac.ADMIN_ACCESS_ROLE` | ADMIN_ACCESS_ROLE env variable | `"network-admin"` |
 | `deployment.rbac.X_AUTH_USER_GROUP` | X_AUTH_USER_GROUP env variable | `"network-admin"` |
+| `deployment.extraEnv` | Additional env variables |  |
 | `deployment.volumes.azureFile.enabled` | Enable azureFile for config | `false` |
 | `deployment.volumes.azureFile.storage.accountName` | accountName for azure storage | |
 | `deployment.volumes.azureFile.storage.accessKey` | accessKey for azure storage | |
