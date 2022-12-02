@@ -94,6 +94,22 @@ spec:
               value: {{ .Values.deployment.env.AUTH_ENABLED | quote }}
             - name: UNICONFIG_ZONES_LIST
               value: {{ .Values.deployment.env.UNICONFIG_ZONES_LIST | quote }}
+            - name: ALLOWED_HOSTS
+              value: {{ .Values.deployment.env.ALLOWED_HOSTS | quote }}
+            - name: ALLOWED_ORIGINS
+              value: {{ .Values.deployment.env.ALLOWED_ORIGINS | quote }}
+            - name: WORKFLOW_MANAGER_ENABLED
+              value: {{ .Values.deployment.env.WORKFLOW_MANAGER_ENABLED | quote }}
+            - name: UNICONFIG_ENABLED
+              value: {{ .Values.deployment.env.UNICONFIG_ENABLED | quote }}
+            - name: L3VPN_ENABLED
+              value: {{ .Values.deployment.env.L3VPN_ENABLED | quote }}
+            - name: INVENTORY_ENABLED
+              value: {{ .Values.deployment.env.INVENTORY_ENABLED | quote }}
+            - name: RESOURCE_MANAGER_ENABLED
+              value: {{ .Values.deployment.env.RESOURCE_MANAGER_ENABLED | quote }}
+            - name: DEVICE_TOPOLOGY_ENABLED
+              value: {{ .Values.deployment.env.DEVICE_TOPOLOGY_ENABLED | quote }}
             # azureAuth
             - name: AZURE_LOGIN_URL
               value: {{ .Values.deployment.azureAuth.AZURE_LOGIN_URL | quote }}
@@ -162,6 +178,10 @@ spec:
             - name: NO_PROXY
               value: "workflow-proxy,frinx-frontend,inventory,krakend,unistore,resource-manager,{{ .Values.deployment.env.NO_PROXY }},$(UNICONFIG_ZONES_LIST)"
             {{- end }}
+          {{- range $key, $val := .Values.deployment.extraEnv }}
+            - name: {{ $key | quote }}
+              value: {{ $val | quote }}
+          {{- end }}
           ports:
             - name: http
               containerPort: 8080

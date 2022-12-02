@@ -88,6 +88,14 @@ deployment:
     HTTPS_PROXY:
     NO_PROXY:
     UNICONFIG_ZONES_LIST: "uniconfig"
+    ALLOWED_HOSTS:
+    ALLOWED_ORIGINS:
+    WORKFLOW_MANAGER_ENABLED: true
+    UNICONFIG_ENABLED: true
+    INVENTORY_ENABLED: true
+    RESOURCE_MANAGER_ENABLED: true
+    L3VPN_ENABLED: false
+    DEVICE_TOPOLOGY_ENABLED: false
   azureAuth:
     enabled: false
     AZURE_LOGIN_URL: "https://login.microsoftonline.com"
@@ -114,6 +122,7 @@ deployment:
     INVENTORY_ADMIN_GROUP: "network-admin"
     ADMIN_ACCESS_ROLE: "network-admin"
     X_AUTH_USER_GROUP: "network-admin"
+  extraEnv: []
   volumes:
     azureFile:
       enabled: false
