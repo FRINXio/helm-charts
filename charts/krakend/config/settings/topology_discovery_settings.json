@@ -3,7 +3,27 @@
         {
             "endpoint": "/api/topology/health",
             "method": "GET",
-            "url_pattern": "/health"
+            "url_pattern": "/api/health"
+        },
+        {
+            "endpoint": "/api/topology/data/diff",
+            "method": "POST",
+            "url_pattern": "/api/data/diff"
+        },
+        {
+            "endpoint": "/api/topology/data/backup",
+            "method": "POST",
+            "url_pattern": "/api/data/backup"
+        },
+        {
+            "endpoint": "/api/topology/data/backup",
+            "method": "GET",
+            "url_pattern": "/api/data/backup"
+        },
+        {
+            "endpoint": "/api/topology/data/backup",
+            "method": "DELETE",
+            "url_pattern": "/api/data/backup"
         },
         {
             "endpoint": "/api/topology/providers",
@@ -19,6 +39,41 @@
             "endpoint": "/api/topology/providers/{provider}/trigger",
             "method": "POST",
             "url_pattern": "/api/providers/{provider}/trigger"
+        },
+        {
+            "endpoint": "/api/topology/bgp-ls/neighbor/{neighbor_id}",
+            "method": "POST",
+            "url_pattern": "/api/bgp-ls/neighbor/{neighbor_id}"
+        },
+        {
+            "endpoint": "/api/topology/bgp-ls/neighbor/{neighbor_id}",
+            "method": "DELETE",
+            "url_pattern": "/api/bgp-ls/neighbor/{neighbor_id}"
+        },
+        {
+            "endpoint": "/api/topology/bgp-ls/restart",
+            "method": "POST",
+            "url_pattern": "/api/bgp-ls/restart"
+        },
+        {
+            "endpoint": "/api/topology/bgp-ls/neighbor",
+            "method": "GET",
+            "url_pattern": "/api/bgp-ls/neighbor"
+        },
+        {
+            "endpoint": "/api/topology/bgp-ls/neighbor/{neighbor_id}",
+            "method": "GET",
+            "url_pattern": "/api/bgp-ls/neighbor/{neighbor_id}"
+        },
+        {
+            "endpoint": "/api/topology/bgp-ls/summary",
+            "method": "GET",
+            "url_pattern": "/api/bgp-ls/summary"
+        },
+        {
+            "endpoint": "/api/topology/bgp-ls/summary/{neighbor_id}",
+            "method": "GET",
+            "url_pattern": "/api/bgp-ls/summary/{neighbor_id}"
         }
     ]
 }
