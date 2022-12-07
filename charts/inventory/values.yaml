@@ -75,6 +75,12 @@ tolerations: []
 
 affinity: {}
 
+deployment:
+  annotations: {}
+
+job:
+  annotations: {}
+
 env:
   UNICONFIG_API_PROTOCOL: http
   UNICONFIG_API_PORT: 8181

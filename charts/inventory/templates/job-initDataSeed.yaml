@@ -5,6 +5,10 @@ metadata:
   name: {{ include "inventory.fullname" . }}-seed-{{ .Values.image.tag | default .Chart.AppVersion }}
   labels:
     {{- include "inventory.labels" . | nindent 4 }}
+  {{- with .Values.job.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   template:
     spec:

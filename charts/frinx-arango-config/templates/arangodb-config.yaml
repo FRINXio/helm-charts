@@ -3,6 +3,10 @@ apiVersion: "database.arangodb.com/v1alpha"
 kind: "ArangoDeployment"
 metadata:
   name: "arangodb"
+  {{- with .Values.arangodb_config.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   mode: Single
   bootstrap:

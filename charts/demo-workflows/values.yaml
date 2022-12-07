@@ -82,6 +82,9 @@ tolerations: []
 
 affinity: {}
 
+deployment:
+  annotations: {}
+
 env:
   UNICONFIG_HOSTNAME: uniconfig
   UNICONFIG_PORT: 8181
