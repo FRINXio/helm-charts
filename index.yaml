@@ -4,6 +4,31 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Add option to add annotations to deployment
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/174
+    apiVersion: v2
+    appVersion: "1.10"
+    created: "2022-12-07T15:22:33.546338335Z"
+    dependencies:
+    - condition: sample-topology.enabled
+      name: sample-topology
+      repository: https://FRINXio.github.io/helm-charts
+      version: 1.x.x
+    description: A Helm chart for the Frinx Machine demo workflows
+    digest: e6c294fafe2bc6b92213c87d8df95130a9db3977e165df2eeacd05483532b7a0
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: demo-workflows
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/demo-workflows-1.3.0/demo-workflows-1.3.0.tgz
+    version: 1.3.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Add switch to enable/disable toplogy-discovery backup workflow schedule
           links:
             - name: GitHub PR
@@ -125,6 +150,33 @@ entries:
     - https://github.com/FRINXio/helm-charts/releases/download/demo-workflows-1.0.0/demo-workflows-1.0.0.tgz
     version: 1.0.0
   frinx-arango-config:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Add option to add annotations to ArangoDeployment
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/174
+        - kind: fixed
+          description: Removed duplicate CustomResourceDefinition
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/174
+    apiVersion: v2
+    appVersion: 3.9.1
+    created: "2022-12-07T15:22:33.69681604Z"
+    description: A Helm chart for Kubernetes deployment of the Arango CRD and ArangoDB
+      configuration files
+    digest: 8b3b9f1eeaeeff40d63aa1df6ac8710006b5c3f5c74a12db5eedcf9c8a9a49f7
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-arango-config
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-arango-config-1.2.0/frinx-arango-config-1.2.0.tgz
+    version: 1.2.0
   - annotations:
       artifacthub.io/changes: |
         - kind: added
@@ -4837,6 +4889,37 @@ entries:
   inventory:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Add option to add annotations to deployment
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/174
+        - kind: added
+          description: Add option to add annotations to job
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/174
+    apiVersion: v2
+    appVersion: 1.6.2
+    created: "2022-12-07T15:22:33.847116936Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deployment of the Device Inventory
+    digest: 46139520fdd9b12d61ab5bd1b6f0ffd3da9d5c2e1de619d697533f5c5bf90fc6
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: inventory
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/inventory-2.4.0/inventory-2.4.0.tgz
+    version: 2.4.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: Set default zone to uniconfig
           links:
@@ -5574,6 +5657,31 @@ entries:
     - https://github.com/FRINXio/helm-charts/releases/download/sample-topology-1.0.0/sample-topology-1.0.0.tgz
     version: 1.0.0
   topology-discovery:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Add option to add annotations to deployment
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/174
+        - kind: added
+          description: Add check-arangodb init container
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/174
+    apiVersion: v2
+    appVersion: 0.0.3
+    created: "2022-12-07T15:22:33.96786836Z"
+    description: A Helm chart for Kubernetes deployment of the Topology Discovery
+    digest: 3098d6376cbc8af345ff37e6309cb454e15022585d03bad377fdc3de30d0a63d
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: topology-discovery
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/topology-discovery-2.1.0/topology-discovery-2.1.0.tgz
+    version: 2.1.0
   - annotations:
       artifacthub.io/changes: |
         - kind: added
@@ -6530,6 +6638,27 @@ entries:
   worker:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Add option to add annotations to deployment
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/174
+    apiVersion: v2
+    appVersion: 1.9.1
+    created: "2022-12-07T15:22:34.118923196Z"
+    description: A Helm chart for uniflow worker
+    digest: e7439135ef5a96ebc9d3a5517dcbe87ac02a8447f86f71a11a950d538ef355db
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: worker
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/worker-2.1.0/worker-2.1.0.tgz
+    version: 2.1.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Moved env variables for initContainers to initContainersUrl
           links:
@@ -6688,4 +6817,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2022-12-07T15:05:03.9709875Z"
+generated: "2022-12-07T15:22:34.119677536Z"
