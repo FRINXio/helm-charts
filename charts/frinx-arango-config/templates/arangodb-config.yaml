@@ -3,8 +3,10 @@ apiVersion: "database.arangodb.com/v1alpha"
 kind: "ArangoDeployment"
 metadata:
   name: "arangodb"
+  {{- with .Values.arangodb_config.annotations }}
   annotations:
-    argocd.argoproj.io/sync-wave: "10"
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   mode: Single
   bootstrap:

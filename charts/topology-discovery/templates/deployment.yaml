@@ -4,8 +4,10 @@ metadata:
   name: {{ include "topology-discovery.fullname" . }}
   labels:
     {{- include "topology-discovery.labels" . | nindent 4 }}
+  {{- with .Values.deployment.annotations }}
   annotations:
-    argocd.argoproj.io/sync-wave: "10"
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -29,6 +31,14 @@ spec:
       serviceAccountName: {{ include "topology-discovery.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: check-arangodb-ready
+          image: curlimages/curl
+          command: ["/bin/sh","-c"]
+          args: ['while [ $(curl -ksw "%{http_code}" --user "{{ .Values.env.ARANGO_USERNAME }}:{{ .Values.env.ARANGO_ROOT_PASSWORD }}" "{{ .Values.env.ARANGO_URL }}/_api/version" -o /dev/null) -ne 200 ];
+            do sleep 5; echo "waiting for arangodb";
+            done;
+            echo "connection successful!"']
       containers:
         - name: {{ .Chart.Name }}
           securityContext:

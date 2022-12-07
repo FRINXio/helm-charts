@@ -3,14 +3,19 @@ name: topology-discovery
 description: A Helm chart for Kubernetes deployment of the Topology Discovery
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 2.0.0
+version: 2.1.0
 appVersion: "0.0.3"
 maintainers:
   - name: FRINX
 annotations:
   artifacthub.io/changes: |
     - kind: added
-      description: Update env variables for topology discovery
+      description: Add option to add annotations to deployment
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/158
+          url: https://github.com/FRINXio/helm-charts/pull/174
+    - kind: added
+      description: Add check-arangodb init container
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/174
