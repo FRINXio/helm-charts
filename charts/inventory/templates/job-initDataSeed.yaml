@@ -5,6 +5,8 @@ metadata:
   name: {{ include "inventory.fullname" . }}-seed-{{ .Values.image.tag | default .Chart.AppVersion }}
   labels:
     {{- include "inventory.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
 spec:
   template:
     spec:

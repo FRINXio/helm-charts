@@ -4,6 +4,8 @@ metadata:
   name: {{ include "worker.fullname" . }}
   labels:
     {{- include "worker.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:

@@ -3,6 +3,8 @@ apiVersion: "database.arangodb.com/v1alpha"
 kind: "ArangoDeployment"
 metadata:
   name: "arangodb"
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
 spec:
   mode: Single
   bootstrap:
