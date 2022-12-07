@@ -20,3 +20,8 @@ annotations:
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/174
+    - kind: added
+      description: Add option to add annotations to job
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/174
