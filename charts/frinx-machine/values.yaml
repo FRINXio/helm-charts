@@ -1,6 +1,6 @@
 # Global settings
 
-x-device-discovery-enabled: &device-discovery-enabled false
+x-device-discovery-enabled: &device-discovery-enabled true
 
 # Default values for FRINX-machine.
 
@@ -99,6 +99,8 @@ frinx-arango-config:
   enabled: *device-discovery-enabled
   arangodb_config:
     enabled: *device-discovery-enabled
+    annotations:
+      "helm.sh/hook": pre-delete
 
 kube-arangodb:
   operator:
