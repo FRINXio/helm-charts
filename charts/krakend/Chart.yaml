@@ -17,3 +17,13 @@ annotations:
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/173
+    - kind: fixed
+      description: Add missing content security policy for connect-src
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/173
+    - kind: fixed
+      description: Add missing endpoints for frontend
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/173
