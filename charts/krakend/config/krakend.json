@@ -48,7 +48,7 @@
       "referrer_policy": "same-origin",
       "content_type_nosniff": true,
       "browser_xss_filter": true,
-      "content_security_policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data:;",
+      "content_security_policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data:; connect-src *;",
       "is_development": false
     },
     "security/cors": {
@@ -114,7 +114,7 @@
 
     {{ $dt_enabled := env "DEVICE_TOPOLOGY_ENABLED" }}
     {{ if eq $dt_enabled "true"}}
-    {{ template "topology_discovery.tmpl" .topology_discovery_settings.endpoints }}
+    {{ template "topology_discovery.tmpl" .topology_discovery_settings.endpoints }},
     {{end}}
 
     {{ template "frinx_frontend.tmpl" .frinx_frontend_settings}}
