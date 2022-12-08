@@ -4,6 +4,7 @@ arangodb_config:
     repository: arangodb/arangodb
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
+  annotations: {}
   tokenSecretName: arangodb-jwt
   bearerSecretName: arangodb-bearer
   token: 6647ee8a9129b388eabc6c788697197e0fd805346b4867a5d117f0c691c6bfc1
