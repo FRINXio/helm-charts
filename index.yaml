@@ -5512,6 +5512,39 @@ entries:
   krakend:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Add missing comma to krakend.json, topology-discovery endpoints generating part
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/173
+        - kind: fixed
+          description: Add missing content security policy for connect-src
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/173
+        - kind: fixed
+          description: Add missing endpoints for frontend
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/173
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:1.0.5
+    apiVersion: v2
+    appVersion: 1.0.5
+    created: "2022-12-08T10:51:31.536724386Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: 5693f2a2265dcbc8a66f56387afa376586456b8c7867d1d188c5347c8a32b067
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-2.6.1/krakend-2.6.1.tgz
+    version: 2.6.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Generate endpoint based on ENV settings
           links:
@@ -7161,4 +7194,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2022-12-08T08:13:48.606166232Z"
+generated: "2022-12-08T10:51:31.537383892Z"
