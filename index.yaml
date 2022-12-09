@@ -5319,6 +5319,32 @@ entries:
   inventory:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Fix initContainer in jobSeed
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/181
+    apiVersion: v2
+    appVersion: 1.6.2
+    created: "2022-12-09T11:34:18.693688509Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deployment of the Device Inventory
+    digest: 94a61f0b08e7a3fc7615d53e4783a13a3da56a8f0d2291431b35933eb3f48799
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: inventory
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/inventory-2.4.1/inventory-2.4.1.tgz
+    version: 2.4.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Add option to add annotations to deployment
           links:
@@ -7280,4 +7306,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2022-12-08T16:06:28.478780892Z"
+generated: "2022-12-09T11:34:18.694303106Z"
