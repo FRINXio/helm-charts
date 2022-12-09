@@ -49,8 +49,8 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: curlimages/curl
           command: ["/bin/sh","-c"]
-          args: ['while [ $(wget --spider -q 0.0.0.0:8000/.well-known/apollo/server-health | echo $?) -ne 0 ];
-            do sleep 5; echo "waiting for device inventory";
+          args: ['while [ $(curl -o /dev/null --silent --write-out "%{http_code}" {{ include "inventory.fullname" . }}:{{ .Values.service.port }}/.well-known/apollo/server-health) -ne 200 ];
+            do sleep 5; echo "waiting for inventory";
             done;
             echo "connection successful!"']
       containers:
