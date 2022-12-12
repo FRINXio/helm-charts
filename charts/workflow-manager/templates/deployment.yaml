@@ -144,9 +144,9 @@ spec:
             - name: "conductor_elasticsearch_url"
               value: {{ .Values.env.CONDUCTOR_ELASTICSEARCH_URL}}
             - name: "spring_searchDatasource_url"
-              value: "jdbc:postgresql://localhost:5432/postgres?charset=utf8&parseTime=true&interpolateParams=true"
+              value: "jdbc:postgresql://skusme-postgresql:5432/postgres?charset=utf8&parseTime=true&interpolateParams=true"
             - name: "spring_searchDatasource_username"
-              value: "postresU"
+              value: "postgresU"
             - name: "spring_searchDatasource_password"
               value: "postgresP"
           volumeMounts:
