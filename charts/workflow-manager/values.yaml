@@ -117,25 +117,6 @@ schellarEnv:
   POSTGRES_PORT: 5432
   POSTGRES_DATABASE_URL: "host=postgresql port=5432 user=postgres password=postgres database=schellar"
 
-elasticsearch:
-  enabled: true
-  replicas: 1
-  minimumMasterNodes: 1
-  imageTag: "6.7.1"
-  resources:
-    requests:
-      cpu: 774m
-    limits:
-      cpu: 774m
-  volumeClaimTemplate:
-    resources:
-      requests:
-        storage: 1Gi
-  clusterHealthCheckParams: "wait_for_status=yellow&timeout=5s"
-  sysctlInitContainer:
-    enabled: false
-  maxUnavailable: 0
-
 postgresql:
   enabled: true
   auth:

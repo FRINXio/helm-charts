@@ -150,6 +150,12 @@ spec:
               value: {{ .Values.env.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_PASSWORD}}
             - name: "conductor_elasticsearch_url"
               value: {{ .Values.env.CONDUCTOR_ELASTICSEARCH_URL}}
+            - name: "spring_searchDatasource_url"
+              value: "jdbc:postgresql://localhost:5432/postgres?charset=utf8&parseTime=true&interpolateParams=true"
+            - name: "spring_searchDatasource_username"
+              value: "postresU"
+            - name: "spring_searchDatasource_password"
+              value: "postgresP"
           volumeMounts:
             - name: {{ include "workflow-manager.fullname" . }}-config
               mountPath: /app/config/

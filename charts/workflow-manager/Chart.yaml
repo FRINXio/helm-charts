@@ -12,10 +12,6 @@ dependencies:
     name: postgresql
     repository: https://charts.bitnami.com/bitnami
     version: 11.x.x
-  - condition: elasticsearch.enabled
-    name: elasticsearch
-    repository: https://helm.elastic.co
-    version: 6.8.22
 annotations:
   artifacthub.io/images: |
     - name: conductor-server
