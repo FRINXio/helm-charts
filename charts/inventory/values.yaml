@@ -96,8 +96,9 @@ env:
   ARANGO_USER: root
   ARANGO_PASSWORD:
   ARANGO_TOKEN:
-  ARANGO_ENABLED: false
+  TOPOLOGY_ENABLED: false
   DEVICE_DISCOVERY_SEED: false
+  TOPOLOGY_DISCOVERY_API_URL: http://topology-discovery:5000/api/data
 
 extraEnv: []
 
