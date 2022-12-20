@@ -46,7 +46,7 @@ spec:
             "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432 -U {{ .Values.env.POSTGRES_USER }};
             do echo waiting for database; sleep 2; done;"]
       {{ end }}
-      {{ if eq ( toString .Values.env.ARANGO_ENABLED ) "true"}}
+      {{ if eq ( toString .Values.env.TOPOLOGY_ENABLED ) "true"}}
         - name: check-arangodb-ready
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -90,8 +90,8 @@ spec:
             - name: "DATABASE_URL"
               value: "postgres://{{ .Values.env.POSTGRES_USER }}:{{ .Values.env.POSTGRES_PASSWORD }}@{{ .Values.env.POSTGRES_HOSTNAME }}:{{ .Values.env.POSTGRES_PORT }}/{{ .Values.env.POSTGRES_DB }}?sslmode=disable"
               {{ end }}
-            - name: "ARANGO_ENABLED"
-              value: {{ .Values.env.ARANGO_ENABLED | quote }}
+            - name: "TOPOLOGY_ENABLED"
+              value: {{ .Values.env.TOPOLOGY_ENABLED | quote }}
             - name: "ARANGO_URL"
               value: {{ .Values.env.ARANGO_URL | quote }}
             - name: "ARANGO_USER"

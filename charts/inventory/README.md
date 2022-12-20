@@ -68,7 +68,7 @@ helm uninstall [RELEASE_NAME]
 | `env.POSTGRES_DB` | POSTGRES_DB env value | `inventory` |
 | `env.POSTGRES_HOSTNAME` | POSTGRES_HOSTNAME env value | |
 | `env.POSTGRES_PORT` | POSTGRES_PORT env value | `5432` |
-| `env.ARANGO_ENABLED` | Enable/Disable connection to arangodb | `false` |
+| `env.TOPOLOGY_ENABLED` | Enable/Disable connection to arangodb | `false` |
 | `env.DEVICE_DISCOVERY_SEED` | Enable/Disable device discovery data seed | `false` |
 | `env.ARANGO_URL` | ARANGO_URL env value | `http://arangodb:8529` |
 | `env.ARANGO_DB` | ARANGO_DB env value | `lldp` |
