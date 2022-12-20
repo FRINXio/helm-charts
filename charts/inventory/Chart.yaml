@@ -19,9 +19,9 @@ annotations:
       description: Added TOPOLOGY_DISCOVERY_API_URL
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/181
+          url: https://github.com/FRINXio/helm-charts/pull/187
     - kind: changed
       description: Changed supported version of inventory to 1.6.5
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/181
+          url: https://github.com/FRINXio/helm-charts/pull/187
