@@ -16,9 +16,9 @@ annotations:
       description: Fixed access to uniconfig via krakend
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/173
+          url: https://github.com/FRINXio/helm-charts/pull/189
     - kind: added
       description: Added UNICONFIG_PROTOCOL env variable
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/173
+          url: https://github.com/FRINXio/helm-charts/pull/189
