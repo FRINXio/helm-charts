@@ -87,6 +87,7 @@ deployment:
     HTTP_PROXY:
     HTTPS_PROXY:
     NO_PROXY:
+    UNICONFIG_PROTOCOL: "http"
     UNICONFIG_ZONES_LIST: "uniconfig"
     ALLOWED_HOSTS:
     ALLOWED_ORIGINS:

@@ -1,5 +1,6 @@
 {{ $zones := env "UNICONFIG_ZONES_LIST" }}
 {{ $protocol := env "KRAKEND_TLS_PROTOCOL" }}
+{{ $uniconfig_protocol := env "UNICONFIG_PROTOCOL" }}
 {{ $zone_list := splitList "," $zones }}
 
 {{range $host_index, $host := $zone_list}}
@@ -34,7 +35,7 @@
             },
             "encoding": "no-op",
             "host": [
-                "https://{{$host}}:8181"
+                "{{$uniconfig_protocol}}://{{$host}}:8181"
             ]
         }
     ]
@@ -82,7 +83,7 @@
             },
             "encoding": "no-op",
             "host": [
-                "https://{{$host}}:8181"
+                "{{$uniconfig_protocol}}://{{$host}}:8181"
             ]
         }
     ]
