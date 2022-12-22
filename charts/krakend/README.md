@@ -69,6 +69,7 @@ helm uninstall [RELEASE_NAME]
 | `deployment.env.HTTP_PROXY` | HTTP_PROXY env variable | |
 | `deployment.env.HTTPS_PROXY` | HTTPS_PROXY env variable | |
 | `deployment.env.NO_PROXY` | NO_PROXY env variable | |
+| `deployment.env.UNICONFIG_PROTOCOL` | UNICONFIG_PROTOCOL env variable | `"http"` |
 | `deployment.env.UNICONFIG_ZONES_LIST` | UNICONFIG_ZONES_LIST env variable | `"uniconfig"` |
 | `deployment.env.ALLOWED_HOSTS` | ALLOWED_HOSTS env variable | `""` |
 | `deployment.env.ALLOWED_ORIGINS` | ALLOWED_ORIGINS env variable | `""` |
