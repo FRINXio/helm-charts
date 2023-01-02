@@ -6091,6 +6091,34 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
+          description: Fixed access to uniconfig via krakend
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/189
+        - kind: added
+          description: Added UNICONFIG_PROTOCOL env variable
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/189
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:1.0.5
+    apiVersion: v2
+    appVersion: 1.0.5
+    created: "2023-01-02T09:57:33.145922115Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: f2d43c456d64a6ff034bcd9444bff86e237bbc818df2843b918eeb786903e149
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-2.6.2/krakend-2.6.2.tgz
+    version: 2.6.2
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
           description: Add missing comma to krakend.json, topology-discovery endpoints generating part
           links:
             - name: GitHub PR
@@ -7772,4 +7800,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2022-12-22T08:18:04.738459366Z"
+generated: "2023-01-02T09:57:33.146615515Z"
