@@ -3,7 +3,7 @@ name: krakend
 description: FRINX KrakenD API Gateway for FRINX-machine
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 2.6.1
+version: 2.6.2
 appVersion: "1.0.5"
 maintainers:
   - name: FRINX
@@ -13,17 +13,12 @@ annotations:
       image: frinx/krakend:1.0.5
   artifacthub.io/changes: |
     - kind: fixed
-      description: Add missing comma to krakend.json, topology-discovery endpoints generating part
+      description: Fixed access to uniconfig via krakend
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/173
-    - kind: fixed
-      description: Add missing content security policy for connect-src
+          url: https://github.com/FRINXio/helm-charts/pull/189
+    - kind: added
+      description: Added UNICONFIG_PROTOCOL env variable
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/173
-    - kind: fixed
-      description: Add missing endpoints for frontend
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/173
+          url: https://github.com/FRINXio/helm-charts/pull/189

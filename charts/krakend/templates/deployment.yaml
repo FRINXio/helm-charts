@@ -92,6 +92,8 @@ spec:
               value: {{ .Values.deployment.env.KRAKEND_TLS_PROTOCOL | quote }}
             - name: AUTH_ENABLED
               value: {{ .Values.deployment.env.AUTH_ENABLED | quote }}
+            - name: UNICONFIG_PROTOCOL
+              value: {{ .Values.deployment.env.UNICONFIG_PROTOCOL | quote }}
             - name: UNICONFIG_ZONES_LIST
               value: {{ .Values.deployment.env.UNICONFIG_ZONES_LIST | quote }}
             - name: ALLOWED_HOSTS
