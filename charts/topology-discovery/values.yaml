@@ -89,3 +89,6 @@ env:
   BGPLS_NEIGHBOR_IP: 192.168.99.100
   BGPLS_LOCAL_AS: 100
   BGPLS_PEER_AS: 100
+  ADMIN: admin
+  EDITOR: editor
+  VIEWER: viewer
