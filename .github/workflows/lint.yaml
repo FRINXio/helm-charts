@@ -5,6 +5,7 @@ on:
     paths:
       - 'charts/demo-workflows/**'
       - 'charts/worker/**'
+      - 'charts/topology-discovery/**'
 
 jobs:
   lint-test:
