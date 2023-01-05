@@ -132,7 +132,7 @@ uniconfig:
   enabled: true
   image:
     repository: "frinx/uniconfig"
-    tag: "5.0.20"
+    tag: "5.1.0"
   postgresql:
     enabled: false
   dbPersistence:
