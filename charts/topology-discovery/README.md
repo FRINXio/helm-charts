@@ -69,4 +69,6 @@ helm uninstall [RELEASE_NAME]
 | `env.BGPLS_NEIGHBOR_IP` | BGPLS_NEIGHBOR_IP env variable | `192.168.99.100` |
 | `env.BGPLS_LOCAL_AS` | BGPLS_LOCAL_AS env variable | `100` |
 | `env.BGPLS_PEER_AS` | BGPLS_PEER_AS env variable | `100` |
-
+| `env.ADMIN` | BGPLS_PEER_AS env variable | `admin` |
+| `env.EDITOR` | BGPLS_PEER_AS env variable | `editor` |
+| `env.VIEWER` | BGPLS_PEER_AS env variable | `viewer` |
