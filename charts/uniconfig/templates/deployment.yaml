@@ -100,7 +100,7 @@ spec:
           command:
             - sh
             - '-c'
-            - 'cp -rp {{ .Values.cacheImage.cachePath }} /tmp/uniconfig-frinx/cache'
+            - 'cp -rp {{ .Values.cacheImage.cachePath }} /tmp/uniconfig-frinx/cache && chmod -R 777 /tmp/uniconfig-frinx/cache'
           volumeMounts:
             - name: uniconfig-frinx-volume
               mountPath: /tmp/uniconfig-frinx/
