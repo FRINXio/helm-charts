@@ -6987,6 +6987,36 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
+          description: Set 777 permissions to cache folder so Uniconfig can also use it in runtime
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/196
+    apiVersion: v2
+    appVersion: 5.0.12
+    created: "2023-01-11T10:19:27.30319514Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: traefik.enabled
+      name: traefik
+      repository: https://helm.traefik.io/traefik
+      version: 18.0.0
+    description: A Helm chart for UniConfig Kubernetes deployment
+    digest: 06d2fef135bf74b9ea036295d7db7c7e4956a18299320bf65168b3874a85f522
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: uniconfig
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniconfig-3.0.2/uniconfig-3.0.2.tgz
+    version: 3.0.2
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
           description: Use root user for uniconfig schema cache initialization
           links:
             - name: GitHub PR
@@ -8108,4 +8138,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-01-05T11:39:01.733182442Z"
+generated: "2023-01-11T10:19:27.303856162Z"
