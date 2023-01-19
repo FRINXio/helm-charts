@@ -79,7 +79,7 @@ inventory:
   fullnameOverride: "inventory"
   image:
     repository: "frinx/frinx-inventory-server"
-    tag: "1.6.5"
+    tag: "1.7.0"
   postgresql:
     enabled: false
   env:
