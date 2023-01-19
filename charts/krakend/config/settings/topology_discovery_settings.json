@@ -6,6 +6,11 @@
             "url_pattern": "/api/health"
         },
         {
+            "endpoint": "/api/topology/data/topology",
+            "method": "GET",
+            "url_pattern": "/api/data/topology"
+        },
+        {
             "endpoint": "/api/topology/data/diff",
             "method": "POST",
             "url_pattern": "/api/data/diff"
