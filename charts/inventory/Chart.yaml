@@ -20,3 +20,8 @@ annotations:
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/200
+    - kind: changed
+      description: Changed supported version of inventory to 1.7.0
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/200
