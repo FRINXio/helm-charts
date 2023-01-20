@@ -35,7 +35,7 @@ dependencies:
   - condition: inventory.enabled
     name: inventory
     repository: https://FRINXio.github.io/helm-charts
-    version: 3.0.0
+    version: 3.1.0
 
   - condition: uniconfig-postgresql.enabled
     name: postgresql
