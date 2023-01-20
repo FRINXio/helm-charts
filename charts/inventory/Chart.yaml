@@ -16,7 +16,7 @@ appVersion: "1.7.0"
 annotations:
   artifacthub.io/changes: |
     - kind: added
-      description: Added SHELL_HOST envirnment variable
+      description: Added SHELL_HOST environment variable
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/200
