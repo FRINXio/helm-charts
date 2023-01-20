@@ -6094,6 +6094,37 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Added SHELL_HOST environment variable
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/200
+        - kind: changed
+          description: Changed supported version of inventory to 1.7.0
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/200
+    apiVersion: v2
+    appVersion: 1.7.0
+    created: "2023-01-20T13:05:46.805334431Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deployment of the Device Inventory
+    digest: 54c8d55dd06756dd7f1c45042fdc461f9157364a78695e2ff44a1f81cdb017ca
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: inventory
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/inventory-3.1.0/inventory-3.1.0.tgz
+    version: 3.1.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Added TOPOLOGY_DISCOVERY_API_URL
           links:
             - name: GitHub PR
@@ -8247,4 +8278,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-01-19T13:57:47.596993577Z"
+generated: "2023-01-20T13:05:46.806496163Z"
