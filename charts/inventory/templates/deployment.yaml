@@ -104,6 +104,8 @@ spec:
               value: {{ .Values.env.ARANGO_TOKEN | quote }}
             - name: "TOPOLOGY_DISCOVERY_API_URL"
               value: {{ .Values.env.TOPOLOGY_DISCOVERY_API_URL | quote }}
+            - name: "SHELL_HOST"
+              value: {{ .Values.env.SHELL_HOST | quote }}
           {{- range $key, $val := .Values.extraEnv }}
             - name: {{ $key | quote }}
               value: {{ $val | quote }}
