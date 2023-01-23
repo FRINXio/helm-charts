@@ -94,16 +94,16 @@ jobs:
         run: |
           kubectl testkube run test frinx-e2e -f
 
-      - name: Delete AKS cluster
-        if: ${{ always() }}
-        run: |
-          az aks delete --resource-group github-e2e-tests --name aks-e2e-tests --yes
+      #- name: Delete AKS cluster
+      #  if: ${{ always() }}
+      #  run: |
+      #    az aks delete --resource-group github-e2e-tests --name aks-e2e-tests --yes
 
-      - name: slack - GitHub Actions Slack integration
-        if: ${{ always() }}
-        uses: act10ns/slack@v1.6.0
-        with:
-          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          status: ${{ job.status }}
-          channel: '#helm-charts'
-          message: "E2E tests: ${{ job.status }}\n${{ github.event.pull_request.title }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+      #- name: slack - GitHub Actions Slack integration
+      #  if: ${{ always() }}
+      #  uses: act10ns/slack@v1.6.0
+      #  with:
+      #    webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #    status: ${{ job.status }}
+      #    channel: '#helm-charts'
+      #    message: "E2E tests: ${{ job.status }}\n${{ github.event.pull_request.title }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
