@@ -69,7 +69,7 @@ helm uninstall [RELEASE_NAME]
 | `env.UNICONFIG_API_DOCS_URL` | UNICONFIG_API_DOCS_URL env variable | `"/api/workflow/docs-uniconfig"` |
 | `env.INVENTORY_ENABLED` | INVENTORY_ENABLED env variable | `true` |
 | `env.INVENTORY_API_URL` | INVENTORY_API_URL env variable | `"/api/inventory"` |
-| `env.INVENTORY_WS_URL` | INVENTORY_WS_URL env variable | `"ws://inventory:8000/graphql"` |
+| `env.INVENTORY_WS_URL` | INVENTORY_WS_URL env variable | `"ws://krakend:8001/graphql"` |
 | `env.RESOURCE_MANAGER_ENABLED` | RESOURCE_MANAGER_ENABLED env variable | `true` |
 | `env.RESOURCE_MANAGER_API_URL` | RESOURCE_MANAGER_API_URL env variable | `"/api/resource"` |
 | `env.UNISTORE_API_URL` | UNISTORE_API_URL env variable | `"/api/unistore"` |
