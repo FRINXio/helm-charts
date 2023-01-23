@@ -55,7 +55,7 @@ workflow-manager:
   fullnameOverride: "workflow-proxy"
   image:
     repository: "frinx/conductor-server"
-    tag: "1.0.11"
+    tag: "1.0.12"
   proxyImage:
     repository: "frinx/workflow-proxy"
     tag: "1.0.11"
