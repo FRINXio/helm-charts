@@ -246,6 +246,31 @@ entries:
   frinx-frontend:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Add INVENTORY_WS_URL environment variable
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/202
+        - kind: changed
+          description: Changed supported version of frinx-frontend to 1.0.28
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/202
+    apiVersion: v2
+    appVersion: 1.0.28
+    created: "2023-01-23T08:30:35.179311577Z"
+    description: A Helm chart for Kubernetes deployment of the Frinx UI
+    digest: cc55fd3694a756d39637e01375068d259454d5ca78ad0d261b735df87b7660cb
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-frontend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-frontend-3.1.0/frinx-frontend-3.1.0.tgz
+    version: 3.1.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Rename ENV variable for L3VPN
           links:
@@ -8364,4 +8389,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-01-20T14:31:00.107104207Z"
+generated: "2023-01-23T08:30:35.180094476Z"
