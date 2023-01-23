@@ -3,19 +3,14 @@ name: frinx-frontend
 description: A Helm chart for Kubernetes deployment of the Frinx UI
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 3.0.0
+version: 3.1.0
 appVersion: "1.0.26"
 maintainers:
   - name: FRINX
 annotations:
   artifacthub.io/changes: |
-    - kind: changed
-      description: Rename ENV variable for L3VPN
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/157
-    - kind: changed
-      description: Update frinx-frontend image version
+    - kind: added
+      description: Add INVENTORY_WS_URL environment variable
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/157
