@@ -18,9 +18,5 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
-    - port: 22
-      targetPort: 22
-      protocol: TCP
-      name: ssh
   selector:
     {{- include "uniconfig.selectorLabels" . | nindent 4 }}
