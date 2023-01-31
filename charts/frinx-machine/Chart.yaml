@@ -46,7 +46,7 @@ dependencies:
   - condition: uniconfig.enabled
     name: uniconfig
     repository: https://FRINXio.github.io/helm-charts
-    version: 3.0.2
+    version: 3.0.3
 
   - condition: demo-workflows.enabled
     name: demo-workflows
