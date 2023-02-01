@@ -86,7 +86,7 @@ jobs:
       - name: Create test
         id: create_test
         run: |
-          kubectl testkube create test --git-uri https://github.com/FRINXio/frinx-machine-e2e-tests.git --git-branch refactorandfixtests --name frinx-e2e --type cypress/project
+          kubectl testkube create test --git-uri https://github.com/FRINXio/frinx-machine-e2e-tests.git --git-branch main --name frinx-e2e --type cypress/project
 
       # Running e2e tests
       - name: Run test
@@ -94,10 +94,10 @@ jobs:
         run: |
           kubectl testkube run test frinx-e2e -f
 
-      #- name: Delete AKS cluster
-      #  if: ${{ always() }}
-      #  run: |
-      #    az aks delete --resource-group github-e2e-tests --name aks-e2e-tests --yes
+      - name: Delete AKS cluster
+        if: ${{ always() }}
+        run: |
+          az aks delete --resource-group github-e2e-tests --name aks-e2e-tests --yes
 
       - name: slack - GitHub Actions Slack integration
         if: ${{ always() }}
