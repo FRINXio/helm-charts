@@ -86,7 +86,7 @@ jobs:
       - name: Create test
         id: create_test
         run: |
-          kubectl testkube create test --git-uri https://github.com/FRINXio/frinx-machine-e2e-tests.git --git-branch skip_wf_builder --name frinx-e2e --type cypress/project
+          kubectl testkube create test --git-uri https://github.com/FRINXio/frinx-machine-e2e-tests.git --git-branch refactorandfixtests --name frinx-e2e --type cypress/project
 
       # Running e2e tests
       - name: Run test
