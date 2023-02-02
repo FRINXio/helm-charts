@@ -97,8 +97,10 @@ jobs:
       - name: Download artifacts
         if: ${{ failure() }}
         id: download_artifacts
+        shell: bash
         run: |
-          echo "$(kubectl testkube get executions | sed -n '4p' | cut -d " " -f3)" >> $EXECUTION_ID
+          EXECUTION_ID=$(kubectl testkube get executions | sed -n '4p' | cut -d " " -f3)
+          # echo "$(kubectl testkube get executions | sed -n '4p' | cut -d " " -f3)" >> $EXECUTION_ID
           echo $EXECUTION_ID
           kubectl testkube download artifacts $EXECUTION_ID
           ls
