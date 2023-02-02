@@ -110,11 +110,15 @@ jobs:
 
       - name: Download variables from merge workflow
         if: ${{ failure() }}
-        uses: dawidd6/action-download-artifact@v2
+        uses: actions/upload-artifact@v3.1.1
         with:
+          name: ${{ github.workflow }}_uc_logs.zip
+          path: ${{ github.workspace }}/artifacts.zip
+          if-no-files-found: error
+          retention-days: 1
           # workflow: frinx-machine-lint-test.yaml
-          name: artifacts.zip
-          path: ${{ github.workspace }}
+          # name: artifacts.zip
+          # path: ${{ github.workspace }}
 
       # - name: Delete AKS cluster
       #   if: ${{ always() }}
