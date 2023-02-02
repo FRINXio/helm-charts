@@ -95,10 +95,12 @@ jobs:
           kubectl testkube run test frinx-e2e -f
 
       - name: Download artifacts
+        if: ${{ failure() }}
         id: download_artifacts
         run: |
           kubectl testkube get executions | sed -n '4p' | cut -d " " -f3 >> $EXECUTION_ID
           kubectl testkube download artifacts $EXECUTION_ID
+          ls
 
       - name: Download variables from merge workflow
         if: ${{ failure() }}
@@ -108,10 +110,10 @@ jobs:
           name: artifacts
           path: ${{ github.workspace }}/artifacts
 
-      - name: Delete AKS cluster
-        if: ${{ always() }}
-        run: |
-          az aks delete --resource-group github-e2e-tests --name aks-e2e-tests --yes
+      # - name: Delete AKS cluster
+      #   if: ${{ always() }}
+      #   run: |
+      #     az aks delete --resource-group github-e2e-tests --name aks-e2e-tests --yes
 
       - name: slack - GitHub Actions Slack integration
         if: ${{ always() }}
