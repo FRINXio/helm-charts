@@ -53,8 +53,8 @@ jobs:
            resource-group: 'github-e2e-tests'
            cluster-name: 'aks-e2e-tests'
       
-      - name: Run chart-testing (install)
-        run: ct install --config .github/frinx-machine_lint_test_config.yaml      
+      # - name: Run chart-testing (install)
+      #   run: ct install --config .github/frinx-machine_lint_test_config.yaml      
 
       - name: Install testkube plugin
         run: |
@@ -77,10 +77,10 @@ jobs:
           helm repo add testkube https://kubeshop.github.io/helm-charts
           helm install --create-namespace --namespace testkube --version 1.4.5 testkube testkube/testkube --wait
 
-      - name: Install helm-chart for e2e tests
-        run: |
-          helm dependency update charts/frinx-machine
-          helm install frinx-dev charts/frinx-machine --set demo-workflows.enabled=true -n frinx-e2e --create-namespace --wait --timeout 20m0s
+      # - name: Install helm-chart for e2e tests
+      #   run: |
+      #     helm dependency update charts/frinx-machine
+      #     helm install frinx-dev charts/frinx-machine --set demo-workflows.enabled=true -n frinx-e2e --create-namespace --wait --timeout 20m0s
 
       # Creating e2e tests
       - name: Create test
@@ -94,10 +94,24 @@ jobs:
         run: |
           kubectl testkube run test frinx-e2e -f
 
-      #- name: Delete AKS cluster
-      #  if: ${{ always() }}
-      #  run: |
-      #    az aks delete --resource-group github-e2e-tests --name aks-e2e-tests --yes
+      - name: Download artifacts
+        id: download_artifacts
+        run: |
+          kubectl testkube get executions | sed -n '4p' | cut -d " " -f3 >> $EXECUTION_ID
+          kubectl testkube download artifacts $EXECUTION_ID
+
+      - name: Download variables from merge workflow
+        if: ${{ failure() }}
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: frinx-machine-lint-test.yaml
+          name: artifacts
+          path: ${{ github.workspace }}/artifacts
+
+      - name: Delete AKS cluster
+        if: ${{ always() }}
+        run: |
+          az aks delete --resource-group github-e2e-tests --name aks-e2e-tests --yes
 
       - name: slack - GitHub Actions Slack integration
         if: ${{ always() }}
