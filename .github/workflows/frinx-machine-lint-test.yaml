@@ -112,7 +112,7 @@ jobs:
         if: ${{ failure() }}
         uses: dawidd6/action-download-artifact@v2
         with:
-          workflow: frinx-machine-lint-test.yaml
+          # workflow: frinx-machine-lint-test.yaml
           name: artifacts.zip
           path: ${{ github.workspace }}/artifacts.zip
 
