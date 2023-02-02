@@ -99,6 +99,7 @@ jobs:
         id: download_artifacts
         run: |
           echo "$(kubectl testkube get executions | sed -n '4p' | cut -d " " -f3)" >> $EXECUTION_ID
+          echo $EXECUTION_ID
           kubectl testkube download artifacts $EXECUTION_ID
           ls
 
