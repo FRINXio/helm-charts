@@ -114,7 +114,7 @@ jobs:
         with:
           # workflow: frinx-machine-lint-test.yaml
           name: artifacts.zip
-          path: ${{ github.workspace }}/artifacts.zip
+          path: ${{ github.workspace }}
 
       # - name: Delete AKS cluster
       #   if: ${{ always() }}
