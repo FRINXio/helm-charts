@@ -12,7 +12,6 @@ chart-repos:
   - influx=https://helm.influxdata.com
   - arango=https://arangodb.github.io/kube-arangodb
 helm-extra-args: --timeout 1200s
-helm-extra-set-args: "--set=demo-workflows.enabled=true"
 excluded-charts:
   - demo-workflows
   - frinx-frontend
