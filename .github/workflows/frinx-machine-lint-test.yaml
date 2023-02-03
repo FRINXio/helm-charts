@@ -66,14 +66,8 @@ jobs:
           container-registry-password: ${{ secrets.DOCKERHUB_PASSWORD }}
         id: create-secret
 
-      - name: Install helm-chart for e2e tests
-        run: |
-          helm dependency update charts/frinx-machine
-          helm install fm charts/frinx-machine --set demo-workflows.enabled=true -n frinx-machine --create-namespace --wait --timeout 20m0s
-
-      - name: Run smoke test
-        run: |
-          helm test fm -n frinx-machine
+      - name: Run chart-testing (install)
+        run: ct install --config .github/frinx-machine_lint_test_config.yaml --namespace frinx-machine --skip-clean-up
 
       - name: Install testkube plugin
         run: |
