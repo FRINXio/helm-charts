@@ -26,6 +26,11 @@
             "url_pattern": "/api/data/common-nodes"
         },
         {
+            "endpoint": "/api/topology/data/change-status",
+            "method": "PATCH",
+            "url_pattern": "/api/data/change-status"
+        },
+        {
             "endpoint": "/api/topology/data/diff",
             "method": "POST",
             "url_pattern": "/api/data/diff"
