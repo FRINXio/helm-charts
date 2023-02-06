@@ -16,4 +16,4 @@ annotations:
       description: Added data/topology endpoint for krakend, which is available in topology-discovery 0.0.5
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/198
+          url: https://github.com/FRINXio/helm-charts/pull/211
