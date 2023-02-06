@@ -11,6 +11,21 @@
             "url_pattern": "/api/data/topology"
         },
         {
+            "endpoint": "/api/topology/data/has",
+            "method": "GET",
+            "url_pattern": "/api/data/has"
+        },
+        {
+            "endpoint": "/api/topology/data/links-and-devices",
+            "method": "GET",
+            "url_pattern": "/api/data/links-and-devices"
+        },
+        {
+            "endpoint": "/api/topology/data/common-nodes",
+            "method": "POST",
+            "url_pattern": "/api/data/common-nodes"
+        },
+        {
             "endpoint": "/api/topology/data/diff",
             "method": "POST",
             "url_pattern": "/api/data/diff"
@@ -41,9 +56,9 @@
             "url_pattern": "/api/providers/{provider}"
         },
         {
-            "endpoint": "/api/topology/providers/{provider}/trigger",
+            "endpoint": "/api/topology/providers/{provider}/sync",
             "method": "POST",
-            "url_pattern": "/api/providers/{provider}/trigger"
+            "url_pattern": "/api/providers/{provider}/sync"
         },
         {
             "endpoint": "/api/topology/bgp-ls/neighbor/{neighbor_id}",
