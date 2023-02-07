@@ -16,7 +16,7 @@ frinx-frontend:
   fullnameOverride: "frinx-frontend"
   image:
     repository: "frinx/frinx-frontend"
-    tag: "1.0.28"
+    tag: "1.0.29"
   env:
     AUTH_CLIENT_ID: "frinx"
     DEVICE_TOPOLOGY_ENABLED: true
@@ -133,6 +133,8 @@ uniconfig:
   image:
     repository: "frinx/uniconfig"
     tag: "5.0.20"
+  imagePullSecrets:
+    - name: regcred
   postgresql:
     enabled: false
   dbPersistence:

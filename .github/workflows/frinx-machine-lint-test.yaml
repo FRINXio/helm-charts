@@ -27,7 +27,7 @@ jobs:
           python-version: 3.7
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@v2.2.1
+        uses: helm/chart-testing-action@v2.3.1
 
       - name: Run chart-testing (list-changed)
         id: list-changed
@@ -52,9 +52,23 @@ jobs:
         with:
            resource-group: 'github-e2e-tests'
            cluster-name: 'aks-e2e-tests'
-      
+
+      - name: Create namespace
+        run: |
+          kubectl create ns frinx-machine 
+          kubectl create ns frinx-machine-ct 
+
+      - name: Set imagePullSecret
+        uses: azure/k8s-create-secret@v4
+        with:
+          namespace: 'frinx-machine-ct'
+          secret-name: 'regcred'
+          container-registry-url: 'https://index.docker.io/v1/'
+          container-registry-username: ${{ secrets.DOCKERHUB_NAME }}
+          container-registry-password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
       - name: Run chart-testing (install)
-        run: ct install --config .github/frinx-machine_lint_test_config.yaml      
+        run: ct install --config .github/frinx-machine_lint_test_config.yaml --namespace frinx-machine-ct
 
       - name: Install testkube plugin
         run: |
@@ -68,7 +82,7 @@ jobs:
           kubectl create namespace cert-manager
           kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.crds.yaml
           helm repo add jetstack https://charts.jetstack.io
-          helm install my-release --namespace cert-manager --version v1.9.1 jetstack/cert-manager
+          helm install cert-manager --namespace cert-manager --version v1.9.1 jetstack/cert-manager
 
       # Install testkube
       - name: Install testkube
@@ -77,22 +91,50 @@ jobs:
           helm repo add testkube https://kubeshop.github.io/helm-charts
           helm install --create-namespace --namespace testkube --version 1.4.5 testkube testkube/testkube --wait
 
+      - name: Set imagePullSecret
+        uses: azure/k8s-create-secret@v4
+        with:
+          namespace: 'frinx-machine'
+          secret-name: 'regcred'
+          container-registry-url: 'https://index.docker.io/v1/'
+          container-registry-username: ${{ secrets.DOCKERHUB_NAME }}
+          container-registry-password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
       - name: Install helm-chart for e2e tests
         run: |
           helm dependency update charts/frinx-machine
-          helm install frinx-dev charts/frinx-machine --set demo-workflows.enabled=true -n frinx-e2e --create-namespace --wait --timeout 20m0s
+          helm install frinx-dev charts/frinx-machine --set demo-workflows.enabled=true -n frinx-machine --wait --timeout 20m0s
 
       # Creating e2e tests
       - name: Create test
         id: create_test
         run: |
-          kubectl testkube create test --git-uri https://github.com/FRINXio/frinx-machine-e2e-tests.git --git-branch main --name frinx-e2e --type cypress/project
+          kubectl testkube create test --git-uri https://github.com/FRINXio/frinx-machine-e2e-tests.git --git-branch main --name frinx-machine --type cypress/project
 
       # Running e2e tests
       - name: Run test
         id: run_test
         run: |
-          kubectl testkube run test frinx-e2e -f
+          kubectl testkube run test frinx-machine -f
+
+      - name: Download artifacts
+        if: ${{ failure() }}
+        id: download_artifacts
+        shell: bash
+        run: |
+          EXECUTION_ID=$(kubectl testkube get executions | sed -n '4p' | cut -d " " -f3)
+          echo $EXECUTION_ID
+          kubectl testkube download artifacts $EXECUTION_ID
+          zip -r artifacts.zip artifacts/
+
+      - name: Download variables from merge workflow
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: ${{ github.workflow }}_artifacts.zip
+          path: ${{ github.workspace }}/artifacts.zip
+          if-no-files-found: error
+          retention-days: 1
 
       - name: Delete AKS cluster
         if: ${{ always() }}
