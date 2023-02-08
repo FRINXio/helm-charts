@@ -34,3 +34,8 @@ annotations:
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/215
+    - kind: removed
+      description: Removed license value. Uniconfig image is now private so make sure imagePullSecrets is set!
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/215
