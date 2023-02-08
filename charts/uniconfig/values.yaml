@@ -48,9 +48,11 @@ service:
 
 ingress:
   enabled: true
+  labels:
+    environment: development
   annotations:
     # Use this annotations for traefik as ingress
-    kubernetes.io/ingress.class: traefik
+    kubernetes.io/ingress.class: 'traefik-uniconfig'
   path: /
   pathType: Prefix
 
@@ -147,3 +149,7 @@ traefik:
       expose: true
       exposedPort: 8181
       protocol: TCP
+  providers:
+    kubernetesIngress:
+      ingressClass: traefik-uniconfig
+      labelSelector: environment=development
