@@ -48,14 +48,9 @@ jobs:
         run: |
           kubectl create ns ct
 
-      - name: Set imagePullSecret
-        uses: azure/k8s-create-secret@v4
-        with:
-          namespace: 'ct'
-          secret-name: 'regcred'
-          container-registry-url: 'https://index.docker.io/v1/'
-          container-registry-username: ${{ secrets.DOCKERHUB_NAME }}
-          container-registry-password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Create secret
+        run: |
+          kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=${{ secrets.DOCKERHUB_NAME }} --docker-password=${{ secrets.DOCKERHUB_PASSWORD }} --docker-email=support@frinx.io
 
       - name: Run chart-testing (install)
         run: ct install --config .github/lint_test_config.yaml --namespace ct
