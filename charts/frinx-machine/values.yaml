@@ -1,5 +1,4 @@
-# Global settings
-
+# Global settings 
 
 x-device-discovery-enabled: &device-discovery-enabled false
 
