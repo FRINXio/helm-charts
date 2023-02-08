@@ -7265,6 +7265,29 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Added data/topology endpoint for krakend, which is available in topology-discovery 0.0.5
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/211
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:1.0.5
+    apiVersion: v2
+    appVersion: 1.0.5
+    created: "2023-02-08T08:05:25.447476133Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: 934c6ba792808b1b3da667cf34a3b6b02c62b6287382fdc67c33c4b0bb431242
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-2.6.4/krakend-2.6.4.tgz
+    version: 2.6.4
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Added data/topology endpoint for krakend, which is available in topology-discovery 0.0.4
           links:
             - name: GitHub PR
@@ -9107,4 +9130,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-02-07T13:57:57.431327971Z"
+generated: "2023-02-08T08:05:25.448803385Z"
