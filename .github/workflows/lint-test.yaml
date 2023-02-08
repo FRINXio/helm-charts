@@ -44,5 +44,18 @@ jobs:
         uses: helm/kind-action@v1.2.0
         if: steps.list-changed.outputs.changed == 'true'
 
+      - name: Create namespace
+        run: |
+          kubectl create ns ct
+
+      - name: Set imagePullSecret
+        uses: azure/k8s-create-secret@v4
+        with:
+          namespace: 'ct'
+          secret-name: 'regcred'
+          container-registry-url: 'https://index.docker.io/v1/'
+          container-registry-username: ${{ secrets.DOCKERHUB_NAME }}
+          container-registry-password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
       - name: Run chart-testing (install)
-        run: ct install --config .github/lint_test_config.yaml
+        run: ct install --config .github/lint_test_config.yaml --namespace ct
