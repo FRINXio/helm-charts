@@ -49,7 +49,7 @@ helm uninstall [RELEASE_NAME]
 | `service.port` | Kubernetes port where service is exposed | `8080` |
 | `service.targetPort` | Port on which the service will send requests to, that your pod will be listening on | `8080` |
 | `ingress.enabled` | Enables Ingress | `false` |
-| `ingress.labels` | Ingress labels. It is highly recommended to use labels with environment value in cluster with multiple traefik ingress controllers. Please also set traefik.providers.kubernetesIngress.labelSelector to specific label | `{}` |
+| `ingress.labels` | Ingress labels | `{}` |
 | `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
 | `ingress.ingressClassName` | ingressClassName value for ingress | |
 | `ingress.tls` | Enable or disable tls attribute in ingress | `false` |
