@@ -25,12 +25,17 @@ annotations:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/215
     - kind: changed
-      description: Change ingressClass to traefik-uniconfig
+      description: Set ingressClass in traefik-uniconfig
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/215
     - kind: added
       description: Add option to add labels into ingress resource
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/215
+    - kind: removed
+      description: Removed unused config file
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/215
