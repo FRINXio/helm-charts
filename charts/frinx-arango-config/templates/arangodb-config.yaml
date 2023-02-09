@@ -17,7 +17,4 @@ spec:
   auth:
     jwtSecretName: {{ .Values.arangodb_config.tokenSecretName }}
   image: "{{ .Values.arangodb_config.image.repository }}:{{ .Values.arangodb_config.image.tag | default .Chart.AppVersion }}"
-  single:
-    resources:
-      {{- toYaml .Values.resources | nindent 6 }}
 {{ end }}
