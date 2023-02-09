@@ -10,7 +10,8 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
-imagePullSecrets: []
+imagePullSecrets:
+  - name: regcred
 nameOverride: ""
 fullnameOverride: "uniconfig-controller"
 
@@ -48,9 +49,11 @@ service:
 
 ingress:
   enabled: true
+  labels: {}
+    # environment: development
   annotations:
     # Use this annotations for traefik as ingress
-    kubernetes.io/ingress.class: traefik
+    kubernetes.io/ingress.class: 'traefik-uniconfig'
   path: /
   pathType: Prefix
 
@@ -139,6 +142,11 @@ traefikExtraService:
 traefik:
   fullnameOverride: "uniconfig"
   enabled: true
+  ingressClass:
+    enabled: false
+  ingressRoute:
+    dashboard:
+      enabled: false
   service:
     type: ClusterIP
   ports:
@@ -147,3 +155,7 @@ traefik:
       expose: true
       exposedPort: 8181
       protocol: TCP
+  providers:
+    kubernetesIngress:
+      ingressClass: traefik-uniconfig
+      # labelSelector: environment=development

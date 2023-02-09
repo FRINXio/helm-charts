@@ -14,7 +14,7 @@ jobs:
       - name: Set up Helm
         uses: azure/setup-helm@v1
         with:
-          version: v3.8.1
+          version: v3.10.1
 
       - uses: actions/setup-python@v2
         with:
@@ -44,5 +44,13 @@ jobs:
         uses: helm/kind-action@v1.2.0
         if: steps.list-changed.outputs.changed == 'true'
 
+      - name: Create namespace
+        run: |
+          kubectl create ns ct
+
+      - name: Create secret
+        run: |
+          kubectl -n ct create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=${{ secrets.DOCKERHUB_NAME }} --docker-password=${{ secrets.DOCKERHUB_PASSWORD }} --docker-email=support@frinx.io
+
       - name: Run chart-testing (install)
-        run: ct install --config .github/lint_test_config.yaml
+        run: ct install --config .github/lint_test_config.yaml --namespace ct
