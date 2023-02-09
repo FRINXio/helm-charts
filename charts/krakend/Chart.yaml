@@ -13,7 +13,7 @@ annotations:
       image: frinx/krakend:1.0.5
   artifacthub.io/changes: |
     - kind: added
-      description: Added data/topology endpoint for krakend, which is available in topology-discovery 0.0.4
+      description: Added option to add labels into ingress
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/198
+          url: https://github.com/FRINXio/helm-charts/pull/216
