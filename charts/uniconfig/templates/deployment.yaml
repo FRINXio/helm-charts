@@ -116,7 +116,9 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.uniconfigCacheFolderPath }}
           command: ["/bin/sh","-c"]
-          args: ["/opt/uniconfig-frinx/run_uniconfig.sh"]
+          args: ["/opt/uniconfig-frinx/run_uniconfig.sh -f -l {{ .Values.license }}"]
+          {{- else }}
+          args: ["-f", "-l", "{{ .Values.license }}"]
           {{- end }}
           env:
             - name: CONTAINER_ID

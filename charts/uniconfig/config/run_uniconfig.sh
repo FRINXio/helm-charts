@@ -8,10 +8,18 @@ DEBUG_PARAMETER="--debug"
 UNICONFIG_ID=${CONTAINER_ID:=1}
 PROXY_ENABLED=${PROXY_ENABLED:="false"}
 
+# set sensitive env variables from docker secrets
+if [[ -f "/set_env_secrets.sh" ]]; then
+  . /set_env_secrets.sh ''
+fi
+
+
 display_usage() {
-    echo -e "Usage: $(basename "$0") [--debug]"
+    echo -e "Usage: $(basename "$0") [-f] [-l LICENSE_TOKEN] [--debug]"
     echo -e "where: "
-    echo -e "   --debug                                       : enabled java debugging on port 5005"
+    echo -e "   -l LICENSE_TOKEN : license token for running Frinx Uniconfig"
+    echo -e "   -f               : new license token is forced (overwrites old license)"
+    echo -e "   --debug          : enabled java debugging on port 5005"
 }
 
 is_system_proxy_enabled() {

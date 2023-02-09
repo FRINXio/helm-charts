@@ -16,7 +16,7 @@ dependencies:
 maintainers:
   - name: FRINX
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
-appVersion: "5.0.22"
+appVersion: "5.0.12"
 annotations:
   artifacthub.io/changes: |
     - kind: changed
@@ -31,16 +31,6 @@ annotations:
           url: https://github.com/FRINXio/helm-charts/pull/215
     - kind: added
       description: Add option to add labels into ingress resource
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/215
-    - kind: changed
-      description: Changed supported version of uniconfig to 5.0.22
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/215
-    - kind: removed
-      description: Removed license value. Uniconfig image is now private so make sure imagePullSecrets is set!
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/215
