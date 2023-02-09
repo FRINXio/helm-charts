@@ -13,7 +13,6 @@ if [[ -f "/set_env_secrets.sh" ]]; then
   . /set_env_secrets.sh ''
 fi
 
-
 display_usage() {
     echo -e "Usage: $(basename "$0") [-f] [-l LICENSE_TOKEN] [--debug]"
     echo -e "where: "
