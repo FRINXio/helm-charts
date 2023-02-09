@@ -49,8 +49,8 @@ service:
 
 ingress:
   enabled: true
-  labels:
-    environment: development
+  labels: {}
+    # environment: development
   annotations:
     # Use this annotations for traefik as ingress
     kubernetes.io/ingress.class: 'traefik-uniconfig'
@@ -142,6 +142,11 @@ traefikExtraService:
 traefik:
   fullnameOverride: "uniconfig"
   enabled: true
+  ingressClass:
+    enabled: false
+  ingressRoute:
+    dashboard:
+      enabled: false
   service:
     type: ClusterIP
   ports:
@@ -153,4 +158,4 @@ traefik:
   providers:
     kubernetesIngress:
       ingressClass: traefik-uniconfig
-      labelSelector: environment=development
+      # labelSelector: environment=development
