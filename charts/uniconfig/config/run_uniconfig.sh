@@ -1,25 +1,12 @@
 #!/bin/bash
 
-CONFIG="config/lighty-uniconfig-config.json"
 JAR_DIRS="./*:./libs/*:./config"
 MAIN_CLASS="io.frinx.lighty_uniconfig.Main"
 JAVA_MAX_MEM=${JAVA_MAX_MEM:="4G"}
 DEBUG_PARAMETER="--debug"
+CONFIG="config/lighty-uniconfig-config.json"
 UNICONFIG_ID=${CONTAINER_ID:=1}
 PROXY_ENABLED=${PROXY_ENABLED:="false"}
-
-# set sensitive env variables from docker secrets
-if [[ -f "/set_env_secrets.sh" ]]; then
-  . /set_env_secrets.sh ''
-fi
-
-display_usage() {
-    echo -e "Usage: $(basename "$0") [-f] [-l LICENSE_TOKEN] [--debug]"
-    echo -e "where: "
-    echo -e "   -l LICENSE_TOKEN : license token for running Frinx Uniconfig"
-    echo -e "   -f               : new license token is forced (overwrites old license)"
-    echo -e "   --debug          : enabled java debugging on port 5005"
-}
 
 is_system_proxy_enabled() {
     unset PROXY_PORT PROXY_HOST
@@ -79,9 +66,6 @@ rm -rf snapshots/ journal/
 
 # folder where lighty stores data
 mkdir -m 700 -p data
-
-# wait for postgresql container
-sleep 5
 
 is_enabled_debugging "$@"; enabled_debugging=$?
 if [ $enabled_debugging -eq 1 ]; then
