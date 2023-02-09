@@ -25,6 +25,12 @@ is_system_proxy_enabled() {
     eval "$4=-D${2}.proxyPort=${PROXY_PORT}"
 }
 
+display_usage() {
+    echo -e "Usage: $(basename "$0") [--debug]"
+    echo -e "where: "
+    echo -e "   --debug                                       : enabled java debugging on port 5005"
+}
+
 is_enabled_debugging() {
   for arg in "$@"; do
     if [ "$arg" = $DEBUG_PARAMETER ]; then
