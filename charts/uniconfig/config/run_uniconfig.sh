@@ -1,12 +1,18 @@
 #!/bin/bash
 
+CONFIG="config/lighty-uniconfig-config.json"
 JAR_DIRS="./*:./libs/*:./config"
 MAIN_CLASS="io.frinx.lighty_uniconfig.Main"
 JAVA_MAX_MEM=${JAVA_MAX_MEM:="4G"}
 DEBUG_PARAMETER="--debug"
-CONFIG="config/lighty-uniconfig-config.json"
 UNICONFIG_ID=${CONTAINER_ID:=1}
 PROXY_ENABLED=${PROXY_ENABLED:="false"}
+
+display_usage() {
+    echo -e "Usage: $(basename "$0") [--debug]"
+    echo -e "where: "
+    echo -e "   --debug                                       : enabled java debugging on port 5005"
+}
 
 is_system_proxy_enabled() {
     unset PROXY_PORT PROXY_HOST
@@ -23,12 +29,6 @@ is_system_proxy_enabled() {
     fi
     eval "$3=-D${2}.proxyHost=${PROXY_HOST}"
     eval "$4=-D${2}.proxyPort=${PROXY_PORT}"
-}
-
-display_usage() {
-    echo -e "Usage: $(basename "$0") [--debug]"
-    echo -e "where: "
-    echo -e "   --debug                                       : enabled java debugging on port 5005"
 }
 
 is_enabled_debugging() {
