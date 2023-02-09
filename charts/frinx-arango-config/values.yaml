@@ -15,3 +15,5 @@ arangodb_config:
 arango_operator_secret:
   username: frinx
   password: frinx
+
+resources: {}
