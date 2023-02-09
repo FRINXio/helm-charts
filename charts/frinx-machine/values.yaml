@@ -3,6 +3,7 @@
 
 x-device-discovery-enabled: &device-discovery-enabled false
 
+
 # Default values for FRINX-machine.
 
 krakend:
