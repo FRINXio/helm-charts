@@ -41,6 +41,7 @@ service:
 
 ingress:
   enabled: false
+  labels: {}
   annotations: {}
     # Use this annotations for traefik as ingress
     # kubernetes.io/ingress.class: traefik
