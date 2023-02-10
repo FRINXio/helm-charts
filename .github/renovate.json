@@ -10,5 +10,14 @@
   "labels": ["dependencies"],
   "prConcurrentLimit": 1,
   "ignoreDeps": ["grafana", "loki", "postgresql", "promtail", "telegraf-ds", "kube-arangodb", "influxdb2"],
-  "commitMessageAction": "[frinx-machine] Update"
+  "commitMessageAction": "[frinx-machine] Update",
+  "hostRules": [
+    {
+      "hostType": "docker",
+      "username": "frinx",
+      "encrypted": {
+        "password": "wcFMA/xDdHCJBTolAQ/7BtJNX65VcG4lCnbvWlFAIhlELjGZQmuBX2hkCpbJRn95jA9c3fwe8Jy7vtYsq5ABEltywndAP8awAj0Yz0mbAd75+ag6ZnXsl/nZex41VhIKugM+9ehkYGr0AgSVDeAdDujd54kI7DQOyWR/JlByrjgH/sT8zC8mU5y4+hbjkkvi1QG+cvTAa4SN9C9scGexUvtE5LEv2BsAmhi7gtnQhkC1lTkIy5/RezgihHTMUfLJ3p9i+fh2eH5uhrQjUZmcO7HSB7252J5hmNo5cujT8g67sGxSBzJVcxti3Cmi3UjFI8PhuXLewjnyB/CNFM+6pE3iH/YNq2OzThxY+sG7pQBfOgNdg4Pg3hmVl9CV/EzH4ZbeWyx+dRjDdtdL3m9uc+s0XWbZO7SKZ+xJo479Mqz+Nw5gLOnXTq3YD5Jv8ZUnKxvYV2oQnq1J1lKO1ius0EjxwOnZE86HR2Um91k6nuS1+xaho1vnPPv2qacVUctdO1ZrBVO1YG71ABiBNH4nQI+J/02l1YJSHOyszoWLGa0VaBJs60aG468o2rEjmSdagKMh+i9jWz9SUy4b+GUS8X/OWpzH/BBf676j2OOJ9AUczfQDoXEiLTrXA1dcVSZT2EqNi4ayFEEQxX4B5HyrFhkLIeMPBsZc9Yxcf1VZ843+qAyzNTLmCVw9drIPOM/SfQFUhY3Q0ahc4zMOkm5nKOevEH7jE3RBYRsinENUWvkz6uGHoh/XFJ6VVNaTcUtDQ72sGJRpdlbI6PZaa9r8HDjvgwy/PzV+xKJt7Y8M1P5G2pSC7aPOAbFecghapZkldPhQ7e2Opr2vSu6KfaCrTqe6w4rl6H85hb13MiV9"
+      }
+    }
+  ]
 }
