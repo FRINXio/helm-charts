@@ -45,10 +45,12 @@ jobs:
         if: steps.list-changed.outputs.changed == 'true'
 
       - name: Create namespace
+        if: steps.list-changed.outputs.changed == 'true'
         run: |
           kubectl create ns ct
 
       - name: Create secret
+        if: steps.list-changed.outputs.changed == 'true'
         run: |
           kubectl -n ct create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=${{ secrets.DOCKERHUB_NAME }} --docker-password=${{ secrets.DOCKERHUB_PASSWORD }} --docker-email=support@frinx.io
 
