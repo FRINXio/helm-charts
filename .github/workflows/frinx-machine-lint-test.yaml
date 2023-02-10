@@ -89,7 +89,7 @@ jobs:
         id: install_testkube
         run: |
           helm repo add testkube https://kubeshop.github.io/helm-charts
-          helm install --create-namespace --namespace testkube --version 1.4.5 testkube testkube/testkube --wait
+          helm install --create-namespace --namespace testkube --version 1.9.33 testkube testkube/testkube --wait
 
       - name: Set imagePullSecret
         uses: azure/k8s-create-secret@v4
