@@ -26,20 +26,20 @@ jobs:
         with:
           python-version: 3.7
 
-#      - name: Set up chart-testing
-#        uses: helm/chart-testing-action@v2.3.1
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.3.1
 
-#      - name: Run chart-testing (list-changed)
-#        id: list-changed
-#        run: |
-#          changed=$(ct list-changed --config .github/frinx-machine_lint_test_config.yaml)
-#          if [[ -n "$changed" ]]; then
-#            echo "::set-output name=changed::true"
-#          fi
+      - name: Run chart-testing (list-changed)
+        id: list-changed
+        run: |
+          changed=$(ct list-changed --config .github/frinx-machine_lint_test_config.yaml)
+          if [[ -n "$changed" ]]; then
+            echo "::set-output name=changed::true"
+          fi
 
-#      - name: Run chart-testing (lint)
-#        run: ct lint --config .github/frinx-machine_lint_test_config.yaml
-#
+      - name: Run chart-testing (lint)
+        run: ct lint --config .github/frinx-machine_lint_test_config.yaml
+
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
@@ -67,8 +67,8 @@ jobs:
           container-registry-username: ${{ secrets.DOCKERHUB_NAME }}
           container-registry-password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-#      - name: Run chart-testing (install)
-#        run: ct install --config .github/frinx-machine_lint_test_config.yaml --namespace frinx-machine-ct
+      - name: Run chart-testing (install)
+        run: ct install --config .github/frinx-machine_lint_test_config.yaml --namespace frinx-machine-ct
 
       - name: Install testkube plugin
         run: |
@@ -109,10 +109,8 @@ jobs:
       - name: Create test
         id: create_test
         run: |
-          kubectl get pods
           kubectl apply -f cypress-v11-executor.yaml
           sleep 120
-          kubectl get pods
           kubectl testkube create test --git-uri https://github.com/FRINXio/frinx-machine-e2e-tests.git --git-branch refactortogetridofexplicitwait --name frinx-machine --type cypress:v11/test
 
       # Running e2e tests
@@ -145,11 +143,11 @@ jobs:
         run: |
           az aks delete --resource-group github-e2e-tests --name aks-e2e-tests --yes
 
-#      - name: slack - GitHub Actions Slack integration
-#        if: ${{ always() }}
-#        uses: act10ns/slack@v1.6.0
-#        with:
-#          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
-#          status: ${{ job.status }}
-#          channel: '#fx_env_helm-charts'
-#          message: "E2E tests: ${{ job.status }}\n${{ github.event.pull_request.title }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+      - name: slack - GitHub Actions Slack integration
+        if: ${{ always() }}
+        uses: act10ns/slack@v1.6.0
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+          status: ${{ job.status }}
+          channel: '#fx_env_helm-charts'
+          message: "E2E tests: ${{ job.status }}\n${{ github.event.pull_request.title }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
