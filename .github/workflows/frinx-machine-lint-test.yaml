@@ -89,7 +89,7 @@ jobs:
         id: install_testkube
         run: |
           helm repo add testkube https://kubeshop.github.io/helm-charts
-          helm install --create-namespace --namespace testkube --version 1.9.33 testkube testkube/testkube --wait
+          helm install --create-namespace --namespace testkube --version 1.4.5 testkube testkube/testkube --wait
 
       - name: Set imagePullSecret
         uses: azure/k8s-create-secret@v4
@@ -109,9 +109,7 @@ jobs:
       - name: Create test
         id: create_test
         run: |
-          kubectl apply -f cypress-v11-executor.yaml
-          sleep 120
-          kubectl testkube create test --git-uri https://github.com/FRINXio/frinx-machine-e2e-tests.git --git-branch refactortogetridofexplicitwait --name frinx-machine --type cypress:v11/test
+          kubectl testkube create test --git-uri https://github.com/FRINXio/frinx-machine-e2e-tests.git --git-branch 3453472bcc0afe52c395f9483f4a6cecf0b87b80 --name frinx-machine --type cypress/project
 
       # Running e2e tests
       - name: Run test
