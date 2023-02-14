@@ -48,6 +48,7 @@ helm uninstall [RELEASE_NAME]
 | `service.type` | Kubernetes service type | `ClusterIP` |
 | `service.port` | Kubernetes port of service | `8181` |
 | `ingress.enabled` | Enables Ingress | `true` |
+| `ingress.labels` | Ingress labels. It is highly recommendet to use labels with environment value in cluster with multiple traefik ingress controllers. Please also set traefik.providers.kubernetesIngress.labelSelector to specific label | `{}` |
 | `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
 | `ingress.path` | Path for service  | `/` |
 | `ingress.pathType` | Path type variable | `Prefix` |
