@@ -16,4 +16,4 @@ annotations:
       description: Added data/coordinates api in topology discovery
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/216
+          url: https://github.com/FRINXio/helm-charts/pull/222
