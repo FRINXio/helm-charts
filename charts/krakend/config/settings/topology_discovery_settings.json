@@ -31,6 +31,11 @@
             "url_pattern": "/api/data/change-status"
         },
         {
+            "endpoint": "/api/topology/data/coordinates",
+            "method": "PATCH",
+            "url_pattern": "/api/data/coordinates"
+        },
+        {
             "endpoint": "/api/topology/data/diff",
             "method": "POST",
             "url_pattern": "/api/data/diff"
