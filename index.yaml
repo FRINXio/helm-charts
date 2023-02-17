@@ -7000,6 +7000,32 @@ entries:
   inventory:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Update database name
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/221
+    apiVersion: v2
+    appVersion: 1.7.0
+    created: "2023-02-17T13:44:38.472830366Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deployment of the Device Inventory
+    digest: a90b2555294f8a912b1c72b66af69039f0527376109bb2f187bf108ab0113952
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: inventory
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/inventory-3.1.1/inventory-3.1.1.tgz
+    version: 3.1.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Added SHELL_HOST environment variable
           links:
@@ -9329,4 +9355,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-02-17T13:43:48.820964236Z"
+generated: "2023-02-17T13:44:38.474014562Z"
