@@ -15,3 +15,11 @@ arangodb_config:
 arango_operator_secret:
   username: frinx
   password: frinx
+
+resources: {}
+  # requests:
+  #   cpu: 500m
+  #   memory: 512M
+  # limits:
+  #   cpu: 1000m
+  #   memory: 1024M
