@@ -153,6 +153,28 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Add option to specify resources in ArangoDeployment
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/217
+    apiVersion: v2
+    appVersion: 3.9.1
+    created: "2023-02-17T13:43:48.820070027Z"
+    description: A Helm chart for Kubernetes deployment of the Arango CRD and ArangoDB
+      configuration files
+    digest: 43092f43ae1b29778b0fc31fd5a53e24a3384610b2ea976fba15a1102c3fe213
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-arango-config
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-arango-config-1.3.0/frinx-arango-config-1.3.0.tgz
+    version: 1.3.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Add option to add annotations to ArangoDeployment
           links:
             - name: GitHub PR
@@ -9307,4 +9329,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-02-17T13:29:16.939865047Z"
+generated: "2023-02-17T13:43:48.820964236Z"
