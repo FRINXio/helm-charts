@@ -11,12 +11,7 @@ appVersion: "3.9.1"
 annotations:
   artifacthub.io/changes: |
     - kind: added
-      description: Add option to add annotations to ArangoDeployment
+      description: Add option to specify resources to ArangoDeployment
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/174
-    - kind: fixed
-      description: Removed duplicate CustomResourceDefinition
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/174
+          url: https://github.com/FRINXio/helm-charts/pull/217
