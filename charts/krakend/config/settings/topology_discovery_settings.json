@@ -11,9 +11,9 @@
             "url_pattern": "/api/data/topology"
         },
         {
-            "endpoint": "/api/topology/data/has",
+            "endpoint": "/api/topology/data/has-and-interfaces",
             "method": "GET",
-            "url_pattern": "/api/data/has"
+            "url_pattern": "/api/data/has-and-interfaces"
         },
         {
             "endpoint": "/api/topology/data/links-and-devices",
