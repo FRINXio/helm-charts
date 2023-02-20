@@ -72,7 +72,7 @@ helm uninstall [RELEASE_NAME]
 | `env.DEVICE_DISCOVERY_SEED` | Enable/Disable device discovery data seed | `false` |
 | `env.TOPOLOGY_DISCOVERY_API_URL` | TOPOLOGY_DISCOVERY_API_URL env variable | `http://topology-discovery:5000/api/data` |
 | `env.ARANGO_URL` | ARANGO_URL env value | `http://arangodb:8529` |
-| `env.ARANGO_DB` | ARANGO_DB env value | `lldp` |
+| `env.ARANGO_DB` | ARANGO_DB env value | `topology-discovery` |
 | `env.ARANGO_USER` | ARANGO_USER env value | `root` |
 | `env.ARANGO_PASSWORD` | ARANGO_PASSWORD env value | `" "` |
 | `env.ARANGO_TOKEN` | ARANGO_TOKEN env use bearer token auth instead of basic auth | `""` |
