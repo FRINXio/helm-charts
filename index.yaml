@@ -7915,6 +7915,29 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Change data/has to data/has-and-interfaces endpoint in topology-discovery
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/231
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:1.0.5
+    apiVersion: v2
+    appVersion: 1.0.5
+    created: "2023-02-20T13:40:19.452249245Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: 5482482b7f7aa86405dcddba44c79403be1a6b602bf7e05922d5d0a4c72127ef
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-2.7.2/krakend-2.7.2.tgz
+    version: 2.7.2
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Added data/coordinates api in topology discovery
           links:
             - name: GitHub PR
@@ -9871,4 +9894,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-02-20T08:55:26.578542661Z"
+generated: "2023-02-20T13:40:19.453633659Z"
