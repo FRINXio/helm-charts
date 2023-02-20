@@ -16,4 +16,4 @@ annotations:
       description: Change data/has to data/has-and-interfaces endpoint in topology-discovery
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/222
+          url: https://github.com/FRINXio/helm-charts/pull/231
