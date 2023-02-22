@@ -34,16 +34,16 @@ jobs:
         run: |
           changed=$(ct list-changed --config .github/frinx-machine_lint_test_config.yaml)
           if [[ -n "$changed" ]]; then
-            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "changed=true" >> $GITHUB_ENV
           fi
           # only test in next steps
-          echo "changed=XXX" >> $GITHUB_OUTPUT
+          echo "changed=XXX" >> $GITHUB_ENV
 
       - name: Run chart-testing (lint)
         run: |
           echo "Test if variable changed persisted from previous step: changed=$changed ?"
           changed=${{ env.changed }}
-          echo "Test variable changed after setting from GITHUB_OUTPUT: changed=$changed ?"
+          echo "Test variable changed after setting from GITHUB_ENV: changed=$changed ?"
           ct lint --config .github/frinx-machine_lint_test_config.yaml
 
       - uses: azure/login@v1
