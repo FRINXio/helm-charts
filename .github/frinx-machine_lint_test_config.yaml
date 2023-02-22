@@ -14,7 +14,6 @@ chart-repos:
 helm-extra-args: --timeout 1200s
 excluded-charts:
   - demo-workflows
-  - frinx-frontend
   - frinx-grafana-configs
   - frinx-arango-config
   - topology-discovery
