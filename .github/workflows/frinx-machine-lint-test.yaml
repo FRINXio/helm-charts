@@ -36,6 +36,8 @@ jobs:
           if [[ -n "$changed" ]]; then
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
+          # only test in next steps
+          echo "changed=XXX" >> $GITHUB_OUTPUT
 
       - name: Run chart-testing (lint)
         run: |
@@ -148,8 +150,7 @@ jobs:
           retention-days: 1
 
       - name: Delete AKS cluster
-        if: ${{ always() }}
-        # if: ${{ ( success() || failure() || cancelled() ) &&  ( steps.create_aks_cluster.outcome != 'skipped' ) }}
+        if: ${{ ( success() || failure() || cancelled() ) &&  ( steps.create_aks_cluster.outcome != 'skipped' ) }}
         run: |
           az aks delete --resource-group github-e2e-tests --name aks-e2e-tests --yes
 
