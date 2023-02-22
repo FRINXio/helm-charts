@@ -151,5 +151,5 @@ jobs:
           webhook-url: ${{ secrets.SLACK_WEBHOOK }}
           status: ${{ job.status }}
           channel: '#fx_env_helm-charts'
-          message: "E2E tests: ${{ job.status }}\n${{ github.event.pull_request.title }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}" # https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          message: "E2E tests: ${{ job.status }}\n${{ github.event.pull_request.title }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}\nJob: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           steps: ${{ toJson(steps) }}
