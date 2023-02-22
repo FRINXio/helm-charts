@@ -11,7 +11,7 @@ jobs:
     timeout-minutes: 50
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -22,7 +22,7 @@ jobs:
         with:
           version: v3.9.0
 
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
           python-version: 3.7
 
