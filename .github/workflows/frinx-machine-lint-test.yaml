@@ -32,16 +32,10 @@ jobs:
       - name: Run chart-testing (list-changed)
         id: list-changed
         run: |
-          changed=$(ct list-changed --config .github/frinx-machine_lint_test_config.yaml)
-          if [[ -n "$changed" ]]; then
-            echo "changed=true" >> $GITHUB_ENV
-          fi
+          ct list-changed --config .github/frinx-machine_lint_test_config.yaml
 
       - name: Run chart-testing (lint)
         run: |
-          echo "Test if variable changed persisted from previous step: changed=$changed ?"
-          changed=${{ env.changed }}
-          echo "Test variable changed after setting from GITHUB_ENV: changed=$changed ?"
           ct lint --config .github/frinx-machine_lint_test_config.yaml
 
       - uses: azure/login@v1
@@ -74,9 +68,6 @@ jobs:
 
       - name: Run chart-testing (install)
         run: |
-          echo "Test if variable changed persisted from previous step: changed=$changed ?"
-          changed=${{ env.changed }}
-          echo "Test variable changed after setting from GITHUB_ENV: changed=$changed ?"
           ct install --config .github/frinx-machine_lint_test_config.yaml --namespace frinx-machine-ct
 
       - name: Install testkube plugin
