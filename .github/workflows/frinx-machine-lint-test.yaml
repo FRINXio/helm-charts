@@ -29,10 +29,6 @@ jobs:
       - name: Set up chart-testing
         uses: helm/chart-testing-action@v2.3.1
 
-      - name: Run chart-testing (list-changed)
-        id: list-changed
-        run: ct list-changed --config .github/frinx-machine_lint_test_config.yaml
-
       - name: Run chart-testing (lint)
         run: ct lint --config .github/frinx-machine_lint_test_config.yaml
 
