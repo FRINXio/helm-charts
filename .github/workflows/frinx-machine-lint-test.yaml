@@ -31,12 +31,10 @@ jobs:
 
       - name: Run chart-testing (list-changed)
         id: list-changed
-        run: |
-          ct list-changed --config .github/frinx-machine_lint_test_config.yaml
+        run: ct list-changed --config .github/frinx-machine_lint_test_config.yaml
 
       - name: Run chart-testing (lint)
-        run: |
-          ct lint --config .github/frinx-machine_lint_test_config.yaml
+        run: ct lint --config .github/frinx-machine_lint_test_config.yaml
 
       - uses: azure/login@v1
         with:
@@ -67,8 +65,7 @@ jobs:
           container-registry-password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Run chart-testing (install)
-        run: |
-          ct install --config .github/frinx-machine_lint_test_config.yaml --namespace frinx-machine-ct
+        run: ct install --config .github/frinx-machine_lint_test_config.yaml --namespace frinx-machine-ct
 
       - name: Install testkube plugin
         run: |
