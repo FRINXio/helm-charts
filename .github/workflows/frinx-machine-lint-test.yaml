@@ -38,7 +38,11 @@ jobs:
           fi
 
       - name: Run chart-testing (lint)
-        run: ct lint --config .github/frinx-machine_lint_test_config.yaml
+        run: |
+          echo "Test if variable changed persisted from previous step: changed=$changed ?"
+          changed=${{ env.changed }}
+          echo "Test variable changed after setting from GITHUB_OUTPUT: changed=$changed ?"
+          ct lint --config .github/frinx-machine_lint_test_config.yaml
 
       - uses: azure/login@v1
         with:
@@ -69,7 +73,11 @@ jobs:
           container-registry-password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Run chart-testing (install)
-        run: ct install --config .github/frinx-machine_lint_test_config.yaml --namespace frinx-machine-ct
+        run: |
+          echo "Test if variable changed persisted from previous step: changed=$changed ?"
+          changed=${{ env.changed }}
+          echo "Test variable changed after setting from GITHUB_OUTPUT: changed=$changed ?"
+          ct install --config .github/frinx-machine_lint_test_config.yaml --namespace frinx-machine-ct
 
       - name: Install testkube plugin
         run: |
@@ -140,7 +148,8 @@ jobs:
           retention-days: 1
 
       - name: Delete AKS cluster
-        if: ${{ ( success() || failure() ) &&  ( steps.create_aks_cluster.outcome != 'skipped' ) }}
+        if: ${{ always() }}
+        # if: ${{ ( success() || failure() || cancelled() ) &&  ( steps.create_aks_cluster.outcome != 'skipped' ) }}
         run: |
           az aks delete --resource-group github-e2e-tests --name aks-e2e-tests --yes
 
