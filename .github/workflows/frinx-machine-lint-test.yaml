@@ -11,7 +11,7 @@ jobs:
     timeout-minutes: 50
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -22,20 +22,12 @@ jobs:
         with:
           version: v3.9.0
 
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
           python-version: 3.7
 
       - name: Set up chart-testing
         uses: helm/chart-testing-action@v2.3.1
-
-      - name: Run chart-testing (list-changed)
-        id: list-changed
-        run: |
-          changed=$(ct list-changed --config .github/frinx-machine_lint_test_config.yaml)
-          if [[ -n "$changed" ]]; then
-            echo "::set-output name=changed::true"
-          fi
 
       - name: Run chart-testing (lint)
         run: ct lint --config .github/frinx-machine_lint_test_config.yaml
@@ -45,6 +37,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Create AKS cluster
+        id: create_aks_cluster
         run: |
           az aks create --resource-group github-e2e-tests --name aks-e2e-tests --node-count 1 --node-vm-size standard_e4as_v4 --generate-ssh-keys
 
@@ -119,8 +112,8 @@ jobs:
         run: |
           kubectl testkube run test frinx-machine -f
 
-      - name: Download artifacts
-        if: ${{ failure() }}
+      - name: Download cypress artifacts from AKS cluster
+        if: ${{ ( failure() ) &&  ( steps.run_test.outcome != 'skipped' ) }}
         id: download_artifacts
         shell: bash
         run: |
@@ -129,8 +122,8 @@ jobs:
           kubectl testkube download artifacts $EXECUTION_ID
           zip -r artifacts.zip artifacts/
 
-      - name: Download variables from merge workflow
-        if: ${{ failure() }}
+      - name: Upload cypress artifacts
+        if: ${{ ( failure() ) &&  ( steps.run_test.outcome != 'skipped' ) }}
         uses: actions/upload-artifact@v3.1.1
         with:
           name: ${{ github.workflow }}_artifacts.zip
@@ -139,15 +132,16 @@ jobs:
           retention-days: 1
 
       - name: Delete AKS cluster
-        if: ${{ always() }}
+        if: ${{ ( success() || failure() || cancelled() ) &&  ( steps.create_aks_cluster.outcome != 'skipped' ) }}
         run: |
           az aks delete --resource-group github-e2e-tests --name aks-e2e-tests --yes
 
       - name: slack - GitHub Actions Slack integration
         if: ${{ always() }}
-        uses: act10ns/slack@v1.6.0
+        uses: act10ns/slack@v2.0.0
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK }}
           status: ${{ job.status }}
           channel: '#fx_env_helm-charts'
-          message: "E2E tests: ${{ job.status }}\n${{ github.event.pull_request.title }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+          message: "E2E tests: ${{ job.status }}\n${{ github.event.pull_request.title }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}\nJob: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          steps: ${{ toJson(steps) }}
