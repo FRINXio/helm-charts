@@ -97,10 +97,10 @@ jobs:
           sleep 120
           kubectl testkube create test \
                               --git-uri https://github.com/FRINXio/frinx-machine-e2e-tests.git \
-                              --git-branch main \
+                              --git-branch tweak_cy_for_multi_org_deployment \
                               --name frinx-machine \
                               --type cypress:v11/test \
-                              --executor-args "--spec cypress/e2e/0-check-main-page/check-main-page.cy.js"
+                              --executor-args "--env configFile=ephemeral --spec cypress/e2e/0-check-main-page/check-main-page.cy.js"
 
       # Running e2e tests
       - name: Run test
