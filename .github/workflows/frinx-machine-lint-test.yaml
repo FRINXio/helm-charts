@@ -100,7 +100,7 @@ jobs:
                               --git-branch tweak_cy_for_multi_org_deployment \
                               --name frinx-machine \
                               --type cypress:v11/test \
-                              --executor-args "--config-file cypress/config/cypress.ephemeral.js --env configFile=ephemeral --spec cypress/e2e/0-check-main-page/check-main-page.cy.js"
+                              --executor-args "--env environmentName=ephemeral --spec cypress/e2e/0-check-main-page/check-main-page.cy.js"
 
       # Running e2e tests
       - name: Run test
