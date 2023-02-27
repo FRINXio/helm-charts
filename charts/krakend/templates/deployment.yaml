@@ -13,10 +13,15 @@ spec:
       {{- include "krakend.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-    {{- with .Values.podAnnotations }}
       annotations:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
+        checksum/config-krakend: {{ include (print $.Template.BasePath "/configmap-krakend.yaml") . | sha256sum }}
+        checksum/config-partials: {{ include (print $.Template.BasePath "/configmap-partials.yaml") . | sha256sum }}
+        checksum/config-scripts: {{ include (print $.Template.BasePath "/configmap-scripts.yaml") . | sha256sum }}
+        checksum/config-settings: {{ include (print $.Template.BasePath "/configmap-settings.yaml") . | sha256sum }}
+        checksum/config-templates: {{ include (print $.Template.BasePath "/configmap-templates.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
       labels:
         {{- include "krakend.selectorLabels" . | nindent 8 }}
     spec:
