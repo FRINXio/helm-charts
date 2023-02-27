@@ -13,7 +13,7 @@ annotations:
       image: frinx/krakend:1.0.5
   artifacthub.io/changes: |
     - kind: added
-      description: Added deployment resource restart when updating configmap 
+      description: Added deployment resource restart when updating configmap
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/240
