@@ -20,7 +20,7 @@ spec:
         checksum/config-settings: {{ include (print $.Template.BasePath "/configmap-settings.yaml") . | sha256sum }}
         checksum/config-templates: {{ include (print $.Template.BasePath "/configmap-templates.yaml") . | sha256sum }}
         {{- with .Values.podAnnotations }}
-          {{- toYaml . | nindent 8 }}
+        {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
         {{- include "krakend.selectorLabels" . | nindent 8 }}
