@@ -26,7 +26,7 @@ annotations:
       image: frinx/schellar:2.0.0
   artifacthub.io/changes: |
     - kind: added
-      description: Set new docker images for services
+      description: Add config setting for database locking
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/141
+          url: https://github.com/FRINXio/helm-charts/pull/239
