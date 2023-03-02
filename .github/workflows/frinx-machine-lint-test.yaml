@@ -110,6 +110,9 @@ jobs:
                               --name frinx-machine \
                               --type cypress:v11/test \
                               --executor-args "--env environmentName=ephemeral"
+          kubectl testkube status
+          kubectl testkube version
+
 
       # Running e2e tests
       - name: Run test
