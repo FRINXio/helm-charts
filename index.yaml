@@ -10364,6 +10364,42 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Fix config setting for database locking
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/239
+      artifacthub.io/images: |
+        - name: conductor-server
+          image: frinx/conductor-server:2.0.2
+        - name: workflow-proxy
+          image: frinx/workflow-proxy:1.0.11
+        - name: schellar
+          image: frinx/schellar:2.0.0
+    apiVersion: v2
+    appVersion: 2.0.2
+    created: "2023-03-02T13:10:40.229403185Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: elasticsearch.enabled
+      name: elasticsearch
+      repository: https://helm.elastic.co
+      version: 6.8.22
+    description: A Helm chart for Kubernetes deploying conductor-server and workflow-proxy
+    digest: d701a358081c49f9b8ff601f309623a70b67c7ba311d613e8cc8a2621ca2ebe1
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: workflow-manager
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.2/workflow-manager-1.0.2.tgz
+    version: 1.0.2
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Set new docker images for services
           links:
             - name: GitHub PR
@@ -10433,4 +10469,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-02-27T14:48:26.227566803Z"
+generated: "2023-03-02T13:10:40.23068588Z"
