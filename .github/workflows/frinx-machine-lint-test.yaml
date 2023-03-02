@@ -104,12 +104,7 @@ jobs:
         run: |
           kubectl apply -f .github/cypress-v11-executor.yaml
           sleep 120
-          kubectl testkube create test \
-                              --git-uri https://github.com/FRINXio/frinx-machine-e2e-tests.git \
-                              --git-branch main \
-                              --name frinx-machine \
-                              --type cypress:v11/test \
-                              --executor-args "--env environmentName=ephemeral"
+          kubectl testkube create test --git-uri https://github.com/FRINXio/frinx-machine-e2e-tests.git --git-branch main --name frinx-machine --type cypress:v11/test --executor-args "--env environmentName=ephemeral"
           kubectl testkube status
           kubectl testkube version
 
