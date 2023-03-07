@@ -125,7 +125,7 @@ jobs:
         id: download_artifacts
         shell: bash
         run: |
-          EXECUTION_ID=$(kubectl testkube get executions | sed -n '6p' | cut -d " " -f3)
+          EXECUTION_ID=$(kubectl testkube get executions | sed -n '4p' | cut -d " " -f3)
           echo $EXECUTION_ID
           kubectl testkube download artifacts $EXECUTION_ID
           zip -r artifacts.zip artifacts/
