@@ -13,4 +13,4 @@ annotations:
       description: Fix smoke test in non-root container
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/202
+          url: https://github.com/FRINXio/helm-charts/pull/248
