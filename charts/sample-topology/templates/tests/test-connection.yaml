@@ -11,5 +11,5 @@ spec:
     - name: test-device
       image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
       command: ["/bin/sh"]
-      args: ["-c", 'nc -vz -w 2 {{ include "sample-topology.fullname" . }} 10004 2> /tmp/output; [ ! -s /tmp/output ] || exit 1']
+      args: ["-c", 'nc -vz {{ include "sample-topology.fullname" . }} 10004']
   restartPolicy: Never
