@@ -1,6 +1,6 @@
 apiVersion: v2
 name: inventory
-version: 3.1.1
+version: 3.1.2
 description: A Helm chart for Kubernetes deployment of the Device Inventory
 type: application
 home: https://github.com/FRINXio/helm-charts
@@ -15,8 +15,8 @@ icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 appVersion: "1.7.0"
 annotations:
   artifacthub.io/changes: |
-    - kind: changed
-      description: Update database name
+    - kind: fixed
+      description: Fix smoke test in non-root container
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/221
+          url: https://github.com/FRINXio/helm-charts/pull/202
