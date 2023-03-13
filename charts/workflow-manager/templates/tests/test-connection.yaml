@@ -12,11 +12,10 @@ spec:
   containers:
     - name: check-workflow-proxy
       image: busybox
-      command: ['wget']
-      args: ['-S', '{{ include "workflow-manager.fullname" . }}:{{ .Values.service.port }}/probe/readiness']
+      command: ["/bin/sh"]
+      args: ["-c", 'wget -S {{ include "workflow-manager.fullname" . }}:{{ .Values.service.port }}/probe/readiness -P /tmp/']
     - name: check-conductor-server
       image: busybox
-      command: ['wget']
-      args: ['-S', '{{ include "workflow-manager.fullname" . }}:{{ .Values.service.portConductor }}/api/metadata/workflow']
-
+      command: ["/bin/sh"]
+      args: ["-c", 'wget -S {{ include "workflow-manager.fullname" . }}:{{ .Values.service.portConductor }}/api/metadata/workflow -P /tmp/']
   restartPolicy: Never

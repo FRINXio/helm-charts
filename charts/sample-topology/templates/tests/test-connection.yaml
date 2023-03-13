@@ -9,9 +9,7 @@ metadata:
 spec:
   containers:
     - name: test-device
-      image: ubuntu:22.04
-      args:
-        - sh
-        - -c
-        - apt-get update && apt-get install netcat -y && nc -vz {{ include "sample-topology.fullname" . }} 10004
+      image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+      command: ["/bin/sh"]
+      args: ["-c", 'nc -vz -w 2 {{ include "sample-topology.fullname" . }} 10004 2> /tmp/output; [ ! -s /tmp/output ] || exit 1']
   restartPolicy: Never

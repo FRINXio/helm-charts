@@ -10,6 +10,6 @@ spec:
   containers:
     - name: wget
       image: busybox
-      command: ['wget']
-      args: ['{{ include "frinx-frontend.fullname" . }}:{{ .Values.service.port }}']
+      command: ["/bin/sh"]
+      args: ["-c", 'wget {{ include "frinx-frontend.fullname" . }}:{{ .Values.service.port }} -P /tmp/']
   restartPolicy: Never

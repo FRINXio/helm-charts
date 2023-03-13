@@ -10,6 +10,6 @@ spec:
   containers:
     - name: wget
       image: busybox
-      command: ['wget']
-      args: ['{{ include "inventory.fullname" . }}:{{ .Values.service.port }}/.well-known/apollo/server-health']
+      command: ["/bin/sh"]
+      args: ["-c", 'wget {{ include "inventory.fullname" . }}:{{ .Values.service.port }}/.well-known/apollo/server-health -P /tmp/']
   restartPolicy: Never

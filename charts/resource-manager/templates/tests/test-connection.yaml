@@ -10,6 +10,6 @@ spec:
   containers:
     - name: wget
       image: busybox
-      command: ['wget']
-      args: ['{{ include "resource-manager.fullname" . }}:{{ .Values.service.port }}/healthz/readiness']
+      command: ["/bin/sh"]
+      args: ["-c", 'wget {{ include "resource-manager.fullname" . }}:{{ .Values.service.port }}/healthz/readiness -P /tmp/']
   restartPolicy: Never

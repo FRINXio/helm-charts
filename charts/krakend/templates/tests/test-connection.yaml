@@ -10,6 +10,6 @@ spec:
   containers:
     - name: wget
       image: busybox
-      command: ['wget']
-      args: ['{{ include "krakend.fullname" . }}:{{ .Values.service.port }}/__health']
+      command: ["/bin/sh"]
+      args: ["-c", 'wget {{ include "krakend.fullname" . }}:{{ .Values.service.port }}/__health -P /tmp/']
   restartPolicy: Never
