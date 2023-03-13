@@ -268,6 +268,26 @@ entries:
   frinx-frontend:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Fix smoke test in non-root container
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/248
+    apiVersion: v2
+    appVersion: 1.0.28
+    created: "2023-03-13T13:44:43.640910678Z"
+    description: A Helm chart for Kubernetes deployment of the Frinx UI
+    digest: 325bb8318335a17a129a1f2bda522721d60001ac44104a822410e5df68ab9bc0
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-frontend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-frontend-3.1.1/frinx-frontend-3.1.1.tgz
+    version: 3.1.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Add INVENTORY_WS_URL environment variable
           links:
@@ -8290,6 +8310,32 @@ entries:
   inventory:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Fix smoke test in non-root container
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/248
+    apiVersion: v2
+    appVersion: 1.7.0
+    created: "2023-03-13T13:44:43.765849927Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deployment of the Device Inventory
+    digest: 23f298032c1ba7a89c9ddc904ac1d42f70cbe7e6f37dbe2d8e2c385943bfd78a
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: inventory
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/inventory-3.1.2/inventory-3.1.2.tgz
+    version: 3.1.2
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Update database name
           links:
@@ -8686,6 +8732,29 @@ entries:
     - https://github.com/FRINXio/helm-charts/releases/download/inventory-1.0.0/inventory-1.0.0.tgz
     version: 1.0.0
   krakend:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: Fix smoke test in non-root container
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/248
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:1.0.5
+    apiVersion: v2
+    appVersion: 1.0.5
+    created: "2023-03-13T13:44:43.90508331Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: a0f7c639d65ff7e654f85de59cbb0e1c7f9e8d5190093387910e7e7abd564b4d
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-2.8.1/krakend-2.8.1.tgz
+    version: 2.8.1
   - annotations:
       artifacthub.io/changes: |
         - kind: added
@@ -9243,6 +9312,31 @@ entries:
   resource-manager:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Fix smoke test in non-root container
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/248
+    apiVersion: v2
+    appVersion: 1.0.4
+    created: "2023-03-13T13:44:44.044290093Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deploying of the Frinx Resource-Manager
+    digest: 2cee749493db1dbccd579e8ce0eed663a6eb2147dad85a76b9fbe9b6d3133901
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: resource-manager
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/resource-manager-1.1.1/resource-manager-1.1.1.tgz
+    version: 1.1.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Change default resource-manager db connection
           links:
@@ -9297,6 +9391,26 @@ entries:
     - https://github.com/FRINXio/helm-charts/releases/download/resource-manager-1.0.0/resource-manager-1.0.0.tgz
     version: 1.0.0
   sample-topology:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: Fix smoke test in non-root container
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/248
+    apiVersion: v2
+    appVersion: "1.10"
+    created: "2023-03-13T13:44:44.180844933Z"
+    description: A Helm chart for the Frinx Machine sample-topology Kubernetes deployment
+    digest: 222b273c67e2fd0502d29e0f7e8650ba9c04de6344ee63feadf1319342eb8dfa
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: sample-topology
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/sample-topology-1.1.3/sample-topology-1.1.3.tgz
+    version: 1.1.3
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
@@ -10621,6 +10735,42 @@ entries:
   workflow-manager:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Fix smoke test in non-root container
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/248
+      artifacthub.io/images: |
+        - name: conductor-server
+          image: frinx/conductor-server:2.0.2
+        - name: workflow-proxy
+          image: frinx/workflow-proxy:1.0.11
+        - name: schellar
+          image: frinx/schellar:2.0.0
+    apiVersion: v2
+    appVersion: 2.0.2
+    created: "2023-03-13T13:44:44.350538016Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: elasticsearch.enabled
+      name: elasticsearch
+      repository: https://helm.elastic.co
+      version: 6.8.22
+    description: A Helm chart for Kubernetes deploying conductor-server and workflow-proxy
+    digest: d91dd255bb58aaf12be216c2a0ba0958ed41686c92883dd3cbda96d9b6c027bb
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: workflow-manager
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.3/workflow-manager-1.0.3.tgz
+    version: 1.0.3
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Fix config setting for database locking
           links:
@@ -10727,4 +10877,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-03-03T13:14:11.212227817Z"
+generated: "2023-03-13T13:44:44.351758436Z"
