@@ -21,6 +21,21 @@
             "url_pattern": "/api/data/links-and-devices"
         },
         {
+            "endpoint": "/api/topology/data/net-has-and-interfaces",
+            "method": "GET",
+            "url_pattern": "/api/data/net-has-and-interfaces"
+        },
+        {
+            "endpoint": "/api/topology/data/net-links-and-devices",
+            "method": "GET",
+            "url_pattern": "/api/data/net-links-and-devices"
+        },
+        {
+            "endpoint": "/api/topology/data/net-advertises-and-networks",
+            "method": "GET",
+            "url_pattern": "/api/data/net-advertises-and-networks"
+        },
+        {
             "endpoint": "/api/topology/data/common-nodes",
             "method": "POST",
             "url_pattern": "/api/data/common-nodes"
