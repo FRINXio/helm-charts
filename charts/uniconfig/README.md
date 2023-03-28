@@ -27,6 +27,11 @@ helm upgrade [RELEASE_NAME] frinx/uniconfig
 helm uninstall [RELEASE_NAME]
 ```
 
+## Uniconfig license
+
+Uniconfig docker image has been moved to a private repository
+For access, contact info@frinx.io
+
 ## Configuration
 
 | Parameter | Description | Default |

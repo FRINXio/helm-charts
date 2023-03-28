@@ -27,7 +27,7 @@
         </triggeringPolicy>
     </appender>
     <appender name="netconf-notifications" class="ch.qos.logback.classic.sift.SiftingAppender">
-        <discriminator class="io.lighty.discriminator.MarkerBasedDiscriminator">
+        <discriminator class="io.frinx.uniconfig.discriminator.MarkerBasedDiscriminator">
             <key>deviceName</key>
             <defaultValue>unknown</defaultValue>
         </discriminator>
@@ -48,7 +48,7 @@
         </sift>
     </appender>
     <appender name="netconf-messages" class="ch.qos.logback.classic.sift.SiftingAppender">
-        <discriminator class="io.lighty.discriminator.MarkerBasedDiscriminator">
+        <discriminator class="io.frinx.uniconfig.discriminator.MarkerBasedDiscriminator">
             <key>deviceName</key>
             <defaultValue>unknown</defaultValue>
         </discriminator>
@@ -69,7 +69,7 @@
         </sift>
     </appender>
     <appender name="netconf-events" class="ch.qos.logback.classic.sift.SiftingAppender">
-        <discriminator class="io.lighty.discriminator.MarkerBasedDiscriminator">
+        <discriminator class="io.frinx.uniconfig.discriminator.MarkerBasedDiscriminator">
             <key>deviceName</key>
             <defaultValue>unknown</defaultValue>
         </discriminator>
@@ -103,7 +103,7 @@
         </triggeringPolicy>
     </appender>
     <appender name="cli-messages" class="ch.qos.logback.classic.sift.SiftingAppender">
-        <discriminator class="io.lighty.discriminator.MarkerBasedDiscriminator">
+        <discriminator class="io.frinx.uniconfig.discriminator.MarkerBasedDiscriminator">
             <key>deviceName</key>
             <defaultValue>unknown</defaultValue>
         </discriminator>
@@ -177,12 +177,13 @@
 
     <!-- SSH part (used by CLI and NETCONF) -->
     <logger name="org.apache.sshd" level="INFO"/>
+    <logger name="org.apache.sshd.client.session.ClientConnectionService" level="ERROR"/>
 
     <!-- translation unit framework part -->
     <logger name="io.frinx.translate.unit.commons" level="INFO"/>
     <logger name="io.fd.honeycomb" level="INFO"/>
 
-    <logger name="io.lighty.gnmi" level="DEBUG" additivity="false">
+    <logger name="io.uniconfig.gnmi" level="DEBUG" additivity="false">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="logs"/>
         <appender-ref ref="gnmi"/>
@@ -197,6 +198,9 @@
     <logger name="org.opendaylight.controller" level="INFO"/>
     <logger name="org.opendaylight.yangtools" level="INFO"/>
 
+    <!-- DOM mountpoint service -->
+    <logger name="org.opendaylight.controller.md.sal.dom.broker.impl.mount" level="INFO"/>
+
     <!-- Kafka -->
     <logger name="org.apache.kafka.clients.NetworkClient" level="INFO"/>
 
@@ -205,27 +209,30 @@
         <appender-ref ref="metrics"/>
     </logger>
 
+    <!-- CLI shell -->
+    <logger name="io.frinx.uniconfig.shell" level="INFO"/>
+
     <!-- PostgreSQL driver -->
     <logger name="org.postgresql" level="INFO"/>
 
     <!-- do not modify this part, we should use RESTCONF RPCs for controlling of logging brokers -->
-    <logger name="org.opendaylight.restconf.nb.rfc8040.jersey.providers.logging.RestconfLoggingBroker" level="INFO" additivity="false">
+    <logger name="org.opendaylight.restconf.nb.rfc8040.jersey.providers.logging.RestconfLoggingBroker" level="TRACE" additivity="false">
         <appender-ref ref="restconf"/>
         <appender-ref ref="STDOUT"/>
     </logger>
-    <logger name="org.opendaylight.netconf.logging.brokers.NetconfMessagesLoggingBroker" level="INFO" additivity="false">
+    <logger name="org.opendaylight.netconf.logging.brokers.NetconfMessagesLoggingBroker" level="TRACE" additivity="false">
         <appender-ref ref="netconf-messages"/>
         <appender-ref ref="STDOUT"/>
     </logger>
-    <logger name="org.opendaylight.netconf.logging.brokers.NotificationsLoggingBroker" level="INFO" additivity="false">
+    <logger name="org.opendaylight.netconf.logging.brokers.NotificationsLoggingBroker" level="TRACE" additivity="false">
         <appender-ref ref="netconf-notifications"/>
         <appender-ref ref="STDOUT"/>
     </logger>
-    <logger name="org.opendaylight.netconf.logging.brokers.NetconfEventsLoggingBroker" level="INFO" additivity="false">
+    <logger name="org.opendaylight.netconf.logging.brokers.NetconfEventsLoggingBroker" level="TRACE" additivity="false">
         <appender-ref ref="netconf-events"/>
         <appender-ref ref="STDOUT"/>
     </logger>
-    <logger name="io.frinx.cli.io.impl.cli.CliLoggingBroker" level="INFO" additivity="false">
+    <logger name="io.frinx.cli.io.impl.cli.CliLoggingBroker" level="TRACE" additivity="false">
         <appender-ref ref="cli-messages"/>
         <appender-ref ref="STDOUT"/>
     </logger>

@@ -55,13 +55,6 @@ spec:
             items:
             - key: logback.xml
               path: logback.xml
-        - name: lighty-uniconfig-config
-          configMap:
-            name: {{ include "uniconfig.lightyConfigMapName" . }}
-            defaultMode: 0777
-            items:
-            - key: lighty-uniconfig-config.json
-              path: lighty-uniconfig-config.json
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -116,9 +109,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.uniconfigCacheFolderPath }}
           command: ["/bin/sh","-c"]
-          args: ["/opt/uniconfig-frinx/run_uniconfig.sh -f -l {{ .Values.license }}"]
-          {{- else }}
-          args: ["-f", "-l", "{{ .Values.license }}"]
+          args: ["/opt/uniconfig-frinx/run_uniconfig.sh"]
           {{- end }}
           env:
             - name: CONTAINER_ID
@@ -137,33 +128,45 @@ spec:
               value: {{ .Values.proxy.no_proxy | quote }}
             - name: JAVA_MAX_MEM
               value: {{ .Values.java.max_mem | quote }}
-            - name: _JAVA_OPTIONS
-              value: "-Xmx$(JAVA_MAX_MEM) -XX:+AlwaysPreTouch -Djna.nosys=true -XX:+AlwaysPreTouch -Djna.nosys=true -XX:+CrashOnOutOfMemoryError -XX:MaxGCPauseMillis=200 -Xlog:gc:/opt/uniconfig-frinx/log/$(SERVICE_NAME)/$(CONTAINER_ID)/gc.log:tags,time,uptime,level:filecount=10,filesize=5M -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeRSetStatsPeriod=1"
-            - name: tls_keystorePassword 
-              value: {{ .Values.tls_keystorePassword | quote }}
-            - name: dbPersistence_enabled
-              value: {{ .Values.dbPersistence.enabled | quote }}
-            - name: dbPersistence_connection_dbName
-              value: {{ .Values.dbPersistence.connection_dbName }}
-            - name: dbPersistence_connection_username
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "uniconfig.secretName" . }}
-                  key: dbPersistence_connection_username
-            - name: dbPersistence_connection_password
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "uniconfig.secretName" . }}
-                  key: dbPersistence_connection_password
+            # - name: _JAVA_OPTIONS
+              # value: "-Xmx$(JAVA_MAX_MEM) -XX:+AlwaysPreTouch -Djna.nosys=true -XX:+AlwaysPreTouch -Djna.nosys=true -XX:+CrashOnOutOfMemoryError -XX:MaxGCPauseMillis=200 -Xlog:gc:/opt/uniconfig-frinx/log/$(SERVICE_NAME)/$(CONTAINER_ID)/gc.log:tags,time,uptime,level:filecount=10,filesize=5M -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeRSetStatsPeriod=1"
+              # value: " --add-opens java.base/java.lang=ALL-UNNAMED -Xmx$(JAVA_MAX_MEM) -cp ${JAR_DIRS} ${MAIN_CLASS} --spring.config.location=${CONFIG} $@"
               {{- if and (eq .Values.postgresql.enabled true) (not .Values.dbPersistence.connection_databaseLocations_host) }}
-            - name: dbPersistence_connection_databaseLocations_host
+            - name: DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST
               value: "{{ .Release.Name }}-postgresql"
               {{ else }}
-            - name: dbPersistence_connection_databaseLocations_host
+            - name: DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST
               value: {{ .Values.dbPersistence.connection_databaseLocations_host }}
               {{ end }}
-            - name: dbPersistence_connection_databaseLocations_port
-              value: {{ .Values.dbPersistence.connection_databaseLocations_port | quote }}
+            - name: DBPERSISTENCE_CONNECTION_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "uniconfig.secretName" . }}
+                  key: DBPERSISTENCE_CONNECTION_USERNAME
+            - name: DBPERSISTENCE_CONNECTION_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "uniconfig.secretName" . }}
+                  key: DBPERSISTENCE_CONNECTION_PASSWORD
+            - name: DBPERSISTENCE_CONNECTION_SSLPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "uniconfig.secretName" . }}
+                  key: DBPERSISTENCE_CONNECTION_SSLPASSWORD
+            - name: CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "uniconfig.secretName" . }}
+                  key: CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD
+            - name: TLS_KEYSTOREPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "uniconfig.secretName" . }}
+                  key: TLS_KEYSTOREPASSWORD
+          {{- range $key, $val := .Values.extraEnv }}
+            - name: {{ $key | quote }}
+              value: {{ $val | quote }}
+          {{- end }}
           volumeMounts:
           - name: frinx-uniconfig-controller-logs
             mountPath: /opt/uniconfig-frinx/log
@@ -179,9 +182,6 @@ spec:
           - name: logback
             mountPath: /opt/uniconfig-frinx/config/logback.xml
             subPath: logback.xml
-          - name: lighty-uniconfig-config
-            mountPath: /opt/uniconfig-frinx/config/lighty-uniconfig-config.json
-            subPath: lighty-uniconfig-config.json
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
