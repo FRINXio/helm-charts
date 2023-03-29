@@ -63,17 +63,17 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
-      {{ if .Values.dbPersistence.connection_databaseLocations_host }}
+      {{ if .Values.dbPersistence.DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST }}
         - name: check-db-ready
           image: postgres:alpine
           command: ['sh', '-c',
-            "until pg_isready -h {{ .Values.dbPersistence.connection_databaseLocations_host }} -p 5432 -U {{ .Values.dbPersistence.connection_username }};
+            "until pg_isready -h {{ .Values.dbPersistence.DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST }} -p 5432 -U {{ .Values.dbPersistence.DBPERSISTENCE_CONNECTION_USERNAME }};
             do echo waiting for database; sleep 2; done;"]
       {{ else }}
         - name: check-db-ready
           image: postgres:alpine
           command: ['sh', '-c',
-            "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432 -U {{ .Values.dbPersistence.connection_username }};
+            "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432 -U {{ .Values.dbPersistence.DBPERSISTENCE_CONNECTION_USERNAME }};
             do echo waiting for database; sleep 2; done;"]
       {{ end }}
         - name: copy-config-files
@@ -131,12 +131,12 @@ spec:
             # - name: _JAVA_OPTIONS
               # value: "-Xmx$(JAVA_MAX_MEM) -XX:+AlwaysPreTouch -Djna.nosys=true -XX:+AlwaysPreTouch -Djna.nosys=true -XX:+CrashOnOutOfMemoryError -XX:MaxGCPauseMillis=200 -Xlog:gc:/opt/uniconfig-frinx/log/$(SERVICE_NAME)/$(CONTAINER_ID)/gc.log:tags,time,uptime,level:filecount=10,filesize=5M -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeRSetStatsPeriod=1"
               # value: " --add-opens java.base/java.lang=ALL-UNNAMED -Xmx$(JAVA_MAX_MEM) -cp ${JAR_DIRS} ${MAIN_CLASS} --spring.config.location=${CONFIG} $@"
-              {{- if and (eq .Values.postgresql.enabled true) (not .Values.dbPersistence.connection_databaseLocations_host) }}
+              {{- if and (eq .Values.postgresql.enabled true) (not .Values.dbPersistence.DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST) }}
             - name: DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST
               value: "{{ .Release.Name }}-postgresql"
               {{ else }}
             - name: DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST
-              value: {{ .Values.dbPersistence.connection_databaseLocations_host }}
+              value: {{ .Values.dbPersistence.DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST }}
               {{ end }}
             - name: DBPERSISTENCE_CONNECTION_USERNAME
               valueFrom:
