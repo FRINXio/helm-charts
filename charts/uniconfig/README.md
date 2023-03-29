@@ -80,13 +80,12 @@ For access, contact info@frinx.io
 | `extraLightyConfigMap` | Mount different config map with lighty configuration file for uniconfig | |
 | `extraLogbackConfigMap` | Mount different config map with logback configuration file for uniconfig | |
 | `java.max_mem` | Max memory for java | `"10G"` |
-| `dbPersistence.enabled` | Database persistence | `true` |
-| `dbPersistence.connection_dbName` | Database name | `"uniconfig"` |
-| `dbPersistence.connection_username` | Database username | `"postgresU"` |
-| `dbPersistence.connection_password` | Database password | `"postgresP"` |
+| `dbPersistence.DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST` | Database host | |
 | `dbPersistence.existingSecret` | Name of existing secret with database credentials | `` |
-| `dbPersistence.connection_databaseLocations_host` | Database host | `"uniconfig-postgres-postgresql"` |
-| `dbPersistence.connection_databaseLocations_port` | Database port | `"5432"` |
+| `dbPersistence.DBPERSISTENCE_CONNECTION_USERNAME` | Database username | `"postgresU"` |
+| `dbPersistence.DBPERSISTENCE_CONNECTION_PASSWORD` | Database password | `"postgresP"` |
+| `dbPersistence.CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD` | CLI shell password | `admin` |
+| `extraEnv` | Extra env for uniconfig-controller | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/uniconfig/values.yaml) |
 | `azure.AKS.enabled` | Enable AKS azure deployment | `false` |
 | `azure.AKS.storage.existingSecret` | Use existing secrets for storage credentials | |
 | `azure.AKS.storage.accountName` | Azure storage account name | |
