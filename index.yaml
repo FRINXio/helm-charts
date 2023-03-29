@@ -9622,6 +9622,41 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Updated secrets and values for spring image
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/252
+        - kind: changed
+          description: Changed supported version of uniconfig to 5.1.4
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/252
+    apiVersion: v2
+    appVersion: 5.1.4
+    created: "2023-03-29T12:00:35.220713954Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: traefik.enabled
+      name: traefik
+      repository: https://helm.traefik.io/traefik
+      version: 20.8.0
+    description: A Helm chart for UniConfig Kubernetes deployment
+    digest: 2b6b8a870016a892ec9219508f671f6c97db1c317039c92515c937541e39fb60
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: uniconfig
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniconfig-5.0.0/uniconfig-5.0.0.tgz
+    version: 5.0.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Change traefik helm chart version to 20.8.0
           links:
             - name: GitHub PR
@@ -10600,4 +10635,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-03-23T12:35:55.466999714Z"
+generated: "2023-03-29T12:00:35.221810558Z"
