@@ -122,15 +122,6 @@ extraEnv:
   TRANSACTIONS_MAXTRANSACTIONAGE: 7200
   TRANSACTIONS_MAXSTOREDTRANSACTIONS: 100
 
-# dbPersistence:
-#   # embeddeddatabaseEnabled: true
-#   connection_dbName: "uniconfig"
-#   existingSecret:
-#   connection_username: "postgresU"
-#   connection_password: "postgresP"
-#   connection_databaseLocations_host: ""
-#   connection_databaseLocations_port: "5432"
-
 azure:
   AKS:
     enabled: false
