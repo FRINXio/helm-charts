@@ -20,7 +20,7 @@ appVersion: "5.1.4"
 annotations:
   artifacthub.io/changes: |
     - kind: changed
-      description: Updated chart for spring image
+      description: Updated secrets and values for spring image
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/252
