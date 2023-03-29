@@ -141,21 +141,11 @@ spec:
                 secretKeyRef:
                   name: {{ include "uniconfig.secretName" . }}
                   key: DBPERSISTENCE_CONNECTION_PASSWORD
-            - name: DBPERSISTENCE_CONNECTION_SSLPASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "uniconfig.secretName" . }}
-                  key: DBPERSISTENCE_CONNECTION_SSLPASSWORD
             - name: CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ include "uniconfig.secretName" . }}
                   key: CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD
-            - name: TLS_KEYSTOREPASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "uniconfig.secretName" . }}
-                  key: TLS_KEYSTOREPASSWORD
           {{- range $key, $val := .Values.extraEnv }}
             - name: {{ $key | quote }}
               value: {{ $val | quote }}
@@ -182,7 +172,6 @@ spec:
                 - /bin/sh
                 - -c
                 - 'curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST localhost:8181/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"'
-            initialDelaySeconds: 60
             timeoutSeconds: 35
             failureThreshold: 20
           readinessProbe:
@@ -191,7 +180,6 @@ spec:
                 - /bin/sh
                 - -c
                 - 'curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST localhost:8181/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"'
-            initialDelaySeconds: 60
             timeoutSeconds: 35
             failureThreshold: 20
           resources:
