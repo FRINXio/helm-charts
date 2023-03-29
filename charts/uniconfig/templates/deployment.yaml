@@ -41,13 +41,6 @@ spec:
         {{- end }}
         - name: frinx-uniconfig-controller-logs
           emptyDir: {}
-        - name: uniconfig-script
-          configMap:
-            name: {{ include "uniconfig.scriptConfigMapName" . }}
-            defaultMode: 0777
-            items:
-            - key: run_uniconfig.sh
-              path: run_uniconfig.sh
         - name: logback
           configMap:
             name: {{ include "uniconfig.logbackConfigMapName" . }}
@@ -176,9 +169,6 @@ spec:
           - name: frinx-uniconfig-controller-cache
             mountPath: {{ .Values.mountCachePath }}
           {{- end}}
-          - name: uniconfig-script
-            mountPath: /opt/uniconfig-frinx/run_uniconfig.sh
-            subPath: run_uniconfig.sh
           - name: logback
             mountPath: /opt/uniconfig-frinx/config/logback.xml
             subPath: logback.xml
