@@ -41,13 +41,6 @@ spec:
         {{- end }}
         - name: frinx-uniconfig-controller-logs
           emptyDir: {}
-        - name: uniconfig-script
-          configMap:
-            name: {{ include "uniconfig.scriptConfigMapName" . }}
-            defaultMode: 0777
-            items:
-            - key: run_uniconfig.sh
-              path: run_uniconfig.sh
         - name: logback
           configMap:
             name: {{ include "uniconfig.logbackConfigMapName" . }}
@@ -55,13 +48,6 @@ spec:
             items:
             - key: logback.xml
               path: logback.xml
-        - name: lighty-uniconfig-config
-          configMap:
-            name: {{ include "uniconfig.lightyConfigMapName" . }}
-            defaultMode: 0777
-            items:
-            - key: lighty-uniconfig-config.json
-              path: lighty-uniconfig-config.json
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -70,17 +56,17 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
-      {{ if .Values.dbPersistence.connection_databaseLocations_host }}
+      {{ if .Values.dbPersistence.DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST }}
         - name: check-db-ready
           image: postgres:alpine
           command: ['sh', '-c',
-            "until pg_isready -h {{ .Values.dbPersistence.connection_databaseLocations_host }} -p 5432 -U {{ .Values.dbPersistence.connection_username }};
+            "until pg_isready -h {{ .Values.dbPersistence.DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST }} -p 5432 -U {{ .Values.dbPersistence.DBPERSISTENCE_CONNECTION_USERNAME }};
             do echo waiting for database; sleep 2; done;"]
       {{ else }}
         - name: check-db-ready
           image: postgres:alpine
           command: ['sh', '-c',
-            "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432 -U {{ .Values.dbPersistence.connection_username }};
+            "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432 -U {{ .Values.dbPersistence.DBPERSISTENCE_CONNECTION_USERNAME }};
             do echo waiting for database; sleep 2; done;"]
       {{ end }}
         - name: copy-config-files
@@ -116,9 +102,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.uniconfigCacheFolderPath }}
           command: ["/bin/sh","-c"]
-          args: ["/opt/uniconfig-frinx/run_uniconfig.sh -f -l {{ .Values.license }}"]
-          {{- else }}
-          args: ["-f", "-l", "{{ .Values.license }}"]
+          args: ["/opt/uniconfig-frinx/run_uniconfig.sh"]
           {{- end }}
           env:
             - name: CONTAINER_ID
@@ -137,33 +121,32 @@ spec:
               value: {{ .Values.proxy.no_proxy | quote }}
             - name: JAVA_MAX_MEM
               value: {{ .Values.java.max_mem | quote }}
-            - name: _JAVA_OPTIONS
-              value: "-Xmx$(JAVA_MAX_MEM) -XX:+AlwaysPreTouch -Djna.nosys=true -XX:+AlwaysPreTouch -Djna.nosys=true -XX:+CrashOnOutOfMemoryError -XX:MaxGCPauseMillis=200 -Xlog:gc:/opt/uniconfig-frinx/log/$(SERVICE_NAME)/$(CONTAINER_ID)/gc.log:tags,time,uptime,level:filecount=10,filesize=5M -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeRSetStatsPeriod=1"
-            - name: tls_keystorePassword 
-              value: {{ .Values.tls_keystorePassword | quote }}
-            - name: dbPersistence_enabled
-              value: {{ .Values.dbPersistence.enabled | quote }}
-            - name: dbPersistence_connection_dbName
-              value: {{ .Values.dbPersistence.connection_dbName }}
-            - name: dbPersistence_connection_username
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "uniconfig.secretName" . }}
-                  key: dbPersistence_connection_username
-            - name: dbPersistence_connection_password
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "uniconfig.secretName" . }}
-                  key: dbPersistence_connection_password
-              {{- if and (eq .Values.postgresql.enabled true) (not .Values.dbPersistence.connection_databaseLocations_host) }}
-            - name: dbPersistence_connection_databaseLocations_host
+              {{- if and (eq .Values.postgresql.enabled true) (not .Values.dbPersistence.DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST) }}
+            - name: DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST
               value: "{{ .Release.Name }}-postgresql"
               {{ else }}
-            - name: dbPersistence_connection_databaseLocations_host
-              value: {{ .Values.dbPersistence.connection_databaseLocations_host }}
+            - name: DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST
+              value: {{ .Values.dbPersistence.DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST }}
               {{ end }}
-            - name: dbPersistence_connection_databaseLocations_port
-              value: {{ .Values.dbPersistence.connection_databaseLocations_port | quote }}
+            - name: DBPERSISTENCE_CONNECTION_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "uniconfig.secretName" . }}
+                  key: DBPERSISTENCE_CONNECTION_USERNAME
+            - name: DBPERSISTENCE_CONNECTION_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "uniconfig.secretName" . }}
+                  key: DBPERSISTENCE_CONNECTION_PASSWORD
+            - name: CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "uniconfig.secretName" . }}
+                  key: CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD
+          {{- range $key, $val := .Values.extraEnv }}
+            - name: {{ $key | quote }}
+              value: {{ $val | quote }}
+          {{- end }}
           volumeMounts:
           - name: frinx-uniconfig-controller-logs
             mountPath: /opt/uniconfig-frinx/log
@@ -173,15 +156,9 @@ spec:
           - name: frinx-uniconfig-controller-cache
             mountPath: {{ .Values.mountCachePath }}
           {{- end}}
-          - name: uniconfig-script
-            mountPath: /opt/uniconfig-frinx/run_uniconfig.sh
-            subPath: run_uniconfig.sh
           - name: logback
             mountPath: /opt/uniconfig-frinx/config/logback.xml
             subPath: logback.xml
-          - name: lighty-uniconfig-config
-            mountPath: /opt/uniconfig-frinx/config/lighty-uniconfig-config.json
-            subPath: lighty-uniconfig-config.json
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -192,7 +169,6 @@ spec:
                 - /bin/sh
                 - -c
                 - 'curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST localhost:8181/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"'
-            initialDelaySeconds: 60
             timeoutSeconds: 35
             failureThreshold: 20
           readinessProbe:
@@ -201,7 +177,6 @@ spec:
                 - /bin/sh
                 - -c
                 - 'curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST localhost:8181/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"'
-            initialDelaySeconds: 60
             timeoutSeconds: 35
             failureThreshold: 20
           resources:
