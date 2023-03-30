@@ -127,11 +127,15 @@ spec:
               value: jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
             - name: "CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_URL"
               value: jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
+            - name: "SPRING_SEARCHDATASOURCE_URL"
+              value: jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
             {{ else }}
             - name: "SPRING_DATASOURCE_URL"
-              value: {{ .Values.conductorEnv.SPRING_DATASOURCE_URL}}
+              value: "jdbc:postgresql://{{ .Values.conductorEnv.SPRING_DATASOURCE_HOSTNAME}}:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true"
             - name: "CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_URL"
-              value: {{ .Values.conductorEnv.CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_URL}}
+              value: "jdbc:postgresql://{{ .Values.conductorEnv.CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_HOSTNAME}}:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true"
+            - name: "SPRING_SEARCHDATASOURCE_URL"
+              value: "jdbc:postgresql://{{ .Values.conductorEnv.SPRING_SEARCHDATASOURCE_HOSTNAME}}:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true"
             {{ end }}
           {{- range $key, $val := .Values.conductorExtraEnv }}
             - name: {{ $key | quote }}

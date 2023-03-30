@@ -89,20 +89,22 @@ conductorEnv:
   LOG4J_PROP: log4j.properties
   # SCHELLAR_TARGET: http://schellar:3000 treba???
   SPRING_DATASOURCE_HOSTNAME:
-  SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
-  CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_URL: jdbc:postgresql://postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
+  # SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
+  CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_HOSTNAME:
+  # CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_URL: jdbc:postgresql://postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
+  SPRING_SEARCHDATASOURCE_HOSTNAME:
+  # SPRING_SEARCHDATASOURCE_URL: jdbc:postgresql://postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
 
 conductorExtraEnv:
   CONDUCTOR_APP_OWNEREMAILMANDATORY: false
   CONDUCTOR_DB_TYPE: postgres
   SPRING_DATASOURCE_USERNAME: postgresU
   SPRING_DATASOURCE_PASSWORD: postgresP
-  SPRING_SEARCHDATASOURCE_URL: jdbc:postgresql://postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
   SPRING_SEARCHDATASOURCE_USERNAME: postgresU
   SPRING_SEARCHDATASOURCE_PASSWORD: postgresP
   SPRING_SEARCHDATASOURCE_HIKARI_MAXIMUMPOOLSIZE: 8
-  CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_USERNAME: postgresU
-  CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_PASSWORD: postgresP
+  CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME: postgresU
+  CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD: postgresP
   CONDUCTOR_APP_ASYNCINDEXINGENABLED: false
   CONDUCTOR_INDEXING_ENABLED: false
   CONDUCTOR_ARCHIVE_DB_TYPE: postgres
