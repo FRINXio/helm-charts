@@ -1,8 +1,0 @@
-{{- if (include "uniconfig.createLightyConfigMap" .) }}
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ include "uniconfig.fullname" . }}-configmap-lighty-uniconfig-config
-data:
-{{- (.Files.Glob "config/lighty-uniconfig-config.json").AsConfig | nindent 2 }}
-{{ end }}
