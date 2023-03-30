@@ -4,7 +4,7 @@ description: A Helm chart for Kubernetes deploying conductor-server and workflow
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
 version: 1.0.3
-appVersion: "2.0.2"
+appVersion: "latest"
 maintainers:
   - name: FRINX
 dependencies:
@@ -12,10 +12,6 @@ dependencies:
     name: postgresql
     repository: https://charts.bitnami.com/bitnami
     version: 11.x.x
-  - condition: elasticsearch.enabled
-    name: elasticsearch
-    repository: https://helm.elastic.co
-    version: 6.8.22
 annotations:
   artifacthub.io/images: |
     - name: conductor-server
