@@ -13,7 +13,7 @@ image:
 proxyImage:
   repository: frinx/workflow-proxy
   pullPolicy: IfNotPresent
-  tag: "latest"
+  tag: "2.1.2"
 
 schellarImage:
   repository: frinx/schellar
