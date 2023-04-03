@@ -61,27 +61,27 @@ dependencies:
   - condition: grafana.enabled
     name: grafana
     repository: "https://grafana.github.io/helm-charts"
-    version: 6.32.14
+    version: 6.52.4
 
   - condition: influxdb.enabled
     name: influxdb2
     repository: "https://helm.influxdata.com"
-    version: 2.1.0
+    version: 2.1.1
 
   - condition: telegraf-ds.enabled
     name: telegraf-ds
     repository: https://helm.influxdata.com
-    version: 1.1.1
+    version: 1.1.8
 
   - condition: loki.enabled
     name: loki
     repository: https://grafana.github.io/helm-charts
-    version: 2.14.1
+    version: 2.16.0
 
   - condition: loki.enabled
     name: promtail
     repository: https://grafana.github.io/helm-charts
-    version: 6.3.0
+    version: 6.9.3
 
   - condition: frinx-arango-config.enabled
     name: frinx-arango-config
