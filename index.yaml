@@ -9621,6 +9621,36 @@ entries:
   uniconfig:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Fix init-container permission
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/254
+    apiVersion: v2
+    appVersion: 5.1.4
+    created: "2023-04-06T09:21:36.642134828Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: traefik.enabled
+      name: traefik
+      repository: https://helm.traefik.io/traefik
+      version: 20.8.0
+    description: A Helm chart for UniConfig Kubernetes deployment
+    digest: 2ae4941fbd9f916c8f3b913481c6cfc0dd2369cc3dc4d530936e8be227c5a382
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: uniconfig
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniconfig-5.0.1/uniconfig-5.0.1.tgz
+    version: 5.0.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Updated secrets and values for spring image
           links:
@@ -10635,4 +10665,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-03-29T12:00:35.221810558Z"
+generated: "2023-04-06T09:21:36.643230329Z"
