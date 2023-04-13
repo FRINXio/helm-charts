@@ -16,4 +16,4 @@ annotations:
       description: add endpoints for TD bgp ls update
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/251
+          url: https://github.com/FRINXio/helm-charts/pull/255
