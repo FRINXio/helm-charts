@@ -119,6 +119,11 @@
             "endpoint": "/api/topology/bgp-ls/summary/{neighbor_id}",
             "method": "GET",
             "url_pattern": "/api/bgp-ls/summary/{neighbor_id}"
+        },
+        {
+            "endpoint": "/api/topology/bgp-ls/update",
+            "method": "POST",
+            "url_pattern": "/api/bgp-ls/update"
         }
     ]
 }
