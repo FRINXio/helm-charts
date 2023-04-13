@@ -8735,6 +8735,29 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
+          description: add endpoints for TD bgp ls update
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/255
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:1.0.5
+    apiVersion: v2
+    appVersion: 1.0.5
+    created: "2023-04-13T14:39:59.039929367Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: eed5c5fd0067a5a9bc449913c269b4e7e8c40272125af921f2c3563b1abbb6de
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-2.8.3/krakend-2.8.3.tgz
+    version: 2.8.3
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
           description: add endpoints to get net data in topology-discovery
           links:
             - name: GitHub PR
@@ -10665,4 +10688,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-04-06T09:21:36.643230329Z"
+generated: "2023-04-13T14:39:59.04126736Z"
