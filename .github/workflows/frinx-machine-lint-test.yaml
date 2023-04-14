@@ -63,27 +63,6 @@ jobs:
       - name: Run chart-testing (install)
         run: ct install --config .github/frinx-machine_lint_test_config.yaml --namespace frinx-machine-ct
 
-      - name: Install testkube plugin
-        run: |
-          wget -qO - https://repo.testkube.io/key.pub | sudo apt-key add -
-          echo "deb https://repo.testkube.io/linux linux main" | sudo tee -a /etc/apt/sources.list
-          sudo apt-get update
-          sudo apt-get install -y testkube
-
-      - name: Install cert-manager helm-chart
-        run: |
-          kubectl create namespace cert-manager
-          kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.crds.yaml
-          helm repo add jetstack https://charts.jetstack.io
-          helm install cert-manager --namespace cert-manager --version v1.9.1 jetstack/cert-manager
-
-      # Install testkube
-      - name: Install testkube
-        id: install_testkube
-        run: |
-          helm repo add testkube https://kubeshop.github.io/helm-charts
-          helm install --create-namespace --namespace testkube --version 1.9.33 testkube testkube/testkube --wait
-
       - name: Set imagePullSecret
         uses: azure/k8s-create-secret@v4
         with:
@@ -98,59 +77,49 @@ jobs:
           helm dependency update charts/frinx-machine
           helm install frinx-dev charts/frinx-machine --set demo-workflows.enabled=true -n frinx-machine --wait --timeout 20m0s
 
-      # Creating e2e tests
-      - name: Create test
-        id: create_test
+      - name: Port-forward UI
+        id: port_forward
         run: |
-          kubectl apply -f .github/cypress-v11-executor.yaml
-          sleep 120
-          echo "Note: repo frinx-machine-e2e-tests contains the file cypress.config.js which evaluates cypress variable environmentName ..."
-          kubectl testkube create test \
-                            --git-uri https://github.com/FRINXio/frinx-machine-e2e-tests.git \
-                            --git-branch main \
-                            --name frinx-machine \
-                            --type cypress:v11/test \
-                            --executor-args "--env environmentName=ephemeral"
-          kubectl testkube status
-          kubectl testkube version
+          kubectl -n frinx-machine port-forward svc/krakend 8085:8080 &
 
-      # Running e2e tests
-      - name: Run test
+      - name: Clone frinx-machine-e2e-tests
+        uses: actions/checkout@v3
+        with:
+          repository: FRINXio/frinx-machine-e2e-tests
+          ref: unify_test
+          token: ${{ secrets.TOKEN }}
+          path: './cypress'
+
+      - name: Cypress tests
         id: run_test
-        run: |
-          kubectl testkube run test frinx-machine -f
-
-      - name: Download cypress artifacts from AKS cluster
-        if: ${{ ( failure() ) &&  ( steps.run_test.outcome != 'skipped' ) }}
-        id: download_artifacts
-        shell: bash
-        run: |
-          kubectl testkube get executions | grep -v "unknown context type" | sed -n '4p' | cut -d " " -f3
-          EXECUTION_ID=$(kubectl testkube get executions | grep -v "unknown context type" | sed -n '4p' | cut -d " " -f3)
-          echo $EXECUTION_ID
-          kubectl testkube download artifacts $EXECUTION_ID
-          zip -r artifacts.zip artifacts/
-
-      - name: Upload cypress artifacts
-        if: ${{ ( failure() ) &&  ( steps.run_test.outcome != 'skipped' ) }}
-        uses: actions/upload-artifact@v3.1.1
+        uses: cypress-io/github-action@v5
         with:
-          name: ${{ github.workflow }}_artifacts.zip
-          path: ${{ github.workspace }}/artifacts.zip
-          if-no-files-found: error
-          retention-days: 1
+          spec: cypress/e2e/0-check-main-page/*,cypress/e2e/2-devices/*,cypress/e2e/3-workflow-builder/*,cypress/e2e/4-workflow-manager/*
+          project: ./cypress
 
-      - name: Delete AKS cluster
-        if: ${{ ( success() || failure() || cancelled() ) &&  ( steps.create_aks_cluster.outcome != 'skipped' ) }}
-        run: |
-          az aks delete --resource-group github-e2e-tests --name aks-e2e-tests --yes
-
-      - name: slack - GitHub Actions Slack integration
-        if: ${{ always() }}
-        uses: act10ns/slack@v2.0.0
+      - uses: actions/upload-artifact@v3
+        if: failure()
         with:
-          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
-          status: ${{ job.status }}
-          channel: '#fx_env_helm-charts'
-          message: "E2E tests: ${{ job.status }}\n${{ github.event.pull_request.title }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}\nJob: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          steps: ${{ toJson(steps) }}
+          name: cypress-screenshots
+          path: ./cypress/cypress/screenshots
+
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-videos
+          path: ./cypress/cypress/videos
+
+      # - name: Delete AKS cluster
+      #   if: ${{ ( success() || failure() || cancelled() ) &&  ( steps.create_aks_cluster.outcome != 'skipped' ) }}
+      #   run: |
+      #     az aks delete --resource-group github-e2e-tests --name aks-e2e-tests --yes
+
+      # - name: slack - GitHub Actions Slack integration
+      #   if: ${{ always() }}
+      #   uses: act10ns/slack@v2.0.0
+      #   with:
+      #     webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+      #     status: ${{ job.status }}
+      #     channel: '#fx_env_helm-charts'
+      #     message: "E2E tests: ${{ job.status }}\n${{ github.event.pull_request.title }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}\nJob: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+      #     steps: ${{ toJson(steps) }}
