@@ -1,6 +1,7 @@
 # Global settings
 
 x-device-discovery-enabled: &device-discovery-enabled false
+test: 1
 
 # Default values for FRINX-machine.
 
@@ -329,4 +330,3 @@ promtail:
             {{- with .Values.config.snippets.extraRelabelConfigs }}
             {{- toYaml . | nindent 4 }}
             {{- end }}
-
