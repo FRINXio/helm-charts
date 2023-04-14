@@ -80,7 +80,7 @@ jobs:
       - name: Port-forward UI
         id: port_forward
         run: |
-          kubectl -n frinx-machine port-forward svc/krakend 8085:8080 &
+          kubectl -n frinx-machine port-forward svc/krakend 8080 &
 
       - name: Clone frinx-machine-e2e-tests
         uses: actions/checkout@v3
@@ -96,6 +96,8 @@ jobs:
         with:
           spec: cypress/e2e/0-check-main-page/*,cypress/e2e/2-devices/*,cypress/e2e/3-workflow-builder/*,cypress/e2e/4-workflow-manager/*
           project: ./cypress
+        env:
+          CYPRESS_host: localhost:8080
 
       - uses: actions/upload-artifact@v3
         if: failure()
