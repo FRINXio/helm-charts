@@ -39,7 +39,7 @@ jobs:
       - name: Create AKS cluster
         id: create_aks_cluster
         run: |
-          az aks create --resource-group github-e2e-tests --name aks-e2e-tests --node-count 1 --node-vm-size standard_e4as_v4 --generate-ssh-keys > /dev/null
+          az aks create --resource-group github-e2e-tests --name aks-e2e-tests --node-count 1 --node-vm-size standard_e2as_v4 --generate-ssh-keys --kubernetes-version 1.25.6 > /dev/null
 
       - uses: azure/aks-set-context@v3
         with:
