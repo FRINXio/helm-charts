@@ -88,10 +88,11 @@ jobs:
 
       - name: Cypress tests
         id: run_test
+        working-directory: ./cypress
         uses: cypress-io/github-action@v5
         with:
           spec: cypress/e2e/0-check-main-page/*,cypress/e2e/2-devices/*,cypress/e2e/3-workflow-builder/*,cypress/e2e/4-workflow-manager/*
-          project: ./cypress
+          # project: ./cypress
         env:
           CYPRESS_host: localhost:8080
 
