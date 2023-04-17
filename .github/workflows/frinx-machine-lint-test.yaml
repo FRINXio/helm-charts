@@ -97,6 +97,12 @@ jobs:
         env:
           CYPRESS_host: localhost:8080
 
+      - name: Show port-forward log
+        if: failure()
+        id: port_forward_log
+        run: |
+          cat /home/runner/work/_temp/k8s-pod-forward.*
+
       - uses: actions/upload-artifact@v3
         if: failure()
         with:
