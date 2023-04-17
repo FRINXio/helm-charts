@@ -6,7 +6,7 @@ while true; do
       do
             echo "### $line"
             if [[ "$line" == *"portforward.go"* ]]; then
-                  echo "Retarting port forwarding $value"
+                  echo "Restarting port forwarding $value"
                   exit 1
             else
                   exit 0
