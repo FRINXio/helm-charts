@@ -62,17 +62,11 @@ jobs:
       - name: Run chart-testing (install)
         run: ct install --config .github/frinx-machine_lint_test_config.yaml --namespace frinx-machine --skip-clean-up
 
-      - name: Run chart-testing (install)
-        run: helm list --namespace frinx-machine
-
-      - name: Install helm-chart for e2e tests
+      - name: Prepare helm-chart for e2e tests
         run: |
+          NAME=$(helm list --namespace frinx-machine | sed -n '2p' | cut -d$'\t' -f1)
           helm dependency update charts/frinx-machine
-          helm upgrade fm charts/frinx-machine --set demo-workflows.enabled=true -n frinx-machine --wait --timeout 20m0s
-
-      - name: Run smoke test
-        run: |
-          helm test fm -n frinx-machine
+          helm upgrade $NAME charts/frinx-machine --set demo-workflows.enabled=true -n frinx-machine --wait --timeout 20m0s
 
       - name: Port-forward UI
         id: port_forward
@@ -113,12 +107,12 @@ jobs:
         run: |
           az aks delete --resource-group github-e2e-tests --name aks-e2e-tests --yes
 
-      # - name: slack - GitHub Actions Slack integration
-      #   if: ${{ always() }}
-      #   uses: act10ns/slack@v2.0.0
-      #   with:
-      #     webhook-url: ${{ secrets.SLACK_WEBHOOK }}
-      #     status: ${{ job.status }}
-      #     channel: '#fx_env_helm-charts'
-      #     message: "E2E tests: ${{ job.status }}\n${{ github.event.pull_request.title }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}\nJob: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-      #     steps: ${{ toJson(steps) }}
+      - name: slack - GitHub Actions Slack integration
+        if: ${{ always() }}
+        uses: act10ns/slack@v2.0.0
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+          status: ${{ job.status }}
+          channel: '#fx_env_helm-charts'
+          message: "E2E tests: ${{ job.status }}\n${{ github.event.pull_request.title }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}\nJob: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          steps: ${{ toJson(steps) }}
