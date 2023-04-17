@@ -78,7 +78,7 @@ jobs:
         with:
           workload: 'svc/krakend'
           mappings: '8080:8080'
-          options: '--namespace=frinx-machine'
+          options: '--address=0.0.0.0 --namespace=frinx-machine'
 
       - name: Clone frinx-machine-e2e-tests
         uses: actions/checkout@v3
@@ -115,10 +115,10 @@ jobs:
           name: cypress-videos
           path: ./cypress/cypress/videos
 
-      - name: Delete AKS cluster
-        if: ${{ ( success() || failure() || cancelled() ) &&  ( steps.create_aks_cluster.outcome != 'skipped' ) }}
-        run: |
-          az aks delete --resource-group github-e2e-tests --name aks-e2e-tests --yes
+      # - name: Delete AKS cluster
+      #   if: ${{ ( success() || failure() || cancelled() ) &&  ( steps.create_aks_cluster.outcome != 'skipped' ) }}
+      #   run: |
+      #     az aks delete --resource-group github-e2e-tests --name aks-e2e-tests --yes
 
       - name: slack - GitHub Actions Slack integration
         if: ${{ always() }}
