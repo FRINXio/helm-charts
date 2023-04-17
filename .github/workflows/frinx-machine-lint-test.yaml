@@ -36,37 +36,37 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Create AKS cluster
-        id: create_aks_cluster
-        run: |
-          az aks create --resource-group github-e2e-tests --name aks-e2e-tests --node-count 1 --node-vm-size standard_b4ms --generate-ssh-keys > /dev/null
+      # - name: Create AKS cluster
+      #   id: create_aks_cluster
+      #   run: |
+      #     az aks create --resource-group github-e2e-tests --name aks-e2e-tests --node-count 1 --node-vm-size standard_b4ms --generate-ssh-keys > /dev/null
 
       - uses: azure/aks-set-context@v3
         with:
            resource-group: 'github-e2e-tests'
            cluster-name: 'aks-e2e-tests'
 
-      - name: Create namespace
-        run: |
-          kubectl create ns frinx-machine
+      # - name: Create namespace
+      #   run: |
+      #     kubectl create ns frinx-machine
 
-      - name: Set imagePullSecret
-        uses: azure/k8s-create-secret@v4
-        with:
-          namespace: 'frinx-machine'
-          secret-name: 'regcred'
-          container-registry-url: 'https://index.docker.io/v1/'
-          container-registry-username: ${{ secrets.DOCKERHUB_NAME }}
-          container-registry-password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      # - name: Set imagePullSecret
+      #   uses: azure/k8s-create-secret@v4
+      #   with:
+      #     namespace: 'frinx-machine'
+      #     secret-name: 'regcred'
+      #     container-registry-url: 'https://index.docker.io/v1/'
+      #     container-registry-username: ${{ secrets.DOCKERHUB_NAME }}
+      #     container-registry-password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Run chart-testing (install)
-        run: ct install --config .github/frinx-machine_lint_test_config.yaml --namespace frinx-machine --skip-clean-up
+      # - name: Run chart-testing (install)
+      #   run: ct install --config .github/frinx-machine_lint_test_config.yaml --namespace frinx-machine --skip-clean-up
 
-      - name: Prepare helm-chart for e2e tests
-        run: |
-          NAME=$(helm list --namespace frinx-machine | sed -n '2p' | cut -d$'\t' -f1)
-          helm dependency update charts/frinx-machine
-          helm upgrade $NAME charts/frinx-machine --set demo-workflows.enabled=true -n frinx-machine --wait --timeout 20m0s
+      # - name: Prepare helm-chart for e2e tests
+      #   run: |
+      #     NAME=$(helm list --namespace frinx-machine | sed -n '2p' | cut -d$'\t' -f1)
+      #     helm dependency update charts/frinx-machine
+      #     helm upgrade $NAME charts/frinx-machine --set demo-workflows.enabled=true -n frinx-machine --wait --timeout 20m0s
 
       - name: Port-forward UI
         # id: port_forward

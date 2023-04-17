@@ -1,5 +1,5 @@
-PORT_FORWARD_LOG="/home/runner/work/_temp/k8s-pod-forward.log"
-value='kubectl port-forward svc/krakend 8080 --namespace=frinx-machine < /dev/null &> "$PORT_FORWARD_LOG"'
+# PORT_FORWARD_LOG="/home/runner/work/_temp/k8s-pod-forward.log"
+value='kubectl port-forward svc/krakend 8080 --namespace=frinx-machine'
 while true; do
       echo "--> $value"
       $value 2>&1 >/dev/null |
