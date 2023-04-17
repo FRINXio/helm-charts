@@ -50,7 +50,8 @@ dependencies:
 
   - condition: demo-workflows.enabled
     name: demo-workflows
-    repository: https://FRINXio.github.io/helm-charts
+    # repository: https://FRINXio.github.io/helm-charts
+    repository: "file://charts/demo-workflows"
     version: 1.3.0
 
   - condition: grafana.enabled

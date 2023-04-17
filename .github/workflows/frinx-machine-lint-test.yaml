@@ -59,10 +59,16 @@ jobs:
           container-registry-username: ${{ secrets.DOCKERHUB_NAME }}
           container-registry-password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+      - name: Run chart-testing (install)
+        run: ct install --config .github/frinx-machine_lint_test_config.yaml --namespace frinx-machine --skip-clean-up
+
+      - name: Run chart-testing (install)
+        run: helm list --namespace frinx-machine
+
       - name: Install helm-chart for e2e tests
         run: |
           helm dependency update charts/frinx-machine
-          helm install fm charts/frinx-machine --set demo-workflows.enabled=true -n frinx-machine --wait --timeout 20m0s
+          helm upgrade fm charts/frinx-machine --set demo-workflows.enabled=true -n frinx-machine --wait --timeout 20m0s
 
       - name: Run smoke test
         run: |
