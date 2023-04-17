@@ -71,6 +71,7 @@ jobs:
       - name: Port-forward UI
         # id: port_forward
         run: |
+          ls .github
           ./github/script.sh &
           # ls
           # sudo sh -c "ulimit -n 65536 && exec su $LOGNAME"
