@@ -68,10 +68,11 @@ jobs:
           helm dependency update charts/frinx-machine
           helm upgrade $NAME charts/frinx-machine --set demo-workflows.enabled=true -n frinx-machine --wait --timeout 20m0s
 
-      # - name: Port-forward UI
-      #   id: port_forward
-      #   run: |
-      #     kubectl -n frinx-machine port-forward svc/krakend 8080 &
+      - name: Port-forward UI
+        # id: port_forward
+        run: |
+          sudo ulimit -Sn 65536
+          # kubectl -n frinx-machine port-forward svc/krakend 8080 &
 
       - name: Setup Kubernetes port-forward daemon
         uses: vbem/k8s-port-forward@v1
@@ -115,10 +116,10 @@ jobs:
           name: cypress-videos
           path: ./cypress/cypress/videos
 
-      # - name: Delete AKS cluster
-      #   if: ${{ ( success() || failure() || cancelled() ) &&  ( steps.create_aks_cluster.outcome != 'skipped' ) }}
-      #   run: |
-      #     az aks delete --resource-group github-e2e-tests --name aks-e2e-tests --yes
+      - name: Delete AKS cluster
+        if: ${{ ( success() || failure() || cancelled() ) &&  ( steps.create_aks_cluster.outcome != 'skipped' ) }}
+        run: |
+          az aks delete --resource-group github-e2e-tests --name aks-e2e-tests --yes
 
       - name: slack - GitHub Actions Slack integration
         if: ${{ always() }}
