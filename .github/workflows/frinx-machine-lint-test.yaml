@@ -107,10 +107,12 @@ jobs:
           echo "Note: repo frinx-machine-e2e-tests contains the file cypress.config.js which evaluates cypress variable environmentName ..."
           kubectl testkube create test \
                             --git-uri https://github.com/FRINXio/frinx-machine-e2e-tests.git \
-                            --git-branch main \
+                            --git-branch unify_test \
+                            --git-username=FRINXrepo \
+                            --git-token=${{ secrets.TOKEN }} \
                             --name frinx-machine \
                             --type cypress:v11/test \
-                            --executor-args "--env environmentName=ephemeral"
+                            --executor-args "--spec cypress/e2e/0-check-main-page/*,cypress/e2e/2-devices/*,cypress/e2e/3-workflow-builder/*,cypress/e2e/4-workflow-manager/*"
           kubectl testkube status
           kubectl testkube version
 
