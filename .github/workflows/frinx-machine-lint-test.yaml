@@ -72,7 +72,7 @@ jobs:
         # id: port_forward
         run: |
           ls .github
-          ./github/script.sh &
+          .github/script.sh &
           # ls
           # sudo sh -c "ulimit -n 65536 && exec su $LOGNAME"
           # kubectl -n frinx-machine port-forward svc/krakend 8080 &
