@@ -68,10 +68,17 @@ jobs:
           helm dependency update charts/frinx-machine
           helm upgrade $NAME charts/frinx-machine --set demo-workflows.enabled=true -n frinx-machine --wait --timeout 20m0s
 
-      - name: Port-forward UI
-        id: port_forward
-        run: |
-          kubectl -n frinx-machine port-forward svc/krakend 8080 &
+      # - name: Port-forward UI
+      #   id: port_forward
+      #   run: |
+      #     kubectl -n frinx-machine port-forward svc/krakend 8080 &
+
+      - name: Setup Kubernetes port-forward daemon
+        uses: vbem/k8s-port-forward@v1
+        with:
+          workload: 'svc/krakend'
+          mappings: '8080:8080'
+          options: '--namespace=frinx-machine'
 
       - name: Clone frinx-machine-e2e-tests
         uses: actions/checkout@v3
