@@ -112,6 +112,7 @@ jobs:
                             --git-token=${{ secrets.TOKEN }} \
                             --name frinx-machine \
                             --type cypress:v11/test \
+                            --test-content-type git-dir \
                             --executor-args "--spec cypress/e2e/0-check-main-page/*,cypress/e2e/2-devices/*,cypress/e2e/3-workflow-builder/*,cypress/e2e/4-workflow-manager/*"
           kubectl testkube status
           kubectl testkube version
