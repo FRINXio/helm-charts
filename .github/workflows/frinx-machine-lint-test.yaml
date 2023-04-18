@@ -108,7 +108,6 @@ jobs:
           CYPRESS_host: http://krakend:8080
 
       - name: Show port-forward log
-        if: failure()
         id: port_forward_log
         run: |
           cat /home/runner/work/_temp/k8s-pod-forward*
