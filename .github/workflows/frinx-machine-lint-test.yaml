@@ -76,7 +76,7 @@ jobs:
           tar xzf kubefwd_Linux_x86_64.tar.gz
           sudo cp kubefwd /usr/local/bin/kubefwd
           sudo chmod a+x /usr/local/bin/kubefwd
-          sudo -E kubefwd svc -n frinx-machine -f metadata.name=krakend
+          sudo -E kubefwd svc -n frinx-machine -f metadata.name=krakend &
 
       # - name: Port-forward UI
       #   # id: port_forward
@@ -90,40 +90,40 @@ jobs:
       #     mappings: '8080:8080'
       #     options: '--address=0.0.0.0 --namespace=frinx-machine'
 
-      # - name: Clone frinx-machine-e2e-tests
-      #   uses: actions/checkout@v3
-      #   with:
-      #     repository: FRINXio/frinx-machine-e2e-tests
-      #     ref: unify_test
-      #     token: ${{ secrets.TOKEN }}
-      #     path: './cypress'
+      - name: Clone frinx-machine-e2e-tests
+        uses: actions/checkout@v3
+        with:
+          repository: FRINXio/frinx-machine-e2e-tests
+          ref: unify_test
+          token: ${{ secrets.TOKEN }}
+          path: './cypress'
 
-      # - name: Cypress tests
-      #   id: run_test
-      #   uses: cypress-io/github-action@v5
-      #   with:
-      #     spec: cypress/e2e/0-check-main-page/*,cypress/e2e/2-devices/*,cypress/e2e/3-workflow-builder/*,cypress/e2e/4-workflow-manager/*
-      #     working-directory: ./cypress
-      #   env:
-      #     CYPRESS_host: localhost:8080
+      - name: Cypress tests
+        id: run_test
+        uses: cypress-io/github-action@v5
+        with:
+          spec: cypress/e2e/0-check-main-page/*,cypress/e2e/2-devices/*,cypress/e2e/3-workflow-builder/*,cypress/e2e/4-workflow-manager/*
+          working-directory: ./cypress
+        env:
+          CYPRESS_host: krakend:8080
 
-      # - name: Show port-forward log
-      #   if: failure()
-      #   id: port_forward_log
-      #   run: |
-      #     cat /home/runner/work/_temp/k8s-pod-forward*
+      - name: Show port-forward log
+        if: failure()
+        id: port_forward_log
+        run: |
+          cat /home/runner/work/_temp/k8s-pod-forward*
 
-      # - uses: actions/upload-artifact@v3
-      #   if: failure()
-      #   with:
-      #     name: cypress-screenshots
-      #     path: ./cypress/cypress/screenshots
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: ./cypress/cypress/screenshots
 
-      # - uses: actions/upload-artifact@v3
-      #   if: failure()
-      #   with:
-      #     name: cypress-videos
-      #     path: ./cypress/cypress/videos
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-videos
+          path: ./cypress/cypress/videos
 
       # - name: Delete AKS cluster
       #   if: ${{ ( success() || failure() || cancelled() ) &&  ( steps.create_aks_cluster.outcome != 'skipped' ) }}
