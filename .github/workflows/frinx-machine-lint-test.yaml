@@ -105,7 +105,7 @@ jobs:
           spec: cypress/e2e/0-check-main-page/*,cypress/e2e/2-devices/*,cypress/e2e/3-workflow-builder/*,cypress/e2e/4-workflow-manager/*
           working-directory: ./cypress
         env:
-          CYPRESS_host: krakend:8080
+          CYPRESS_host: http://krakend:8080
 
       - name: Show port-forward log
         if: failure()
