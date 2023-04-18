@@ -74,8 +74,8 @@ jobs:
           ls ~/
           wget https://github.com/txn2/kubefwd/releases/download/1.22.5/kubefwd_Linux_x86_64.tar.gz
           tar xzf kubefwd_Linux_x86_64.tar.gz
-          sudo move kubefwd /usr/local/bin/telepresence
-          sudo chmod a+x /usr/local/bin/telepresence
+          sudo cp kubefwd /usr/local/bin/kubefwd
+          sudo chmod a+x /usr/local/bin/kubefwd
           kubefwd svc -n frinx-machine -f metadata.name=krakend -c ~/.kube/config
 
       # - name: Port-forward UI
