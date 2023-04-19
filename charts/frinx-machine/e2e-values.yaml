@@ -55,14 +55,23 @@ uniconfig:
       memory: 12Gi
 
 demo-workflows:
+  enabled: true
+  fullnameOverride: "demo-workflows"
+  image:
+    repository: "frinx/demo-workflows"
+    tag: "2.0.6"
   sample-topology:
-    resources:
-      limits:
-        cpu: 600m
-        memory: 12Gi
-      requests:
-        cpu: 25m
-        memory: 10Gi
+    enabled: false
+
+sample-topology:
+  enabled: true
+  resources:
+    limits:
+      cpu: 600m
+      memory: 12Gi
+    requests:
+      cpu: 25m
+      memory: 10Gi
 
 grafana:
   enabled: false
