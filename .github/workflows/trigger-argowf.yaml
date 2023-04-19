@@ -1,0 +1,65 @@
+name: Trigger Argo-workflow
+
+on:
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'charts/frinx-machine/**'
+
+jobs:
+  trigger_argo-wf:
+    runs-on: [self-hosted, kaas]
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        
+    - name: Set short git commit SHA
+      id: vars
+      run: |
+        calculatedSha=$(git rev-parse --short ${{ github.event.pull_request.head.sha }})
+        echo "short_sha=$calculatedSha" >> $GITHUB_OUTPUT
+
+    - name: Invoke argo-event hook
+      run: |
+        curl --location --request POST '${{ secrets.WEBHOOK_URL }}' \
+        --header 'Authorization: ${{ secrets.WEBHOOK_SECRET }}' \
+        --header 'Content-Type: application/json' \
+        --data-raw '{
+            "title": "${{ github.event.pull_request.title }}",
+            "pr_number": "${{ github.event.number }}",
+            "event": "${{ github.event_name }}",
+            "repository": "${{ github.event.repository.name }}",
+            "owner": "${{ github.repository_owner }}",
+            "commit": "${{ github.event.pull_request.head.sha }}",
+            "commit_short": "${{ steps.vars.outputs.short_sha }}",
+            "ref": "${{ github.ref }}",
+            "head": "${{ github.head_ref }}",
+            "workflow": "${{ github.workflow }}",
+            "slack_channel": "common/slack-webhook/fx_env_demo_kaas",
+            "cypress": {
+              "branch": "unify_test",
+              "spec": "cypress/e2e/0-check-main-page/*,cypress/e2e/2-devices/*,cypress/e2e/3-workflow-builder/*,cypress/e2e/4-workflow-manager/*",
+              "host": "localhost:8080",
+              "auth0_username": "",
+              "auth0_password": "",
+              "auth0_tenant_id": "",
+              "auth0_scope": "",
+              "auth0_client_id": "",
+              "auth0_client_secret": "",    
+              "numTestsKeptInMemory": 0
+            }
+        }'
+
+    - name: Start job notification
+      run: |
+        docker run \
+          -e state=pending \
+          -e target_url=https://argo-frinx.csf.elisa.fi/workflows/ \
+          -e description="Workflow for argo workflow to take job" \
+          -e context="Argo Workflows" \
+          -e access_token="${{ secrets.AW_NOTIFICATION_TOKEN }}" \
+          -e organisation=${{ github.repository_owner }} \
+          -e app_repo="${{ github.event.repository.name }}" \
+          -e git_sha="${{ github.event.pull_request.head.sha }}" \
+          ghcr.io/sendible-labs/ci-github-notifier:stable
