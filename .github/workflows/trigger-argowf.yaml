@@ -22,8 +22,8 @@ jobs:
 
     - name: Invoke argo-event hook
       run: |
-        curl --location --request POST '${{ secrets.WEBHOOK_URL }}' \
-        --header 'Authorization: ${{ secrets.WEBHOOK_SECRET }}' \
+        curl --location --request POST '${{ secrets.ARGO_EVENT_URL }}' \
+        --header 'Authorization: ${{ secrets.ARGO_EVENT_SECRET }}' \
         --header 'Content-Type: application/json' \
         --data-raw '{
             "title": "${{ github.event.pull_request.title }}",
