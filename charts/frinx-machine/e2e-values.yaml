@@ -56,12 +56,6 @@ uniconfig:
 
 demo-workflows:
   enabled: true
-  fullnameOverride: "demo-workflows"
-  image:
-    repository: "frinx/demo-workflows"
-    tag: "2.0.6"
-  sample-topology:
-    enabled: false
 
 sample-topology:
   enabled: true
