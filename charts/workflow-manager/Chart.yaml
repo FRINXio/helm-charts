@@ -15,11 +15,11 @@ dependencies:
 annotations:
   artifacthub.io/images: |
     - name: conductor-server
-      image: frinx/conductor-server:2.0.2
+      image: frinx/conductor-server:2.1.3
     - name: workflow-proxy
-      image: frinx/workflow-proxy:1.0.11
+      image: frinx/workflow-proxy:2.1.4
     - name: schellar
-      image: frinx/schellar:2.0.0
+      image: frinx/schellar:3.0.0
   artifacthub.io/changes: |
     - kind: removed
       description: Remove elasticsearch
