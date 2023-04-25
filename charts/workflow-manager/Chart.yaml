@@ -21,7 +21,7 @@ annotations:
     - name: schellar
       image: frinx/schellar:2.0.0
   artifacthub.io/changes: |
-    - kind: changed
+    - kind: removed
       description: Remove elasticsearch
       links:
         - name: GitHub PR
