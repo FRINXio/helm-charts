@@ -63,7 +63,7 @@ spec:
               port: http
             initialDelaySeconds: 20
             timeoutSeconds: 5
-            failureThreshold: 5
+            failureThreshold: 10
           readinessProbe:
             httpGet:
               path: /probe/readiness
@@ -106,11 +106,13 @@ spec:
               path: /health
               port: http-conductor
             timeoutSeconds: 5
+            initialDelaySeconds: 60
           readinessProbe:
             httpGet:
               path: /health
               port: http-conductor
             timeoutSeconds: 5
+            initialDelaySeconds: 60
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
