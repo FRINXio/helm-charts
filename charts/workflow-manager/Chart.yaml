@@ -21,8 +21,14 @@ annotations:
     - name: schellar
       image: frinx/schellar:2.0.0
   artifacthub.io/changes: |
-    - kind: fixed
-      description: Fix smoke test in non-root container
+    - kind: changed
+      description: Remove elasticsearch
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/248
+          url: https://github.com/FRINXio/helm-charts/pull/253
+    - kind: removed
+      description: Remove config.properties
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/253
+ 
