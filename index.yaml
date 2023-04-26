@@ -10636,6 +10636,43 @@ entries:
   workflow-manager:
   - annotations:
       artifacthub.io/changes: |
+        - kind: removed
+          description: Remove elasticsearch
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/253
+        - kind: removed
+          description: Remove config.properties
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/253
+      artifacthub.io/images: |
+        - name: conductor-server
+          image: frinx/conductor-server:2.1.3
+        - name: workflow-proxy
+          image: frinx/workflow-proxy:2.1.4
+        - name: schellar
+          image: frinx/schellar:3.0.0
+    apiVersion: v2
+    appVersion: 2.1.3
+    created: "2023-04-26T08:12:45.445059392Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deploying conductor-server and workflow-proxy
+    digest: b3a7a48b3ba0093c0618767ba0b08ea57f6934921346d5a49d8ef45d1835cb43
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: workflow-manager
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-2.0.0/workflow-manager-2.0.0.tgz
+    version: 2.0.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: Fix smoke test in non-root container
           links:
@@ -10778,4 +10815,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-04-20T09:53:48.36067369Z"
+generated: "2023-04-26T08:12:45.446121692Z"
