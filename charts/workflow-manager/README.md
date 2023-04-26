@@ -69,21 +69,14 @@ helm uninstall [RELEASE_NAME]
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
-| `configScripts.config.properties` | config.properties file for conductor | `{{- .Files.Get "configs/config.properties" }}` |
 | `configScripts.log4j.properties` | log4j.properties file for conductor | `{{ .Files.Get "configs/log4j.properties" }}` |
-| `env.CONFIG_PROP` | CONFIG_PROP env value | `config.properties` |
-| `env._JAVA_OPTIONS` | _JAVA_OPTIONS env value | `-Xmx2g` |
-| `env.LOG4J_PROP` | LOG4J_PROP env value | `log4j.properties` |
-| `env.ELASTIC_CLUSTER_HEALTH_COLOR` | ELASTIC_CLUSTER_HEALTH_COLOR env value | `yellow` |
-| `env.SCHELLAR_TARGET` | SCHELLAR_TARGET env value | `http://schellar:3000` |
-| `env.SPRING_DATASOURCE_URL` | SPRING_DATASOURCE_URL env value | `jdbc:postgresql://postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true` |
-| `env.SPRING_DATASOURCE_HOSTNAME` | Hostname of external database | |
-| `env.SPRING_DATASOURCE_USERNAME` | SPRING_DATASOURCE_USERNAME env value | `postgres` |
-| `env.SPRING_DATASOURCE_PASSWORD` | SPRING_DATASOURCE_PASSWORD env value | `postgres` |
-| `env.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_URL` | CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_URL env value | `jdbc:postgresql://postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true` |
-| `env.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_USERNAME` | CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_USERNAME env value | `postgres` |
-| `env.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_PASSWORD` | CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_PASSWORD env value | `postgres` |
-| `env.CONDUCTOR_ELASTICSEARCH_URL` | CONDUCTOR_ELASTICSEARCH_URL env value | `http://elasticsearch-master-headless:9200` |
+| `conductorEnv.CONFIG_PROP` | CONFIG_PROP env value | `config.properties` |
+| `conductorEnv._JAVA_OPTIONS` | _JAVA_OPTIONS env value | `-Xmx2g` |
+| `conductorEnv.LOG4J_PROP` | LOG4J_PROP env value | `log4j.properties` |
+| `conductorEnv.SPRING_DATASOURCE_HOSTNAME` | Hostname of external database | |
+| `conductorEnv.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_HOSTNAME` | CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_HOSTNAME env value | |
+| `conductorEnv.SPRING_SEARCHDATASOURCE_HOSTNAME` | SPRING_SEARCHDATASOURCE_HOSTNAME env value | |
+| `conductorExtraEnv`| Extra env variables for conductor | |
 | `proxyEnv.AUTH_ENABLED` | AUTH_ENABLED env value | `false` |
 | `proxyEnv.OAUTH2_AUTH_URL` | OAUTH2_AUTH_URL env value | `"https://login.microsoftonline.com/common/oauth2/v2.0/authorize"` |
 | `proxyEnv.OAUTH2_TOKEN_URL` | OAUTH2_TOKEN_URL env value | `"/api/workflow-manager/docs/token"` |
@@ -96,13 +89,6 @@ helm uninstall [RELEASE_NAME]
 | `schellarEnv.POSTGRES_MIGRATIONS_DIR` | POSTGRES_MIGRATIONS_DIR env value for schellar | `postgres` |
 | `schellarEnv.POSTGRES_PORT` | POSTGRES_PORT env value for schellar | `5432` |
 | `schellarEnv.POSTGRES_DATABASE_URL` | POSTGRES_DATABASE_URL env value for remote database for schellar | `"host=postgresql port=5432 user=postgres password=postgres database=schellar"` |
-| `elasticsearch.enabled` | Switch to enable or disable the elasticsearch helm chart | `true` |
-| `elasticsearch.replicas` | Number of replics | `1` |
-| `elasticsearch.minimumMasterNodes` | Minimum number of master nodes | `1` |
-| `elasticsearch.imageTag` | Image tag| `6.7.1` |
-| `resources` | Resources for elasticsearch | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/workflow-manager/values.yaml) |
-| `elasticsearch.volumeClaimTemplate.resources.requests.storage` | Requests for storage space | `1Gi` |
-| `elasticsearch.clusterHealthCheckParams` | Cluster health check params | `"wait_for_status=yellow&timeout=5s"` |
 | `postgresql.enabled` | Switch to enable or disable the PostgreSQL helm chart | `true` |
 | `postgresql.auth.enablePostgresUser` | Assign a password to the "postgres" admin user. Otherwise, remote access will be blocked for this user | `true` |
 | `postgresql.auth.username` | Name for a custom user to create | `postgresU` |

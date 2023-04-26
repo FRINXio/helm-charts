@@ -31,22 +31,15 @@ spec:
       initContainers:
       - name: check-db-ready
         image: postgres:alpine
-        {{ if .Values.env.SPRING_DATASOURCE_HOSTNAME }}
+        {{ if .Values.conductorEnv.SPRING_DATASOURCE_HOSTNAME }}
         command: ['sh', '-c',
-          "until pg_isready -h {{ .Values.env.SPRING_DATASOURCE_HOSTNAME }} -p 5432 -U {{ .Values.env.SPRING_DATASOURCE_USERNAME }};
+          "until pg_isready -h {{ .Values.conductorEnv.SPRING_DATASOURCE_HOSTNAME }} -p 5432 -U {{ .Values.conductorExtraEnv.SPRING_DATASOURCE_USERNAME }};
           do echo waiting for database; sleep 2; done;"]
         {{ else }}
         command: ['sh', '-c',
-          "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432 -U {{ .Values.env.SPRING_DATASOURCE_USERNAME }};
+          "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432 -U {{ .Values.conductorExtraEnv.SPRING_DATASOURCE_USERNAME }};
           do echo waiting for database; sleep 2; done;"]
         {{ end }}
-      - name: check-elk-ready
-        image: curlimages/curl
-        command: ["/bin/sh","-c"]
-        args: ['while [ $(curl -ksw "%{http_code}" "elasticsearch-master:9200/_cluster/health?wait_for_status=yellow" -o /dev/null) -ne 200 ];
-          do sleep 5; echo "waiting for elasticsearch";
-          done;
-          echo "connection successful!"']
       containers:
         # conductor-proxy
         - name: {{ .Chart.Name }}-proxy
@@ -70,7 +63,7 @@ spec:
               port: http
             initialDelaySeconds: 20
             timeoutSeconds: 5
-            failureThreshold: 5
+            failureThreshold: 10
           readinessProbe:
             httpGet:
               path: /probe/readiness
@@ -112,44 +105,42 @@ spec:
             httpGet:
               path: /health
               port: http-conductor
-            initialDelaySeconds: 60
             timeoutSeconds: 5
+            initialDelaySeconds: 60
           readinessProbe:
             httpGet:
               path: /health
               port: http-conductor
-            initialDelaySeconds: 60
             timeoutSeconds: 5
+            initialDelaySeconds: 60
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
             - name: "CONFIG_PROP"
-              value: {{ .Values.env.CONFIG_PROP }}
+              value: {{ .Values.conductorEnv.CONFIG_PROP }}
             - name: "LOG4J_PROP"
-              value: {{ .Values.env.LOG4J_PROP }}
+              value: {{ .Values.conductorEnv.LOG4J_PROP }}
             - name: "_JAVA_OPTIONS"
-              value: {{ .Values.env._JAVA_OPTIONS}}
-              {{ if .Values.postgresql.enabled }}
-            - name: "spring_datasource_url"
+              value: {{ .Values.conductorEnv._JAVA_OPTIONS}}
+            {{ if .Values.postgresql.enabled }}
+            - name: "SPRING_DATASOURCE_URL"
               value: jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
-            - name: "conductor_externalPayloadStorage_postgres_url"
+            - name: "CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_URL"
               value: jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
-              {{ else }}
-            - name: "spring_datasource_url"
-              value: {{ .Values.env.SPRING_DATASOURCE_URL}}
-            - name: "conductor_externalPayloadStorage_postgres_url"
-              value: {{ .Values.env.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_URL}}
-              {{ end }}
-            - name: "spring_datasource_username"
-              value: {{ .Values.env.SPRING_DATASOURCE_USERNAME}}
-            - name: "spring_datasource_password"
-              value: {{ .Values.env.SPRING_DATASOURCE_PASSWORD}}
-            - name: "conductor_externalPayloadStorage_postgres_username"
-              value: {{ .Values.env.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_USERNAME}}
-            - name: "conductor_externalPayloadStorage_postgres_password"
-              value: {{ .Values.env.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_PASSWORD}}
-            - name: "conductor_elasticsearch_url"
-              value: {{ .Values.env.CONDUCTOR_ELASTICSEARCH_URL}}
+            - name: "SPRING_SEARCHDATASOURCE_URL"
+              value: jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
+            {{ else }}
+            - name: "SPRING_DATASOURCE_URL"
+              value: "jdbc:postgresql://{{ .Values.conductorEnv.SPRING_DATASOURCE_HOSTNAME}}:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true"
+            - name: "CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_URL"
+              value: "jdbc:postgresql://{{ .Values.conductorEnv.CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_HOSTNAME}}:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true"
+            - name: "SPRING_SEARCHDATASOURCE_URL"
+              value: "jdbc:postgresql://{{ .Values.conductorEnv.SPRING_SEARCHDATASOURCE_HOSTNAME}}:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true"
+            {{ end }}
+          {{- range $key, $val := .Values.conductorExtraEnv }}
+            - name: {{ $key | quote }}
+              value: {{ $val | quote }}
+          {{- end }}
           volumeMounts:
             - name: {{ include "workflow-manager.fullname" . }}-config
               mountPath: /app/config/

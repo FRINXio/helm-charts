@@ -13,12 +13,12 @@ image:
 proxyImage:
   repository: frinx/workflow-proxy
   pullPolicy: IfNotPresent
-  tag: "1.0.11"
+  tag: "2.1.4"
 
 schellarImage:
   repository: frinx/schellar
   pullPolicy: IfNotPresent
-  tag: "2.0.0"
+  tag: "3.0.0"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -79,27 +79,66 @@ tolerations: []
 
 affinity: {}
 
-
 configScripts:
-  config.properties: |
-    {{- .Files.Get "configs/config.properties" }}
   log4j.properties: |
     {{ .Files.Get "configs/log4j.properties" }}
 
-env:
+conductorEnv:
   CONFIG_PROP: config.properties
   _JAVA_OPTIONS: -Xmx2g
   LOG4J_PROP: log4j.properties
-  ELASTIC_CLUSTER_HEALTH_COLOR: yellow
-  SCHELLAR_TARGET: http://schellar:3000
-  SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
   SPRING_DATASOURCE_HOSTNAME:
+  CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_HOSTNAME:
+  SPRING_SEARCHDATASOURCE_HOSTNAME:
+
+conductorExtraEnv:
+  CONDUCTOR_APP_OWNEREMAILMANDATORY: false
+  CONDUCTOR_DB_TYPE: postgres
   SPRING_DATASOURCE_USERNAME: postgresU
   SPRING_DATASOURCE_PASSWORD: postgresP
-  CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_URL: jdbc:postgresql://postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
-  CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_USERNAME: postgresU
-  CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_PASSWORD: postgresP
-  CONDUCTOR_ELASTICSEARCH_URL: http://elasticsearch-master-headless:9200
+  SPRING_SEARCHDATASOURCE_USERNAME: postgresU
+  SPRING_SEARCHDATASOURCE_PASSWORD: postgresP
+  SPRING_SEARCHDATASOURCE_HIKARI_MAXIMUMPOOLSIZE: 8
+  CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME: postgresU
+  CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD: postgresP
+  CONDUCTOR_APP_ASYNCINDEXINGENABLED: false
+  CONDUCTOR_INDEXING_ENABLED: false
+  CONDUCTOR_ARCHIVE_DB_TYPE: postgres
+  CONDUCTOR_ARCHIVE_DB_ENABLED: true
+  CONDUCTOR_ARCHIVE_DB_INDEXER_THREADCOUNT: 4
+  CONDUCTOR_ARCHIVE_DB_INDEXER_POLLINGINTERVAL: 10
+  CONDUCTOR_ADDITIONAL_MODULES: com.netflix.conductor.contribs.metrics.MetricsRegistryModule,com.netflix.conductor.contribs.metrics.LoggingMetricsModule
+  CONDUCTOR_METRICSLOGGER_ENABLED: true
+  CONDUCTOR_METRICSLOGGER_REPORTPERIODSECONDS: 15
+  CONDUCTOR_METRICSDATADOG_ENABLED: false
+  CONDUCTOR_METRICSPROMETHEUS_ENABLED: false
+  # Increase payload threshold limits for transferring big schemas to PostgreSQL
+  CONDUCTOR_APP_WORKFLOWINPUTPAYLOADSIZETHRESHOLD: 85
+  CONDUCTOR_APP_WORKFLOWOUTPUTPAYLOADSIZETHRESHOLD: 85
+  CONDUCTOR_APP_MAXWORKFLOWINPUTPAYLOADSIZETHRESHOLD: 102400
+  CONDUCTOR_APP_MAXWORKFLOWOUTPUTPAYLOADSIZETHRESHOLD: 102400
+  CONDUCTOR_APP_TASKINPUTPAYLOADSIZETHRESHOLD: 85
+  CONDUCTOR_APP_TASKOUTPUTPAYLOADSIZETHRESHOLD: 85
+  CONDUCTOR_APP_MAXTASKINPUTPAYLOADSIZETHRESHOLD: 85
+  CONDUCTOR_APP_MAXTASKOUTPUTPAYLOADSIZETHRESHOLD: 85
+  # PostgreSQL External Payload Storage variables
+  CONDUCTOR_EXTERNALPAYLOADSTORAGE_TYPE: postgres
+  CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_CONDUCTORURL: http://workflow-proxy:8088/proxy
+  CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_MAXDATAROWS: 100000
+  CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_MAXDATADAYS: 0
+  CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_MAXDATAMONTHS: 0
+  CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_MAXDATAYEARS: 1
+  LOADSAMPLE: false
+  # Internal conductor properties
+  CONDUCTOR_APP_EXECUTORSERVICEMAXTHREADCOUNT: 100
+  CONDUCTOR_APP_SYSTEMTASKWORKERCALLBACKDURATION: 10
+  CONDUCTOR_APP_WORKFLOWOFFSETTIMEOUT: 5
+  CONDUCTOR_APP_TASKEXECUTIONPOSTPONEDURATION: 0
+  CONDUCTOR_APP_WORKFLOWEXECUTIONLOCKENABLED: true
+  # Frinx contribution configs
+  CONDUCTOR_WORKFLOWEXECUTIONLOCK_TYPE: local_only
+  CONDUCTOR_WORKFLOWREPAIRSERVICE_ENABLED: false
+  SPRING_AUTOCONFIGURE_EXCLUDE: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
 
 proxyEnv:
   AUTH_ENABLED: false
@@ -116,25 +155,6 @@ schellarEnv:
   POSTGRES_MIGRATIONS_DIR: migrations
   POSTGRES_PORT: 5432
   POSTGRES_DATABASE_URL: "host=postgresql port=5432 user=postgres password=postgres database=schellar"
-
-elasticsearch:
-  enabled: true
-  replicas: 1
-  minimumMasterNodes: 1
-  imageTag: "6.7.1"
-  resources:
-    requests:
-      cpu: 774m
-    limits:
-      cpu: 774m
-  volumeClaimTemplate:
-    resources:
-      requests:
-        storage: 1Gi
-  clusterHealthCheckParams: "wait_for_status=yellow&timeout=5s"
-  sysctlInitContainer:
-    enabled: false
-  maxUnavailable: 0
 
 postgresql:
   enabled: true
