@@ -21,16 +21,13 @@ resource-manager:
       memory: 100Mi
 
 workflow-manager:
-  elasticsearch:
-    sysctlInitContainer:
-      enabled: false
   resources:
     limits:
-      cpu: 500m
-      memory: 1Gi
+      cpu: 5000m
+      memory: 5Gi
     requests:
-      cpu: 25m
-      memory: 100Mi
+      cpu: 4000m
+      memory: 4000Mi
 
 inventory:
   resources:
