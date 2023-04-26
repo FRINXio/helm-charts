@@ -59,7 +59,7 @@ jobs:
           -e target_url=https://argo-frinx.csf.elisa.fi/workflows/ \
           -e description="Workflow for argo workflow to take job" \
           -e context="Argo Workflows" \
-          -e access_token="${{ secrets.AW_NOTIFICATION_TOKEN }}" \
+          -e access_token="${{ secrets.ARGO_WF_NOTIFICATION_GH_TOKEN }}" \
           -e organisation=${{ github.repository_owner }} \
           -e app_repo="${{ github.event.repository.name }}" \
           -e git_sha="${{ github.event.pull_request.head.sha }}" \
