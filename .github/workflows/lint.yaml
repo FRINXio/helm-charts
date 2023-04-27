@@ -6,6 +6,7 @@ on:
       - 'charts/demo-workflows/**'
       - 'charts/worker/**'
       - 'charts/topology-discovery/**'
+      - 'charts/frinx-machine/**'
 
 jobs:
   lint-test:
