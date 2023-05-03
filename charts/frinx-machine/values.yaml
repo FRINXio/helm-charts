@@ -129,7 +129,7 @@ uniconfig:
   enabled: true
   image:
     repository: "frinx/uniconfig"
-    tag: "5.1.4"
+    tag: "5.1.6"
   imagePullSecrets:
     - name: regcred
   postgresql:
