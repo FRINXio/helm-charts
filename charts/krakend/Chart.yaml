@@ -16,4 +16,4 @@ annotations:
       description: add option to specify timeout
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/255
+          url: https://github.com/FRINXio/helm-charts/pull/268
