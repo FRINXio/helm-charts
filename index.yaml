@@ -502,6 +502,96 @@ entries:
     version: 1.0.0
   frinx-machine:
   - apiVersion: v2
+    created: "2023-05-03T08:06:11.771830838Z"
+    dependencies:
+    - condition: krakend.enabled
+      name: krakend
+      repository: https://FRINXio.github.io/helm-charts
+      version: 2.8.2
+    - condition: frinx-frontend.enabled
+      name: frinx-frontend
+      repository: https://FRINXio.github.io/helm-charts
+      version: 3.1.1
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.9.13
+    - condition: resource-manager.enabled
+      name: resource-manager
+      repository: https://FRINXio.github.io/helm-charts
+      version: 1.1.1
+    - condition: workflow-manager.enabled
+      name: workflow-manager
+      repository: https://FRINXio.github.io/helm-charts
+      version: 2.0.0
+    - condition: inventory.enabled
+      name: inventory
+      repository: https://FRINXio.github.io/helm-charts
+      version: 3.1.2
+    - alias: uniconfig-postgresql
+      condition: uniconfig-postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.9.13
+    - condition: uniconfig.enabled
+      name: uniconfig
+      repository: https://FRINXio.github.io/helm-charts
+      version: 5.0.0
+    - condition: demo-workflows.enabled
+      name: demo-workflows
+      repository: https://FRINXio.github.io/helm-charts
+      version: 1.3.0
+    - condition: sample-topology.enabled
+      name: sample-topology
+      repository: https://FRINXio.github.io/helm-charts
+      version: 1.1.4
+    - condition: grafana.enabled
+      name: frinx-grafana-configs
+      repository: https://FRINXio.github.io/helm-charts
+      version: 1.x.x
+    - condition: grafana.enabled
+      name: grafana
+      repository: https://grafana.github.io/helm-charts
+      version: 6.52.9
+    - condition: influxdb.enabled
+      name: influxdb2
+      repository: https://helm.influxdata.com
+      version: 2.1.0
+    - condition: telegraf-ds.enabled
+      name: telegraf-ds
+      repository: https://helm.influxdata.com
+      version: 1.1.1
+    - condition: loki.enabled
+      name: loki
+      repository: https://grafana.github.io/helm-charts
+      version: 2.16.0
+    - condition: loki.enabled
+      name: promtail
+      repository: https://grafana.github.io/helm-charts
+      version: 6.3.0
+    - condition: frinx-arango-config.enabled
+      name: frinx-arango-config
+      repository: https://FRINXio.github.io/helm-charts
+      version: 1.3.0
+    - condition: frinx-arango-config.enabled
+      name: kube-arangodb
+      repository: https://arangodb.github.io/kube-arangodb
+      version: 1.2.15
+    - condition: topology-discovery.enabled
+      name: topology-discovery
+      repository: https://FRINXio.github.io/helm-charts
+      version: 2.2.0
+    description: Kubernetes deployment of FRINX-machine
+    digest: 8cd6cb235a4a2618268426a531a3dc1fad7ef08d85ebdc5c47179220f44a6c3f
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-machine
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-machine-0.4.61/frinx-machine-0.4.61.tgz
+    version: 0.4.61
+  - apiVersion: v2
     created: "2023-04-28T11:20:55.810179051Z"
     dependencies:
     - condition: krakend.enabled
@@ -11265,4 +11355,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-04-28T11:20:55.81123196Z"
+generated: "2023-05-03T08:06:11.772948631Z"
