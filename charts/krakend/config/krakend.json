@@ -11,7 +11,7 @@
     "prefer_server_cipher_suites": true, 
     "disabled": {{ env "TLS_DISABLED" }}
   },
-  "timeout": "2m",
+  "timeout": "{{ env "DEFAULT_TIMEOUT" }}",
   "plugin": {
     "pattern": ".so",
     "folder": "/usr/local/lib/krakend/"

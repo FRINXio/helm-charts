@@ -3,7 +3,7 @@ name: krakend
 description: FRINX KrakenD API Gateway for FRINX-machine
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 2.8.3
+version: 2.9.0
 appVersion: "1.0.5"
 maintainers:
   - name: FRINX
@@ -12,8 +12,8 @@ annotations:
     - name: krakend
       image: frinx/krakend:1.0.5
   artifacthub.io/changes: |
-    - kind: fixed
-      description: add endpoints for TD bgp ls update
+    - kind: added
+      description: add option to specify DEFAULT_TIMEOUT and UNICONFIG_TIMEOUT
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/255
+          url: https://github.com/FRINXio/helm-charts/pull/268

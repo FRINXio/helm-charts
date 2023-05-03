@@ -80,6 +80,8 @@ affinity: {}
 deployment:
   env:
     TLS_DISABLED: true
+    DEFAULT_TIMEOUT: "2m"
+    UNICONFIG_TIMEOUT: "2m"
     KRAKEND_TLS_PROTOCOL: "http"
     # IF false, THEN Fake-Frinx-Token Used
     # IF true,  THEN Azure AD Token Required
