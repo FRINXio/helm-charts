@@ -54,3 +54,4 @@ helm uninstall [RELEASE_NAME]
 | `env.X_TENANT_ID` | X_TENANT_ID env variable | `frinx` |
 | `env.X_AUTH_USER_GROUP` | X_AUTH_USER_GROUP env variable | `network-admin` |
 | `env.UNICONFIG_URL_BASE` | UNICONFIG_URL_BASE env variable | `http://uniconfig:8181/rests` |
+| `extraSecrets` | Option to add secrets into the pod in key: value form where key is name of secret and value is name of the secret object | |
