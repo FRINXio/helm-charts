@@ -78,6 +78,13 @@ spec:
             - name: {{ $key | quote }}
               value: {{ $val | quote }}
             {{- end }}
+            {{- range $key, $val := .Values.extraSecrets }}
+            - name: {{ $key | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $val | quote }}
+                  key: {{ $key | quote }}
+            {{- end }}
           volumeMounts:
           - name: app-volume
             mountPath: /home/app
