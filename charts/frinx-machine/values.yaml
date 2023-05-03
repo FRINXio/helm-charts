@@ -58,7 +58,7 @@ workflow-manager:
     tag: "2.1.4"
   proxyImage:
     repository: "frinx/workflow-proxy"
-    tag: "2.1.4"
+    tag: "2.1.5"
   schellarImage:
     repository: "frinx/schellar"
     tag: "3.0.0"
