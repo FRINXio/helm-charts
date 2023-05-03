@@ -9364,6 +9364,29 @@ entries:
   krakend:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: add option to specify DEFAULT_TIMEOUT and UNICONFIG_TIMEOUT
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/268
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:1.0.5
+    apiVersion: v2
+    appVersion: 1.0.5
+    created: "2023-05-03T08:51:54.23460754Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: fbc6abead1a407627fec24666a69344df8a266eca3a563956d04c257adf6ea3b
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-2.9.0/krakend-2.9.0.tgz
+    version: 2.9.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: add endpoints for TD bgp ls update
           links:
@@ -11376,4 +11399,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-05-03T08:34:06.572663261Z"
+generated: "2023-05-03T08:51:54.235827946Z"
