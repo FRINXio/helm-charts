@@ -13,7 +13,7 @@ annotations:
       image: frinx/krakend:1.0.5
   artifacthub.io/changes: |
     - kind: added
-      description: add option to specify timeout
+      description: add option to specify DEFAULT_TIMEOUT and UNICONFIG_TIMEOUT
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/268
