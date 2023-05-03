@@ -93,6 +93,10 @@ spec:
               value: "/tmp/output.json"
             - name: TLS_DISABLED
               value: {{ .Values.deployment.env.TLS_DISABLED | quote }}
+            - name: DEFAULT_TIMEOUT
+              value: {{ .Values.deployment.env.DEFAULT_TIMEOUT | quote }}
+            - name: UNICONFIG_TIMEOUT
+              value: {{ .Values.deployment.env.UNICONFIG_TIMEOUT | quote }}
             - name: KRAKEND_TLS_PROTOCOL
               value: {{ .Values.deployment.env.KRAKEND_TLS_PROTOCOL | quote }}
             - name: AUTH_ENABLED

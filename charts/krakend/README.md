@@ -64,6 +64,8 @@ helm uninstall [RELEASE_NAME]
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
 | `deployment.env.TLS_DISABLED` | TLS_DISABLED env variable | `true` |
+| `deployment.env.DEFAULT_TIMEOUT` | DEFAUTL_TIMEOUT for requests | `"2m"` |
+| `deployment.env.UNICONFIG_TIMEOUT` | UNICONFIG_TIMEOUT for uniconfig requests | `"2m"` |
 | `deployment.env.KRAKEND_TLS_PROTOCOL` | KRAKEND_TLS_PROTOCOL env variable | `"http"` |
 | `deployment.env.AUTH_ENABLED` | AUTH_ENABLED env variable | `false` |
 | `deployment.env.PROXY_ENABLED` | PROXY_ENABLED env variable | `false` |
