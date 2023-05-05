@@ -39,8 +39,8 @@ helm uninstall [RELEASE_NAME]
 | `krakend` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/krakend) |
 | `frinx-frontend` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/frinx-frontend) |
 | `postgresql` | [ArtifactHub](https://artifacthub.io/packages/helm/bitnami/postgresql) |
-| `uniresource` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/uniresource) |
-| `uniflow` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/uniflow) |
+| `resource-manager` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/resource-manager) |
+| `workflow-manager` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/workflow-manager) |
 | `inventory` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/inventory) |
 | `uniconfig-postgresql` | [ArtifactHub](https://artifacthub.io/packages/helm/bitnami/postgresql) |
 | `uniconfig` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/uniconfig) |
