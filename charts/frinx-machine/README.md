@@ -50,18 +50,15 @@ helm uninstall [RELEASE_NAME]
 
 | **Minimal hardware requirements for production** |                      |
 |--------------------------------------------------|----------------------|
-| Compute  (vCores)                                | 8                    |
-| Memory (RAM)                                     | 24 GB                |
-| Storage                                          | 40 GB                |
+| Compute  (vCores)                                | 12                   |
+| Memory (RAM)                                     | 32 GB                |
+| Storage                                          | 300 GB               |
 
 | **Minimal hardware requirements for development** |                      |
 |---------------------------------------------------|----------------------|
-| Compute  (vCores)                                 | 4                    |
-| Memory (RAM)                                      | 16 GB                |
-| Storage                                           | 40 GB                |
-
-## License
-A 30-day trial license of UniConfig is included, if you would like to change the license, replace the license string in values.yaml `uniconfig.license` env variable with your own.
+| Compute  (vCores)                                 | 8                    |
+| Memory (RAM)                                      | 24 GB                |
+| Storage                                           | 100 GB               |
 
 ## Where to Purchase
 For information regarding sales, visit [frinx.io](https://frinx.io/) or contact us at info@frinx.io
