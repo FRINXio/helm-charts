@@ -39,8 +39,8 @@ helm uninstall [RELEASE_NAME]
 | `krakend` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/krakend) |
 | `frinx-frontend` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/frinx-frontend) |
 | `postgresql` | [ArtifactHub](https://artifacthub.io/packages/helm/bitnami/postgresql) |
-| `uniresource` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/uniresource) |
-| `uniflow` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/uniflow) |
+| `resource-manager` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/resource-manager) |
+| `workflow-manager` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/workflow-manager) |
 | `inventory` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/inventory) |
 | `uniconfig-postgresql` | [ArtifactHub](https://artifacthub.io/packages/helm/bitnami/postgresql) |
 | `uniconfig` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/uniconfig) |
@@ -50,18 +50,15 @@ helm uninstall [RELEASE_NAME]
 
 | **Minimal hardware requirements for production** |                      |
 |--------------------------------------------------|----------------------|
-| Compute  (vCores)                                | 8                    |
-| Memory (RAM)                                     | 24 GB                |
-| Storage                                          | 40 GB                |
+| Compute  (vCores)                                | 12                   |
+| Memory (RAM)                                     | 32 GB                |
+| Storage                                          | 300 GB               |
 
 | **Minimal hardware requirements for development** |                      |
 |---------------------------------------------------|----------------------|
-| Compute  (vCores)                                 | 4                    |
-| Memory (RAM)                                      | 16 GB                |
-| Storage                                           | 40 GB                |
-
-## License
-A 30-day trial license of UniConfig is included, if you would like to change the license, replace the license string in values.yaml `uniconfig.license` env variable with your own.
+| Compute  (vCores)                                 | 8                    |
+| Memory (RAM)                                      | 24 GB                |
+| Storage                                           | 100 GB               |
 
 ## Where to Purchase
 For information regarding sales, visit [frinx.io](https://frinx.io/) or contact us at info@frinx.io
