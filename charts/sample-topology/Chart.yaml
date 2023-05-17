@@ -10,7 +10,7 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - kind: fixed
-      description: Add option to add imagePullSecrets for smoke test
+      description: Fix problem with pull of private image
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/274
