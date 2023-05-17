@@ -10,7 +10,7 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - kind: fixed
-      description: Update smoke test for new version of nc tool
+      description: Add option to add imagePullSecrets for smoke test
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/249
+          url: https://github.com/FRINXio/helm-charts/pull/274
