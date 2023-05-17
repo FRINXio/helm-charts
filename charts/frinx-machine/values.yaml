@@ -16,7 +16,7 @@ frinx-frontend:
   fullnameOverride: "frinx-frontend"
   image:
     repository: "frinx/frinx-frontend"
-    tag: "1.0.33"
+    tag: "1.0.44"
   env:
     AUTH_CLIENT_ID: "frinx"
     DEVICE_TOPOLOGY_ENABLED: true
@@ -76,7 +76,7 @@ inventory:
   fullnameOverride: "inventory"
   image:
     repository: "frinx/frinx-inventory-server"
-    tag: "1.8.2"
+    tag: "1.9.1"
   postgresql:
     enabled: false
   env:
