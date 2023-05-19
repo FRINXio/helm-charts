@@ -16,7 +16,7 @@ annotations:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/277
     - kind: added
-      description: Add option to specify securityContext 
+      description: Add option to specify securityContext
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/277
