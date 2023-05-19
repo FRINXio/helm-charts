@@ -38,6 +38,7 @@ jobs:
             "workflow": "${{ github.workflow }}",
             "slack_channel": "common/slack-webhook/fx_env_helm_charts",
             "path": "/workspace/charts/frinx-machine/",
+            "internal_page": "false",
             "cypress": {
               "branch": "ui-1.0.38+",
               "spec": "cypress/e2e/0-check-main-page/*,cypress/e2e/2-devices/*,cypress/e2e/3-workflow-builder/*,cypress/e2e/4-workflow-manager/*",
