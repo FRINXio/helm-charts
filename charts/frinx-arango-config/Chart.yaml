@@ -10,8 +10,13 @@ icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 appVersion: "3.9.1"
 annotations:
   artifacthub.io/changes: |
-    - kind: added
-      description: Add option to specify resources in ArangoDeployment
+    - kind: changed
+      description: Move resources to arangodb_config
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/217
+          url: https://github.com/FRINXio/helm-charts/pull/277
+    - kind: added
+      description: Add option to specify securityContext 
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/277
