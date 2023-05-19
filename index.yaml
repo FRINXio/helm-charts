@@ -152,6 +152,33 @@ entries:
   frinx-arango-config:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Move resources to arangodb_config
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/277
+        - kind: added
+          description: Add option to specify securityContext
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/277
+    apiVersion: v2
+    appVersion: 3.9.1
+    created: "2023-05-19T09:25:04.556579019Z"
+    description: A Helm chart for Kubernetes deployment of the Arango CRD and ArangoDB
+      configuration files
+    digest: 75d184816d8401707680991bdfb96b13588b01323f2a46e9aec2f5a1a07266e2
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-arango-config
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-arango-config-2.0.0/frinx-arango-config-2.0.0.tgz
+    version: 2.0.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Add option to specify resources in ArangoDeployment
           links:
@@ -11869,4 +11896,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-05-17T13:20:32.698806889Z"
+generated: "2023-05-19T09:25:04.557806121Z"
