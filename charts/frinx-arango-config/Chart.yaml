@@ -1,13 +1,13 @@
 apiVersion: v2
 name: frinx-arango-config
 version: 2.0.0
-description: A Helm chart for Kubernetes deployment of the Arango CRD and ArangoDB
+description: A Helm chart for Kubernetes deployment of the Arango CRD and ArangoDB configuration files
 type: application
 home: https://github.com/FRINXio/helm-charts
 maintainers:
-- name: FRINX
+  - name: FRINX
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
-appVersion: 3.9.1
+appVersion: "3.9.1"
 annotations:
   artifacthub.io/changes: |
     - kind: added
