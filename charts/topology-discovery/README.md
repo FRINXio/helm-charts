@@ -72,3 +72,4 @@ helm uninstall [RELEASE_NAME]
 | `env.ADMIN` | BGPLS_PEER_AS env variable | `admin` |
 | `env.EDITOR` | BGPLS_PEER_AS env variable | `editor` |
 | `env.VIEWER` | BGPLS_PEER_AS env variable | `viewer` |
+| `addDemoData` | Option to add demo data into topology-discovery | `false` |

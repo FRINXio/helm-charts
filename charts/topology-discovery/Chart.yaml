@@ -13,4 +13,4 @@ annotations:
       description: Add addDemoData env variables
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/282
+          url: https://github.com/FRINXio/helm-charts/pull/283
