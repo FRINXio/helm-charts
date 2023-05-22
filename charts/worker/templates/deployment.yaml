@@ -25,6 +25,11 @@ spec:
       volumes:
         - name: app-volume
           emptyDir: {}
+        {{- range $secret := .Values.fileSecrets }}
+        - name: {{ $secret.name }}
+          secret:
+            secretName: {{ $secret.name }}
+        {{- end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -88,6 +93,11 @@ spec:
           volumeMounts:
           - name: app-volume
             mountPath: /home/app
+          {{- range $secret := .Values.fileSecrets }}
+          - name: {{ $secret.name }}
+            mountPath: {{ $secret.target }}
+            readOnly: True
+          {{- end }}
           # livenessProbe:
           #   httpGet:
           #     path: /
