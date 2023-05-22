@@ -82,7 +82,7 @@ spec:
           - name: "ARANGO_TOKEN"
             value: {{ .Values.env.ARANGO_TOKEN | quote }}
         command: ['/bin/sh', '-c']
-        args: [ (node arango/init.js || true ) && (node prisma/seed.js -z uniconfig || true )]
+        args: [ (node prisma/seed.js -z uniconfig || true ) ]
       restartPolicy: Never
   backoffLimit: 4
 {{ end }}
