@@ -39,6 +39,12 @@ spec:
             do sleep 5; echo "waiting for arangodb";
             done;
             echo "connection successful!"']
+        {{- if .Values.addDemoData }}
+        - name: insert-demo-data
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: ["/bin/sh","-c"]
+          args: ['TODO']
+        {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:

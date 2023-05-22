@@ -92,3 +92,5 @@ env:
   ADMIN: admin
   EDITOR: editor
   VIEWER: viewer
+
+addDemoData: false
