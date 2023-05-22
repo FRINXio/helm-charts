@@ -20,8 +20,18 @@ annotations:
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/282
+    - kind: removed
+      description: Removed Arango related env values
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/282
     - kind: changed
       description: Changed supported version of inventory to 1.9.1
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/282
+    - kind: added
+      description: Add initContainer for seeding database
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/282
