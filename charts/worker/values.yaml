@@ -68,3 +68,7 @@ env:
   UNICONFIG_URL_BASE: http://uniconfig:8181/rests
 
 extraSecrets:
+
+fileSecrets:
+  # - name: secretName
+  #   target: /tmp/secretName
