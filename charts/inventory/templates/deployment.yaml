@@ -37,33 +37,22 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: postgres:alpine
-      {{ if .Values.env.POSTGRES_HOSTNAME }}
+          {{ if .Values.env.POSTGRES_HOSTNAME }}
           command: ['sh', '-c',
             "until pg_isready -h {{ .Values.env.POSTGRES_HOSTNAME }} -p {{ .Values.env.POSTGRES_PORT }} -U {{ .Values.env.POSTGRES_USER }};
             do echo waiting for database; sleep 2; done;"]
-      {{ else }}
+          {{ else }}
           command: ['sh', '-c',
             "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432 -U {{ .Values.env.POSTGRES_USER }};
             do echo waiting for database; sleep 2; done;"]
-      {{ end }}
-      {{ if eq ( toString .Values.env.TOPOLOGY_ENABLED ) "true"}}
-        - name: check-arangodb-ready
+          {{ end }}
+        - name: seed-db
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: curlimages/curl
-          command: ["/bin/sh","-c"]
-          {{ if .Values.env.ARANGO_TOKEN }}
-          args: ['while [ $(curl -ksw "%{http_code}" --header "Authorization: Bearer {{ .Values.env.ARANGO_TOKEN }}" "{{ .Values.env.ARANGO_URL }}/_api/version" -o /dev/null) -ne 200 ];
-            do sleep 5; echo "waiting for arangodb";
-            done;
-            echo "connection successful!"']
-          {{ else }}
-          args: ['while [ $(curl -ksw "%{http_code}" --user "{{ .Values.env.ARANGO_USER }}:{{ .Values.env.ARANGO_PASSWORD }}" "{{ .Values.env.ARANGO_URL }}/_api/version" -o /dev/null) -ne 200 ];
-            do sleep 5; echo "waiting for arangodb";
-            done;
-            echo "connection successful!"']
-          {{ end }}
-      {{ end }}
+          image: postgres:alpine
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ['/bin/sh', '-c', "node prisma/seed.js -z uniconfig"]
       containers:
         - name: {{ .Chart.Name }}
           securityContext:

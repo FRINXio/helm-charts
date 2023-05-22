@@ -97,7 +97,6 @@ env:
   ARANGO_PASSWORD:
   ARANGO_TOKEN:
   TOPOLOGY_ENABLED: false
-  DEVICE_DISCOVERY_SEED: false
   TOPOLOGY_DISCOVERY_API_URL: http://topology-discovery:5000/api/data
   SHELL_HOST: uniconfig-controller
 
