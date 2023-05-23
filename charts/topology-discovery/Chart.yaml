@@ -10,7 +10,7 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - kind: added
-      description: Add addDemoData env variables
+      description: Add IMPORT_ARANGO_DEMO_DATA env variables
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/283
