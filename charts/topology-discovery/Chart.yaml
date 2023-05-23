@@ -3,14 +3,19 @@ name: topology-discovery
 description: A Helm chart for Kubernetes deployment of the Topology Discovery
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 2.2.0
-appVersion: "0.0.4"
+version: 2.3.0
+appVersion: "0.0.9"
 maintainers:
   - name: FRINX
 annotations:
   artifacthub.io/changes: |
     - kind: added
-      description: Add RBAC env variables with defaults
+      description: Add IMPORT_ARANGO_DEMO_DATA env variables
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/193
+          url: https://github.com/FRINXio/helm-charts/pull/283
+    - kind: changed
+      description: Changed supported version of topology-discovery to 0.0.9
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/283

@@ -92,3 +92,4 @@ env:
   ADMIN: admin
   EDITOR: editor
   VIEWER: viewer
+  IMPORT_ARANGO_DEMO_DATA: false
