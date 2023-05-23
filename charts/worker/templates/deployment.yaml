@@ -90,6 +90,10 @@ spec:
                   name: {{ $val | quote }}
                   key: {{ $key | quote }}
             {{- end }}
+            {{- range $secret := .Values.fileSecrets }}
+            - name: {{ $secret.env }}
+              value: {{ $secret.target }}
+            {{- end }}
           volumeMounts:
           - name: app-volume
             mountPath: /home/app
