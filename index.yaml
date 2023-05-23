@@ -11110,6 +11110,31 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Add IMPORT_ARANGO_DEMO_DATA env variables
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/283
+        - kind: changed
+          description: Changed supported version of topology-discovery to 0.0.9
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/283
+    apiVersion: v2
+    appVersion: 0.0.9
+    created: "2023-05-23T09:51:28.171612011Z"
+    description: A Helm chart for Kubernetes deployment of the Topology Discovery
+    digest: a3869967fcf0819b7e387c557949bfdc6cd175c4a9d75257fead748556491ff9
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: topology-discovery
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/topology-discovery-2.3.0/topology-discovery-2.3.0.tgz
+    version: 2.3.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Add RBAC env variables with defaults
           links:
             - name: GitHub PR
@@ -12318,4 +12343,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-05-23T09:51:04.871605038Z"
+generated: "2023-05-23T09:51:28.17364574Z"
