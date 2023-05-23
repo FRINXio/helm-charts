@@ -91,13 +91,7 @@ env:
   POSTGRES_DB: inventory
   POSTGRES_HOSTNAME:
   POSTGRES_PORT: 5432
-  ARANGO_URL: http://arangodb:8529
-  ARANGO_DB: topology-discovery
-  ARANGO_USER: root
-  ARANGO_PASSWORD:
-  ARANGO_TOKEN:
   TOPOLOGY_ENABLED: false
-  DEVICE_DISCOVERY_SEED: false
   TOPOLOGY_DISCOVERY_API_URL: http://topology-discovery:5000/api/data
   SHELL_HOST: uniconfig-controller
 

@@ -69,13 +69,7 @@ helm uninstall [RELEASE_NAME]
 | `env.POSTGRES_HOSTNAME` | POSTGRES_HOSTNAME env value | |
 | `env.POSTGRES_PORT` | POSTGRES_PORT env value | `5432` |
 | `env.TOPOLOGY_ENABLED` | Enable/Disable connection to arangodb | `false` |
-| `env.DEVICE_DISCOVERY_SEED` | Enable/Disable device discovery data seed | `false` |
 | `env.TOPOLOGY_DISCOVERY_API_URL` | TOPOLOGY_DISCOVERY_API_URL env variable | `http://topology-discovery:5000/api/data` |
-| `env.ARANGO_URL` | ARANGO_URL env value | `http://arangodb:8529` |
-| `env.ARANGO_DB` | ARANGO_DB env value | `topology-discovery` |
-| `env.ARANGO_USER` | ARANGO_USER env value | `root` |
-| `env.ARANGO_PASSWORD` | ARANGO_PASSWORD env value | `" "` |
-| `env.ARANGO_TOKEN` | ARANGO_TOKEN env use bearer token auth instead of basic auth | `""` |
 | `env.SHELL_HOST` | SHELL_HOST env value | `"uniconfig-controller"` |
 | `extraEnv` | Additional env variables |  |
 | `postgresql.enabled` | Switch to enable or disable the PostgreSQL helm chart | `true` |
