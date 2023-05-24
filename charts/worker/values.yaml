@@ -72,3 +72,4 @@ extraSecrets:
 fileSecrets:
   # - name: secretName
   #   target: /tmp/secretName
+  #   env: secretEnvName
