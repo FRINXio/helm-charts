@@ -34,6 +34,8 @@ inventory:
     limits:
       memory: 500Mi
       cpu: 500m
+  env:
+    ARANGO_ENABLED: true
 
 uniconfig-postgresql:
   primary:
@@ -72,7 +74,29 @@ telegraf-ds:
   enabled: false
 loki:
   enabled: false
-frinx-arango-config:
-  enabled: false
+
 topology-discovery:
-  enabled: false
+  enabled: true
+  env:
+    IMPORT_ARANGO_DEMO_DATA: true
+
+frinx-arango-config:
+  enabled: true
+  arangodb_config:
+    enabled: true
+    resources:
+      requests:
+        cpu: 500m
+        memory: 1024M
+      limits:
+        cpu: 1000m
+        memory: 2048M
+
+kube-arangodb:
+  resources:
+    limits:
+      cpu: 1
+      memory: 256Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi
