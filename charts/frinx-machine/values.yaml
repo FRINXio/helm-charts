@@ -81,7 +81,7 @@ inventory:
     enabled: false
   env:
     POSTGRES_HOSTNAME: frinx-postgresql
-    ARANGO_ENABLED: *device-discovery-enabled
+    TOPOLOGY_ENABLED: *device-discovery-enabled
 
 topology-discovery:
   enabled: *device-discovery-enabled
