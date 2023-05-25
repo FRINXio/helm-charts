@@ -81,39 +81,36 @@ inventory:
     enabled: false
   env:
     POSTGRES_HOSTNAME: frinx-postgresql
-    ARANGO_TOKEN: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhcmFuZ29kYiIsInNlcnZlcl9pZCI6ImZvbyJ9.OxGlpYQYzOysECGkonaEP8d64UH1wQeo_XxeIqK8Vgg"
-    ARANGO_ENABLED: *device-discovery-enabled
-    DEVICE_DISCOVERY_SEED: *device-discovery-enabled
+    TOPOLOGY_ENABLED: *device-discovery-enabled
 
 topology-discovery:
   enabled: *device-discovery-enabled
   fullnameOverride: "topology-discovery"
   image:
     repository: "frinx/topology-discovery"
-    tag: "0.0.8"
+    tag: "0.0.10"
 
 frinx-arango-config:
   enabled: *device-discovery-enabled
   arangodb_config:
     enabled: *device-discovery-enabled
+    securityContext:
+      readOnlyRootFilesystem: true
+      runAsUser: 1000
+      runAsGroup: 2000
+      fsGroup: 3000
 
 kube-arangodb:
   operator:
     replicaCount: 1
+    args:
+      - --deployment.feature.ephemeral-volumes=true
   rbac:
     enabled: true
     extensions:
       monitoring: false
       acs: false
       at: false
-
-  resources:
-    limits:
-      cpu: 1
-      memory: 256Mi
-    requests:
-      cpu: 250m
-      memory: 256Mi
 
 uniconfig-postgresql:
   enabled: true
@@ -186,24 +183,12 @@ influxdb2:
   enabled: true
   fullnameOverride: influxdb
   adminUser:
-    ## @param auth.admin.username InfluxDB&trade; admin user name
-    ##
     user: "frinx"
-    ## @param auth.admin.password InfluxDB&trade; admin user's password
-    ##
     password: "frinx123!"
-    ## @param auth.admin.token InfluxDB&trade; admin user's token. Only valid with InfluxDB&trade; v2
-    ##
     token: "eyJrIjoiN09MSVpVZjlVRG1xNHlLNXpVbmZJOXFLWU1GOXFxNEIiLCJuIjoic3Nzc3MiLCJpZCI6MX0"
-    ## @param auth.admin.org InfluxDB&trade; admin user's org. Only valid with InfluxDB&trade; v2
-    ##
     organization: "frinx-machine"
-    ## @param auth.admin.bucket InfluxDB&trade; admin user's bucket. Only valid with InfluxDB&trade; v2
-    ##
     bucket: "frinx"
-
     retention_policy: "2d"
-
   env:
     - name: DOCKER_INFLUXDB_INIT_MODE
       value: setup
