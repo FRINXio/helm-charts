@@ -56,3 +56,41 @@ helm uninstall [RELEASE_NAME]
 | `env.UNICONFIG_URL_BASE` | UNICONFIG_URL_BASE env variable | `http://uniconfig:8181/rests` |
 | `extraSecrets` | Option to add secrets into the pod in key: value form where key is name of secret and value is name of the secret object | |
 | `fileSecrets` | Option to attach secrets as a file into the pod. Need to define secret name, env name and target path. [See example in values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/worker/values.yaml) | |
+
+## Preparing a secretFile with Base64 encoding
+
+In certain scenarios, it may be necessary to store sensitive information, such as passwords or API keys, in a secret file. To ensure the security and integrity of this data, it is recommended to encode the file using Base64 before storing it. This documentation outlines the steps to prepare a secret file with Base64 encoding.
+
+### Steps
+
+1. Encode the File in Base64
+   To encode the secret file in Base64 format, follow these steps:
+
+   - Open a command prompt or terminal.
+   - Use the `base64` command to encode the file. Run the following command:
+
+     ```shell
+     base64 -w 0 path/to/your/secret.txt
+     ```
+
+   - The command will output the Base64-encoded representation of the secret file. For example:
+
+     ```shell
+     cGFzc3dvcmQK
+     ```
+
+   The encoded output represents the contents of the secret file in Base64 format.
+
+2. Create the Secret Manifest
+   Create a manifest file to define the Secret object that will hold the encoded secret file (multiple secrets can be stored).
+   Here's an example YAML manifest:
+
+   ```yaml
+   apiVersion: v1
+   kind: Secret
+   metadata:
+     name: secret
+   type: Opaque
+   data:
+     secret.txt: cGFzc3dvcmQK
+     password: ZWxpc2ExMjMK
