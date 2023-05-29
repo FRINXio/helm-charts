@@ -42,7 +42,7 @@ service:
   targetPort: 31000
   annotations: {}
     # service.beta.kubernetes.io/azure-load-balancer-internal: "true"
-    # service.beta.kubernetes.io/azure-load-balancer-ipv4: "100.64.1.100"
+    # service.beta.kubernetes.io/azure-load-balancer-ipv4: "192.168.1.1"
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
