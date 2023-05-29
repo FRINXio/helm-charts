@@ -37,6 +37,7 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
+  enabled: false
   type: LoadBalancer
   port: 31000
   targetPort: 31000

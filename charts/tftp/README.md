@@ -44,6 +44,7 @@ helm uninstall [RELEASE_NAME]
 | `podAnnotations` | Deployment annotation | `{}` |
 | `podSecurityContext` | Pod deployment securityContext | `{}` |
 | `securityContext` | Deployment securityContext | `{}` |
+| `service.enabled` | Enable creating of service | `false` |
 | `service.type` | Kubernetes service type | `LoadBalancer` |
 | `service.port` | Kubernetes port where tftp is exposed | `31000` |
 | `service.targetPort` | Kubernetes port where workflow-proxy is exposed | `31000` |

@@ -71,7 +71,6 @@ spec:
         name: files
       spec:
         accessModes: [ "ReadWriteOnce" ]
-        storageClassName: "default"
         resources:
           requests:
             storage: 2Gi
