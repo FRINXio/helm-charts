@@ -18,12 +18,12 @@ spec:
       protocol: UDP
       nodePort: 31000
       name: {{ .Values.service.port | quote }}
-    {{- range $i, $e := until 15}}
-    - name: {{add 31001 . | quote }}
-      port: {{add 31001 . }}
-      nodePort: {{add 31001 . }}
-      targetPort: {{add 31001 . }}
+    {{- range untilStep (.Values.minSessionPort|int) (.Values.maxSessionPort|int) 1 }}
+    - port: {{ . }}
+      targetPort: {{ . }}
+      nodePort: {{ . }}
       protocol: UDP
+      name: "udp-{{ . }}"
     {{- end }}
   selector:
     {{- include "tftp.selectorLabels" . | nindent 4 }}

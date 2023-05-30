@@ -52,6 +52,13 @@ spec:
           volumeMounts:
             - name: files
               mountPath: /var/tftpboot
+          env:
+            - name: TFTPD_PORT
+              value: {{ .Values.incomingRequestPort | quote }}
+            - name: TFTPD_PORT_RANGE
+              value: "{{ .Values.minSessionPort }}:{{ .Values.maxSessionPort }}"
+            - name: TFTPD_EXTRA_ARGS
+              value: {{ .Values.extraArgs | quote }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

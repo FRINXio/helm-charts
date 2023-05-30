@@ -69,3 +69,8 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+incomingRequestPort: 31000
+minSessionPort: 31001
+maxSessionPort: 31016
+extraArgs: ""
