@@ -1,0 +1,30 @@
+{{- if .Values.service.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "tftp.fullname" . }}
+  labels:
+    {{- include "tftp.labels" . | nindent 4 }}
+  {{- with .Values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  externalTrafficPolicy: Local
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      protocol: UDP
+      nodePort: 31000
+      name: {{ .Values.service.port | quote }}
+    {{- range untilStep (.Values.minSessionPort|int) (.Values.maxSessionPort|int) 1 }}
+    - port: {{ . }}
+      targetPort: {{ . }}
+      nodePort: {{ . }}
+      protocol: UDP
+      name: "udp-{{ . }}"
+    {{- end }}
+  selector:
+    {{- include "tftp.selectorLabels" . | nindent 4 }}
+{{- end }}
