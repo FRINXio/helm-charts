@@ -58,7 +58,7 @@ helm uninstall [RELEASE_NAME]
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
-| `incomingRequestPort` | Main tftp port for incoming reqests | `31000` |
+| `incomingRequestPort` | Main tftp port for incoming requests | `31000` |
 | `minSessionPort` | min port from port-range for tftp server | `31001` |
 | `maxSessionPort` | max port from port-range for tftp server | `31016` |
 | `extraArgs` | Extra arguments for tftp server | `""` |
