@@ -11196,6 +11196,21 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/sample-topology-1.0.0/sample-topology-1.0.0.tgz
     version: 1.0.0
+  tftp:
+  - apiVersion: v2
+    appVersion: 0.0.10
+    created: "2023-05-30T09:13:46.68358583Z"
+    description: A Helm chart for tftp server
+    digest: 03af09eab760086354576ea961108c6a99a3d4c30ba5d0d5f4408e51c1cd3d38
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: tftp
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/tftp-1.0.0/tftp-1.0.0.tgz
+    version: 1.0.0
   topology-discovery:
   - annotations:
       artifacthub.io/changes: |
@@ -12475,4 +12490,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-05-29T08:14:49.351001243Z"
+generated: "2023-05-30T09:13:46.685838986Z"
