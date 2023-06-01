@@ -9,6 +9,8 @@ metadata:
   {{- end }}
 spec:
   mode: Single
+  externalAccess:
+    type: None
   bootstrap:
     passwordSecretNames:
       root: {{ .Values.arangodb_config.rootSecretName }}
