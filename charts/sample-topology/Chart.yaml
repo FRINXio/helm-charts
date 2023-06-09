@@ -13,14 +13,14 @@ annotations:
       description: Removed unused env and service values
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/274
+          url: https://github.com/FRINXio/helm-charts/pull/291
     - kind: changed
       description: Changed supported version of sample-topology to 3.0.0
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/282
+          url: https://github.com/FRINXio/helm-charts/pull/291
     - kind: added
-      description: Add option to specify device and externalConfig
+      description: Add option to specify devices and externalConfig
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/282
+          url: https://github.com/FRINXio/helm-charts/pull/291
