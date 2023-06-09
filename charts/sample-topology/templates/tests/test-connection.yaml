@@ -1,3 +1,5 @@
+{{- $image := printf "%s:%s" .Values.image.repository ( .Values.image.tag | default .Chart.AppVersion ) -}}
+{{- $service := include "sample-topology.fullname" . -}}
 apiVersion: v1
 kind: Pod
 metadata:
@@ -12,8 +14,10 @@ spec:
     {{- toYaml . | nindent 4 }}
   {{- end }}
   containers:
-    - name: test-device
-      image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+    {{- range $device := .Values.devices.devicesSpecification }}
+    - name: test-device-{{ $device.port }}
+      image: "{{ $image }}"
       command: ["/bin/sh"]
-      args: ["-c", 'nc -vz {{ include "sample-topology.fullname" . }} 10004']
+      args: ["-c", 'nc -vz {{ $service }} {{ $device.port }}']
+    {{- end }}  
   restartPolicy: Never
