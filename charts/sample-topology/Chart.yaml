@@ -9,8 +9,18 @@ maintainers:
   - name: FRINX
 annotations:
   artifacthub.io/changes: |
-    - kind: fixed
-      description: Fix problem with pull of private image
+    - kind: removed
+      description: Removed unused env and service values
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/274
+    - kind: changed
+      description: Changed supported version of sample-topology to 3.0.0
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/282
+    - kind: added
+      description: Add option to specify device and externalConfig
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/282

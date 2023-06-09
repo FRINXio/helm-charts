@@ -64,6 +64,11 @@ helm uninstall [RELEASE_NAME]
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
 | `env.DOCKER_GWBRIDGE_IP` | DOCKER_GWBRIDGE_IP env value | `"localhost"` |
-| `env.INSTANCES_TO_SIMULATE` | INSTANCES_TO_SIMULATE env value | `""` |
-| `env.RUN_TESTTOOLS` | RUN_TESTTOOLS env value | `"./scripts/run_netconf_devices/run_netconf_testtool.sh & ./scripts/run_cli_devices/run_devices_docker.sh"` |
 | `extraInitContainers` | Add extra init container into deployment | `[]` |
+| `devices.create` | Create devices.csv files with list of simulated devices | `true` |
+| `devices.devicesSpecification` | List of simulated devices. See [sample-topology documentation](https://github.com/FRINXio/sample-topology/blob/main/README.md) for more details | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/sample-topology/values.yaml) |
+| `externalConfig.enabled` | Enable downloading of private config files from repository | `false` |
+| `externalConfig.configRepository` | Repository with private config files | `github.com/FRINXio/sample-topology-private-config.git` |
+| `externalConfig.auth.username` | Username for private repository | |
+| `externalConfig.auth.password` | Password for private repository | |
+| `externalConfig.auth.existingSecret` | Use external secret with username and password for private repository | |

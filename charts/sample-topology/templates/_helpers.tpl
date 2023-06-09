@@ -60,3 +60,23 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Return true if a secret object for repository should be created
+*/}}
+{{- define "sample-topology.createRepositorySecret" -}}
+{{- if and (not .Values.externalConfig.auth.existingSecret) (.Values.externalConfig.enabled) -}}
+    {{- true -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Get the password secret.
+*/}}
+{{- define "sample-topology.secretRepositoryName" -}}
+{{- if .Values.externalConfig.auth.existingSecret }}
+    {{- printf "%s" (tpl .Values.externalConfig.auth.existingSecret $) -}}
+{{- else -}}
+    {{- printf "%s-repository"  (include "sample-topology.fullname" .) -}}
+{{- end -}}
+{{- end -}}
