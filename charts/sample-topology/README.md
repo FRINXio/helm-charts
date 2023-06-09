@@ -45,7 +45,6 @@ helm uninstall [RELEASE_NAME]
 | `podSecurityContext` | Pod deployment securityContext | `{}` |
 | `securityContext` | Deployment securityContext | `{}` |
 | `service.type` | Kubernetes service type | `ClusterIP` |
-| `service.port` | Kubernetes port where service is exposed | `80` |
 | `ingress.enabled` | Enables Ingress | `false` |
 | `ingress.className` | Class name for Ingress | `""` |
 | `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
