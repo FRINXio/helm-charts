@@ -163,7 +163,7 @@ devices:
     #   starting_port: 17200
 
 externalConfig:
-  enabled: false 
+  enabled: false
   configRepository: github.com/FRINXio/sample-topology-private-config.git
   auth:
     username:
