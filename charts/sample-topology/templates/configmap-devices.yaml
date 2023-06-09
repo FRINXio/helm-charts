@@ -1,0 +1,14 @@
+{{- if .Values.devices.create }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "sample-topology.fullname" . }}
+  labels:
+    {{- include "sample-topology.labels" . | nindent 4 }}
+data:
+  devices.csv: |-
+    protocol,device_name,port,schema_name,count_of_devices,starting_port
+    {{- range $device := .Values.devices.devicesSpecification }}
+    {{ $device.protocol }},{{ $device.device_name }},{{ $device.port }},{{ default "-" $device.schema_name }},{{ default "-" $device.count_of_devices }},{{ default "-" $device.starting_port }}
+    {{- end }}  
+{{- end }}

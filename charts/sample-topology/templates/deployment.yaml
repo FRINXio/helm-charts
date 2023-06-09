@@ -13,16 +13,24 @@ spec:
       {{- include "sample-topology.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
+        checksum/config-devices: {{ include (print $.Template.BasePath "/configmap-devices.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- end }}
       labels:
         {{- include "sample-topology.selectorLabels" . | nindent 8 }}
     spec:
       volumes:
       - name: sample-topology-volume
         emptyDir: {}
+      - name: devices
+        configMap:
+          name: {{ include "sample-topology.fullname" . }}
+          defaultMode: 0777
+          items:
+          - key: devices.csv
+            path: devices.csv
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -49,7 +57,7 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: [ "/bin/bash", "-c", "{{ .Values.env.RUN_TESTTOOLS }}"]
+          command: [ "python2.7", "main.py"]
           env:
             {{- range $key, $val := .Values.env }}
             - name: {{ $key | quote }}
@@ -58,10 +66,16 @@ spec:
           volumeMounts:
           - name: sample-topology-volume
             mountPath: /sample-topology
-          ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
+          - name: devices
+            mountPath: /sample-topology/devices.csv
+            subPath: devices.csv
+          readinessProbe:
+            exec:
+              command:
+              - cat
+              - /tmp/healthy
+            initialDelaySeconds: 5
+            periodSeconds: 5
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
