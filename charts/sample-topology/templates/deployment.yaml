@@ -13,16 +13,26 @@ spec:
       {{- include "sample-topology.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
+        checksum/config-devices: {{ include (print $.Template.BasePath "/configmap-devices.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- end }}
       labels:
         {{- include "sample-topology.selectorLabels" . | nindent 8 }}
     spec:
       volumes:
-      - name: sample-topology-volume
-        emptyDir: {}
+        - name: sample-topology-volume
+          emptyDir: {}
+        - name: repo-volume
+          emptyDir: {}
+        - name: devices
+          configMap:
+            name: {{ include "sample-topology.fullname" . }}
+            defaultMode: 0777
+            items:
+            - key: devices.csv
+              path: devices.csv
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -31,25 +41,60 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
-      - name: copy-sample-topology-files
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-        command:
-          - sh
-          - '-c'
-          - 'cp -r /sample-topology/* /tmp/sample-topology/'
-        volumeMounts:
-          - name: sample-topology-volume
-            mountPath: /tmp/sample-topology/
-      {{- with .Values.extraInitContainers }}
-      {{- toYaml . | nindent 8 }}
-      {{- end }}
+        - name: copy-sample-topology-files
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command:
+            - sh
+            - '-c'
+            - 'cp -r /sample-topology/* /tmp/sample-topology/'
+          volumeMounts:
+            - name: sample-topology-volume
+              mountPath: /tmp/sample-topology/
+        {{- if .Values.externalConfig.enabled }}
+        - name: download-external-config
+          args:
+            - clone
+            - 'https://$(GIT_USERNAME):$(GIT_PASSWORD)@{{ .Values.externalConfig.configRepository }}'
+            - '/tmp/repo'
+          image: alpine/git:2.36.3
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: GIT_USERNAME
+            valueFrom:
+              secretKeyRef:
+                key: USERNAME
+                name: {{ include "sample-topology.secretRepositoryName" . }}
+          - name: GIT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: PASSWORD
+                name: {{ include "sample-topology.secretRepositoryName" . }}
+          volumeMounts:
+            - name: repo-volume
+              mountPath: /tmp/repo
+        - name: copy-external-config
+          command:
+            - sh
+            - '-c'
+            - 'cp -r /tmp/repo/configs/ /tmp/sample-topology/'
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: repo-volume
+              mountPath: /tmp/repo
+            - name: sample-topology-volume
+              mountPath: /tmp/sample-topology/
+        {{- end }}
+        {{- with .Values.extraInitContainers }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: [ "/bin/bash", "-c", "{{ .Values.env.RUN_TESTTOOLS }}"]
+          command: [ "python2.7", "main.py"]
           env:
             {{- range $key, $val := .Values.env }}
             - name: {{ $key | quote }}
@@ -58,10 +103,16 @@ spec:
           volumeMounts:
           - name: sample-topology-volume
             mountPath: /sample-topology
-          ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
+          - name: devices
+            mountPath: /sample-topology/devices.csv
+            subPath: devices.csv
+          readinessProbe:
+            exec:
+              command:
+              - cat
+              - /tmp/healthy
+            initialDelaySeconds: 5
+            periodSeconds: 5
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
