@@ -19,6 +19,11 @@ annotations:
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/291
+    - kind: changed
+      description: Enable just IOS device testtool in sample-topology
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/291
     - kind: added
       description: Add option to specify devices and externalConfig
       links:
