@@ -14,6 +14,7 @@
   "hostRules": [
     {
       "hostType": "docker",
+      "matchHost": "https://index.docker.io/v2/",
       "username": "frinxhelmchart",
       "encrypted": {
         "password": "wcFMA/xDdHCJBTolAQ/9H3ZFxo/mdfBXJgSvkEhGDUb+hEQFtIcxaKGLYvRJaqSOELW0Rd0UKYUY1Pmemt7CEftWR294w+Z1FeZCi4vwjRnJIuFX5NnjTi/BljdY3lssOijAdyTTXkNzMlkurATYM7kdGaIpWeoiCUfxyd2Vk8xqGl4xtAZXAcEGmX9rU1iaDQjKzgyQH1JeEl8djZT/pbz7uV9EonBL/oM25yQVOG6qssm/qYXsOQorlgb10SZE5Wy9V1nsIDn6oSy5Ukef/nXj4vVQWOJYZoP/gRNswGgInGrbFdSQ2WeZJqDbpTcI49cV66BDv6CFZohqYWXJaBua/DhxFgeBMG2mmxKAQvofyFA+aefQEVBq4Q/ZFaDP5byiLLE4ck/t7sJ1t//icVNbdnDLpK0rLfPajx/piEzIrpN2ojcuP4JSt/djTltI1Daz/Rpp4eGUvr5UkC2kRGm9FwvNLYBv6xNTWBGIK4aSwF0iz5kjLJpdjAxKX9vDMscjnumDwPAvussxOu4p9rMTdQ9fjIOOr2djPVBpHqCXLZDKrmwfZcfe2Y8uxVXndYwsBE+MgQVO36KKkyrsW7mlJspubTWF/6L+rISXaDb7ytQ55gnIRupt0LC0KLdT6d7A7VX5LNUDqldJ46h2BP3Vu3qFjMkJCsJp3gol2ZnFNoj+HI9w0TGb4jiUCRHSfQGHRMtAYzSth/6yoB5QgIgbUScIe5etbfBMLWd1jMgCvoqiLcxm2RDjQjkXQps+wWGVi1CUqj6CpGSD3B9fflkxxrqAM4MF1EVF29PrOxmTBbTbojRFGHQKlKejcwcjfZx3m4/qJlXIfGy00b0tP3SAKIyjhUgflWe674+U"
