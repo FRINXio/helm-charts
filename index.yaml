@@ -152,6 +152,28 @@ entries:
   frinx-arango-config:
   - annotations:
       artifacthub.io/changes: |
+        - kind: removed
+          description: Remove crds from chart
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/296
+    apiVersion: v2
+    appVersion: 3.9.1
+    created: "2023-06-26T11:36:49.690680974Z"
+    description: A Helm chart for Kubernetes deployment of the Arango CRD and ArangoDB
+      configuration files
+    digest: 106cde67b3c5e3a33dab12b4f8a8290300de5d069e3c66e38914abd6a1dc74b7
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-arango-config
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-arango-config-3.0.0/frinx-arango-config-3.0.0.tgz
+    version: 3.0.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: Disable creating of external access in ArrangoDeployment
           links:
@@ -12817,4 +12839,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-06-26T10:06:46.750258163Z"
+generated: "2023-06-26T11:36:49.691915684Z"
