@@ -88,7 +88,7 @@ topology-discovery:
   fullnameOverride: "topology-discovery"
   image:
     repository: "frinx/topology-discovery"
-    tag: "0.0.10"
+    tag: "0.0.11"
 
 frinx-arango-config:
   enabled: *device-discovery-enabled
