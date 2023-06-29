@@ -93,3 +93,5 @@ env:
   EDITOR: editor
   VIEWER: viewer
   IMPORT_ARANGO_DEMO_DATA: false
+  IMPORT_DEVICE_INVENTORY_DATA: false
+  X_TENANT_ID: "frinx"

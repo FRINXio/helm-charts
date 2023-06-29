@@ -73,3 +73,5 @@ helm uninstall [RELEASE_NAME]
 | `env.EDITOR` | BGPLS_PEER_AS env variable | `editor` |
 | `env.VIEWER` | BGPLS_PEER_AS env variable | `viewer` |
 | `env.IMPORT_ARANGO_DEMO_DATA` | Option to add demo data into topology-discovery | `false` |
+| `env.IMPORT_DEVICE_INVENTORY_DATA` | Option to add demo data into inventory | `false` |
+| `env.X_TENANT_ID` | X_TENANT_ID env variable | `"frinx"` |
