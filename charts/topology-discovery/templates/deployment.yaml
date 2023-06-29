@@ -39,6 +39,15 @@ spec:
             do sleep 5; echo "waiting for arangodb";
             done;
             echo "connection successful!"']
+        {{- if .Values.env.IMPORT_DEVICE_INVENTORY_DATA }}
+        - name: check-inventory-ready
+          image: curlimages/curl
+          command: ["/bin/sh","-c"]
+          args: ['while [ $(curl -o /dev/null --silent --write-out "%{http_code}" inventory:8000/.well-known/apollo/server-health) -ne 200 ];
+            do sleep 5; echo "waiting for inventory";
+            done;
+            echo "connection successful!"']
+        {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
