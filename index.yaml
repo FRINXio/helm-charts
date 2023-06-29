@@ -11654,6 +11654,36 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Add IMPORT_DEVICE_INVENTORY_DATA and X_TENANT_ID env variables
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/298
+        - kind: added
+          description: Add check-inventory-ready init-container
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/298
+        - kind: changed
+          description: Changed supported version of topology-discovery to 0.0.11
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/298
+    apiVersion: v2
+    appVersion: 0.0.11
+    created: "2023-06-29T18:28:15.769679267Z"
+    description: A Helm chart for Kubernetes deployment of the Topology Discovery
+    digest: 159b841a0a171793045c0a9b830ca301d0d2f174bebeab04d4777c5f31a55c13
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: topology-discovery
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/topology-discovery-2.4.0/topology-discovery-2.4.0.tgz
+    version: 2.4.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Add IMPORT_ARANGO_DEMO_DATA env variables
           links:
             - name: GitHub PR
@@ -12929,4 +12959,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-06-29T07:49:44.711044473Z"
+generated: "2023-06-29T18:28:15.777277202Z"
