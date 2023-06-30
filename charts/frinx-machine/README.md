@@ -45,6 +45,16 @@ helm uninstall [RELEASE_NAME]
 | `uniconfig-postgresql` | [ArtifactHub](https://artifacthub.io/packages/helm/bitnami/postgresql) |
 | `uniconfig` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/uniconfig) |
 | `demo-workflows` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/demo-workflows) |
+| `sample-topology` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/sample-topology) |
+| `kube-arangodb` | [Github](https://github.com/arangodb/kube-arangodb) |
+| `frinx-arango-config` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/frinx-arango-config) |
+| `topology-discovery` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/topology-discovery) |
+| `grafana` | [ArtifactHub](https://artifacthub.io/packages/helm/grafana/grafana) |
+| `frinx-grafana-configs` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/frinx-grafana-configs) |
+| `influxdb` | [ArtifactHub](https://artifacthub.io/packages/helm/influxdata/influxdb2) |
+| `telegraf-ds` | [ArtifactHub](https://artifacthub.io/packages/helm/influxdata/telegraf-ds) |
+| `loki` | [ArtifactHub](https://artifacthub.io/packages/helm/grafana/loki) |
+| `promtail` | [ArtifactHub](https://artifacthub.io/packages/helm/grafana/promtail) |
 
 ## Requirements
 
@@ -59,6 +69,9 @@ helm uninstall [RELEASE_NAME]
 | Compute  (vCores)                                 | 8                    |
 | Memory (RAM)                                      | 24 GB                |
 | Storage                                           | 100 GB               |
+
+- minimum 12GB Memory(RAM) on worker node
+- tested on nodes with Ubuntu
 
 ## Where to Purchase
 For information regarding sales, visit [frinx.io](https://frinx.io/) or contact us at info@frinx.io
