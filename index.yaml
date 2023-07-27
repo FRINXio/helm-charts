@@ -11026,6 +11026,29 @@ entries:
   krakend:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: remove hard-coded content_security_policy. Will be configurable in the future
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/304
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:1.0.5
+    apiVersion: v2
+    appVersion: 1.0.5
+    created: "2023-07-27T15:24:41.672210454Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: 1b62ebd865dd4fae27642984a028db741aa86919ecbdf230bae8e924d8d41f47
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-2.9.1/krakend-2.9.1.tgz
+    version: 2.9.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: add option to specify DEFAULT_TIMEOUT and UNICONFIG_TIMEOUT
           links:
@@ -13249,4 +13272,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-07-27T12:18:11.531363409Z"
+generated: "2023-07-27T15:24:41.673636278Z"
