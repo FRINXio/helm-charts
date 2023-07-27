@@ -3,7 +3,7 @@ name: krakend
 description: FRINX KrakenD API Gateway for FRINX-machine
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 2.9.0
+version: 2.9.1
 appVersion: "1.0.5"
 maintainers:
   - name: FRINX
@@ -12,8 +12,8 @@ annotations:
     - name: krakend
       image: frinx/krakend:1.0.5
   artifacthub.io/changes: |
-    - kind: added
-      description: add option to specify DEFAULT_TIMEOUT and UNICONFIG_TIMEOUT
+    - kind: fixed
+      description: remove hard-coded content_security_policy. Will be configurable in the future
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/268
+          url: https://github.com/FRINXio/helm-charts/pull/304
