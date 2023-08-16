@@ -160,6 +160,57 @@ sample-topology:
   image:
     repository: "frinx/sample-topology"
     tag: "3.2.0"
+  devices:
+    create: true
+    devicesSpecification:
+      - protocol: cli
+        device_name: saos6_1
+        port: 10000
+      - protocol: cli
+        device_name: saos6_2
+        port: 10001
+      - protocol: cli
+        device_name: saos8_1
+        port: 10002
+      - protocol: cli
+        device_name: saos8_2
+        port: 10003
+      - protocol: cli
+        device_name: cisco_IOS
+        port: 10004
+      - protocol: cli
+        device_name: cisco_IOS
+        port: 10005
+      - protocol: cli
+        device_name: cisco_XR
+        port: 10006
+      - protocol: cli
+        device_name: cisco_XR
+        port: 10007
+      - protocol: cli
+        device_name: huawei_VRP
+        port: 10008
+      - protocol: cli
+        device_name: leaf1
+        port: 10009
+      - protocol: cli
+        device_name: leaf2
+        port: 10010
+      - protocol: cli
+        device_name: leaf3
+        port: 10011
+      - protocol: cli
+        device_name: leaf4
+        port: 10012
+      - protocol: cli
+        device_name: leaf5
+        port: 10013
+      - protocol: cli
+        device_name: spine1
+        port: 10014
+      - protocol: cli
+        device_name: spine2
+        port: 10015
 
 grafana:
   enabled: true
