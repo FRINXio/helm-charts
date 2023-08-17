@@ -40,7 +40,7 @@ jobs:
             "path": "/workspace/charts/frinx-machine/",
             "internal_page": "true",
             "cypress": {
-              "branch": "demo-wf",
+              "branch": "ui-1.0.38+",
               "spec": "cypress/e2e/0-check-main-page/*,cypress/e2e/2-devices/*,cypress/e2e/3-workflow-builder/*,cypress/e2e/4-workflow-manager/*",
               "host": "localhost:8080",
               "auth0_username": "",
