@@ -3,6 +3,7 @@
   "extends": [
     "config:base"
   ],
+  "semanticCommits": "disabled",
   "includePaths": ["charts/frinx-machine/**"],
   "bumpVersion": "patch",
   "rebaseWhen": "behind-base-branch",
