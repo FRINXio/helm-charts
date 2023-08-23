@@ -16,6 +16,7 @@ frinx-frontend:
   fullnameOverride: "frinx-frontend"
   image:
     repository: "frinx/frinx-frontend"
+    pullPolicy: Always
     tag: "latest"
   env:
     AUTH_CLIENT_ID: "frinx"
@@ -147,7 +148,7 @@ uniconfig:
       - ALL
 
 demo-workflows:
-  enabled: false
+  enabled: true
   fullnameOverride: "demo-workflows"
   image:
     repository: "frinx/demo-workflows"
@@ -156,7 +157,7 @@ demo-workflows:
     enabled: false
 
 sample-topology:
-  enabled: false
+  enabled: true
   fullnameOverride: "sample-topology"
   image:
     repository: "frinx/sample-topology"
