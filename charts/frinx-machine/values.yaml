@@ -10,6 +10,11 @@ krakend:
   image:
     repository: "frinx/krakend"
     tag: "1.0.6"
+  deployment:
+    env:
+      UNICONFIG_SHELL_ENABLED: true
+      UNICONFIG_SHELL_OAUTH_ENABLED: true
+      OAUTH2_AUTH_URL: true
 
 frinx-frontend:
   enabled: true
@@ -78,7 +83,7 @@ inventory:
   image:
     repository: "frinx/frinx-inventory-server"
     pullPolicy: Always
-    tag: "latest"
+    tag: "2.0.0-alpha"
   postgresql:
     enabled: false
   env:
@@ -128,7 +133,7 @@ uniconfig:
   enabled: true
   image:
     repository: "frinx/uniconfig"
-    tag: "5.2.0"
+    tag: "5.1.11"
   imagePullSecrets:
     - name: regcred
   postgresql:

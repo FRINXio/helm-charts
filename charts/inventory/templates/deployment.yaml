@@ -87,6 +87,12 @@ spec:
               value: {{ .Values.env.TOPOLOGY_DISCOVERY_API_URL | quote }}
             - name: "SHELL_HOST"
               value: {{ .Values.env.SHELL_HOST | quote }}
+            - name: "CONDUCTOR_API_URL"
+              value: {{ .Values.env.CONDUCTOR_API_URL | quote }}
+            - name: "SCHEDULER_API_URL"
+              value: {{ .Values.env.SCHEDULER_API_URL | quote }}
+            - name: "RESOURCE_MANAGER_API_URL"
+              value: {{ .Values.env.RESOURCE_MANAGER_API_URL | quote }}
           {{- range $key, $val := .Values.extraEnv }}
             - name: {{ $key | quote }}
               value: {{ $val | quote }}
