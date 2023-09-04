@@ -1,3 +1,7 @@
+krakend:
+  service:
+    type: LoadBalancer
+
 postgresql:
   global:
     storageClass: longhorn
@@ -9,3 +13,7 @@ uniconfig-postgresql:
 influxdb2:
   persistence:
     storageClass: longhorn
+
+grafana:
+  service:
+    type: LoadBalancer
