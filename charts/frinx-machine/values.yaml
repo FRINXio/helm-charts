@@ -254,6 +254,8 @@ influxdb2:
 telegraf-ds:
   enabled: true
   fullnameOverride: telegraf-ds
+  rbac:
+    create: false
   env:
     - name: NAMESPACE
       valueFrom:
