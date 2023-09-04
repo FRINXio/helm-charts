@@ -5,3 +5,7 @@ postgresql:
 uniconfig-postgresql:
   global:
     storageClass: longhorn
+
+influxdb2:
+  persistence:
+    storageClassName: longhorn
