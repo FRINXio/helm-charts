@@ -7,8 +7,6 @@ x-device-discovery-enabled: &device-discovery-enabled false
 krakend:
   enabled: true
   fullnameOverride: "krakend"
-  service:
-    type: LoadBalancer
   image:
     repository: "frinx/krakend"
     tag: "1.0.6"
