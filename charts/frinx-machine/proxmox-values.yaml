@@ -14,6 +14,10 @@ influxdb2:
   persistence:
     storageClass: longhorn
 
+telegraf-ds:
+  rbac:
+    create: false
+
 grafana:
   service:
     type: LoadBalancer
