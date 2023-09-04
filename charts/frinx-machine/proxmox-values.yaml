@@ -1,0 +1,7 @@
+postgresql:
+  global:
+    storageClass: longhorn
+
+uniconfig-postgresql:
+  global:
+    storageClass: longhorn
