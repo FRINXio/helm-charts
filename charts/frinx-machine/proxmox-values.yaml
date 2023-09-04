@@ -8,4 +8,4 @@ uniconfig-postgresql:
 
 influxdb2:
   persistence:
-    storageClassName: longhorn
+    storageClass: longhorn
