@@ -10,6 +10,12 @@ uniconfig-postgresql:
   global:
     storageClass: longhorn
 
+demo-workflows:
+  enabled: true
+
+sample-topology:
+  enabled: true
+
 influxdb2:
   persistence:
     storageClass: longhorn
