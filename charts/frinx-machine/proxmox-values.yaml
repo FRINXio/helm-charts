@@ -21,6 +21,7 @@ frinx-arango-config:
   enabled: true
   arangodb_config:
     enabled: true
+    storageClassName: longhorn
 
 demo-workflows:
   enabled: true

@@ -68,8 +68,9 @@ dependencies:
 
   - condition: frinx-arango-config.enabled
     name: frinx-arango-config
-    repository: https://FRINXio.github.io/helm-charts
-    version: 3.0.0
+    # repository: https://FRINXio.github.io/helm-charts
+    repository: "file://../frinx-arango-config"
+    version: 3.1.0
 
   - condition: topology-discovery.enabled
     name: topology-discovery
