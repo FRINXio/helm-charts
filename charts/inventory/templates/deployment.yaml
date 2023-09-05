@@ -85,6 +85,8 @@ spec:
               value: {{ .Values.env.TOPOLOGY_ENABLED | quote }}
             - name: "TOPOLOGY_DISCOVERY_API_URL"
               value: {{ .Values.env.TOPOLOGY_DISCOVERY_API_URL | quote }}
+            - name: "TOPOLOGY_DISCOVERY_GRAPHQL_API_URL"
+              value: {{ .Values.env.TOPOLOGY_DISCOVERY_GRAPHQL_API_URL | quote }}
             - name: "SHELL_HOST"
               value: {{ .Values.env.SHELL_HOST | quote }}
             - name: "CONDUCTOR_API_URL"
