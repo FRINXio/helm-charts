@@ -16,6 +16,9 @@ inventory:
 
 topology-discovery:
   enabled: true
+  env:
+    IMPORT_ARANGO_DEMO_DATA: true
+    IMPORT_DEVICE_INVENTORY_DATA: true
 
 frinx-arango-config:
   enabled: true
