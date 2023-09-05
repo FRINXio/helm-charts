@@ -19,6 +19,8 @@ topology-discovery:
 
 frinx-arango-config:
   enabled: true
+  arangodb_config:
+    enabled: true
 
 demo-workflows:
   enabled: true
