@@ -31,8 +31,9 @@ dependencies:
 
   - condition: workflow-manager.enabled
     name: workflow-manager
-    repository: https://FRINXio.github.io/helm-charts
-    version: 2.0.0
+    # repository: https://FRINXio.github.io/helm-charts
+    repository: "file://../workflow-manager"
+    version: 3.0.0
 
   - condition: inventory.enabled
     name: inventory

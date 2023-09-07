@@ -52,7 +52,7 @@ spec:
               containerPort: 8088
               protocol: TCP
             - name: http-schellar
-              containerPort: 8087
+              containerPort: 3000
               protocol: TCP
             - name: http-workers
               containerPort: 8089

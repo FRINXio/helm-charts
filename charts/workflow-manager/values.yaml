@@ -47,7 +47,7 @@ service:
   type: ClusterIP
   port: 8088
   portWorkers: 8089
-  portSchellar: 8087
+  portSchellar: 3000
   portConductor: 8080
 
 ingress:
