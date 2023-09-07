@@ -95,9 +95,6 @@ spec:
             - name: http-conductor
               containerPort: 8080
               protocol: TCP
-            - name: grpc-conductor
-              containerPort: 8090
-              protocol: TCP
           livenessProbe:
             httpGet:
               path: /health

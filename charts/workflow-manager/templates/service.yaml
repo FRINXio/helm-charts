@@ -23,9 +23,5 @@ spec:
       targetPort: http-conductor
       protocol: TCP
       name: http-conductor
-    - port: 8090
-      targetPort: grpc-conductor
-      protocol: TCP
-      name: grpc-conductor
   selector:
     {{- include "workflow-manager.selectorLabels" . | nindent 4 }}

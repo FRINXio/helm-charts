@@ -96,7 +96,7 @@ env:
   TOPOLOGY_DISCOVERY_GRAPHQL_API_URL: http://topology-discovery:5000/api/graphql
   SHELL_HOST: uniconfig-controller
   CONDUCTOR_API_URL: "http://workflow-proxy:8080/api"
-  SCHEDULER_API_URL: "http://workflow-proxy:3001/query"
+  SCHEDULER_API_URL: "http://workflow-proxy:3000/query"
   RESOURCE_MANAGER_API_URL: "http://krakend:8080/api/resource"
 
 extraEnv: []
