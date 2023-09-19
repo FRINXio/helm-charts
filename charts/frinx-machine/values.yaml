@@ -378,3 +378,4 @@ promtail:
             {{- with .Values.config.snippets.extraRelabelConfigs }}
             {{- toYaml . | nindent 4 }}
             {{- end }}
+
