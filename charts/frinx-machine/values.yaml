@@ -10,13 +10,18 @@ krakend:
   image:
     repository: "frinx/krakend"
     tag: "1.0.6"
+  deployment:
+    env:
+      UNICONFIG_SHELL_ENABLED: true
+      UNICONFIG_SHELL_OAUTH_ENABLED: true
+      OAUTH2_AUTH_URL: true
 
 frinx-frontend:
   enabled: true
   fullnameOverride: "frinx-frontend"
   image:
     repository: "frinx/frinx-frontend"
-    tag: "1.0.53"
+    tag: "2.0.0"
   env:
     AUTH_CLIENT_ID: "frinx"
     DEVICE_TOPOLOGY_ENABLED: true
@@ -43,7 +48,7 @@ resource-manager:
   fullnameOverride: "resource-manager"
   image:
     repository: "frinx/resource-manager"
-    tag: "1.0.10"
+    tag: "2.0.0"
   postgresql:
     enabled: false
   env:
@@ -61,7 +66,7 @@ workflow-manager:
     tag: "2.1.5"
   schellarImage:
     repository: "frinx/schellar"
-    tag: "3.0.0"
+    tag: "4.0.0"
   postgresql:
     enabled: false
   conductorEnv:
@@ -76,7 +81,7 @@ inventory:
   fullnameOverride: "inventory"
   image:
     repository: "frinx/frinx-inventory-server"
-    tag: "1.9.3"
+    tag: "2.0.1"
   postgresql:
     enabled: false
   env:
@@ -88,7 +93,7 @@ topology-discovery:
   fullnameOverride: "topology-discovery"
   image:
     repository: "frinx/topology-discovery"
-    tag: "0.0.11"
+    tag: "1.0.0"
 
 frinx-arango-config:
   enabled: *device-discovery-enabled
@@ -126,7 +131,7 @@ uniconfig:
   enabled: true
   image:
     repository: "frinx/uniconfig"
-    tag: "5.1.9"
+    tag: "5.1.11"
   imagePullSecrets:
     - name: regcred
   postgresql:
