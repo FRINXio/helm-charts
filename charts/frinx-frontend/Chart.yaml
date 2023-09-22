@@ -3,14 +3,14 @@ name: frinx-frontend
 description: A Helm chart for Kubernetes deployment of the Frinx UI
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 3.1.1
+version: 3.1.2
 appVersion: "1.0.28"
 maintainers:
   - name: FRINX
 annotations:
   artifacthub.io/changes: |
     - kind: fixed
-      description: Fix smoke test in non-root container
+      description: Fix permission error with cache folder
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/248
