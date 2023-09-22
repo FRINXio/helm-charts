@@ -20,6 +20,9 @@ spec:
       labels:
         {{- include "frinx-frontend.selectorLabels" . | nindent 8 }}
     spec:
+      volumes:
+        - name: npm-volume
+          emptyDir: {}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -38,6 +41,9 @@ spec:
             - name: http
               containerPort: 8888
               protocol: TCP
+          volumeMounts:
+            - name: npm-volume
+              mountPath: /.npm
           env:
           {{- range $key, $val := .Values.env }}
             - name: {{ $key | quote }}
