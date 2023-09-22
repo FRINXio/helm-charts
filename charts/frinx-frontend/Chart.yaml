@@ -13,4 +13,4 @@ annotations:
       description: Fix permission error with cache folder
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/248
+          url: https://github.com/FRINXio/helm-charts/pull/321
