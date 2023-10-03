@@ -18,5 +18,9 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+    - port: 2022
+      targetPort: cli-shell
+      protocol: TCP
+      name: cli-shell
   selector:
     {{- include "uniconfig.selectorLabels" . | nindent 4 }}
