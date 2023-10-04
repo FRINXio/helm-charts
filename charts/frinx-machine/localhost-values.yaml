@@ -1,0 +1,21 @@
+inventory:
+  env:
+    TOPOLOGY_ENABLED: true
+
+topology-discovery:
+  enabled: true
+  env:
+    IMPORT_ARANGO_DEMO_DATA: true
+    IMPORT_DEVICE_INVENTORY_DATA: true
+
+frinx-arango-config:
+  enabled: true
+  arangodb_config:
+    enabled: true
+
+demo-workflows:
+  enabled: true
+
+sample-topology:
+  enabled: true
+
