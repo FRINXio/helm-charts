@@ -6,10 +6,6 @@ postgresql:
   global:
     storageClass: longhorn
 
-uniconfig:
-  service:
-    type: LoadBalancer
-
 uniconfig-postgresql:
   global:
     storageClass: longhorn

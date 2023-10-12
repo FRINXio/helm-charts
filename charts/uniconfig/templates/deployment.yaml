@@ -161,9 +161,6 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-            - name: cli-shell
-              containerPort: 2022
-              protocol: TCP
           livenessProbe:
             exec:
               command:
