@@ -22,7 +22,7 @@ frinx-frontend:
   image:
     repository: "frinx/frinx-frontend"
     pullPolicy: Always
-    tag: "latest"
+    tag: "2.0.0-e57593f1"
   env:
     AUTH_CLIENT_ID: "frinx"
     DEVICE_TOPOLOGY_ENABLED: true
@@ -167,7 +167,7 @@ sample-topology:
   fullnameOverride: "sample-topology"
   image:
     repository: "frinx/sample-topology"
-    tag: "3.2.0"
+    tag: "latest"
   devices:
     create: true
     devicesSpecification:
