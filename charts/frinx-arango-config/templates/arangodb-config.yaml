@@ -24,9 +24,15 @@ spec:
       {{- toYaml .Values.arangodb_config.securityContext | nindent 6 }}
     resources:
       {{- toYaml .Values.arangodb_config.resources | nindent 6 }}
+    {{- if .Values.arangodb_config.storageClassName }}
+    storageClassName: {{ .Values.arangodb_config.storageClassName }}
+    {{- end }}
   id:
     securityContext:
       {{- toYaml .Values.arangodb_config.securityContext | nindent 6 }}
     resources:
       {{- toYaml .Values.arangodb_config.resources | nindent 6 }}
+    {{- if .Values.arangodb_config.storageClassName }}
+    storageClassName: {{ .Values.arangodb_config.storageClassName }}
+  {{- end }}
 {{ end }}

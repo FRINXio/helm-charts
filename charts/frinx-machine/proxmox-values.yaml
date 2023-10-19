@@ -1,0 +1,50 @@
+krakend:
+  service:
+    type: LoadBalancer
+
+postgresql:
+  global:
+    storageClass: longhorn
+
+uniconfig:
+  service:
+    type: LoadBalancer
+
+uniconfig-postgresql:
+  global:
+    storageClass: longhorn
+
+inventory:
+  env:
+    TOPOLOGY_ENABLED: true
+
+topology-discovery:
+  enabled: true
+  env:
+    IMPORT_ARANGO_DEMO_DATA: true
+    IMPORT_DEVICE_INVENTORY_DATA: true
+
+frinx-arango-config:
+  enabled: true
+  arangodb_config:
+    enabled: true
+    storageClassName: longhorn
+
+demo-workflows:
+  enabled: true
+
+sample-topology:
+  enabled: true
+
+influxdb2:
+  persistence:
+    storageClass: longhorn
+
+telegraf-ds:
+  rbac:
+    create: false
+
+grafana:
+  service:
+    type: LoadBalancer
+    port: 3000

@@ -35,7 +35,7 @@ inventory:
       memory: 500Mi
       cpu: 500m
   env:
-    TOPOLOGY_ENABLED: true
+    # TOPOLOGY_ENABLED: true
 
 uniconfig-postgresql:
   primary:
@@ -76,12 +76,12 @@ loki:
   enabled: false
 
 topology-discovery:
-  enabled: true
+  enabled: false
   env:
     IMPORT_ARANGO_DEMO_DATA: true
 
 frinx-arango-config:
-  enabled: true
+  enabled: false
   arangodb_config:
     enabled: true
     resources:

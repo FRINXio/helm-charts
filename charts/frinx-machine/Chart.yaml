@@ -9,13 +9,15 @@ maintainers:
 dependencies:
   - condition: krakend.enabled
     name: krakend
-    repository: https://FRINXio.github.io/helm-charts
-    version: 2.9.1
+    # repository: https://FRINXio.github.io/helm-charts
+    repository: "file://../krakend"
+    version: 2.9.2
 
   - condition: frinx-frontend.enabled
     name: frinx-frontend
-    repository: https://FRINXio.github.io/helm-charts
-    version: 3.1.1
+    # repository: https://FRINXio.github.io/helm-charts
+    repository: "file://../frinx-frontend"
+    version: 3.1.2
 
   - condition: postgresql.enabled
     name: postgresql
@@ -29,13 +31,15 @@ dependencies:
 
   - condition: workflow-manager.enabled
     name: workflow-manager
-    repository: https://FRINXio.github.io/helm-charts
-    version: 2.0.0
+    # repository: https://FRINXio.github.io/helm-charts
+    repository: "file://../workflow-manager"
+    version: 3.0.0
 
   - condition: inventory.enabled
     name: inventory
-    repository: https://FRINXio.github.io/helm-charts
-    version: 4.0.0
+    # repository: https://FRINXio.github.io/helm-charts
+    repository: "file://../inventory"
+    version: 4.0.1
 
   - condition: uniconfig-postgresql.enabled
     name: postgresql
@@ -45,8 +49,9 @@ dependencies:
 
   - condition: uniconfig.enabled
     name: uniconfig
-    repository: https://FRINXio.github.io/helm-charts
-    version: 5.0.1
+    # repository: https://FRINXio.github.io/helm-charts
+    repository: "file://../uniconfig"
+    version: 5.1.0
 
   - condition: demo-workflows.enabled
     name: demo-workflows
@@ -65,8 +70,9 @@ dependencies:
 
   - condition: frinx-arango-config.enabled
     name: frinx-arango-config
-    repository: https://FRINXio.github.io/helm-charts
-    version: 3.0.0
+    # repository: https://FRINXio.github.io/helm-charts
+    repository: "file://../frinx-arango-config"
+    version: 3.1.0
 
   - condition: topology-discovery.enabled
     name: topology-discovery
