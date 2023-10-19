@@ -62,7 +62,7 @@ workflow-manager:
   fullnameOverride: "workflow-proxy"
   image:
     repository: "frinx/conductor-server"
-    tag: "2.2.2"
+    tag: "2.2.3"
   proxyImage:
     repository: "frinx/workflow-proxy"
     tag: "latest"
@@ -134,7 +134,7 @@ uniconfig:
   enabled: true
   image:
     repository: "frinx/uniconfig"
-    tag: "5.1.11"
+    tag: "5.2.0"
   imagePullSecrets:
     - name: regcred
   postgresql:
