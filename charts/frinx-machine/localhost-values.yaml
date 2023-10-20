@@ -1,3 +1,8 @@
+externalsecret:
+  enabled: true
+  secretstorename: development
+  vault: helm-chart-repo
+
 inventory:
   env:
     TOPOLOGY_ENABLED: true
@@ -18,4 +23,3 @@ demo-workflows:
 
 sample-topology:
   enabled: true
-
