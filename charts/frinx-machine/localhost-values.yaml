@@ -1,0 +1,32 @@
+externalsecret:
+  enabled: true
+  secretstorename: development
+  vault: helm-chart-repo
+
+inventory:
+  env:
+    TOPOLOGY_ENABLED: true
+
+topology-discovery:
+  enabled: true
+  env:
+    IMPORT_ARANGO_DEMO_DATA: true
+    IMPORT_DEVICE_INVENTORY_DATA: true
+
+frinx-arango-config:
+  enabled: true
+  arangodb_config:
+    enabled: true
+
+demo-workflows:
+  enabled: true
+
+sample-topology:
+  enabled: true
+
+krakend:
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+    host: "fm.127.0.0.1.nip.io"

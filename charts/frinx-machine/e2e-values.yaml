@@ -34,7 +34,7 @@ inventory:
     limits:
       memory: 500Mi
       cpu: 500m
-  env:
+  # env:
     # TOPOLOGY_ENABLED: true
 
 uniconfig-postgresql:

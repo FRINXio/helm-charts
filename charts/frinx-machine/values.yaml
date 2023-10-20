@@ -22,7 +22,7 @@ frinx-frontend:
   image:
     repository: "frinx/frinx-frontend"
     pullPolicy: Always
-    tag: "2.0.0"
+    tag: "2.0.0-e57593f1"
   env:
     AUTH_CLIENT_ID: "frinx"
     DEVICE_TOPOLOGY_ENABLED: true
@@ -65,10 +65,10 @@ workflow-manager:
   fullnameOverride: "workflow-proxy"
   image:
     repository: "frinx/conductor-server"
-    tag: "2.2.1"
+    tag: "2.2.3"
   proxyImage:
     repository: "frinx/workflow-proxy"
-    tag: "2.1.5"
+    tag: "latest"
   schellarImage:
     repository: "frinx/schellar"
     tag: "4.0.0"
@@ -87,7 +87,7 @@ inventory:
   image:
     repository: "frinx/frinx-inventory-server"
     pullPolicy: Always
-    tag: "2.0.1"
+    tag: "2.0.2"
   postgresql:
     enabled: false
   env:
@@ -137,7 +137,7 @@ uniconfig:
   enabled: true
   image:
     repository: "frinx/uniconfig"
-    tag: "5.1.11"
+    tag: "5.2.0"
   imagePullSecrets:
     - name: regcred
   postgresql:
@@ -161,7 +161,7 @@ demo-workflows:
   fullnameOverride: "demo-workflows"
   image:
     repository: "frinx/demo-workflows"
-    tag: "2.0.11"
+    tag: "2.0.12"
   sample-topology:
     enabled: false
 
@@ -170,7 +170,7 @@ sample-topology:
   fullnameOverride: "sample-topology"
   image:
     repository: "frinx/sample-topology"
-    tag: "3.2.0"
+    tag: "latest"
   devices:
     create: true
     devicesSpecification:
@@ -382,3 +382,4 @@ promtail:
             {{- with .Values.config.snippets.extraRelabelConfigs }}
             {{- toYaml . | nindent 4 }}
             {{- end }}
+
