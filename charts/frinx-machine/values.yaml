@@ -9,7 +9,8 @@ krakend:
   fullnameOverride: "krakend"
   image:
     repository: "frinx/krakend"
-    tag: "1.0.6"
+    pullPolicy: Always
+    tag: "latest"
   deployment:
     env:
       UNICONFIG_SHELL_ENABLED: true
@@ -22,7 +23,7 @@ frinx-frontend:
   image:
     repository: "frinx/frinx-frontend"
     pullPolicy: Always
-    tag: "2.0.0-e57593f1"
+    tag: "latest"
   env:
     AUTH_CLIENT_ID: "frinx"
     DEVICE_TOPOLOGY_ENABLED: true
@@ -49,8 +50,8 @@ resource-manager:
   fullnameOverride: "resource-manager"
   image:
     repository: "frinx/resource-manager"
-    tag: "latest"
     pullPolicy: Always
+    tag: "latest"
   postgresql:
     enabled: false
   env:
@@ -65,6 +66,7 @@ workflow-manager:
     tag: "2.2.3"
   proxyImage:
     repository: "frinx/workflow-proxy"
+    pullPolicy: Always
     tag: "latest"
   schellarImage:
     repository: "frinx/schellar"
@@ -84,7 +86,7 @@ inventory:
   image:
     repository: "frinx/frinx-inventory-server"
     pullPolicy: Always
-    tag: "2.0.2"
+    tag: "2.0.1"
   postgresql:
     enabled: false
   env:
@@ -134,7 +136,7 @@ uniconfig:
   enabled: true
   image:
     repository: "frinx/uniconfig"
-    tag: "5.2.0"
+    tag: "5.1.11"
   imagePullSecrets:
     - name: regcred
   postgresql:
