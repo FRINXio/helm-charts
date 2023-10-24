@@ -16,4 +16,4 @@ annotations:
       description: add support for nodePort service
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/304
+          url: https://github.com/FRINXio/helm-charts/pull/324
