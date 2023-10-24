@@ -57,7 +57,7 @@ affinity: {}
 deployment:
   annotations: {}
 
-commands: [ "python3", "main.py" ]
+commands: ["python3","main.py"]
 workdir: /home/app
 
 initContainersUrl:
