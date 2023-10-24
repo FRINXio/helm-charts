@@ -57,15 +57,22 @@ affinity: {}
 deployment:
   annotations: {}
 
-initContainersUrl:
+commands: [ "python3", "main.py" ]
+
+initContainers:
   UNICONFIG_URL_BASE: http://uniconfig:8181
   CONDUCTOR_URL_BASE: http://workflow-proxy:8080
   INVENTORY_URL_BASE: http://inventory:8000
+  workdir: /home/app
 
 env:
   X_TENANT_ID: frinx
   X_AUTH_USER_GROUP: network-admin
   UNICONFIG_URL_BASE: http://uniconfig:8181/rests
+
+configMaps:
+  # - name: properties-file
+  #   mountPath: /properties.env
 
 extraSecrets:
 
