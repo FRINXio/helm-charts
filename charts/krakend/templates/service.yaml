@@ -12,7 +12,6 @@ spec:
       {{- if eq .Values.service.type "NodePort" }}
       nodePort: {{ .Values.service.nodePort }}
       {{- end }}
-      nodePort: {{ .Values.service.nodePort }}
       protocol: TCP
       name: http
   selector:
