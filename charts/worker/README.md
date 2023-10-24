@@ -50,7 +50,6 @@ helm uninstall [RELEASE_NAME]
 | `affinity` | Affinity settings for pod assignment | `{}` |
 | `deployment.annotations` | Option to specify deployment annotation | `{}` |
 | `commands` | Option to specify commands for main container | `[ "python3", "main.py" ]` |
-
 | `initContainersUrl.UNICONFIG_URL_BASE` | UNICONFIG_URL_BASE env variable | `http://uniconfig:8181` |
 | `initContainersUrl.CONDUCTOR_URL_BASE` | CONDUCTOR_URL_BASE env variable | `http://workflow-proxy:8080` |
 | `initContainersUrl.INVENTORY_URL_BASE` | INVENTORY_URL_BASE env variable | `http://inventory:8000` |
