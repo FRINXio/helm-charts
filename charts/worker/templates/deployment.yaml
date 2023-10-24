@@ -69,7 +69,7 @@ spec:
           command:
             - sh
             - '-c'
-            - 'cp -r {{ .Values.initContainersUrl.workdir }}/* /tmp/app/'
+            - 'cp -r {{ .Values.workdir }}/* /tmp/app/'
           volumeMounts:
             - name: app-volume
               mountPath: /tmp/app/
@@ -105,7 +105,7 @@ spec:
             {{- end }}
           volumeMounts:
           - name: app-volume
-            mountPath: {{ .Values.initContainersUrl.workdir }}
+            mountPath: {{ .Values.workdir }}
           {{- range $secret := .Values.fileSecrets }}
           - name: {{ $secret.name }}
             mountPath: {{ $secret.target }}
