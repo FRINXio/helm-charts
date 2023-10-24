@@ -11766,6 +11766,29 @@ entries:
   krakend:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: add support for nodePort service
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/324
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:1.0.5
+    apiVersion: v2
+    appVersion: 1.0.5
+    created: "2023-10-24T20:45:36.658243928Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: 8c8283ec691003251254c8bffcf8961b2aa79c71e75556c66c17da260767a3dd
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-2.10.0/krakend-2.10.0.tgz
+    version: 2.10.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: remove hard-coded content_security_policy. Will be configurable in the future
           links:
@@ -14012,4 +14035,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-09-25T10:38:56.932591341Z"
+generated: "2023-10-24T20:45:36.662073743Z"
