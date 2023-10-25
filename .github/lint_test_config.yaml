@@ -20,3 +20,5 @@ excluded-charts:
   - worker
   # This chart has a dependency to arangodb 
   - topology-discovery
+  # This chart has a dependency to postresql 
+  - postgrest
