@@ -66,6 +66,6 @@ helm uninstall [RELEASE_NAME]
 | `database.postgresPort` | database port | `5432` |
 | `database.dbUri` | database uri | `""` |
 | `database.existingSecret` | name for existing secret which contain credentials to database | `` |
-| `command` | Option to specify command for main container | |
-| `args` | Option to specify args for main container | |
+| `command` | Option to specify command for main container | `["sh", "-c"]` |
+| `args` | Option to specify args for main container | `["sleep infinity"]` |
 | `extraEnv` | Option to specify extra environment variables | |

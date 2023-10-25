@@ -90,8 +90,7 @@ database:
   dbUri: ""
   existingSecret:
 
-commands:
-
-args:
+commands: ["sh", "-c"]
+args: ["sleep infinity"]
 
 extraEnv:
