@@ -51,16 +51,6 @@ spec:
                 secretKeyRef:
                   name: {{ include "postgrest.secretName" . }}
                   key: DATABASE_URL
-            # - name: POSTGRES_USER
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: {{ include "postgrest.secretName" . }}
-            #       key: POSTGRES_USER
-            # - name: POSTGRES_PASSWORD
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: {{ include "postgrest.secretName" . }}
-            #       key: POSTGRES_PASSWORD
             - name: POSTGRES_DB
               value: {{ .Values.database.postgresDb | quote }}
             - name: POSTGRES_HOSTNAME
