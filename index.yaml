@@ -1,5 +1,19 @@
 apiVersion: v1
 entries:
+  dbmate:
+  - apiVersion: v2
+    appVersion: 2.6.0
+    created: "2023-10-25T09:54:47.057797132Z"
+    description: A Helm chart for Kubernetes
+    digest: 063b8215d3626ccba4a8715b2a8e4c7a4e4673b36a359f96b2c0744e05d98019
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: dbmate
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/dbmate-1.0.0/dbmate-1.0.0.tgz
+    version: 1.0.0
   demo-workflows:
   - annotations:
       artifacthub.io/changes: |
@@ -14080,4 +14094,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-10-25T08:25:11.975342346Z"
+generated: "2023-10-25T09:54:47.05956832Z"
