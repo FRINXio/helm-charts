@@ -69,3 +69,4 @@ helm uninstall [RELEASE_NAME]
 | `env.dbSchema` | database schema | `public` |
 | `env.dbPool` | database pool | `120` |
 | `env.serverPort` | port for postgrest service | `4000` |
+| `extraEnv` | Option to specify extra environment variables for main container | |

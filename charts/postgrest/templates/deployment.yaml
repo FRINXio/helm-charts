@@ -65,6 +65,10 @@ spec:
               value: {{ .Values.env.dbPool | quote }}
             - name: PGRST_SERVER_PORT
               value: {{ .Values.env.serverPort | quote }}
+            {{- range $key, $val := .Values.extraEnv }}
+            - name: {{ $key | quote }}
+              value: {{ $val | quote }}
+            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
