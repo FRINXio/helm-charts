@@ -34,7 +34,7 @@ helm uninstall [RELEASE_NAME]
 | `replicaCount` | Number of nodes | `1` |
 | `image.repository` | Image repository | `postgrest/postgrest` |
 | `image.pullPolicy` | Image pull policy | `IfNotPresent` |
-| `image.tag` | Image tag | `` |
+| `image.tag` | Image tag | `""` |
 | `imagePullSecrets` | Image pull secrets | `[]` |
 | `nameOverride` | Replaces the name of the chart in the Chart.yaml file | `""` |
 | `fullnameOverride` |  Completely replaces the generated name | `""` |
