@@ -3,7 +3,7 @@ name: workflow-manager
 description: A Helm chart for Kubernetes deploying conductor-server and workflow-proxy
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 2.0.0
+version: 2.0.1
 appVersion: "2.1.3"
 maintainers:
   - name: FRINX
@@ -21,13 +21,8 @@ annotations:
     - name: schellar
       image: frinx/schellar:3.0.0
   artifacthub.io/changes: |
-    - kind: removed
-      description: Remove elasticsearch
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/253
-    - kind: removed
-      description: Remove config.properties
+    - kind: fixed
+      description: Fix max task payload size values
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/253
