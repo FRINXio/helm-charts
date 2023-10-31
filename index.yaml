@@ -13915,6 +13915,38 @@ entries:
   workflow-manager:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Fix max task payload size values
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/328
+      artifacthub.io/images: |
+        - name: conductor-server
+          image: frinx/conductor-server:2.1.3
+        - name: workflow-proxy
+          image: frinx/workflow-proxy:2.1.4
+        - name: schellar
+          image: frinx/schellar:3.0.0
+    apiVersion: v2
+    appVersion: 2.1.3
+    created: "2023-10-31T09:57:05.115737192Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deploying conductor-server and workflow-proxy
+    digest: 1fdf2f5d478c6003753e1686cfdfe70e3d46a9ff56a989d168171a1db174186c
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: workflow-manager
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-2.0.1/workflow-manager-2.0.1.tgz
+    version: 2.0.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: removed
           description: Remove elasticsearch
           links:
@@ -14094,4 +14126,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-10-25T09:54:47.05956832Z"
+generated: "2023-10-31T09:57:05.11724672Z"
