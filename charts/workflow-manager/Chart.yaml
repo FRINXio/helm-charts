@@ -25,4 +25,4 @@ annotations:
       description: Fix max task payload size values
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/253
+          url: https://github.com/FRINXio/helm-charts/pull/328
