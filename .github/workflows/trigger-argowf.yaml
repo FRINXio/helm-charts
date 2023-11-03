@@ -8,7 +8,7 @@ on:
 
 jobs:
   trigger_argo-wf:
-    runs-on: [self-hosted, kaas]
+    runs-on: elisa-normal
     steps:
     - uses: actions/checkout@v3
       with:
