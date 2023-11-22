@@ -54,7 +54,9 @@ ingress:
   enabled: false
   annotations: {}
   # ingressClassName: nginx
-  # host: workflow-manager.127.0.0.1.nip.io
+  hosts:
+    - host: workflow-manager.127.0.0.1.nip.io
+      paths: [ "/" ]
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
