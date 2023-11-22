@@ -57,7 +57,8 @@ helm uninstall [RELEASE_NAME]
 | `service.portConductor` | Kubernetes port where conductor is exposed | `8080` |
 | `ingress.enabled` | Enables Ingress | `false` |
 | `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
-| `ingress.hosts` | Ingress accepted hostnames  | `[]` |
+| `ingress.ingressClassName` | Ingress ingressClassName  | |
+| `ingress.host` | Ingress accepted hostnames  | |
 | `ingress.tls` | Ingress TLS configuration | `[]` |
 | `resources` | CPU/Memory resource requests/limits | `{}` |
 | `resourcesProxy` | CPU/Memory resource requests/limits | `{}` |
