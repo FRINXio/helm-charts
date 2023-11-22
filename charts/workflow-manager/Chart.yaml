@@ -25,4 +25,4 @@ annotations:
       description: Fix ingress
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/328
+          url: https://github.com/FRINXio/helm-charts/pull/330
