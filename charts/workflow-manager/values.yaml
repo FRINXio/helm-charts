@@ -56,7 +56,7 @@ ingress:
   # ingressClassName: nginx
   hosts:
     - host: workflow-manager.127.0.0.1.nip.io
-      paths: [ "/" ]
+      paths: ["/"]
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
