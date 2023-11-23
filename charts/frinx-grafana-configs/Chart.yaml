@@ -13,4 +13,4 @@ annotations:
       description: Add option to see only container logs
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/303
+          url: https://github.com/FRINXio/helm-charts/pull/331
