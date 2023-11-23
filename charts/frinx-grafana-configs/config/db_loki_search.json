@@ -227,11 +227,6 @@
         "useTags": false
       },
       {
-        "current": {
-          "selected": true,
-          "text": "workflow-manager",
-          "value": "workflow-manager"
-        },
         "datasource": {
           "type": "loki",
           "uid": "P8E80F9AEF21F6940"
