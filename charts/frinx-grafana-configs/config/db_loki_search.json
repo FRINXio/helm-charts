@@ -4,7 +4,10 @@
       {
         "$$hashKey": "object:75",
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -21,18 +24,22 @@
   },
   "description": "Loki logs panel with prometheus variables ",
   "editable": true,
+  "fiscalYearStartMonth": 0,
   "gnetId": 12019,
   "graphTooltip": 0,
-  "id": 2,
-  "iteration": 1629884309874,
+  "id": 8,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
       "aliasColors": {},
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Loki",
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
       "fieldConfig": {
         "defaults": {
           "links": []
@@ -65,7 +72,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.1.2",
+      "pluginVersion": "10.1.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -75,14 +82,16 @@
       "steppedLine": false,
       "targets": [
         {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
           "expr": "sum(count_over_time({app=\"$app\"} |~ \"$search\"[$__interval]))",
           "refId": "A"
         }
       ],
       "thresholds": [],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -90,9 +99,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -100,29 +107,25 @@
         {
           "$$hashKey": "object:168",
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": false
         },
         {
           "$$hashKey": "object:169",
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": false
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
-      "datasource": "Loki",
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
       "gridPos": {
         "h": 25,
         "w": 24,
@@ -143,17 +146,24 @@
       },
       "targets": [
         {
-          "expr": "{app=\"$app\"} |~ \"$search\"",
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "editorMode": "code",
+          "expr": "{app=\"$app\", container=\"$container\"} |~ \"$search\"",
+          "queryType": "range",
           "refId": "A"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Logs Panel",
       "type": "logs"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
       "gridPos": {
         "h": 3,
         "w": 24,
@@ -162,40 +172,82 @@
       },
       "id": 4,
       "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
         "content": "<div style=\"text-align:center\"> Frinx Loki search  </div>\n\n\n",
         "mode": "html"
       },
-      "pluginVersion": "8.1.2",
-      "timeFrom": null,
-      "timeShift": null,
+      "pluginVersion": "10.1.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "refId": "A"
+        }
+      ],
       "transparent": true,
       "type": "text"
     }
   ],
-  "refresh": false,
-  "schemaVersion": 30,
+  "refresh": "",
+  "schemaVersion": 38,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": [
       {
-        "allValue": null,
-        "current": {
-          "selected": false,
-          "text": "fm_grafana",
-          "value": "fm_grafana"
+        "datasource": {
+          "type": "loki",
+          "uid": "P8E80F9AEF21F6940"
         },
-        "datasource": "Loki",
-        "definition": "label_values(app)",
-        "description": null,
-        "error": null,
+        "definition": "",
         "hide": 0,
         "includeAll": false,
-        "label": null,
         "multi": false,
         "name": "app",
         "options": [],
-        "query": "label_values(app)",
+        "query": {
+          "label": "app",
+          "refId": "LokiVariableQueryEditor-VariableQuery",
+          "stream": "",
+          "type": 1
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "workflow-manager",
+          "value": "workflow-manager"
+        },
+        "datasource": {
+          "type": "loki",
+          "uid": "P8E80F9AEF21F6940"
+        },
+        "definition": "",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "container",
+        "options": [],
+        "query": {
+          "label": "container",
+          "refId": "LokiVariableQueryEditor-VariableQuery",
+          "stream": "{app=\"${app}\"}",
+          "type": 1
+        },
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -211,10 +263,7 @@
           "text": "",
           "value": ""
         },
-        "description": null,
-        "error": null,
         "hide": 0,
-        "label": null,
         "name": "search",
         "options": [
           {
@@ -248,7 +297,8 @@
     ]
   },
   "timezone": "",
-  "title": "Frinx Machine logs viewer",
-  "uid": "Y5yS_R4nz",
-  "version": 1
+  "title": "Frinx Machine logs viewer - edited",
+  "uid": "Y5yS_R4nz2",
+  "version": 4,
+  "weekStart": ""
 }
