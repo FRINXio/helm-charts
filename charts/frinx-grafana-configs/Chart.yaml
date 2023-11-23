@@ -3,14 +3,14 @@ name: frinx-grafana-configs
 description: A Helm chart for Kubernetes deployment of the Frinx-grafana-configs
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 1.1.1
+version: 1.2.0
 appVersion: "1.0.0"
 maintainers:
   - name: FRINX
 annotations:
   artifacthub.io/changes: |
-    - kind: fixed
-      description: Device monitoring dashboard, convert string values to int
+    - kind: added
+      description: Add option to see only container logs
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/303
