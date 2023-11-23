@@ -567,6 +567,26 @@ entries:
   frinx-grafana-configs:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Add option to see only container logs
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/331
+    apiVersion: v2
+    appVersion: 1.0.0
+    created: "2023-11-23T10:06:48.438389555Z"
+    description: A Helm chart for Kubernetes deployment of the Frinx-grafana-configs
+    digest: 52c190650fb1720e60fbe8d9eade62d7d2bee8faa4e6fc04d8dd5c7c1b16a539
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-grafana-configs
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-grafana-configs-1.2.0/frinx-grafana-configs-1.2.0.tgz
+    version: 1.2.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: Device monitoring dashboard, convert string values to int
           links:
@@ -14158,4 +14178,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-11-23T08:27:02.501107931Z"
+generated: "2023-11-23T10:06:48.440157553Z"
