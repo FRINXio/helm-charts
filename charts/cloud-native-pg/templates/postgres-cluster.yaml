@@ -1,0 +1,107 @@
+{{- $cluster_name := or $.Values.name $.Chart.Name -}}
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ $cluster_name }}
+spec:
+  instances: {{ .Values.instances }}
+  imageName: {{ .Values.imageName }}
+  imagePullPolicy: {{ .Values.imagePullPolicy }}
+  imagePullSecrets: {{ .Values.imagePullSecrets }}
+  primaryUpdateStrategy: {{ .Values.primaryUpdateStrategy }}
+  primaryUpdateMethod: {{ .Values.primaryUpdateMethod }}
+  logLevel: {{ .Values.logLevel }}
+
+  {{- if .Values.startDelay }}
+  startDelay: {{ .Values.startDelay }}
+  {{- end }}
+
+  {{- if .Values.stopDelay }}
+  stopDelay: {{ .Values.stopDelay }}
+  {{- end }}
+
+  {{- if .Values.replicationSlots }}
+  replicationSlots:
+    {{- toYaml .Values.replicationSlots | nindent 4 }}
+  {{- end }}
+
+  {{- if .Values.storage }}
+  storage:
+    {{- toYaml .Values.storage | nindent 4 }}
+  {{- end }}
+
+  {{- if .Values.resources }}
+  resources:
+    {{- toYaml .Values.resources | nindent 4 }}
+  {{- end }}
+
+  {{- if .Values.postgresql }}
+  postgresql:
+    {{- toYaml .Values.postgresql | nindent 4 }}
+  {{- end }}
+
+  {{- if .Values.affinity }}
+  monitoring:
+    {{- toYaml .Values.affinity | nindent 4 }}
+  {{- end }}
+
+  bootstrap:
+    initdb:
+      database: {{ .Values.bootstrap.initdb.database }}
+      owner: {{ .Values.bootstrap.initdb.owner }}
+      secret:
+        name: {{- printf " %s-%s" $cluster_name .Values.bootstrap.initdb.secret.name }}
+      {{- if .Values.bootstrap.initdb.postInitSQL }}
+      postInitSQL:
+        {{- toYaml .Values.bootstrap.initdb.postInitSQL | nindent 8 }}
+      {{- end }}
+      {{- if .Values.bootstrap.initdb.postInitTemplateSQL }}
+      postInitTemplateSQL:
+        {{- toYaml .Values.bootstrap.initdb.postInitTemplateSQL | nindent 8 }}
+      {{- end }}
+      {{- if .Values.bootstrap.initdb.postInitApplicationSQL }}
+      postInitApplicationSQL:
+        {{- toYaml .Values.bootstrap.initdb.postInitApplicationSQL | nindent 8 }}
+      {{- end }}
+      {{- if .Values.bootstrap.initdb.postInitApplicationSQLRefs }}
+      postInitApplicationSQLRefs:
+        {{- if .Values.bootstrap.initdb.postInitApplicationSQLRefs.configMapRefs }}
+        configMapRefs:
+          {{- range .Values.bootstrap.initdb.postInitApplicationSQLRefs.configMapRefs }}
+          - name: {{- printf " %s-%s" $cluster_name .name }}
+            key: {{ .key }}
+          {{- end }}
+        {{- end }}
+        {{- if .Values.bootstrap.initdb.postInitApplicationSQLRefs.secretRefs }}
+        secretRefs:
+          {{- range .Values.bootstrap.initdb.postInitApplicationSQLRefs.secretRefs }}
+          - name: {{- printf " %s-%s" $cluster_name .name }}
+            key: {{ .key }}
+          {{- end }}
+      {{- end }}
+  {{- end }}
+
+  {{- if .Values.backup }}
+  backup:
+    {{- toYaml .Values.backup | nindent 4 }}
+  {{- end }}
+
+  {{- if .Values.superuserSecret }}
+  superuserSecret:
+    name: {{- printf " %s-%s" $cluster_name .Values.superuserSecret.name }}
+  {{- end }}
+
+  {{- if .Values.env }}
+  env:
+    {{- toYaml .Values.env | nindent 4 }}
+  {{- end }}
+
+  {{- if .Values.envFrom }}
+  envFrom:
+    {{- toYaml .Values.envFrom | nindent 4 }}
+  {{- end }}
+
+  {{- if .Values.monitoring }}
+  monitoring:
+    {{- toYaml .Values.monitoring | nindent 4 }}
+  {{- end }}

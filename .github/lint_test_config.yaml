@@ -22,3 +22,5 @@ excluded-charts:
   - topology-discovery
   # This chart has a dependency to postresql 
   - postgrest
+  # This chart has a dependency to CloudNativePG operator 
+  - cloud-native-pg
