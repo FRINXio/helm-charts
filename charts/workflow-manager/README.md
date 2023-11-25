@@ -76,6 +76,7 @@ helm uninstall [RELEASE_NAME]
 | `conductorEnv.LOG4J_PROP` | LOG4J_PROP env value | `log4j.properties` |
 | `conductorEnv.SPRING_DATASOURCE_HOSTNAME` | Hostname of external database | |
 | `conductorEnv.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_HOSTNAME` | CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_HOSTNAME env value | |
+| `conductorEnv.DATABASE` | DATABASE env value | `conductor` |
 | `conductorEnv.SPRING_SEARCHDATASOURCE_HOSTNAME` | SPRING_SEARCHDATASOURCE_HOSTNAME env value | |
 | `conductorExtraEnv`| Extra env variables for conductor | |
 | `proxyEnv.AUTH_ENABLED` | AUTH_ENABLED env value | `false` |

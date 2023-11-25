@@ -66,6 +66,7 @@ helm uninstall [RELEASE_NAME]
 | `env.POSTGRES_USER` | POSTGRES_USER env value | `postgresU` |
 | `env.POSTGRES_PASSWORD` | POSTGRES_PASSWORD env value | `postgresP` |
 | `env.POSTGRES_DB` | POSTGRES_DB env value | `inventory` |
+| `env.POSTGRES_DB_SCHEMA` | POSTGRES_DB_SCHEMA env value | `public` |
 | `env.POSTGRES_HOSTNAME` | POSTGRES_HOSTNAME env value | |
 | `env.POSTGRES_PORT` | POSTGRES_PORT env value | `5432` |
 | `env.TOPOLOGY_ENABLED` | Enable/Disable connection to arangodb | `false` |
