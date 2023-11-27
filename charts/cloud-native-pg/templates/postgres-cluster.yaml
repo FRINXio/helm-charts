@@ -1,8 +1,7 @@
-{{- $cluster_name := or $.Values.name $.Chart.Name -}}
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: {{ $cluster_name }}
+  name: {{ include "cloud-native-pg.fullname" . }}
 spec:
   instances: {{ .Values.instances }}
   imageName: {{ .Values.imageName }}
@@ -50,7 +49,7 @@ spec:
       database: {{ .Values.bootstrap.initdb.database }}
       owner: {{ .Values.bootstrap.initdb.owner }}
       secret:
-        name: {{- printf " %s-%s" $cluster_name .Values.bootstrap.initdb.secret.name }}
+        name: {{ include "cloud-native-pg.userSecretName" . }}
       {{- if .Values.bootstrap.initdb.postInitSQL }}
       postInitSQL:
         {{- toYaml .Values.bootstrap.initdb.postInitSQL | nindent 8 }}
@@ -65,20 +64,20 @@ spec:
       {{- end }}
       {{- if .Values.bootstrap.initdb.postInitApplicationSQLRefs }}
       postInitApplicationSQLRefs:
-        {{- if .Values.bootstrap.initdb.postInitApplicationSQLRefs.configMapRefs }}
         configMapRefs:
-          {{- range .Values.bootstrap.initdb.postInitApplicationSQLRefs.configMapRefs }}
-          - name: {{- printf " %s-%s" $cluster_name .name }}
+          {{- range .Values.bootstrap.initdb.postInitApplicationSQLRefs.extraConfigMapRefs }}
+          - name: {{ .name }}
             key: {{ .key }}
           {{- end }}
-        {{- end }}
-        {{- if .Values.bootstrap.initdb.postInitApplicationSQLRefs.secretRefs }}
         secretRefs:
-          {{- range .Values.bootstrap.initdb.postInitApplicationSQLRefs.secretRefs }}
-          - name: {{- printf " %s-%s" $cluster_name .name }}
+          {{- if .Values.secrets.postInitSqlSecret }}
+          - name: {{ include "cloud-native-pg.postInitSqlSecretName" . }}
+            key: secret.sql
+          {{- end }}
+          {{- range .Values.bootstrap.initdb.postInitApplicationSQLRefs.extraSecretRefs }}
+          - name: {{- .name }}
             key: {{ .key }}
           {{- end }}
-      {{- end }}
   {{- end }}
 
   {{- if .Values.backup }}
@@ -86,9 +85,9 @@ spec:
     {{- toYaml .Values.backup | nindent 4 }}
   {{- end }}
 
-  {{- if .Values.superuserSecret }}
+  {{- if .Values.secrets.superuserSecret }}
   superuserSecret:
-    name: {{- printf " %s-%s" $cluster_name .Values.superuserSecret.name }}
+    name: {{ include "cloud-native-pg.superUserSecretName" . }}
   {{- end }}
 
   {{- if .Values.env }}

@@ -44,14 +44,19 @@ bootstrap:
   initdb:
     database: frinx
     owner: frinx
-    secret:
-      name: frinx-user
+    # secret:
+    #   name: frinx-user
     postInitSQL: {}
     postInitTemplateSQL: {}
     postInitApplicationSQL: {}
     postInitApplicationSQLRefs:
-      configMapRefs: {}
-      secretRefs: {}
+      # extraConfigMapRefs holds a list of references to configmaps
+      # key-value format 
+      extraConfigMapRefs: {}
+      # extraSecretRefs holds a list of references to secrets
+      # If secrets.postInitSqlSecret exist, automatically is imported to secretRefs list
+      # key-value format 
+      extraSecretRefs: {}
 
 backup: {}
   # BackupConfiguration defines how the backup of the cluster are taken.
@@ -59,8 +64,6 @@ backup: {}
   # For details and examples refer to the Backup and Recovery section of the documentation
   # https://cloudnative-pg.io/documentation/1.18/api_reference/#backupconfiguration
 
-superuserSecret:
-  name: frinx-superuser
 
 monitoring: {}
   # MonitoringConfiguration is the type containing all the monitoring configuration for a certain cluster
@@ -77,15 +80,16 @@ affinity: {}
   # https://cloudnative-pg.io/documentation/1.18/api_reference/#AffinityConfiguration
 
 secrets:
-  superuserSecret:
-    name: frinx-superuser
+  superuserSecret: 
+    existingSecret:
     username: postgres
     password: postgres
-  userSecret:
-    name: frinx-user
+  userSecret: 
+    existingSecret:
     username: frinx
-    password: postgres
-  postInitSqlSecret: {}
+    password: frinx
+  postInitSqlSecret:
+    # existingSecret:
     # name: post-init-sql-secret
     # sql: |-
     #   CREATE SCHEMA inventory AUTHORIZATION inventory;
