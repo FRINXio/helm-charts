@@ -13750,6 +13750,27 @@ entries:
   worker:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Fix adding new extraSecrets
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/334
+    apiVersion: v2
+    appVersion: 1.9.1
+    created: "2023-12-05T11:17:01.241184207Z"
+    description: A Helm chart for uniflow worker
+    digest: 6cbd425363ec1269fefa6ba4af92a06a2e6114be5218c7eae1292143279fd69f
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: worker
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/worker-2.4.1/worker-2.4.1.tgz
+    version: 2.4.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Added option to specify configmaps
           links:
@@ -14249,4 +14270,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2023-11-28T09:19:40.387126368Z"
+generated: "2023-12-05T11:17:01.242750267Z"
