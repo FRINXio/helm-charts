@@ -11,7 +11,7 @@ appVersion: "1.9.1"
 annotations:
   artifacthub.io/changes: |
     - kind: fixed
-      description: Fix adding new extraSecret
+      description: Fix adding new extraSecrets
       links:
         - name: GitHub PR
           url: https://github.com/FRINXio/helm-charts/pull/334
