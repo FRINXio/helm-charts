@@ -92,16 +92,12 @@ spec:
             - name: {{ $key | quote }}
               value: {{ $val | quote }}
             {{- end }}
-            {{- range $key, $val := .Values.extraSecrets }}
-            - name: {{ $key | quote }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ $val | quote }}
-                  key: {{ $key | quote }}
-            {{- end }}
             {{- range $secret := .Values.fileSecrets }}
             - name: {{ $secret.env }}
               value: {{ $secret.target }}
+            {{- end }}
+            {{- with .Values.extraSecrets }}
+            {{- toYaml . | nindent 12 }}
             {{- end }}
           volumeMounts:
           - name: app-volume

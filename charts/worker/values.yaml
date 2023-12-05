@@ -75,6 +75,11 @@ configMaps:
   #   mountPath: /properties.env
 
 extraSecrets:
+  # - name: ENV_NAME
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: SECRET_FILE
+  #       key: SECRET_KEY
 
 fileSecrets:
   # - name: secretName
