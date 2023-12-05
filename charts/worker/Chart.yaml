@@ -14,4 +14,4 @@ annotations:
       description: Fix adding new extraSecret
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/325
+          url: https://github.com/FRINXio/helm-charts/pull/334
