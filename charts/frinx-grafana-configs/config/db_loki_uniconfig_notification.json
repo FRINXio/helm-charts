@@ -200,11 +200,6 @@
   "templating": {
     "list": [
       {
-        "current": {
-          "selected": true,
-          "text": "Leaf03",
-          "value": "Leaf03"
-        },
         "datasource": {
           "type": "loki",
           "uid": "P8E80F9AEF21F6940"
