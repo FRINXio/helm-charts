@@ -22,7 +22,7 @@
       }
     ]
   },
-  "description": "Loki logs panel for searching device notification",
+  "description": "Loki logs panel for device communication logs",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "gnetId": 12019,
