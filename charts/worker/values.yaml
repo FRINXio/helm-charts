@@ -85,3 +85,8 @@ fileSecrets:
   # - name: secretName
   #   target: /tmp/secretDir
   #   env: secretEnvName
+
+hostPaths:
+  # - name: hostName
+  #   mountPath: /somedir/in/pod
+  #   hostPath: /somedir/on/vm

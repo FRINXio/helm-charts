@@ -35,6 +35,11 @@ spec:
           configMap:
             name: {{ $config.name }}
         {{- end }}
+        {{- range $host := .Values.hostPaths }}
+        - name: {{ $host.name }}
+          hostPath:
+            path: {{ $host.hostPath }}
+        {{- end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -110,6 +115,10 @@ spec:
           {{- range $config := .Values.configMaps }}
           - name: {{ $config.name }}
             mountPath: {{ $config.mountPath }}
+          {{- end }}
+          {{- range $host := .Values.hostPaths }}
+          - name: {{ $host.name }}
+            mountPath: {{ $host.mountPath }}
           {{- end }}
           # livenessProbe:
           #   httpGet:

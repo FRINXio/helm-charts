@@ -60,6 +60,7 @@ helm uninstall [RELEASE_NAME]
 | `configMaps` | Option to attach configmaps into the pod. [See example in values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/worker/values.yaml) | |
 | `extraSecrets` | Option to add secrets into the pod. [See example in values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/worker/values.yaml) | |
 | `fileSecrets` | Option to attach secrets as a file into the pod. Need to define secret name, env name and target path. [See example in values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/worker/values.yaml) | |
+| `hostPaths` | Option to attach host directories into the pod. Need to define name, mount path and host path. [See example in values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/worker/values.yaml) | |
 
 ## Preparing a secretFile with Base64 encoding
 
