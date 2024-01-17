@@ -49,13 +49,13 @@ spec:
             do sleep 5; echo "waiting for uniflow";
             done;
             echo "connection successful!"']
-        - name: check-inventory-ready
-          image: curlimages/curl
-          command: ["/bin/sh","-c"]
-          args: ['while [ $(curl -o /dev/null --silent --write-out "%{http_code}" {{ .Values.env.INVENTORY_HOSTNAME }}:{{ .Values.env.INVENTORY_PORT }}/.well-known/apollo/server-health) -ne 200 ];
-            do sleep 5; echo "waiting for inventory";
-            done;
-            echo "connection successful!"']        
+        # - name: check-inventory-ready
+        #   image: curlimages/curl
+        #   command: ["/bin/sh","-c"]
+        #   args: ['while [ $(curl -o /dev/null --silent --write-out "%{http_code}" {{ .Values.env.INVENTORY_HOSTNAME }}:{{ .Values.env.INVENTORY_PORT }}/.well-known/apollo/server-health) -ne 200 ];
+        #     do sleep 5; echo "waiting for inventory";
+        #     done;
+        #     echo "connection successful!"']        
         - name: copy-worker-files
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command:
@@ -75,7 +75,7 @@ spec:
             - name: "UNICONFIG_URL_BASE"
               value: "http://{{ .Values.env.UNICONFIG_HOSTNAME }}:{{ .Values.env.UNICONFIG_PORT }}/rests"
             - name: "CONDUCTOR_URL_BASE"
-              value: "http://{{ .Values.env.UNIFLOW_HOSTNAME }}:{{ .Values.env.UNIFLOW_PORT }}/proxy/api"
+              value: "http://{{ .Values.env.UNIFLOW_HOSTNAME }}:{{ .Values.env.CONDUCTOR_PORT }}/api"
             - name: "INVENTORY_URL_BASE"
               value: "http://{{ .Values.env.INVENTORY_HOSTNAME }}:{{ .Values.env.INVENTORY_PORT }}/graphql"
             - name: "INSTANCES_TO_SIMULATE"

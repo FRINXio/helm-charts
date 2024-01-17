@@ -88,7 +88,7 @@ deployment:
 env:
   UNICONFIG_HOSTNAME: uniconfig
   UNICONFIG_PORT: 8181
-  UNIFLOW_HOSTNAME: workflow-proxy
+  UNIFLOW_HOSTNAME: conductor-server
   UNIFLOW_PORT: 8088
   CONDUCTOR_PORT: 8080
   INVENTORY_HOSTNAME: inventory

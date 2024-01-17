@@ -91,26 +91,26 @@ spec:
             - name: {{ $key | quote }}
               value: {{ $val | quote }}
           {{- end }}
-          livenessProbe:
-            exec:
-              command:
-              - wget
-              - --spider
-              - -q
-              - 0.0.0.0:8000/.well-known/apollo/server-health
-            initialDelaySeconds: 40
-            timeoutSeconds: 5
-            failureThreshold: 5
-          readinessProbe:
-            exec:
-              command:
-              - wget
-              - --spider
-              - -q
-              - 0.0.0.0:8000/.well-known/apollo/server-health
-            initialDelaySeconds: 40
-            timeoutSeconds: 5
-            failureThreshold: 5
+          # livenessProbe:
+          #   exec:
+          #     command:
+          #     - wget
+          #     - --spider
+          #     - -q
+          #     - 0.0.0.0:8000/.well-known/apollo/server-health
+          #   initialDelaySeconds: 40
+          #   timeoutSeconds: 5
+          #   failureThreshold: 5
+          # readinessProbe:
+          #   exec:
+          #     command:
+          #     - wget
+          #     - --spider
+          #     - -q
+          #     - 0.0.0.0:8000/.well-known/apollo/server-health
+            # initialDelaySeconds: 40
+            # timeoutSeconds: 5
+            # failureThreshold: 5
           command: ['/bin/sh', '-c']
           args:
           - yarn prisma migrate deploy --schema=prisma/schema.prisma && node index.js

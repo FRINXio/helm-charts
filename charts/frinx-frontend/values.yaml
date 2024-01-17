@@ -10,6 +10,11 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
+proxyImage:
+  name: frinx/frinx-graphql-proxy
+  pullPolicy: IfNotPresent
+  tag: "last"
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -36,6 +41,7 @@ securityContext:
 service:
   type: ClusterIP
   port: 8888
+  portProxy: 5555
 
 ingress:
   enabled: false
@@ -95,3 +101,12 @@ env:
   AUTH_REDIRECT_DOMAIN: localhost
   MSAL_AUTHORITY: https://login.microsoftonline.com/common/
   DEVICE_TOPOLOGY_ENABLED: false
+
+
+proxyEnv:
+  CONDUCTOR_URL: http://workflow-proxy:8080
+  SCHELLAR_URL: http://workflow-proxy:3000
+  INVENTORY_URL: http://inventory:8000
+  RESOURCE_MANAGER_URL: http://resource-manager:8884
+
+proxyResources: {}

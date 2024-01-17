@@ -1,6 +1,6 @@
 # Global settings
 
-x-device-discovery-enabled: &device-discovery-enabled false
+x-device-discovery-enabled: &device-discovery-enabled true
 
 # Default values for FRINX-machine.
 
@@ -10,16 +10,39 @@ krakend:
   image:
     repository: "frinx/krakend"
     tag: "1.0.6"
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    host: "fm.10.19.2.21.nip.io"
+  service:
+    type: LoadBalancer
+
 
 frinx-frontend:
   enabled: true
   fullnameOverride: "frinx-frontend"
+
   image:
     repository: "frinx/frinx-frontend"
-    tag: "1.0.53"
+    tag: "graphql_proxy"
+
+  proxyImage:
+    name: frinx/frinx-graphql-proxy
+    pullPolicy: IfNotPresent
+    tag: "graphql_proxy"
+
   env:
     AUTH_CLIENT_ID: "frinx"
     DEVICE_TOPOLOGY_ENABLED: true
+    INVENTORY_API_URL: "/api/proxy"
+    RESOURCE_MANAGER_API_URL: "/api/proxy"
+
+  proxyEnv:
+    CONDUCTOR_URL: http://conductor-server:8080
+    SCHELLAR_URL: http://conductor-server:3000
+    INVENTORY_URL: http://inventory:8000
+    RESOURCE_MANAGER_URL: http://resource-manager:8884
+
 
 postgresql:
   enabled: true
@@ -43,7 +66,7 @@ resource-manager:
   fullnameOverride: "resource-manager"
   image:
     repository: "frinx/resource-manager"
-    tag: "1.0.10"
+    tag: "2.1.0"
   postgresql:
     enabled: false
   env:
@@ -52,16 +75,13 @@ resource-manager:
 
 workflow-manager:
   enabled: true
-  fullnameOverride: "workflow-proxy"
+  fullnameOverride: "conductor-server"
   image:
     repository: "frinx/conductor-server"
     tag: "2.2.2"
-  proxyImage:
-    repository: "frinx/workflow-proxy"
-    tag: "2.1.5"
   schellarImage:
     repository: "frinx/schellar"
-    tag: "3.0.0"
+    tag: "4.0.0"
   postgresql:
     enabled: false
   conductorEnv:
@@ -76,22 +96,27 @@ inventory:
   fullnameOverride: "inventory"
   image:
     repository: "frinx/frinx-inventory-server"
-    tag: "1.9.3"
+    tag: "graphql_proxy"
   postgresql:
     enabled: false
   env:
     POSTGRES_HOSTNAME: frinx-postgresql
     TOPOLOGY_ENABLED: *device-discovery-enabled
+  extraEnv:
+    TOPOLOGY_DISCOVERY_API_URL: http://topology-discovery:5000
+    TOPOLOGY_DISCOVERY_GRAPHQL_API_URL: http://topology-discovery:5000/api/graphql
 
 topology-discovery:
   enabled: *device-discovery-enabled
   fullnameOverride: "topology-discovery"
   image:
     repository: "frinx/topology-discovery"
-    tag: "0.0.11"
+    tag: "latest"
+  env:
+    ARANGO_URL: 'http://10.19.2.22:8529'
 
 frinx-arango-config:
-  enabled: *device-discovery-enabled
+  enabled: false
   arangodb_config:
     enabled: *device-discovery-enabled
     securityContext:
@@ -126,9 +151,9 @@ uniconfig:
   enabled: true
   image:
     repository: "frinx/uniconfig"
-    tag: "5.1.9"
+    tag: "5.1.16"
   imagePullSecrets:
-    - name: regcred
+    - name: dockerhostsecretname
   postgresql:
     enabled: false
   dbPersistence:
@@ -146,7 +171,7 @@ uniconfig:
       - ALL
 
 demo-workflows:
-  enabled: false
+  enabled: true
   fullnameOverride: "demo-workflows"
   image:
     repository: "frinx/demo-workflows"
@@ -155,7 +180,7 @@ demo-workflows:
     enabled: false
 
 sample-topology:
-  enabled: false
+  enabled: true
   fullnameOverride: "sample-topology"
   image:
     repository: "frinx/sample-topology"
