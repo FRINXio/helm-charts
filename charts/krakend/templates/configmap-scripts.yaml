@@ -10,4 +10,5 @@ data:
   uniconfig_rbac.lua: {{ (.Files.Get "config/scripts/uniconfig_rbac.lua") | quote }}
   unistore_rbac.lua: {{ (.Files.Get "config/scripts/unistore_rbac.lua") | quote }}
   wp_azure_swagger.lua: {{ (.Files.Get "config/scripts/wp_azure_swagger.lua") | quote }}
+  header_check.lua: {{ (.Files.Get "config/scripts/header_check.lua") | quote }}
 {{ end }}
