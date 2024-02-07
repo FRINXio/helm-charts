@@ -9,14 +9,7 @@ krakend:
   fullnameOverride: "krakend"
   image:
     repository: "frinx/krakend"
-    tag: "1.0.6"
-  ingress:
-    enabled: true
-    ingressClassName: nginx
-    host: "fm.10.19.2.21.nip.io"
-  service:
-    type: LoadBalancer
-
+    tag: "oauth2-proxy"
 
 frinx-frontend:
   enabled: true
@@ -24,28 +17,30 @@ frinx-frontend:
 
   image:
     repository: "frinx/frinx-frontend"
-    tag: "graphql_proxy"
+    tag: "latest"
+    pullPolicy: Always
 
   proxyImage:
     name: frinx/frinx-graphql-proxy
-    pullPolicy: IfNotPresent
-    tag: "graphql_proxy"
+    tag: "latest"
+    pullPolicy: Always
 
   env:
     AUTH_CLIENT_ID: "frinx"
     DEVICE_TOPOLOGY_ENABLED: true
     INVENTORY_API_URL: "/api/proxy"
     RESOURCE_MANAGER_API_URL: "/api/proxy"
+    AUTH_ENABLED: true
 
   proxyEnv:
     CONDUCTOR_URL: http://conductor-server:8080
-    SCHELLAR_URL: http://conductor-server:3000
-    INVENTORY_URL: http://inventory:8000
-    RESOURCE_MANAGER_URL: http://resource-manager:8884
-
+    SCHELLAR_URL: http://conductor-server:3000/query
+    INVENTORY_URL: http://inventory:8000/graphql
+    RESOURCE_MANAGER_URL: http://resource-manager:8884/query
+    DEBUG: 1
 
 postgresql:
-  enabled: true
+  enabled: false
   fullnameOverride: "frinx-postgresql"
   auth:
     enablePostgresUser: true
@@ -66,64 +61,102 @@ resource-manager:
   fullnameOverride: "resource-manager"
   image:
     repository: "frinx/resource-manager"
-    tag: "2.1.0"
+    tag: "latest"
+    pullPolicy: Always
   postgresql:
     enabled: false
   env:
-    PSQL_HOSTNAME: frinx-postgresql
-    RM_DB_CONNECTION_STRING: "postgres://postgresU:postgresP@frinx-postgresql:5432/postgres?sslmode=disable"
+    PSQL_HOSTNAME: postgresql-rw
+    RM_DB_CONNECTION_STRING: "postgres://resource_user:resource@postgresql-rw:5432/frinx?sslmode=disable"
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - host: resource-manager.10.19.0.39.nip.io
+        paths: ["/"]
 
 workflow-manager:
   enabled: true
   fullnameOverride: "conductor-server"
   image:
     repository: "frinx/conductor-server"
-    tag: "2.2.2"
+    tag: "latest"
   schellarImage:
     repository: "frinx/schellar"
     tag: "4.0.0"
   postgresql:
     enabled: false
   conductorEnv:
-    SPRING_DATASOURCE_HOSTNAME: frinx-postgresql
-    CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_HOSTNAME: frinx-postgresql
-    SPRING_SEARCHDATASOURCE_HOSTNAME: frinx-postgresql
+    DATABASE: frinx
+    POSTGRES_DB_SCHEMA: conductor
+    SPRING_DATASOURCE_HOSTNAME: postgresql-rw
+    CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_HOSTNAME: postgresql-rw
+    SPRING_SEARCHDATASOURCE_HOSTNAME: postgresql-rw
+  conductorExtraEnv:
+    CONDUCTOR_APP_MAXTASKINPUTPAYLOADSIZETHRESHOLD: 102400
+    CONDUCTOR_APP_MAXTASKOUTPUTPAYLOADSIZETHRESHOLD: 102400
+    SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql-rw:5432/frinx?charset=utf8&parseTime=true&interpolateParams=true
+    SPRING_DATASOURCE_USERNAME: conductor_user
+    SPRING_DATASOURCE_PASSWORD: conductor
+    SPRING_SEARCHDATASOURCE_USERNAME: conductor_user
+    SPRING_SEARCHDATASOURCE_PASSWORD: conductor
+    SPRING_SEARCHDATASOURCE_HIKARI_MAXIMUMPOOLSIZE: 8
+    CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME: conductor_user
+    CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD: conductor
+    CONDUCTOR_DATASOURCE_SCHEMA: conductor
   schellarEnv:
-    POSTGRES_DATABASE_URL: "host=frinx-postgresql port=5432 user=postgresU password=postgresP database=schellar"
+    POSTGRES_DATABASE_URL: "host=postgresql-rw port=5432 user=schellar_user password=schellar database=frinx"
+
 
 inventory:
   enabled: true
   fullnameOverride: "inventory"
   image:
     repository: "frinx/frinx-inventory-server"
-    tag: "graphql_proxy"
+    pullPolicy: Always
+    tag: "latest"
   postgresql:
     enabled: false
   env:
-    POSTGRES_HOSTNAME: frinx-postgresql
+    POSTGRES_HOSTNAME: postgresql-rw
     TOPOLOGY_ENABLED: *device-discovery-enabled
+    POSTGRES_PASSWORD: inventory
+    POSTGRES_USER: inventory
+    POSTGRES_DB: frinx
+    POSTGRES_DB_SCHEMA: inventory
   extraEnv:
     TOPOLOGY_DISCOVERY_API_URL: http://topology-discovery:5000
     TOPOLOGY_DISCOVERY_GRAPHQL_API_URL: http://topology-discovery:5000/api/graphql
+
 
 topology-discovery:
   enabled: *device-discovery-enabled
   fullnameOverride: "topology-discovery"
   image:
     repository: "frinx/topology-discovery"
-    tag: "latest"
-  env:
-    ARANGO_URL: 'http://10.19.2.22:8529'
+    tag: "1.3.1"
 
 frinx-arango-config:
-  enabled: false
+  enabled: true
   arangodb_config:
     enabled: *device-discovery-enabled
-    securityContext:
-      readOnlyRootFilesystem: true
-      runAsUser: 1000
-      runAsGroup: 2000
-      fsGroup: 3000
+    image:
+      repository: arangodb/arangodb
+      tag: 3.9.9-noavx
+    # securityContext:
+    #   readOnlyRootFilesystem: true
+    #   runAsUser: 1000
+    #   runAsGroup: 2000
+    #   fsGroup: 3000
+    # affinity:
+    #   nodeAffinity:
+    #     requiredDuringSchedulingIgnoredDuringExecution:
+    #       nodeSelectorTerms:
+    #       - matchExpressions:
+    #         - key: app
+    #           operator: In
+    #           values:
+    #           - arangobd
 
 kube-arangodb:
   operator:
@@ -138,7 +171,7 @@ kube-arangodb:
       at: false
 
 uniconfig-postgresql:
-  enabled: true
+  enabled: false
   fullnameOverride: "uniconfig-postgresql"
   auth:
     enablePostgresUser: true
@@ -151,16 +184,19 @@ uniconfig:
   enabled: true
   image:
     repository: "frinx/uniconfig"
-    tag: "5.1.16"
+    tag: "5.2.6"
   imagePullSecrets:
-    - name: dockerhostsecretname
+    - name: regcred
   postgresql:
     enabled: false
   dbPersistence:
-    DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST: "uniconfig-postgresql"
+    DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST: "uniconfig-postgresql-rw"
     DBPERSISTENCE_CONNECTION_USERNAME: "postgresU"
     DBPERSISTENCE_CONNECTION_PASSWORD: "postgresP"
   traefik:
+    ingress:
+      enabled: true
+      host: uniconfig.10.19.0.39.nip.io
     rbac:
       namespaced: true
   securityContext:
@@ -170,8 +206,9 @@ uniconfig:
       drop:
       - ALL
 
+
 demo-workflows:
-  enabled: true
+  enabled: false
   fullnameOverride: "demo-workflows"
   image:
     repository: "frinx/demo-workflows"
@@ -238,7 +275,7 @@ sample-topology:
         port: 10015
 
 grafana:
-  enabled: true
+  enabled: false
   fullnameOverride: "grafana"
   adminUser: frinx
   adminPassword: frinx123!
@@ -256,7 +293,7 @@ grafana:
       readOnly: false
 
 influxdb2:
-  enabled: true
+  enabled: false
   fullnameOverride: influxdb
   adminUser:
     user: "frinx"
@@ -270,7 +307,7 @@ influxdb2:
       value: setup
 
 telegraf-ds:
-  enabled: true
+  enabled: false
   fullnameOverride: telegraf-ds
   env:
     - name: NAMESPACE
@@ -336,7 +373,7 @@ telegraf-ds:
           namespace = [ "${NAMESPACE}" ]
 
 loki:
-  enabled: true
+  enabled: false
   fullnameOverride: loki
   config:
     chunk_store_config:
@@ -396,3 +433,85 @@ promtail:
             {{- with .Values.config.snippets.extraRelabelConfigs }}
             {{- toYaml . | nindent 4 }}
             {{- end }}
+
+cloudnative-pg:
+  enabled: true
+
+workflow-manager-postgres:
+  enabled: true
+  name: postgresql
+
+  bootstrap:
+    initdb:
+      postInitApplicationSQLRefs:
+
+  secrets:
+    superuserSecret:
+      username: postgres
+      password: postgres
+    userSecret:
+      username: frinx
+      password: postgres
+    postInitSqlSecret:
+      name: post-init-sql-secret
+      sql: |-
+        CREATE ROLE schellar LOGIN PASSWORD 'schellar';
+        GRANT CONNECT ON DATABASE frinx TO schellar;
+        CREATE USER schellar_user WITH PASSWORD 'schellar';
+        GRANT schellar TO schellar_user;
+        CREATE SCHEMA schellar AUTHORIZATION schellar;
+        ALTER ROLE schellar SET search_path=schellar;
+        ALTER USER schellar_user SET search_path TO schellar;
+        CREATE ROLE inventory LOGIN PASSWORD 'inventory';
+        GRANT CONNECT ON DATABASE frinx TO inventory;
+        CREATE USER inventory_user WITH PASSWORD 'inventory';
+        GRANT inventory TO inventory_user;
+        CREATE SCHEMA inventory AUTHORIZATION inventory;
+        ALTER ROLE inventory SET search_path=inventory;
+        ALTER USER inventory_user SET search_path TO inventory;
+        CREATE ROLE conductor LOGIN PASSWORD 'conductor';
+        GRANT CONNECT ON DATABASE frinx TO conductor;
+        CREATE USER conductor_user WITH PASSWORD 'conductor';
+        GRANT conductor TO conductor_user;
+        CREATE SCHEMA conductor AUTHORIZATION conductor;
+        CREATE SCHEMA archive AUTHORIZATION conductor;
+        CREATE SCHEMA external AUTHORIZATION conductor;
+        ALTER ROLE conductor SET search_path=public,conductor,archive,external;
+        ALTER USER conductor_user SET search_path TO conductor,archive,external;
+        CREATE ROLE resource LOGIN PASSWORD 'resource';
+        GRANT CONNECT ON DATABASE frinx TO resource;
+        CREATE USER resource_user WITH PASSWORD 'resource';
+        GRANT resource TO resource_user;
+        CREATE SCHEMA resource AUTHORIZATION resource;
+        ALTER ROLE resource SET search_path=resource;
+        ALTER USER resource_user SET search_path TO resource;
+
+uniconfig-postgres:
+  enabled: true
+  name: uniconfig-postgresql
+  bootstrap:
+    initdb:
+      database: uniconfig
+      owner: postgresU
+
+  secrets:
+    superuserSecret:
+      username: postgres
+      password: postgres
+    userSecret:
+      username: postgresU
+      password: postgresP
+
+pgadmin4:
+  enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - host: pgadmin.10.19.0.39.nip.io
+        paths:
+          - path: /
+            pathType: Prefix
+  env:
+    email: frinx@frinx.io
+    password: frinx

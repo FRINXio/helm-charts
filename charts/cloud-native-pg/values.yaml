@@ -1,5 +1,5 @@
 name: null
-imageName: "ghcr.io/cloudnative-pg/postgresql:12.10@sha256:3cd378bf6b4e6bdc495cf478ca893a3490ecdab5332a614d99d2adb41b1e63ce"
+imageName: "ghcr.io/cloudnative-pg/postgresql:12.10"
 imagePullPolicy: IfNotPresent
 imagePullSecrets: []
 instances: 3

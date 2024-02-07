@@ -4,6 +4,11 @@
             "endpoint": "/api/resource",
             "method": "POST",
             "url_pattern": "/query"
+        },
+        {
+            "endpoint": "/api/resource",
+            "method": "GET",
+            "url_pattern": "/api/graphql"
         }
     ]
 }

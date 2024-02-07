@@ -1,0 +1,7 @@
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: frinx-oauth2-proxy-template
+# data:
+#   sign_in.html: {{ (.Files.Get "config/sign_in.html") | quote }}
+#   error.html: {{ (.Files.Get "config/error.html") | quote }}

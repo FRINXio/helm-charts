@@ -26,7 +26,7 @@ dependencies:
 
   - condition: resource-manager.enabled
     name: resource-manager
-    repository: https://FRINXio.github.io/helm-charts
+    repository: file://../resource-manager
     version: 1.1.1
 
   - condition: workflow-manager.enabled
@@ -49,7 +49,7 @@ dependencies:
 
   - condition: uniconfig.enabled
     name: uniconfig
-    repository: https://FRINXio.github.io/helm-charts
+    repository: file://../uniconfig
     version: 5.0.1
 
   - condition: demo-workflows.enabled
@@ -70,13 +70,15 @@ dependencies:
 
   - condition: frinx-arango-config.enabled
     name: frinx-arango-config
-    repository: https://FRINXio.github.io/helm-charts
+    repository: file://../frinx-arango-config
+    # repository: https://FRINXio.github.io/helm-charts
     version: 3.0.0
 
   - condition: topology-discovery.enabled
     name: topology-discovery
     version: 2.4.0
-    repository: https://FRINXio.github.io/helm-charts
+    repository: file://../topology-discovery
+    # repository: https://FRINXio.github.io/helm-charts
 
   - condition: grafana.enabled
     name: grafana
@@ -107,3 +109,44 @@ dependencies:
     name: promtail
     repository: https://grafana.github.io/helm-charts
     version: 6.3.0
+
+  - condition: cloudnative-pg.enabled
+    name: cloudnative-pg
+    repository: https://cloudnative-pg.github.io/charts
+    version: 0.19.0
+
+  - condition: workflow-manager-postgres.enabled
+    name: cloud-native-pg
+    alias: workflow-manager-postgres
+    version: 0.0.1
+    repository: https://FRINXio.github.io/helm-charts
+
+  - condition: uniconfig-postgres.enabled
+    name: cloud-native-pg
+    alias: uniconfig-postgres
+    version: 0.0.1
+    repository: https://FRINXio.github.io/helm-charts
+
+  - condition: pgadmin4.enabled
+    name: pgadmin4
+    repository: "https://helm.runix.net"
+    version: 1.18.2
+
+  - condition: oauth2-proxy.enabled
+    name: oauth2-proxy
+    repository: https://oauth2-proxy.github.io/manifests
+    version: 6.17.0
+
+  - condition: oauth2-proxy.enabled
+    name: oauth2-proxy-assets
+    repository: file://../oauth2-proxy-assets
+    # repository: https://oauth2-proxy.github.io/manifests
+    version: 0.0.1
+
+  - name: dex
+    repository: https://charts.dexidp.io
+    version: 0.16.0
+
+  - name: whoami
+    repository: https://cowboysysop.github.io/charts/
+    version: 5.1.0

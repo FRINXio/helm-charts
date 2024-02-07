@@ -1,0 +1,16 @@
+apiVersion: v2
+name: oauth2-proxy-assets
+description: A Helm chart for Kubernetes deployment of the oauth2-proxy-assets
+icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+type: application
+version: 0.0.1
+appVersion: "0.0.1"
+maintainers:
+  - name: FRINX
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Add assets for oauth2-proxy
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/335

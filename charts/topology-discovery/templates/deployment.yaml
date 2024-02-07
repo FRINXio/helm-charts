@@ -32,6 +32,13 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
+        - name: check-conductor-ready
+          image: curlimages/curl
+          command: ["/bin/sh","-c"]
+          args: ['while [ $(curl -o /dev/null --silent --write-out "%{http_code}" {{ .Values.env.CONDUCTOR_URL }}/health) -ne 200 ];
+            do sleep 5; echo "waiting for conductor";
+            done;
+            echo "connection successful!"']
         - name: check-arangodb-ready
           image: curlimages/curl
           command: ["/bin/sh","-c"]
@@ -55,6 +62,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            - name: CONDUCTOR_URL_BASE 
+              value: "{{ .Values.env.CONDUCTOR_URL }}/api"
           {{- range $key, $val := .Values.env }}
             - name: {{ $key | quote }}
               value: {{ $val | quote }}

@@ -46,10 +46,12 @@ helm uninstall [RELEASE_NAME]
 | `securityContext` | Deployment securityContext | `{}` |
 | `service.type` | Kubernetes service type | `ClusterIP` |
 | `service.port` | Kubernetes port where service is exposed | `4000` |
-| `ingress.enabled` | Enables Ingress | `false` |
-| `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
-| `ingress.hosts` | Ingress accepted hostnames  | `[]` |
-| `ingress.tls` | Ingress TLS configuration | `[]` |
+| `ingress.enabled` | Enable [ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/). | `false` |
+| `ingress.labels` | Ingress labels | `{}` |
+| `ingress.annotations` | Annotations to be added to the ingress. | `{}` |
+| `ingress.className` | Ingress [class name](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class). | `""` |
+| `ingress.tls` | Enable or disable tls attribute in ingress | `false` |
+| `ingress.hosts` | Ingress accepted hostname  | `""` |
 | `resources` | CPU/Memory resource requests/limits | `{}` |
 | `autoscaling.enabled` | Enable replica autoscaling settings | `false` |
 | `autoscaling.minReplicas` | Minimum replicas for the pod autoscaling | `1` |

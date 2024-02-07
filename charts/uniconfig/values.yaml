@@ -121,6 +121,10 @@ extraEnv:
   TRANSACTIONS_TRANSACTIONIDLETIMEOUT: 3600
   TRANSACTIONS_MAXTRANSACTIONAGE: 7200
   TRANSACTIONS_MAXSTOREDTRANSACTIONS: 100
+ # KAFKA CLOUD CONFIG
+  UNICONFIG_CLOUD_CONFIG_ENABLED: false
+  SPRING_CLOUD_BUS_ENABLED: false
+  SPRING_AUTOCONFIGURE_EXCLUDE: org.springframework.cloud.stream.function.FunctionConfiguration
 
 azure:
   AKS:
@@ -154,6 +158,7 @@ traefikExtraService:
 traefik:
   fullnameOverride: "uniconfig"
   enabled: true
+  ingress: {}
   ingressClass:
     enabled: false
   ingressRoute:

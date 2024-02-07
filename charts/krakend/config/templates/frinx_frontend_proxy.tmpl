@@ -1,0 +1,21 @@
+{
+    "endpoint": "/api/proxy",
+    "method": "POST",
+    "output_encoding": "no-op",
+    "input_headers": [ {{ include "allowed_headers.tmpl" }} ],
+    
+    "backend": [
+        {
+            "url_pattern": "/graphql",
+            "sd": "static",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "extra_config": {
+                {{ include "modifiers.tmpl" }}
+            },
+            "host": [
+                "frinx-frontend:5555"
+            ]
+        }
+    ]
+}

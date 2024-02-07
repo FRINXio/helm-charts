@@ -45,11 +45,24 @@ service:
 
 ingress:
   enabled: false
+  className: ""
+  labels: {}
   annotations: {}
-  # ingressClassName: nginx
+    # Use this annotations for traefik as ingress
+    # kubernetes.io/ingress.class: traefik
+    # traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
+    # traefik.ingress.kubernetes.io/router.tls: "true"
+    # traefik.ingress.kubernetes.io/router.tls.certresolver: "production"
   hosts:
-    - host: workflow-manager.127.0.0.1.nip.io
-      paths: ["/"]
+    - host: workflow-manager.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  schellarHosts:
+    - host: workflow-manager-schellar.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:

@@ -25,12 +25,11 @@
         "/__health"
       ]
     },
-    {{ $jwt_production := env "AUTH_ENABLED" }}
-    {{ if eq $jwt_production "true" }}
+
     "plugin/http-server": {
-      "name": "krakend-azure-plugin"
+      "name": "krakend-oauth2-proxy"
     }, 
-    {{end}}
+
     "security/http": {
       {{ $allowed_hosts := env "ALLOWED_HOSTS" }}
       "@comment": "https://www.krakend.io/docs/service-settings/security/",
@@ -87,8 +86,7 @@
 
     {{ $wfm_enabled := env "WORKFLOW_MANAGER_ENABLED" }}
     {{ if eq $wfm_enabled "true"}}
-    {{ template "workflow_proxy.tmpl" .workflow_proxy_settings.endpoints }},
-    {{ template "workflow_proxy_docs.tmpl" .workflow_proxy_docs_settings.endpoints }},
+    {{ template "workflow_manager.tmpl" .workflow_manager_settings.endpoints }},
     {{end}}
 
     {{ $uniconfig_enabled := env "UNICONFIG_ENABLED" }}
@@ -103,7 +101,7 @@
 
     {{ $inventory_enabled := env "INVENTORY_ENABLED" }}
     {{ if eq $inventory_enabled "true"}}
-    {{ template "inventory.tmpl" }},
+    {{ template "inventory.tmpl" .inventory_settings.endpoints }},
     {{end}}
 
     {{ $rm_enabled := env "RESOURCE_MANAGER_ENABLED" }}
@@ -117,38 +115,7 @@
     {{end}}
 
     {{ template "frinx_frontend.tmpl" .frinx_frontend_settings}},
-
-    {
-      "endpoint": "/api/proxy",
-      "method": "POST",
-      "output_encoding": "no-op",
-      "input_headers": [ {{ include "allowed_headers.tmpl" }} ],
-  
-      "extra_config": {
-          {{ $jwt_production := env "AUTH_ENABLED" }}
-          {{ if eq $jwt_production "true" }}
-              {{ include "jwt_config.tmpl" }}
-          {{ else if eq $jwt_production "false" }}
-              {{ include "jwt_fake_config.tmpl" }}
-          {{ end }}
-      },
-      "backend": [
-          {
-              "url_pattern": "/graphql",
-              "sd": "static",
-              "encoding": "no-op",
-              "disable_host_sanitize": false,
-              "extra_config": {
-                  {{ include "modifiers.tmpl" }}
-              },
-              "host": [
-                  "frinx-frontend:5555"
-              ]
-          }
-      ]
-  }
-
-
+    {{ template "frinx_frontend_proxy.tmpl" .frinx_frontend_settings}}
 
   ]
 }

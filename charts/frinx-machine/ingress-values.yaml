@@ -1,0 +1,94 @@
+# Global settings
+
+x-device-discovery-enabled: &device-discovery-enabled true
+
+# Default values for FRINX-machine.
+
+krakend:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - host: krakend.10.19.0.39.nip.io
+        paths: 
+          - path: "/"
+            pathType: ImplementationSpecific
+
+resource-manager:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - host: resource-manager.10.19.0.39.nip.io
+        paths: 
+          - path: "/"
+            pathType: ImplementationSpecific
+
+workflow-manager:
+  ingress:
+    enabled: true
+    hosts:
+      - host: workflow-manager.10.19.0.39.nip.io
+        paths: 
+          - path: "/"
+            pathType: ImplementationSpecific
+    schellarHosts:
+      - host: workflow-manager-schellar.10.19.0.39.nip.io
+        paths: 
+          - path: "/"
+            pathType: ImplementationSpecific
+inventory:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - host: inventory.10.19.0.39.nip.io
+        paths: 
+          - path: "/"
+            pathType: ImplementationSpecific
+
+
+topology-discovery:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - host: topology-discovery.10.19.0.39.nip.io
+        paths: 
+          - path: "/"
+            pathType: ImplementationSpecific
+
+uniconfig:
+  traefik:
+    ingress:
+      enabled: true
+      host: uniconfig.10.19.0.39.nip.io
+    rbac:
+      namespaced: true
+
+pgadmin4:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - host: pgadmin.10.19.0.39.nip.io
+        paths:
+          - path: /
+            pathType: Prefix
+
+oauth2-proxy:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts: 
+      - "fm.10.19.0.39.nip.io"
+
+dex:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - host: dex.10.19.0.39.nip.io
+        paths:
+          - path: /
+            pathType: ImplementationSpecific

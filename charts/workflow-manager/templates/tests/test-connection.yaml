@@ -10,10 +10,6 @@ metadata:
 
 spec:
   containers:
-    - name: check-workflow-proxy
-      image: busybox
-      command: ["/bin/sh"]
-      args: ["-c", 'wget -S {{ include "workflow-manager.fullname" . }}:{{ .Values.service.port }}/probe/readiness -P /tmp/']
     - name: check-conductor-server
       image: busybox
       command: ["/bin/sh"]

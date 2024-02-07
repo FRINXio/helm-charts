@@ -55,11 +55,13 @@ helm uninstall [RELEASE_NAME]
 | `service.portWorkers` | Kubernetes port where worker is exposed | `8089` |
 | `service.portSchellar` | Kubernetes port where schellar is exposed | `8089` |
 | `service.portConductor` | Kubernetes port where conductor is exposed | `8080` |
-| `ingress.enabled` | Enables Ingress | `false` |
-| `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
-| `ingress.ingressClassName` | Ingress ingressClassName  | |
-| `ingress.hosts` | Ingress accepted hostnames | `[]` |
-| `ingress.tls` | Ingress TLS configuration | `[]` |
+| `ingress.enabled` | Enable [ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/). | `false` |
+| `ingress.labels` | Ingress labels | `{}` |
+| `ingress.annotations` | Annotations to be added to the ingress. | `{}` |
+| `ingress.className` | Ingress [class name](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class). | `""` |
+| `ingress.tls` | Enable or disable tls attribute in ingress | `false` |
+| `ingress.hosts` | Ingress accepted hostname for conductor | `""` |
+| `ingress.schellarHosts` | Ingress accepted hostname for schellar | `""` |
 | `resources` | CPU/Memory resource requests/limits | `{}` |
 | `resourcesProxy` | CPU/Memory resource requests/limits | `{}` |
 | `autoscaling.enabled` | Enable replica autoscaling settings | `false` |

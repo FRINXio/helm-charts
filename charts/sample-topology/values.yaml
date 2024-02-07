@@ -41,16 +41,19 @@ service:
 
 ingress:
   enabled: false
+  className: ""
+  labels: {}
   annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
+    # Use this annotations for traefik as ingress
+    # kubernetes.io/ingress.class: traefik
+    # traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
+    # traefik.ingress.kubernetes.io/router.tls: "true"
+    # traefik.ingress.kubernetes.io/router.tls.certresolver: "production"
   hosts:
     - host: chart-example.local
       paths:
-      - path: /
-        backend:
-          serviceName: chart-example.local
-          servicePort: 80
+        - path: /
+          pathType: ImplementationSpecific
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
