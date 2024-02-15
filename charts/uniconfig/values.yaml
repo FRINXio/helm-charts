@@ -145,6 +145,12 @@ cacheImage:
   tag: ""
   cachePath:
 
+mibsImage:
+  enabled: false
+  repository:
+  tag: ""
+  mibsPath:
+
 extraInitContainers: []
 
 traefikExtraService:
