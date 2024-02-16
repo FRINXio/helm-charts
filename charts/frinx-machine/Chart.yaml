@@ -90,25 +90,25 @@ dependencies:
     repository: "https://FRINXio.github.io/helm-charts"
     version: 1.x.x
 
-  - condition: influxdb.enabled
-    name: influxdb2
-    repository: "https://helm.influxdata.com"
-    version: 2.1.0
+  # - condition: influxdb.enabled
+  #   name: influxdb2
+  #   repository: "https://helm.influxdata.com"
+  #   version: 2.1.0
 
-  - condition: telegraf-ds.enabled
-    name: telegraf-ds
-    repository: https://helm.influxdata.com
-    version: 1.1.1
+  # - condition: telegraf-ds.enabled
+  #   name: telegraf-ds
+  #   repository: https://helm.influxdata.com
+  #   version: 1.1.1
 
-  - condition: loki.enabled
-    name: loki
-    repository: https://grafana.github.io/helm-charts
-    version: 2.16.0
+  # - condition: loki.enabled
+  #   name: loki
+  #   repository: https://grafana.github.io/helm-charts
+  #   version: 2.16.0
 
-  - condition: loki.enabled
-    name: promtail
-    repository: https://grafana.github.io/helm-charts
-    version: 6.3.0
+  # - condition: loki.enabled
+  #   name: promtail
+  #   repository: https://grafana.github.io/helm-charts
+  #   version: 6.3.0
 
   - condition: cloudnative-pg.enabled
     name: cloudnative-pg
@@ -127,10 +127,10 @@ dependencies:
     version: 0.0.1
     repository: https://FRINXio.github.io/helm-charts
 
-  - condition: pgadmin4.enabled
-    name: pgadmin4
-    repository: "https://helm.runix.net"
-    version: 1.18.2
+  # - condition: pgadmin4.enabled
+  #   name: pgadmin4
+  #   repository: "https://helm.runix.net"
+  #   version: 1.18.2
 
   - condition: oauth2-proxy.enabled
     name: oauth2-proxy
@@ -143,10 +143,10 @@ dependencies:
     # repository: https://oauth2-proxy.github.io/manifests
     version: 0.0.1
 
-  - name: dex
-    repository: https://charts.dexidp.io
-    version: 0.16.0
+  # - name: dex
+  #   repository: https://charts.dexidp.io
+  #   version: 0.16.0
 
-  - name: whoami
-    repository: https://cowboysysop.github.io/charts/
-    version: 5.1.0
+  # - name: whoami
+  #   repository: https://cowboysysop.github.io/charts/
+  #   version: 5.1.0
