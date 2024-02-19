@@ -73,6 +73,7 @@ helm uninstall [RELEASE_NAME]
 | `env.POSTGRES_PORT` | POSTGRES_PORT env value | `5432` |
 | `env.TOPOLOGY_ENABLED` | Enable/Disable connection to arangodb | `false` |
 | `env.TOPOLOGY_DISCOVERY_API_URL` | TOPOLOGY_DISCOVERY_API_URL env variable | `http://topology-discovery:5000/api/data` |
+| `env.TOPOLOGY_DISCOVERY_GRAPHQL_API_URL` | TOPOLOGY_DISCOVERY_GRAPHQL_API_URL env variable | `http://topology-discovery:5000/api/graphql` |
 | `env.SHELL_HOST` | SHELL_HOST env value | `"uniconfig-controller"` |
 | `extraEnv` | Additional env variables |  |
 | `postgresql.enabled` | Switch to enable or disable the PostgreSQL helm chart | `true` |

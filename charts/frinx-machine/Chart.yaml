@@ -142,11 +142,3 @@ dependencies:
     repository: file://../oauth2-proxy-assets
     # repository: https://oauth2-proxy.github.io/manifests
     version: 0.0.1
-
-  - name: dex
-    repository: https://charts.dexidp.io
-    version: 0.16.0
-
-  - name: whoami
-    repository: https://cowboysysop.github.io/charts/
-    version: 5.1.0

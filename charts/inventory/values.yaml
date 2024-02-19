@@ -100,8 +100,9 @@ env:
   POSTGRES_HOSTNAME:
   POSTGRES_PORT: 5432
   TOPOLOGY_ENABLED: false
-  TOPOLOGY_DISCOVERY_API_URL: http://topology-discovery:5000/api/data
   SHELL_HOST: uniconfig-controller
+  TOPOLOGY_DISCOVERY_API_URL: http://topology-discovery:5000
+  TOPOLOGY_DISCOVERY_GRAPHQL_API_URL: http://topology-discovery:5000/api/graphql
 
 extraEnv: []
 
