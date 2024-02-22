@@ -89,6 +89,17 @@ spec:
             - name: uniconfig-frinx-volume
               mountPath: /tmp/uniconfig-frinx/
         {{ end }}
+        {{ if .Values.mibsImage.enabled }}
+        - name: copy-mib-files
+          image: {{ .Values.mibsImage.repository }}:{{ .Values.mibsImage.tag }}
+          command:
+            - sh
+            - '-c'
+            - 'mkdir -p /tmp/uniconfig-frinx/mibs && cp -rp {{ .Values.mibsImage.mibsPath }} /tmp/uniconfig-frinx/mibs && chmod -R 777 /tmp/uniconfig-frinx/mibs'
+          volumeMounts:
+            - name: uniconfig-frinx-volume
+              mountPath: /tmp/uniconfig-frinx/
+        {{ end }}
         {{- with .Values.extraInitContainers }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
