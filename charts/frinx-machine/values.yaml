@@ -17,7 +17,7 @@ frinx-frontend:
 
   image:
     repository: "frinx/frinx-frontend"
-    tag: "latest"
+    tag: "3.0.0-alpha-3"
     pullPolicy: Always
 
   proxyImage:
@@ -108,7 +108,7 @@ inventory:
   image:
     repository: "frinx/frinx-inventory-server"
     pullPolicy: Always
-    tag: "latest"
+    tag: "3.0.0-alpha-2"
   postgresql:
     enabled: false
   env:
