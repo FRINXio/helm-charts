@@ -13067,6 +13067,36 @@ entries:
   uniconfig:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Add Init stage to copy MIB files for SNMP support
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/339
+    apiVersion: v2
+    appVersion: 5.1.4
+    created: "2024-02-22T13:46:56.819696683Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: traefik.enabled
+      name: traefik
+      repository: https://helm.traefik.io/traefik
+      version: 20.8.0
+    description: A Helm chart for UniConfig Kubernetes deployment
+    digest: 095bdd1c11cb23da024c67d29e6140b5e2d42f5b50fcdbd7dc7c221bc9f3859e
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: uniconfig
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniconfig-5.1.0/uniconfig-5.1.0.tgz
+    version: 5.1.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: Fix init-container permission
           links:
@@ -14401,4 +14431,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-01-15T08:16:03.574479256Z"
+generated: "2024-02-22T13:46:56.820873884Z"
