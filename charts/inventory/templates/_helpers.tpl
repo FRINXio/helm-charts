@@ -60,3 +60,23 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Get the password secret.
+*/}}
+{{- define "inventory.secretName" -}}
+{{- if .Values.dbPersistence.existingSecret }}
+    {{- printf "%s" (tpl .Values.dbPersistence.existingSecret $) -}}
+{{- else -}}
+    {{- printf "%s" (include "inventory.fullname" .) -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return true if a secret object should be created
+*/}}
+{{- define "inventory.createSecret" -}}
+{{- if not .Values.dbPersistence.existingSecret -}}
+    {{- true -}}
+{{- end -}}
+{{- end -}}

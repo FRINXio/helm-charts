@@ -95,8 +95,6 @@ helm uninstall [RELEASE_NAME]
 | `rbac.UNISTORE_BEARER_NODE` | UNISTORE_BEARER_NODE env variable | `"bearer"` |
 | `rbac.UNISTORE_SERVICE_NODE` | UNISTORE_SERVICE_NODE env variable | `"service"` |
 | `rbac.UNISTORE_NETWORK_NODE` | UNISTORE_NETWORK_NODE env variable | `"network"` |
-| `rbac.RM_ADMIN_GROUPS` | RM_ADMIN_GROUPS env variable | `"network-admin"` |
-| `rbac.RM_ADMIN_ROLES` | RM_ADMIN_ROLES env variable | `""` |
 | `rbac.INVENTORY_ADMIN_GROUP` | INVENTORY_ADMIN_GROUP env variable | `"network-admin"` |
 | `rbac.ADMIN_ACCESS_ROLE` | ADMIN_ACCESS_ROLE env variable | `"network-admin"` |
 | `rbac.X_AUTH_USER_GROUP` | X_AUTH_USER_GROUP env variable | `"network-admin"` |

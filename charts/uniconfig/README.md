@@ -67,7 +67,6 @@ For access, contact info@frinx.io
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
-| `license` | License for uniconfig | |
 | `mountPath` | Mount path for uniconfig config files | |
 | `uniconfigCacheFolderPath` | Path to uniconfig cache folder | `""` |
 | `serviceName` | serviceName env variable | `"uniconfig"` |
@@ -80,10 +79,10 @@ For access, contact info@frinx.io
 | `extraLightyConfigMap` | Mount different config map with lighty configuration file for uniconfig | |
 | `extraLogbackConfigMap` | Mount different config map with logback configuration file for uniconfig | |
 | `java.max_mem` | Max memory for java | `"10G"` |
-| `dbPersistence.DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST` | Database host | |
+| `dbPersistence.POSTGRES_HOST` | Database host | |
 | `dbPersistence.existingSecret` | Name of existing secret with database credentials | `` |
-| `dbPersistence.DBPERSISTENCE_CONNECTION_USERNAME` | Database username | `"postgresU"` |
-| `dbPersistence.DBPERSISTENCE_CONNECTION_PASSWORD` | Database password | `"postgresP"` |
+| `dbPersistence.POSTGRES_USERNAME` | Database username | `"postgresU"` |
+| `dbPersistence.POSTGRES_PASSWORD` | Database password | `"postgresP"` |
 | `dbPersistence.CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD` | CLI shell password | `admin` |
 | `extraEnv` | Extra env for uniconfig-controller | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/uniconfig/values.yaml) |
 | `azure.AKS.enabled` | Enable AKS azure deployment | `false` |

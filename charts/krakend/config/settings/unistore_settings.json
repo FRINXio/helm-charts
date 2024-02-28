@@ -1,4 +1,7 @@
 {
+    "hosts": [
+        "unistore"
+    ],
     "methods": [
         "PUT",
         "GET",

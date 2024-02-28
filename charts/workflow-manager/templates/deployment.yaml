@@ -31,15 +31,21 @@ spec:
       initContainers:
       - name: check-db-ready
         image: postgres:alpine
-        {{ if .Values.conductorEnv.SPRING_DATASOURCE_HOSTNAME }}
         command: ['sh', '-c',
-          "until pg_isready -h {{ .Values.conductorEnv.SPRING_DATASOURCE_HOSTNAME }} -p 5432 -U {{ .Values.conductorExtraEnv.SPRING_DATASOURCE_USERNAME }};
+          "until pg_isready -h ${POSTGRES_HOST} -p 5432 -U ${SPRING_DATASOURCE_USERNAME};
           do echo waiting for database; sleep 2; done;"]
-        {{ else }}
-        command: ['sh', '-c',
-          "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432 -U {{ .Values.conductorExtraEnv.SPRING_DATASOURCE_USERNAME }};
-          do echo waiting for database; sleep 2; done;"]
-        {{ end }}
+        env:
+          - name: "POSTGRES_HOST"
+            {{ if .Values.postgresql.enabled }}            
+            value: "{{ .Release.Name }}-postgresql"
+            {{ else }}
+            value: {{ .Values.dbPersistence.SPRING_SEARCHDATASOURCE_HOST | quote }}
+            {{ end }}
+          - name: SPRING_DATASOURCE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "workflow-manager.secretName" . }}
+                key: SPRING_DATASOURCE_USERNAME
       containers:
         # conductor
         - name: {{ .Chart.Name }}
@@ -72,21 +78,62 @@ spec:
               value: {{ .Values.conductorEnv.LOG4J_PROP }}
             - name: "_JAVA_OPTIONS"
               value: {{ .Values.conductorEnv._JAVA_OPTIONS}}
-            {{ if .Values.postgresql.enabled }}
+            - name: CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "workflow-manager.secretName" . }}
+                  key: CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME
+            - name: CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "workflow-manager.secretName" . }}
+                  key: CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "workflow-manager.secretName" . }}
+                  key: SPRING_DATASOURCE_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "workflow-manager.secretName" . }}
+                  key: SPRING_DATASOURCE_PASSWORD
+            - name: SPRING_SEARCHDATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "workflow-manager.secretName" . }}
+                  key: SPRING_SEARCHDATASOURCE_USERNAME
+            - name: SPRING_SEARCHDATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "workflow-manager.secretName" . }}
+                  key: SPRING_SEARCHDATASOURCE_PASSWORD
+
+              {{ if .Values.postgresql.enabled }}            
+            - name: "SPRING_SEARCHDATASOURCE_HOST"
+              value: "{{ .Release.Name }}-postgresql"
+            - name: "SPRING_DATASOURCE_HOST"
+              value: "{{ .Release.Name }}-postgresql"
+            - name: "CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_HOST"
+              value: "{{ .Release.Name }}-postgresql"
+              {{ else }}
+            - name: "SPRING_SEARCHDATASOURCE_HOST"
+              value: {{ .Values.dbPersistence.SPRING_SEARCHDATASOURCE_HOST | quote }}
+            - name: "SPRING_DATASOURCE_HOST"
+              value: {{ .Values.dbPersistence.SPRING_DATASOURCE_HOST | quote }}
+            - name: "CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_HOST"
+              value: {{ .Values.dbPersistence.CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_HOST | quote }}
+              {{ end }}
+            - name: "POSTGRES_DATABASE"
+              value: {{ .Values.dbPersistence.POSTGRES_DATABASE }}
+            - name: "CONDUCTOR_DATASOURCE_SCHEMA"
+              value: {{ .Values.dbPersistence.CONDUCTOR_DATASOURCE_SCHEMA }}
             - name: "SPRING_DATASOURCE_URL"
-              value: jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
+              value: "jdbc:postgresql://$(SPRING_DATASOURCE_HOST):5432/$(POSTGRES_DATABASE)?charset=utf8&parseTime=true&interpolateParams=true"
             - name: "CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_URL"
-              value: jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
+              value: "jdbc:postgresql://$(CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_HOST):5432/$(POSTGRES_DATABASE)?charset=utf8&parseTime=true&interpolateParams=true"
             - name: "SPRING_SEARCHDATASOURCE_URL"
-              value: jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/conductor?charset=utf8&parseTime=true&interpolateParams=true
-            {{ else }}
-            - name: "SPRING_DATASOURCE_URL"
-              value: "jdbc:postgresql://{{ .Values.conductorEnv.SPRING_DATASOURCE_HOSTNAME}}:5432/{{ .Values.conductorEnv.DATABASE}}?charset=utf8&parseTime=true&interpolateParams=true"
-            - name: "CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_URL"
-              value: "jdbc:postgresql://{{ .Values.conductorEnv.CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_HOSTNAME}}:5432/{{ .Values.conductorEnv.DATABASE}}?charset=utf8&parseTime=true&interpolateParams=true"
-            - name: "SPRING_SEARCHDATASOURCE_URL"
-              value: "jdbc:postgresql://{{ .Values.conductorEnv.SPRING_SEARCHDATASOURCE_HOSTNAME}}:5432/{{ .Values.conductorEnv.DATABASE}}?charset=utf8&parseTime=true&interpolateParams=true"
-            {{ end }}
+              value: "jdbc:postgresql://$(SPRING_SEARCHDATASOURCE_HOST):5432/$(POSTGRES_DATABASE)?charset=utf8&parseTime=true&interpolateParams=true"
           {{- range $key, $val := .Values.conductorExtraEnv }}
             - name: {{ $key | quote }}
               value: {{ $val | quote }}
@@ -104,6 +151,22 @@ spec:
             - name: http-schellar
               containerPort: 3000
               protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /liveness
+              port: 3000
+            initialDelaySeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: /liveness
+              port: 3000
+            initialDelaySeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 5
+          resources:
+            {{- toYaml .Values.schellarResources | nindent 12 }}
           env:
             - name: "LOG_LEVEL"
               value: {{ .Values.schellarEnv.LOG_LEVEL | quote }}
@@ -115,35 +178,28 @@ spec:
               value: {{ .Values.schellarEnv.BACKEND | quote }}
             - name: "POSTGRES_MIGRATIONS_DIR"
               value: {{ .Values.schellarEnv.POSTGRES_MIGRATIONS_DIR | quote }}
-            - name: "POSTGRES_PORT"
-              value: {{ .Values.schellarEnv.POSTGRES_PORT | quote }}
-              {{ if .Values.postgresql.enabled }}
-            - name: "POSTGRES_DATABASE_URL"
-              value: "host={{ .Release.Name }}-postgresql port=5432 user=postgresU password=postgresP database=schellar"
+            - name: "POSTGRES_HOST"
+              {{ if .Values.postgresql.enabled }}            
+              value: "{{ .Release.Name }}-postgresql"
               {{ else }}
-            - name: "POSTGRES_DATABASE_URL"
-              value: {{ .Values.schellarEnv.POSTGRES_DATABASE_URL | quote }}
+              value: {{ .Values.schellarDbPersistence.POSTGRES_HOST | quote }}
               {{ end }}
-          livenessProbe:
-            exec:
-              command:
-              - wget
-              - --spider
-              - -q
-              - 127.0.0.1:3000/liveness
-            initialDelaySeconds: 20
-            timeoutSeconds: 5
-            failureThreshold: 5
-          readinessProbe:
-            exec:
-              command:
-              - wget
-              - --spider
-              - -q
-              - 127.0.0.1:3000/liveness
-            initialDelaySeconds: 20
-            timeoutSeconds: 5
-            failureThreshold: 5
+            - name: "POSTGRES_PORT"
+              value: {{ .Values.schellarDbPersistence.POSTGRES_PORT | quote }}
+            - name: "POSTGRES_DATABASE"
+              value: {{ .Values.schellarDbPersistence.POSTGRES_DATABASE | quote }}
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "workflow-manager.schellarSecretName" . }}
+                  key: POSTGRES_USERNAME
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "workflow-manager.schellarSecretName" . }}
+                  key: POSTGRES_PASSWORD
+            - name: "POSTGRES_DATABASE_URL"
+              value: "host=$(POSTGRES_HOST) port=$(POSTGRES_PORT) user=$(POSTGRES_USERNAME) password=$(POSTGRES_PASSWORD) database=$(POSTGRES_DATABASE)"
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

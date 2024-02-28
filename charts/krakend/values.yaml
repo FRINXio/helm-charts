@@ -45,11 +45,6 @@ ingress:
   className: ""
   labels: {}
   annotations: {}
-    # Use this annotations for traefik as ingress
-    # kubernetes.io/ingress.class: traefik
-    # traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
-    # traefik.ingress.kubernetes.io/router.tls: "true"
-    # traefik.ingress.kubernetes.io/router.tls.certresolver: "production"
   hosts:
     - host: chart-example.local
       paths:
@@ -59,8 +54,6 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-
-
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -129,11 +122,11 @@ rbac:
   UNISTORE_BEARER_NODE: "bearer"
   UNISTORE_SERVICE_NODE: "service"
   UNISTORE_NETWORK_NODE: "network"
-  RM_ADMIN_GROUPS: "network-admin"
-  RM_ADMIN_ROLES: ""
+
   INVENTORY_ADMIN_GROUP: "network-admin"
   ADMIN_ACCESS_ROLE: "network-admin"
   X_AUTH_USER_GROUP: "network-admin"
+
 extraEnv: []
 volumes:
   azureFile:

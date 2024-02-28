@@ -66,29 +66,9 @@ uniconfig:
     rbac:
       namespaced: true
 
-pgadmin4:
-  ingress:
-    enabled: true
-    ingressClassName: nginx
-    hosts:
-      - host: pgadmin.10.19.0.39.nip.io
-        paths:
-          - path: /
-            pathType: Prefix
-
 oauth2-proxy:
   ingress:
     enabled: true
     ingressClassName: nginx
     hosts: 
       - "fm.10.19.0.39.nip.io"
-
-dex:
-  ingress:
-    enabled: true
-    ingressClassName: nginx
-    hosts:
-      - host: dex.10.19.0.39.nip.io
-        paths:
-          - path: /
-            pathType: ImplementationSpecific

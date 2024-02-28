@@ -48,11 +48,6 @@ ingress:
   className: ""
   labels: {}
   annotations: {}
-    # Use this annotations for traefik as ingress
-    # kubernetes.io/ingress.class: traefik
-    # traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
-    # traefik.ingress.kubernetes.io/router.tls: "true"
-    # traefik.ingress.kubernetes.io/router.tls.certresolver: "production"
   hosts:
     - host: chart-example.local
       paths:
@@ -111,9 +106,9 @@ env:
 
 
 proxyEnv:
-  CONDUCTOR_URL: http://workflow-proxy:8080
-  SCHELLAR_URL: http://workflow-proxy:3000
-  INVENTORY_URL: http://inventory:8000
-  RESOURCE_MANAGER_URL: http://resource-manager:8884
+  CONDUCTOR_URL: http://conductor-server:8080
+  SCHELLAR_URL: http://conductor-server:3000/query
+  INVENTORY_URL: http://inventory:8000/graphql
+  RESOURCE_MANAGER_URL: http://resource-manager:8884/query
 
 proxyResources: {}

@@ -42,11 +42,6 @@ ingress:
   className: ""
   labels: {}
   annotations: {}
-    # Use this annotations for traefik as ingress
-    # kubernetes.io/ingress.class: traefik
-    # traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
-    # traefik.ingress.kubernetes.io/router.tls: "true"
-    # traefik.ingress.kubernetes.io/router.tls.certresolver: "production"
   hosts:
     - host: chart-example.local
       paths:
@@ -85,12 +80,15 @@ affinity: {}
 deployment:
   annotations: {}
 
+dbPersistence:
+  ARANGO_URL: 'http://arangodb:8529'
+  existingSecret:
+  ARANGO_USERNAME: 'root'
+  ARANGO_ROOT_PASSWORD: 'frinx'
+
 env:
   CONDUCTOR_URL: 'http://conductor-server:8080'
   UC_URL_BASE: http://uniconfig:8181/rests/
-  ARANGO_USERNAME: 'root'
-  ARANGO_ROOT_PASSWORD: 'frinx'
-  ARANGO_URL: 'http://arangodb:8529'
   BGPLS_ENABLED: false
   BGPLS_NETWORK: 172.18.0.0/16
   BGPLS_ROUTER_ID: 192.168.99.1

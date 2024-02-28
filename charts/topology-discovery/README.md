@@ -61,11 +61,11 @@ helm uninstall [RELEASE_NAME]
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
+| `dbPersistence.ARANGO_USERNAME` | ARANGO_USERNAME env variable | `root` |
+| `dbPersistence.ARANGO_ROOT_PASSWORD` | ARANGO_ROOT_PASSWORD env variable | `frinx` |
+| `dbPersistence.ARANGO_URL` | ARANGO_URL env variable | `http://arangodb:8529` |
 | `env.UC_URL_BASE` | UC_URL_BASE env variable | `http://uniconfig:8181/rests` |
 | `env.CONDUCTOR_URL` | CONDUCTOR_URL env variable is used to build healthcheck and worker api url | `http://conductor-server:8080` |
-| `env.ARANGO_USERNAME` | ARANGO_USERNAME env variable | `root` |
-| `env.ARANGO_ROOT_PASSWORD` | ARANGO_ROOT_PASSWORD env variable | `frinx` |
-| `env.ARANGO_URL` | ARANGO_URL env variable | `http://arangodb:8529` |
 | `env.BGPLS_ENABLED` | BGPLS_ENABLED env variable | `false` |
 | `env.BGPLS_NETWORK` | BGPLS_NETWORK env variable | `172.18.0.0/16` |
 | `env.BGPLS_ROUTER_ID` | BGPLS_ROUTER_ID env variable | `192.168.99.1` |

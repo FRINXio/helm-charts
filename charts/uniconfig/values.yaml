@@ -53,7 +53,8 @@ ingress:
     # environment: development
   annotations:
     # Use this annotations for traefik as ingress
-    kubernetes.io/ingress.class: 'traefik-uniconfig'
+    # kubernetes.io/ingress.class: 'traefik-uniconfig'
+  ingressClassName: traefik-uniconfig
   path: /
   pathType: Prefix
 
@@ -82,7 +83,6 @@ tolerations: []
 
 affinity: {}
 
-license: e326aaa7b1741bb530d201c49f4311d3d0f391893e15393894a77180e6478289cd1709e4afe3a643100ccd31052430de1955540cf5ae1e510d657bd2af8ef2fc
 mountCachePath: "/opt/uniconfig-frinx/cache"
 uniconfigCacheFolderPath: ""
 serviceName: "uniconfig"
@@ -92,6 +92,7 @@ proxy:
   enabled: false
   http_proxy:
   https_proxy:
+  no_proxy:
 
 alwaysRollAfterUpgrade: false
 extraScriptConfigMap:
@@ -102,10 +103,10 @@ java:
   max_mem: "10G"
 
 dbPersistence:
-  DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST:
+  POSTGRES_HOST:
   existingSecret:
-  DBPERSISTENCE_CONNECTION_USERNAME: postgresU
-  DBPERSISTENCE_CONNECTION_PASSWORD: postgresP
+  POSTGRES_USERNAME: postgresU
+  POSTGRES_PASSWORD: postgresP
   CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD: admin
 
 extraEnv:

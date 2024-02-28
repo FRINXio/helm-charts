@@ -42,7 +42,20 @@ spec:
         - name: check-arangodb-ready
           image: curlimages/curl
           command: ["/bin/sh","-c"]
-          args: ['while [ $(curl -ksw "%{http_code}" --user "{{ .Values.env.ARANGO_USERNAME }}:{{ .Values.env.ARANGO_ROOT_PASSWORD }}" "{{ .Values.env.ARANGO_URL }}/_api/version" -o /dev/null) -ne 200 ];
+          env:
+            - name: ARANGO_URL 
+              value: {{ .Values.dbPersistence.ARANGO_URL | quote }}
+            - name: ARANGO_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "topology-discovery.secretName" . }}
+                  key: ARANGO_USERNAME
+            - name: ARANGO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "topology-discovery.secretName" . }}
+                  key: ARANGO_ROOT_PASSWORD
+          args: ['while [ $(curl -ksw "%{http_code}" --user "${ARANGO_USERNAME}:${ARANGO_ROOT_PASSWORD}" "${ARANGO_URL}/_api/version" -o /dev/null) -ne 200 ];
             do sleep 5; echo "waiting for arangodb";
             done;
             echo "connection successful!"']
@@ -64,6 +77,19 @@ spec:
           env:
             - name: CONDUCTOR_URL_BASE 
               value: "{{ .Values.env.CONDUCTOR_URL }}/api"
+            - name: ARANGO_URL 
+              value: {{ .Values.dbPersistence.ARANGO_URL | quote }}
+            - name: ARANGO_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "topology-discovery.secretName" . }}
+                  key: ARANGO_USERNAME
+            - name: ARANGO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "topology-discovery.secretName" . }}
+                  key: ARANGO_ROOT_PASSWORD
+            
           {{- range $key, $val := .Values.env }}
             - name: {{ $key | quote }}
               value: {{ $val | quote }}

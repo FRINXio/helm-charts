@@ -74,14 +74,14 @@ spec:
             - name: {{ $key | quote }}
               value: {{ $val | quote }}
           {{- end }}
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5555
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5555
           resources:
             {{- toYaml .Values.proxyResources | nindent 12 }}
       {{- with .Values.nodeSelector }}

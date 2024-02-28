@@ -42,11 +42,6 @@ ingress:
   className: ""
   labels: {}
   annotations: {}
-    # Use this annotations for traefik as ingress
-    # kubernetes.io/ingress.class: traefik
-    # traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
-    # traefik.ingress.kubernetes.io/router.tls: "true"
-    # traefik.ingress.kubernetes.io/router.tls.certresolver: "production"
   hosts:
     - host: chart-example.local
       paths:
@@ -88,24 +83,6 @@ deployment:
 job:
   annotations: {}
 
-env:
-  UNICONFIG_API_PROTOCOL: http
-  UNICONFIG_API_PORT: 8181
-  UNICONFIG_LIST_URL: http://krakend:8080/static/list/uniconfig
-  X_TENANT_ID: frinx
-  POSTGRES_USER: postgresU
-  POSTGRES_PASSWORD: postgresP
-  POSTGRES_DB: inventory
-  POSTGRES_DB_SCHEMA: public
-  POSTGRES_HOSTNAME:
-  POSTGRES_PORT: 5432
-  TOPOLOGY_ENABLED: false
-  SHELL_HOST: uniconfig-controller
-  TOPOLOGY_DISCOVERY_API_URL: http://topology-discovery:5000
-  TOPOLOGY_DISCOVERY_GRAPHQL_API_URL: http://topology-discovery:5000/api/graphql
-
-extraEnv: []
-
 postgresql:
   enabled: true
   auth:
@@ -114,3 +91,24 @@ postgresql:
     password: postgresP
     database: inventory
   architecture: standalone
+
+dbPersistence:
+  POSTGRES_HOST: 
+  POSTGRES_PORT: 5432
+  POSTGRES_DATABASE: inventory
+  POSTGRES_DB_SCHEMA: public
+  existingSecret:
+  POSTGRES_USERNAME: postgresU
+  POSTGRES_PASSWORD: postgresP
+
+env:
+  UNICONFIG_API_PROTOCOL: http
+  UNICONFIG_API_PORT: 8181
+  UNICONFIG_LIST_URL: http://krakend:8080/static/list/uniconfig
+  TOPOLOGY_DISCOVERY_API_URL: http://topology-discovery:5000
+  TOPOLOGY_DISCOVERY_GRAPHQL_API_URL: http://topology-discovery:5000/api/graphql
+  X_TENANT_ID: frinx
+  TOPOLOGY_ENABLED: false
+  SHELL_HOST: uniconfig-controller
+
+extraEnv: []

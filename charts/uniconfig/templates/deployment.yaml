@@ -56,19 +56,23 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
-      {{ if .Values.dbPersistence.DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST }}
         - name: check-db-ready
           image: postgres:alpine
           command: ['sh', '-c',
-            "until pg_isready -h {{ .Values.dbPersistence.DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST }} -p 5432 -U {{ .Values.dbPersistence.DBPERSISTENCE_CONNECTION_USERNAME }};
+            "until pg_isready -h ${DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST} -p 5432 -U ${DBPERSISTENCE_CONNECTION_USERNAME};
             do echo waiting for database; sleep 2; done;"]
-      {{ else }}
-        - name: check-db-ready
-          image: postgres:alpine
-          command: ['sh', '-c',
-            "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432 -U {{ .Values.dbPersistence.DBPERSISTENCE_CONNECTION_USERNAME }};
-            do echo waiting for database; sleep 2; done;"]
-      {{ end }}
+          env:
+            - name: DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST
+              {{ if .Values.postgresql.enabled }}
+              value: "{{ .Release.Name }}-postgresql"
+              {{ else }}
+              value: {{ .Values.dbPersistence.POSTGRES_HOST | quote }}
+              {{ end }}
+            - name: DBPERSISTENCE_CONNECTION_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "uniconfig.secretName" . }}
+                  key: POSTGRES_USERNAME
         - name: copy-config-files
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command:
@@ -101,49 +105,6 @@ spec:
           {{- if .Values.uniconfigCacheFolderPath }}
           command: ["/bin/sh","-c"]
           args: ["/opt/uniconfig-frinx/run_uniconfig.sh"]
-          {{- end }}
-          env:
-            - name: CONTAINER_ID
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.name
-            - name: SERVICE_NAME
-              value: {{ .Values.serviceName | quote }}
-            - name: PROXY_ENABLED
-              value: {{ .Values.proxy.enabled | quote }}
-            - name: HTTP_PROXY
-              value: {{ .Values.proxy.http_proxy | quote }}
-            - name: HTTPS_PROXY
-              value: {{ .Values.proxy.https_proxy | quote }}
-            - name: NO_PROXY
-              value: {{ .Values.proxy.no_proxy | quote }}
-            - name: JAVA_MAX_MEM
-              value: {{ .Values.java.max_mem | quote }}
-              {{- if and (eq .Values.postgresql.enabled true) (not .Values.dbPersistence.DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST) }}
-            - name: DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST
-              value: "{{ .Release.Name }}-postgresql"
-              {{ else }}
-            - name: DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST
-              value: {{ .Values.dbPersistence.DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST }}
-              {{ end }}
-            - name: DBPERSISTENCE_CONNECTION_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "uniconfig.secretName" . }}
-                  key: DBPERSISTENCE_CONNECTION_USERNAME
-            - name: DBPERSISTENCE_CONNECTION_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "uniconfig.secretName" . }}
-                  key: DBPERSISTENCE_CONNECTION_PASSWORD
-            - name: CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "uniconfig.secretName" . }}
-                  key: CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD
-          {{- range $key, $val := .Values.extraEnv }}
-            - name: {{ $key | quote }}
-              value: {{ $val | quote }}
           {{- end }}
           volumeMounts:
           - name: frinx-uniconfig-controller-logs
@@ -179,6 +140,48 @@ spec:
             failureThreshold: 20
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: CONTAINER_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: SERVICE_NAME
+              value: {{ .Values.serviceName | quote }}
+            - name: PROXY_ENABLED
+              value: {{ .Values.proxy.enabled | quote }}
+            - name: HTTP_PROXY
+              value: {{ .Values.proxy.http_proxy | quote }}
+            - name: HTTPS_PROXY
+              value: {{ .Values.proxy.https_proxy | quote }}
+            - name: NO_PROXY
+              value: {{ .Values.proxy.no_proxy | quote }}
+            - name: JAVA_MAX_MEM
+              value: {{ .Values.java.max_mem | quote }}
+            - name: DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST
+              {{ if .Values.postgresql.enabled }}
+              value: "{{ .Release.Name }}-postgresql"
+              {{ else }}
+              value: {{ .Values.dbPersistence.POSTGRES_HOST | quote }}
+              {{ end }}
+            - name: DBPERSISTENCE_CONNECTION_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "uniconfig.secretName" . }}
+                  key: POSTGRES_USERNAME
+            - name: DBPERSISTENCE_CONNECTION_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "uniconfig.secretName" . }}
+                  key: POSTGRES_PASSWORD
+            - name: CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "uniconfig.secretName" . }}
+                  key: CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD
+          {{- range $key, $val := .Values.extraEnv }}
+            - name: {{ $key | quote }}
+              value: {{ $val | quote }}
+          {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

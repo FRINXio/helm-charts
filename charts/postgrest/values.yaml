@@ -45,11 +45,6 @@ ingress:
   className: ""
   labels: {}
   annotations: {}
-    # Use this annotations for traefik as ingress
-    # kubernetes.io/ingress.class: traefik
-    # traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
-    # traefik.ingress.kubernetes.io/router.tls: "true"
-    # traefik.ingress.kubernetes.io/router.tls.certresolver: "production"
   hosts:
     - host: chart-example.local
       paths:

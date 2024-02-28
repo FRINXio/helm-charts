@@ -54,10 +54,11 @@ bootstrap:
       # key-value format 
       extraConfigMapRefs: {}
       # extraSecretRefs holds a list of references to secrets
-      # If secrets.postInitSqlSecret exist, automatically is imported to secretRefs list
       # key-value format 
       extraSecretRefs: {}
-
+      # secretRefs:
+      #   - name: cloud-native-pq-post-init-sql-secret
+      #     key: secret.sql
 backup: {}
   # BackupConfiguration defines how the backup of the cluster are taken.
   # Currently the only supported backup method is barmanObjectStore.
@@ -90,6 +91,5 @@ secrets:
     password: frinx
   postInitSqlSecret:
     # existingSecret:
-    # name: post-init-sql-secret
     # sql: |-
     #   CREATE SCHEMA inventory AUTHORIZATION inventory;
