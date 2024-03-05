@@ -207,7 +207,7 @@ dependencies:
     version: 0.0.1
     condition: oauth2-proxy.enabled
 
-  - condition: uniconfig.traefik.enabled
+  - condition: traefik.enabled
     name: traefik
     repository: https://helm.traefik.io/traefik
     version: 20.8.0

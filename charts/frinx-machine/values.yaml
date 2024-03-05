@@ -512,7 +512,7 @@ topology-discovery:
 
 uniconfig:
   enabled: true
-  fullnameOverride: "uniconfig-controller"
+  fullnameOverride: "uniconfig"
 
   image:
     repository: "frinx/uniconfig"
@@ -531,11 +531,7 @@ uniconfig:
 
   traefik:
     enabled: true
-    ingress:
-      enabled: true
-      host: uniconfig.10.19.0.39.nip.io
-    rbac:
-      namespaced: true
+
 
   securityContext:
     capabilities:
@@ -547,6 +543,36 @@ uniconfig:
   traefikExtraService:
     enabled: true
     name: "unistore"
+
+
+traefik:
+  fullnameOverride: "uniconfig"
+  enabled: false
+
+  ingress:
+    enabled: true
+    host: uniconfig.10.19.0.39.nip.io
+  rbac:
+    namespaced: true
+
+  ingressClass:
+    enabled: false
+  ingressRoute:
+    dashboard:
+      enabled: false
+  service:
+    type: ClusterIP
+  ports:
+    uniconfig:
+      port: 8181
+      expose: true
+      exposedPort: 8181
+      protocol: TCP
+  providers:
+    kubernetesIngress:
+      ingressClass: traefik-uniconfig
+      # labelSelector: environment=development
+
 
 # swaggerui: 
 #   swaggerui.jsonUrl: http://uniconfig:8181/rests/openapi/uniconfig
