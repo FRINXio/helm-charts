@@ -8,4 +8,6 @@ data:
   jwt_config.tmpl: {{ (.Files.Get "config/partials/jwt_config.tmpl") | quote }}
   jwt_fake_config.tmpl: {{ (.Files.Get "config/partials/jwt_fake_config.tmpl") | quote }}
   modifiers.tmpl: {{ (.Files.Get "config/partials/modifiers.tmpl") | quote }}
+  content_header.tmpl: {{ (.Files.Get "config/partials/content_header.tmpl") | quote }}
+  uc_modifiers.tmpl: {{ (.Files.Get "config/partials/uc_modifiers.tmpl") | quote }}
 {{ end }}
