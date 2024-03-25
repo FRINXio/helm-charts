@@ -12,6 +12,7 @@ image:
 
 imagePullSecrets:
   - name: regcred
+
 nameOverride: ""
 fullnameOverride: "uniconfig-controller"
 
@@ -53,7 +54,8 @@ ingress:
     # environment: development
   annotations:
     # Use this annotations for traefik as ingress
-    kubernetes.io/ingress.class: 'traefik-uniconfig'
+    # kubernetes.io/ingress.class: 'traefik-uniconfig'
+  ingressClassName: traefik-uniconfig
   path: /
   pathType: Prefix
 
@@ -82,9 +84,6 @@ tolerations: []
 
 affinity: {}
 
-license: e326aaa7b1741bb530d201c49f4311d3d0f391893e15393894a77180e6478289cd1709e4afe3a643100ccd31052430de1955540cf5ae1e510d657bd2af8ef2fc
-mountCachePath: "/opt/uniconfig-frinx/cache"
-uniconfigCacheFolderPath: ""
 serviceName: "uniconfig"
 tls_keystorePassword: "password"
 
@@ -92,6 +91,7 @@ proxy:
   enabled: false
   http_proxy:
   https_proxy:
+  no_proxy:
 
 alwaysRollAfterUpgrade: false
 extraScriptConfigMap:
@@ -102,10 +102,14 @@ java:
   max_mem: "10G"
 
 dbPersistence:
-  DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST:
+  POSTGRES_HOST:
   existingSecret:
-  DBPERSISTENCE_CONNECTION_USERNAME: postgresU
-  DBPERSISTENCE_CONNECTION_PASSWORD: postgresP
+    secretName:
+    postgresUsernameKey:
+    postgresPasswordKey:
+    clishellSshserverUsernamepasswordauthPasswordKey:
+  POSTGRES_USERNAME: postgresU
+  POSTGRES_PASSWORD: postgresP
   CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD: admin
 
 extraEnv:
@@ -121,6 +125,10 @@ extraEnv:
   TRANSACTIONS_TRANSACTIONIDLETIMEOUT: 3600
   TRANSACTIONS_MAXTRANSACTIONAGE: 7200
   TRANSACTIONS_MAXSTOREDTRANSACTIONS: 100
+ # KAFKA CLOUD CONFIG
+  UNICONFIG_CLOUD_CONFIG_ENABLED: false
+  SPRING_CLOUD_BUS_ENABLED: false
+  SPRING_AUTOCONFIGURE_EXCLUDE: org.springframework.cloud.stream.function.FunctionConfiguration
 
 azure:
   AKS:
@@ -139,11 +147,15 @@ postgresql:
     database: uniconfig
   architecture: standalone
 
+mountCachePath: "/opt/uniconfig-frinx/cache"
+
 cacheImage:
   enabled: false
   repository:
   tag: ""
   cachePath:
+
+mountMibsPath: "/opt/uniconfig-frinx/mibs"
 
 mibsImage:
   enabled: false
@@ -160,6 +172,7 @@ traefikExtraService:
 traefik:
   fullnameOverride: "uniconfig"
   enabled: true
+  ingress: {}
   ingressClass:
     enabled: false
   ingressRoute:
@@ -175,5 +188,5 @@ traefik:
       protocol: TCP
   providers:
     kubernetesIngress:
-      ingressClass: traefik-uniconfig
+      # ingressClass: traefik-uniconfig
       # labelSelector: environment=development
