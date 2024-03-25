@@ -26,3 +26,6 @@ excluded-charts:
   - cloud-native-pg
   # Dependency to krakend 
   - inventory
+  # Temporary disabled for bug in RM
+  - resource-manager
+

@@ -61,3 +61,23 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Get the password secret.
+*/}}
+{{- define "resource-manager.secretName" -}}
+{{- if .Values.dbPersistence.existingSecret.secretName }}
+    {{- printf "%s" (tpl .Values.dbPersistence.existingSecret.secretName $) -}}
+{{- else -}}
+    {{- printf "%s" (include "resource-manager.fullname" .) -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return true if a secret object should be created
+*/}}
+{{- define "resource-manager.createSecret" -}}
+{{- if not .Values.dbPersistence.existingSecret.secretName -}}
+    {{- true -}}
+{{- end -}}
+{{- end -}}
