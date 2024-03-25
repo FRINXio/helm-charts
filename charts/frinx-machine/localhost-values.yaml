@@ -1,0 +1,11 @@
+externalsecret:
+  enabled: true
+  secretstorename: development
+  vault: helm-chart-repo
+
+krakend:
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+    host: "fm.127.0.0.1.nip.io"
