@@ -35,33 +35,29 @@ helm uninstall [RELEASE_NAME]
 | `image.repository` | Image repository | `frinx/uniflow-conductor-server` |
 | `image.pullPolicy` | Image pull policy | `IfNotPresent` |
 | `image.tag` | Image tag | `""` |
-| `proxyImage.repository` | Image repository | `frinx/workflow-proxy` |
-| `proxyImage.pullPolicy` | Image pull policy | `IfNotPresent` |
-| `proxyImage.tag` | Image tag | `"1.0.11"` |
 | `schellarImage.repository` | Image repository | `frinx/uniflow-schellar` |
 | `schellarImage.pullPolicy` | Image pull policy | `IfNotPresent` |
-| `schellarImage.tag` | Image tag | `"2.0.0"` |
+| `schellarImage.tag` | Image tag | `"6.0.0"` |
 | `imagePullSecrets` | Image pull secrets | `[]` |
 | `nameOverride` | Replaces the name of the chart in the Chart.yaml file | `""` |
 | `fullnameOverride` |  Completely replaces the generated name | `""` |
 | `serviceAccount.create` | Create service account | `true` |
 | `serviceAccount.annotations` | ServiceAccount annotations | `{}` |
-| `serviceAccount.name` | Service account name to use, when empty will be set to created account if `serviceAccount.create` is set else to `default` | `"workflow-proxy"` |
+| `serviceAccount.name` | Service account name to use, when empty will be set to created account if `serviceAccount.create` is set else to `default` | `"conductor"` |
 | `podAnnotations` | Deployment | `{}` |
 | `podSecurityContext` | Pod deployment securityContext | `{}` |
 | `securityContext` | Deployment securityContext | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/workflow-manager/values.yaml) |
 | `service.type` | Kubernetes service type | `ClusterIP` |
-| `service.port` | Kubernetes port where workflow-proxy is exposed | `8088` |
-| `service.portWorkers` | Kubernetes port where worker is exposed | `8089` |
-| `service.portSchellar` | Kubernetes port where schellar is exposed | `8089` |
+| `service.portSchellar` | Kubernetes port where schellar is exposed | `3000` |
 | `service.portConductor` | Kubernetes port where conductor is exposed | `8080` |
-| `ingress.enabled` | Enables Ingress | `false` |
-| `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
-| `ingress.ingressClassName` | Ingress ingressClassName  | |
-| `ingress.hosts` | Ingress accepted hostnames | `[]` |
-| `ingress.tls` | Ingress TLS configuration | `[]` |
+| `ingress.enabled` | Enable [ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/). | `false` |
+| `ingress.labels` | Ingress labels | `{}` |
+| `ingress.annotations` | Annotations to be added to the ingress. | `{}` |
+| `ingress.className` | Ingress [class name](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class). | `""` |
+| `ingress.tls` | Enable or disable tls attribute in ingress | `false` |
+| `ingress.hosts` | Ingress accepted hostname for conductor | `""` |
+| `ingress.schellarHosts` | Ingress accepted hostname for schellar | `""` |
 | `resources` | CPU/Memory resource requests/limits | `{}` |
-| `resourcesProxy` | CPU/Memory resource requests/limits | `{}` |
 | `autoscaling.enabled` | Enable replica autoscaling settings | `false` |
 | `autoscaling.minReplicas` | Minimum replicas for the pod autoscaling | `2` |
 | `autoscaling.maxReplicas` | Maximum replicas for the pod autoscaling | `3` |
@@ -79,18 +75,13 @@ helm uninstall [RELEASE_NAME]
 | `conductorEnv.DATABASE` | DATABASE env value | `conductor` |
 | `conductorEnv.SPRING_SEARCHDATASOURCE_HOSTNAME` | SPRING_SEARCHDATASOURCE_HOSTNAME env value | |
 | `conductorExtraEnv`| Extra env variables for conductor | |
-| `proxyEnv.AUTH_ENABLED` | AUTH_ENABLED env value | `false` |
-| `proxyEnv.OAUTH2_AUTH_URL` | OAUTH2_AUTH_URL env value | `"https://login.microsoftonline.com/common/oauth2/v2.0/authorize"` |
-| `proxyEnv.OAUTH2_TOKEN_URL` | OAUTH2_TOKEN_URL env value | `"/api/workflow-manager/docs/token"` |
-| `proxyEnv.ADMIN_ACCESS_ROLE` | ADMIN_ACCESS_ROLE env value | `"network-admin"` |
-| `proxyEnv.UNICONFIG_ZONES_LIST` | UNICONFIG_ZONES_LIST env value | `"uniconfig"` |
 | `schellarEnv.LOG_LEVEL` | LOG_LEVEL env value for schellar | `debug` |
 | `schellarEnv.CHECK_INTERVAL_SECONDS` | CHECK_INTERVAL_SECONDS env value for schellar | `debug` |
 | `schellarEnv.CONDUCTOR_API_URL` | CONDUCTOR_API_URL env value for schellar | `http://localhost:8080/api` |
 | `schellarEnv.BACKEND` | BACKEND env value for schellar | `postgres` |
+| `schellarEnv.PLAYGROUND_QUERY_ENDPOINT` | PLAYGROUND_QUERY_ENDPOINT env value for schellar | `/api/schedule` |
 | `schellarEnv.POSTGRES_MIGRATIONS_DIR` | POSTGRES_MIGRATIONS_DIR env value for schellar | `postgres` |
-| `schellarEnv.POSTGRES_PORT` | POSTGRES_PORT env value for schellar | `5432` |
-| `schellarEnv.POSTGRES_DATABASE_URL` | POSTGRES_DATABASE_URL env value for remote database for schellar | `"host=postgresql port=5432 user=postgres password=postgres database=schellar"` |
+| `schellarExtraEnv`| Extra env variables for schellar | [] |
 | `postgresql.enabled` | Switch to enable or disable the PostgreSQL helm chart | `true` |
 | `postgresql.auth.enablePostgresUser` | Assign a password to the "postgres" admin user. Otherwise, remote access will be blocked for this user | `true` |
 | `postgresql.auth.username` | Name for a custom user to create | `postgresU` |
