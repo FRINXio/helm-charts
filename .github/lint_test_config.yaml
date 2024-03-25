@@ -24,3 +24,5 @@ excluded-charts:
   - postgrest
   # This chart has a dependency to CloudNativePG operator 
   - cloud-native-pg
+  # Dependency to krakend 
+  - inventory
