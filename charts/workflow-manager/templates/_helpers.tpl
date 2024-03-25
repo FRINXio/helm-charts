@@ -67,7 +67,7 @@ Get the password secret.
 */}}
 {{- define "workflow-manager.secretName" -}}
 {{- if .Values.dbPersistence.existingSecret }}
-    {{- printf "%s" (tpl .Values.dbPersistence.existingSecret $) -}}
+    {{- printf "%s" (tpl .Values.dbPersistence.existingSecret.secretName $) -}}
 {{- else -}}
     {{- printf "%s" (include "workflow-manager.fullname" .) -}}
 {{- end -}}
@@ -88,7 +88,7 @@ Get the password secret.
 */}}
 {{- define "workflow-manager.schellarSecretName" -}}
 {{- if .Values.schellarDbPersistence.existingSecret }}
-    {{- printf "%s-schellar" (tpl .Values.schellarDbPersistence.existingSecret $) -}}
+    {{- printf "%s" (tpl .Values.schellarDbPersistence.existingSecret.secretName $) -}}
 {{- else -}}
     {{- printf "%s-schellar" (include "workflow-manager.fullname" .) -}}
 {{- end -}}

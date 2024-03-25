@@ -90,9 +90,11 @@ helm uninstall [RELEASE_NAME]
 | `schellarEnv.CHECK_INTERVAL_SECONDS` | CHECK_INTERVAL_SECONDS env value for schellar | `debug` |
 | `schellarEnv.CONDUCTOR_API_URL` | CONDUCTOR_API_URL env value for schellar | `http://localhost:8080/api` |
 | `schellarEnv.BACKEND` | BACKEND env value for schellar | `postgres` |
+| `schellarEnv.PLAYGROUND_QUERY_ENDPOINT` | PLAYGROUND_QUERY_ENDPOINT env value for schellar | `/api/schedule` |
 | `schellarEnv.POSTGRES_MIGRATIONS_DIR` | POSTGRES_MIGRATIONS_DIR env value for schellar | `postgres` |
 | `schellarEnv.POSTGRES_PORT` | POSTGRES_PORT env value for schellar | `5432` |
 | `schellarEnv.POSTGRES_DATABASE_URL` | POSTGRES_DATABASE_URL env value for remote database for schellar | `"host=postgresql port=5432 user=postgres password=postgres database=schellar"` |
+| `schellarExtraEnv`| Extra env variables for schellar | [] |
 | `postgresql.enabled` | Switch to enable or disable the PostgreSQL helm chart | `true` |
 | `postgresql.auth.enablePostgresUser` | Assign a password to the "postgres" admin user. Otherwise, remote access will be blocked for this user | `true` |
 | `postgresql.auth.username` | Name for a custom user to create | `postgresU` |

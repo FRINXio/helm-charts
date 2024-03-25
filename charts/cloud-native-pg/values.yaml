@@ -2,7 +2,7 @@ name: null
 imageName: "ghcr.io/cloudnative-pg/postgresql:12.10"
 imagePullPolicy: IfNotPresent
 imagePullSecrets: []
-instances: 3
+instances: 2
 primaryUpdateStrategy: "unsupervised"
 primaryUpdateMethod: "switchover"
 startDelay: 30
@@ -17,7 +17,7 @@ storage:
   # https://cloudnative-pg.io/documentation/1.18/api_reference/#storageconfiguration
   size: "1Gi"
   # storageClass: 'default'
-  # resizeInUseVolumes: true
+  resizeInUseVolumes: true
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -31,11 +31,11 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-postgresql: {}
+postgresql:
   # PostgresConfiguration defines the PostgreSQL configuration
   # https://cloudnative-pg.io/documentation/1.18/api_reference/#postgresconfiguration
-  # parameters:
-  #   max_connections: 300
+  parameters:
+    max_connections: '300'
   #   shared_buffers: 256MB
   # pg_hba:
   #   - host all all 10.244.0.0/16 md5

@@ -83,6 +83,9 @@ deployment:
 dbPersistence:
   ARANGO_URL: 'http://arangodb:8529'
   existingSecret:
+    secretName: 
+    arangoUsernameKey: 
+    arangoRootPasswordKey: 
   ARANGO_USERNAME: 'root'
   ARANGO_ROOT_PASSWORD: 'frinx'
 

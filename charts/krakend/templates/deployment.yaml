@@ -19,6 +19,7 @@ spec:
         checksum/config-scripts: {{ include (print $.Template.BasePath "/configmap-scripts.yaml") . | sha256sum }}
         checksum/config-settings: {{ include (print $.Template.BasePath "/configmap-settings.yaml") . | sha256sum }}
         checksum/config-templates: {{ include (print $.Template.BasePath "/configmap-templates.yaml") . | sha256sum }}
+        checksum/config-templates: {{ include (print $.Template.BasePath "/configmap-nginx.yaml") . | sha256sum }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -26,13 +27,6 @@ spec:
         {{- include "krakend.selectorLabels" . | nindent 8 }}
     spec:
       volumes:
-        {{ if .Values.volumes.azureFile.enabled }}
-        - name: config
-          azureFile:
-            secretName: {{ template "krakend.fullname" . }}-azureStorage
-            shareName: frinxmachine-configs/krakend
-            readOnly: false
-        {{ else }}
         - name: config
           configMap:
             name: {{ template "krakend.fullname" . }}-krakend
@@ -48,7 +42,9 @@ spec:
         - name: templates
           configMap:
             name: {{ template "krakend.fullname" . }}-templates
-        {{ end }}
+        - name: nginx-conf
+          configMap:
+            name: {{ template "krakend.fullname" . }}-nginx-config
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -57,16 +53,20 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
+        - name: nginx
+          image: "{{ .Values.proxyImage.repository }}:{{ .Values.proxyImage.tag }}"
+          ports:
+          - containerPort: 8080
+          volumeMounts:
+          - name: nginx-conf
+            mountPath: /etc/nginx/nginx.conf
+            subPath: nginx.conf
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.containerSecurityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
-            {{ if .Values.volumes.azureFile.enabled }}
-            - name: config
-              mountPath: /etc/krakend/
-            {{ else }}
             - name: config
               mountPath: /etc/krakend/
             - name: partials
@@ -77,7 +77,6 @@ spec:
               mountPath: /etc/krakend/settings/
             - name: templates
               mountPath: /etc/krakend/templates/
-            {{ end }}
           env:
             - name: FC_ENABLE
               value: "1"
@@ -88,9 +87,11 @@ spec:
             - name: FC_TEMPLATES
               value: "/etc/krakend/templates"
             - name: KRAKEND_PORT
-              value: "8080"
+              value: "80"
             - name: FC_OUT
               value: "/tmp/output.json"
+            - name: LOG_LEVEL
+              value: {{ .Values.env.LOG_LEVEL | quote }}
             - name: TLS_DISABLED
               value: {{ .Values.env.TLS_DISABLED | quote }}
             - name: DEFAULT_TIMEOUT
@@ -174,16 +175,25 @@ spec:
           {{- end }}
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 80
+              protocol: TCP
+            - name: websocket
+              containerPort: 8001
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /__health
-              port: http
+              port: 80
+            # httpGet:
+            #   path: /health
+            #   port: websocket
           readinessProbe:
             httpGet:
               path: /__health
               port: http
+            # httpGet:
+            #   path: /health
+            #   port: websocket
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

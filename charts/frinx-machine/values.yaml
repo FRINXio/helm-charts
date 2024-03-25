@@ -1,28 +1,41 @@
 # Global settings
 
 x-frinx-image-pull-secret: &frinx-image-pull-secret regcred
-x-device-discovery-enabled: &device-discovery-enabled true
+x-frinx-database-password: &frinx-database-password frinx-database-password
 
-# tags:
-#   crds: false
-#   statefulpg: false
-#   monitoring: false
-#   frinx-machine: false
-#   base: false
-#   frinx-machine-db: false
-#   workflow-manager-postgres: false
-#   uniconfig-postgres: false
-#   frinx-arango-config: false
+
+dbPersistence:
+  enabled: true
+  secretName: *frinx-database-password
+  secrets: 
+    TD_ARANGO_USERNAME: root 
+    TD_ARANGO_ROOT_PASSWORD: frinx
+    INVENTORY_POSTGRES_USERNAME: inventory_user
+    INVENTORY_POSTGRES_PASSWORD: inventory
+    RM_POSTGRES_USERNAME: resource_user
+    RM_POSTGRES_PASSWORD: resource
+    SCHELLAR_POSTGRES_USERNAME: schellar_user
+    SCHELLAR_POSTGRES_PASSWORD: schellar
+    CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME: conductor_user
+    CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD: conductor
+    SPRING_DATASOURCE_USERNAME: conductor_user
+    SPRING_DATASOURCE_PASSWORD: conductor
+    SPRING_SEARCHDATASOURCE_USERNAME: conductor_user
+    SPRING_SEARCHDATASOURCE_PASSWORD: conductor
+    UNICONFIG_POSTGRES_USERNAME: postgresU
+    UNICONFIG_POSTGRES_PASSWORD: postgresP
+    UNICONFIG_CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD: admin
 
 # CRDs
 kube-arangodb:
   enabled: true
   operator:
     replicaCount: 2
+    enableCRDManagement: true
     args:
       - --deployment.feature.ephemeral-volumes=true
   rbac:
-    enabled: false
+    enabled: true
     extensions:
       monitoring: false
       acs: false
@@ -62,7 +75,7 @@ uniconfig-postgresql:
 # Monitoring
 
 grafana:
-  enabled: false
+  enabled: true 
   fullnameOverride: "grafana"
   adminUser: frinx
   adminPassword: frinx123!
@@ -80,7 +93,7 @@ grafana:
       readOnly: false
 
 influxdb2:
-  enabled: false
+  enabled: true
   fullnameOverride: influxdb
   adminUser:
     user: "frinx"
@@ -94,7 +107,7 @@ influxdb2:
   #     value: setup
 
 telegraf-ds:
-  enabled: false
+  enabled: true
   fullnameOverride: telegraf-ds
   env:
     - name: NAMESPACE
@@ -159,7 +172,7 @@ telegraf-ds:
           namespace = [ "${NAMESPACE}" ]
 
 loki:
-  enabled: false
+  enabled: true
   fullnameOverride: loki
   loki: 
     config: |
@@ -235,6 +248,13 @@ uniconfig-postgres:
       database: uniconfig
       owner: postgresU
 
+  postgresql:
+    parameters:
+      max_connections: '300'
+
+  storage:
+    size: 10Gi
+
   secrets:
     superuserSecret:
       username: postgres
@@ -242,7 +262,6 @@ uniconfig-postgres:
     userSecret:
       username: postgresU
       password: postgresP
-
 
 workflow-manager-postgres:
   enabled: true
@@ -255,6 +274,13 @@ workflow-manager-postgres:
         secretRefs:
           - name: postgresql-post-init-sql-secret
             key: secret.sql
+
+  postgresql:
+    parameters:
+      max_connections: '300'
+
+  storage:
+    size: 250Gi
 
   secrets:
     superuserSecret:
@@ -299,7 +325,7 @@ workflow-manager-postgres:
 frinx-arango-config:
   enabled: true
   arangodb_config:
-    enabled: *device-discovery-enabled
+    enabled: true
     image:
       repository: arangodb/arangodb
       tag: 3.9.9-noavx
@@ -320,13 +346,54 @@ frinx-arango-config:
 
 # Component configuration
 
+oauth2-proxy:
+  enabled: true
+  fullnameOverride: "oauth2-proxy"
+
+  image:
+    repository: "frinx/oauth2-proxy"
+    tag: "6.0.0-alpine"
+    pullPolicy: "Always"
+    imagePullSecrets:
+      - name: *frinx-image-pull-secret
+
+  config:
+    cookieSecret: 
+    clientSecret: 
+    clientID: 
+    configFile: |-
+      github_org = "FRINXio"  # Replace with your GitHub org name, or github_team=team_name to limit access to a specific team
+      scope = "user:email read:org groups"
+      email_domains = [ "*" ]  # Replace with [ "example.com" ] to limit access to users with specific email domain
+      provider = "github"
+      cookie_secure = true
+      cookie_domains = [ "chart-example.local" ]  # Replace with domain names that the proxy is allowed to redirect to after auth
+      whitelist_domains = [ "chart-example.local" ]  # Same as above
+
+  extraArgs:
+    - --provider=github
+    - --upstream=http://krakend:8080
+    - --upstream=ws://krakend:8001
+    - --redirect-url=http://chart-example.local/oauth2/callback
+    - --cookie-secure=false
+    - --pass-authorization-header
+    - --login-url=https://github.com/login/oauth/authorize
+    - --custom-sign-in-logo=/tmp/frinx/frinx.png
+    - --custom-templates-dir=/tmp/frinx
+    - --proxy-websockets=true
+
 krakend:
   enabled: true
   fullnameOverride: "krakend"
+  replicaCount: 1
 
   image:
     repository: "frinx/krakend"
-    tag: "6.0.0-rc-1"
+    tag: "6.0.0"
+
+  proxyImage:
+    repository: "nginx"
+    tag: "1.25.4-alpine"
 
   rbac:
     UNICONFIG_CONTROLLER_ADMIN_GROUP: "FRINXio"
@@ -345,6 +412,7 @@ krakend:
   env:
     L3VPN_ENABLED: true
     DEVICE_TOPOLOGY_ENABLED: true
+    LOG_LEVEL: DEBUG
 
 frinx-frontend:
   enabled: true
@@ -357,7 +425,7 @@ frinx-frontend:
 
   proxyImage:
     name: frinx/frinx-graphql-proxy
-    tag: "latest"
+    tag: "6.0.0"
     pullPolicy: "Always"
 
   env:
@@ -366,51 +434,12 @@ frinx-frontend:
     INVENTORY_API_URL: "/api/proxy"
     RESOURCE_MANAGER_API_URL: "/api/proxy"
     AUTH_ENABLED: true
+    UNISTORE_API_URL: "/api/uniconfig"
+    INVENTORY_WS_PATH: /api/proxy
+    INVENTORY_WS_SCHEMA: "ws://"
 
   proxyEnv:
     DEBUG: 1
-
-oauth2-proxy:
-  enabled: true
-  fullnameOverride: "oauth2-proxy"
-
-  image:
-    repository: "simonmisencik/oauth2-proxy"
-    tag: "v47c0de2-dirty"
-    pullPolicy: "Always"
-
-  config:
-    cookieSecret: 
-    clientSecret: 
-    clientID: 
-    configFile: |-
-      github_org = "FRINXio"  # Replace with your GitHub org name, or github_team=team_name to limit access to a specific team
-      scope = "user:email read:org groups"
-      email_domains = [ "*" ]  # Replace with [ "example.com" ] to limit access to users with specific email domain
-      provider = "github"
-      cookie_secure = true
-      cookie_domains = [ "chart-example.local" ]  # Replace with domain names that the proxy is allowed to redirect to after auth
-      whitelist_domains = [ "chart-example.local" ]  # Same as above
-
-  extraArgs:
-    - --provider=github
-    - --upstream=http://krakend:8080
-    - --redirect-url=http://chart-example.local/oauth2/callback
-    - --cookie-secure=false
-    - --pass-authorization-header
-    - --login-url=https://github.com/login/oauth/authorize
-    - --custom-sign-in-logo=/data/custom-logo/logo-min.png
-    # - --custom-templates-dir=/data/custom-templates
-
-  extraVolumes:
-    - name: custom-logo
-      configMap:
-        name: frinx-oauth2-proxy-logo
-
-  extraVolumeMounts:
-    - name: custom-logo
-      mountPath: "/data/custom-logo"
-      readOnly: true
 
 resource-manager:
   enabled: true
@@ -418,7 +447,7 @@ resource-manager:
 
   image:
     repository: "frinx/resource-manager"
-    tag: "6.0.0_rc1"
+    tag: "6.0.0"
     pullPolicy: "Always"
 
   postgresql:
@@ -427,8 +456,10 @@ resource-manager:
   dbPersistence:
     POSTGRES_HOST: postgresql-rw
     POSTGRES_DATABASE: frinx
-    POSTGRES_USERNAME: resource_user
-    POSTGRES_PASSWORD: resource
+    existingSecret:
+      secretName: *frinx-database-password
+      postgresUsernameKey: RM_POSTGRES_USERNAME
+      postgresPasswordKey: RM_POSTGRES_PASSWORD
 
   rbac:
     RM_ADMIN_ROLES: FRINXio
@@ -440,11 +471,13 @@ workflow-manager:
 
   image:
     repository: "frinx/conductor-server"
-    tag: "latest"
+    tag: "6.0.0"
+    pullPolicy: "Always"
 
   schellarImage:
     repository: "frinx/schellar"
-    tag: "4.0.0"
+    tag: "6.0.0"
+    pullPolicy: "Always"
 
   postgresql:
     enabled: false
@@ -460,18 +493,21 @@ workflow-manager:
     CONDUCTOR_DATASOURCE_SCHEMA: conductor
     POSTGRES_DB_SCHEMA: conductor
     existingSecret:
-    CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME: conductor_user
-    CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD: conductor
-    SPRING_DATASOURCE_USERNAME: conductor_user
-    SPRING_DATASOURCE_PASSWORD: conductor
-    SPRING_SEARCHDATASOURCE_USERNAME: conductor_user
-    SPRING_SEARCHDATASOURCE_PASSWORD: conductor
+      secretName: *frinx-database-password
+      conductorExternalpayloadstoragePostgresUsernameKey: CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME
+      conductorExternalpayloadstoragePostgresPasswordKey: CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD
+      springDatasourceUsernameKey: SPRING_DATASOURCE_USERNAME
+      springDatasourcePasswordKey: SPRING_DATASOURCE_PASSWORD
+      springSearchdatasourceUsernameKey: SPRING_SEARCHDATASOURCE_USERNAME
+      springSearchdatasourcePasswordKey: SPRING_SEARCHDATASOURCE_PASSWORD
 
   schellarDbPersistence:
     POSTGRES_HOST: postgresql-rw
     POSTGRES_DATABASE: frinx
-    POSTGRES_USERNAME: schellar_user
-    POSTGRES_PASSWORD: schellar
+    existingSecret:
+      secretName: *frinx-database-password
+      postgresUsernameKey: SCHELLAR_POSTGRES_USERNAME
+      postgresPasswordKey: SCHELLAR_POSTGRES_PASSWORD
 
 inventory:
   enabled: true
@@ -479,7 +515,7 @@ inventory:
 
   image:
     repository: "frinx/frinx-inventory-server"
-    tag: "latest"
+    tag: "6.0.1"
     pullPolicy: "Always"
 
   postgresql:
@@ -489,30 +525,39 @@ inventory:
     POSTGRES_HOST: "postgresql-rw"
     POSTGRES_DATABASE: frinx
     POSTGRES_DB_SCHEMA: inventory
-    POSTGRES_USERNAME: inventory
-    POSTGRES_PASSWORD: inventory
+    existingSecret:
+      secretName: *frinx-database-password
+      postgresUsernameKey: INVENTORY_POSTGRES_USERNAME
+      postgresPasswordKey: INVENTORY_POSTGRES_PASSWORD
   env:
-    TOPOLOGY_ENABLED: *device-discovery-enabled
+    TOPOLOGY_ENABLED: true
 
+  extraEnv:
+    NODE_ENV: 'development'
+
+  
 topology-discovery:
-  enabled: *device-discovery-enabled
+  enabled: true
   fullnameOverride: "topology-discovery"
 
   image:
     repository: "frinx/topology-discovery"
     tag: "6.0.0"
+    pullPolicy: "Always"
 
   imagePullSecrets:
     - name: *frinx-image-pull-secret
 
   dbPersistence:
     ARANGO_URL: 'http://arangodb:8529'
-    ARANGO_USERNAME: 'root'
-    ARANGO_ROOT_PASSWORD: 'frinx'
+    existingSecret:
+      secretName: *frinx-database-password
+      arangoUsernameKey: TD_ARANGO_USERNAME
+      arangoRootPasswordKey: TD_ARANGO_ROOT_PASSWORD
 
 uniconfig:
-  enabled: true
-  fullnameOverride: "uniconfig"
+  enabled: true 
+  fullnameOverride: "uniconfig-controller"
 
   image:
     repository: "frinx/uniconfig"
@@ -526,12 +571,16 @@ uniconfig:
     
   dbPersistence:
     POSTGRES_HOST: "uniconfig-postgresql-rw"
-    POSTGRES_USERNAME: postgresU
-    POSTGRES_PASSWORD: postgresP
+    existingSecret:
+      secretName: *frinx-database-password
+      postgresUsernameKey: UNICONFIG_POSTGRES_USERNAME
+      postgresPasswordKey: UNICONFIG_POSTGRES_PASSWORD
+      clishellSshserverUsernamepasswordauthPasswordKey: UNICONFIG_CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD
 
   traefik:
     enabled: true
-
+    rbac:
+      namespaced: true
 
   securityContext:
     capabilities:
@@ -544,35 +593,25 @@ uniconfig:
     enabled: true
     name: "unistore"
 
-
-traefik:
-  fullnameOverride: "uniconfig"
-  enabled: false
-
-  ingress:
-    enabled: true
-    host: uniconfig.10.19.0.39.nip.io
-  rbac:
-    namespaced: true
-
-  ingressClass:
+  cacheImage:
     enabled: false
-  ingressRoute:
-    dashboard:
-      enabled: false
-  service:
-    type: ClusterIP
-  ports:
-    uniconfig:
-      port: 8181
-      expose: true
-      exposedPort: 8181
-      protocol: TCP
-  providers:
-    kubernetesIngress:
-      ingressClass: traefik-uniconfig
-      # labelSelector: environment=development
 
+  mibsImage:
+    enabled: true
+    repository: "frinx/lg-device-workers"
+    tag: "1.1.10"
+    mibsPath: "/home/workers/app/uc_data/mib_files/*"
 
-# swaggerui: 
-#   swaggerui.jsonUrl: http://uniconfig:8181/rests/openapi/uniconfig
+frinx-demo-workflows:
+  enabled: true
+  fullnameOverride: "frinx-demo-workflows"
+
+  image:
+    repository: frinx/frinx-demo-workflows
+    pullPolicy: Always
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "6.0.0"
+
+  env:
+    CONDUCTOR_URL_BASE: http://conductor-server:8080/api
+    SCHELLAR_URL_BASE: http://conductor-server:3000/query

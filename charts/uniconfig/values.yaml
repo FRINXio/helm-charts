@@ -12,6 +12,7 @@ image:
 
 imagePullSecrets:
   - name: regcred
+
 nameOverride: ""
 fullnameOverride: "uniconfig-controller"
 
@@ -83,8 +84,6 @@ tolerations: []
 
 affinity: {}
 
-mountCachePath: "/opt/uniconfig-frinx/cache"
-uniconfigCacheFolderPath: ""
 serviceName: "uniconfig"
 tls_keystorePassword: "password"
 
@@ -105,6 +104,10 @@ java:
 dbPersistence:
   POSTGRES_HOST:
   existingSecret:
+    secretName: 
+    postgresUsernameKey: 
+    postgresPasswordKey: 
+    clishellSshserverUsernamepasswordauthPasswordKey:
   POSTGRES_USERNAME: postgresU
   POSTGRES_PASSWORD: postgresP
   CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD: admin
@@ -144,11 +147,21 @@ postgresql:
     database: uniconfig
   architecture: standalone
 
+mountCachePath: "/opt/uniconfig-frinx/cache"
+
 cacheImage:
   enabled: false
   repository:
   tag: ""
   cachePath:
+
+mountMibsPath: "/opt/uniconfig-frinx/mibs"
+
+mibsImage:
+  enabled: false
+  repository:
+  tag: ""
+  mibsPath:
 
 extraInitContainers: []
 
@@ -175,5 +188,5 @@ traefik:
       protocol: TCP
   providers:
     kubernetesIngress:
-      ingressClass: traefik-uniconfig
+      # ingressClass: traefik-uniconfig
       # labelSelector: environment=development

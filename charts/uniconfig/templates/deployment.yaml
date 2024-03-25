@@ -26,19 +26,6 @@ spec:
       volumes:
         - name: uniconfig-frinx-volume
           emptyDir: {}
-        {{- if .Values.azure.AKS.enabled }}
-        - name: frinx-uniconfig-controller-cache
-          azureFile:
-            secretName: {{ include "uniconfig.storageSecretName" . }}
-            shareName: {{ .Values.uniconfigCacheFolderPath }}
-            readOnly: false
-        {{- else}}
-        {{- if .Values.uniconfigCacheFolderPath }}
-        - name: frinx-uniconfig-controller-cache
-          hostPath:
-            path: {{ .Values.uniconfigCacheFolderPath }}
-        {{- end }}
-        {{- end }}
         - name: frinx-uniconfig-controller-logs
           emptyDir: {}
         - name: logback
@@ -63,16 +50,20 @@ spec:
             do echo waiting for database; sleep 2; done;"]
           env:
             - name: DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST
-              {{ if .Values.postgresql.enabled }}
+              {{- if .Values.postgresql.enabled }}
               value: "{{ .Release.Name }}-postgresql"
-              {{ else }}
+              {{- else }}
               value: {{ .Values.dbPersistence.POSTGRES_HOST | quote }}
-              {{ end }}
+              {{- end }}
             - name: DBPERSISTENCE_CONNECTION_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: {{ include "uniconfig.secretName" . }}
+                  {{- if (include "uniconfig.createSecret" .) }}
                   key: POSTGRES_USERNAME
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.postgresUsernameKey }}
+                  {{- end}}
         - name: copy-config-files
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command:
@@ -82,7 +73,7 @@ spec:
           volumeMounts:
             - name: uniconfig-frinx-volume
               mountPath: /tmp/uniconfig-frinx/
-        {{ if .Values.cacheImage.enabled }}
+        {{- if .Values.cacheImage.enabled }}
         - name: copy-uniconfig-cache
           image: {{ .Values.cacheImage.repository }}:{{ .Values.cacheImage.tag }}
           command:
@@ -91,8 +82,22 @@ spec:
             - 'cp -rp {{ .Values.cacheImage.cachePath }} /tmp/uniconfig-frinx/cache && chmod -R 777 /tmp/uniconfig-frinx/cache'
           volumeMounts:
             - name: uniconfig-frinx-volume
-              mountPath: /tmp/uniconfig-frinx/
-        {{ end }}
+              mountPath: /tmp/uniconfig-frinx
+        {{- end }}
+        {{- if .Values.mibsImage.enabled }}
+        - name: copy-mibs-files
+          image: {{ .Values.mibsImage.repository }}:{{ .Values.mibsImage.tag }}
+          command:
+            - sh
+            - '-c'
+            - 'mkdir -p /tmp/uniconfig-frinx/mibs && cp -rp {{ .Values.mibsImage.mibsPath }} /tmp/uniconfig-frinx/mibs && chmod -R 777 /tmp/uniconfig-frinx/mibs'
+          volumeMounts:
+            - name: uniconfig-frinx-volume
+              mountPath: /tmp/uniconfig-frinx
+        {{- end }}
+        {{- with .Values.extraInitContainers }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         {{- with .Values.extraInitContainers }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -102,19 +107,13 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.uniconfigCacheFolderPath }}
           command: ["/bin/sh","-c"]
           args: ["/opt/uniconfig-frinx/run_uniconfig.sh"]
-          {{- end }}
           volumeMounts:
           - name: frinx-uniconfig-controller-logs
             mountPath: /opt/uniconfig-frinx/log
           - name: uniconfig-frinx-volume
             mountPath: /opt/uniconfig-frinx
-          {{- if .Values.uniconfigCacheFolderPath }}
-          - name: frinx-uniconfig-controller-cache
-            mountPath: {{ .Values.mountCachePath }}
-          {{- end}}
           - name: logback
             mountPath: /opt/uniconfig-frinx/config/logback.xml
             subPath: logback.xml
@@ -158,26 +157,38 @@ spec:
             - name: JAVA_MAX_MEM
               value: {{ .Values.java.max_mem | quote }}
             - name: DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST
-              {{ if .Values.postgresql.enabled }}
+              {{ if .Values.postgresql.enabled -}}
               value: "{{ .Release.Name }}-postgresql"
-              {{ else }}
+              {{- else }}
               value: {{ .Values.dbPersistence.POSTGRES_HOST | quote }}
-              {{ end }}
+              {{- end }}
             - name: DBPERSISTENCE_CONNECTION_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: {{ include "uniconfig.secretName" . }}
+                  {{- if (include "uniconfig.createSecret" .) }}
                   key: POSTGRES_USERNAME
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.postgresUsernameKey }}
+                  {{- end}}
             - name: DBPERSISTENCE_CONNECTION_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ include "uniconfig.secretName" . }}
+                  {{- if (include "uniconfig.createSecret" .) }}
                   key: POSTGRES_PASSWORD
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.postgresPasswordKey }}
+                  {{- end}}
             - name: CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ include "uniconfig.secretName" . }}
+                  {{- if (include "uniconfig.createSecret" .) }}
                   key: CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.clishellSshserverUsernamepasswordauthPasswordKey }}
+                  {{- end}}
           {{- range $key, $val := .Values.extraEnv }}
             - name: {{ $key | quote }}
               value: {{ $val | quote }}

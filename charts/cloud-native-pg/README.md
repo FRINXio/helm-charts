@@ -35,7 +35,7 @@ helm uninstall [RELEASE_NAME]
 | `imageName` | Name of the container image, supporting both tags (<image>:<tag>) and digests for deterministic and repeatable deployments (<image>:<tag>@sha256:<digestValue>) | `"ghcr.io/cloudnative-pg/postgresql:12.10@sha256:3cd378bf6b4e6bdc495cf478ca893a3490ecdab5332a614d99d2adb41b1e63ce"` |
 | `imagePullPolicy` | Image pull policy | `"IfNotPresent"` |
 | `imagePullSecrets` | The list of pull secrets to be used to pull the images | `[]` |
-| `instances` | Number of instances required in the cluster | `3` |
+| `instances` | Number of instances required in the cluster | `2` |
 | `primaryUpdateStrategy` | Deployment strategy to follow to upgrade the primary server during a rolling update procedure, after all replicas have been successfully updated: it can be automated (unsupervised - default) or manual (supervised) | `"unsupervised"` |
 | `primaryUpdateMethod` | Method to follow to upgrade the primary server during a rolling update procedure, after all replicas have been successfully updated: it can be with a switchover (switchover - default) or in-place (restart) | `"switchover"` |
 | `startDelay` | The time in seconds that is allowed for a PostgreSQL instance to successfully start up (default 30) | `30` |

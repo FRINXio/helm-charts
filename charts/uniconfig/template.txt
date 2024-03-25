@@ -1,0 +1,996 @@
+---
+# Source: uniconfig/charts/traefik/templates/rbac/serviceaccount.yaml
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: uniconfig
+  namespace: frinx
+  labels:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/instance: release-name-frinx
+    helm.sh/chart: traefik-20.8.0
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+---
+# Source: uniconfig/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: uniconfig-controller
+  labels:
+    helm.sh/chart: uniconfig-5.0.1
+    app.kubernetes.io/name: uniconfig
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "6.0.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: uniconfig/charts/postgresql/templates/secrets.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: release-name-postgresql
+  namespace: "frinx"
+  labels:
+    app.kubernetes.io/name: postgresql
+    helm.sh/chart: postgresql-11.9.13
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+type: Opaque
+data:
+  postgres-password: "N1g5Mm9FNmlVdg=="
+  password: "cG9zdGdyZXNQ"
+  # We don't auto-generate LDAP password when it's not provided as we do for other passwords
+---
+# Source: uniconfig/templates/secrets.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: uniconfig-controller
+data:
+  POSTGRES_USERNAME: cG9zdGdyZXNV
+  POSTGRES_PASSWORD: cG9zdGdyZXNQ
+  CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD: YWRtaW4=
+---
+# Source: uniconfig/templates/configmap-logback.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: uniconfig-controller-configmap-logback
+data:
+  logback.xml: |-
+    <?xml version="1.0" encoding="UTF-8"?>
+  
+    <!-- For assistance related to logback-translator or configuration  -->
+    <!-- files in general, please contact the logback user mailing list -->
+    <!-- at http://www.qos.ch/mailman/listinfo/logback-user             -->
+    <!--                                                                -->
+    <!-- For professional support please see                            -->
+    <!--    http://www.qos.ch/shop/products/professionalSupport         -->
+    <!--                                                                -->
+    <configuration scan="true" debug="true" scanPeriod="5 seconds">
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{HH:mm:ss.SSS} %level %logger - %msg%n</pattern>
+            </encoder>
+        </appender>
+        <appender name="logs" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <File>log/${SERVICE_NAME}/${CONTAINER_ID}/logs.log</File>
+            <encoder>
+                <pattern>%d{HH:mm:ss.SSS} %level %logger - %msg%n</pattern>
+            </encoder>
+            <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+                <maxIndex>20</maxIndex>
+                <FileNamePattern>log/${SERVICE_NAME}/${CONTAINER_ID}/logs.log.%i</FileNamePattern>
+            </rollingPolicy>
+            <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+                <MaxFileSize>50MB</MaxFileSize>
+            </triggeringPolicy>
+        </appender>
+        <appender name="netconf-notifications" class="ch.qos.logback.classic.sift.SiftingAppender">
+            <discriminator class="io.frinx.uniconfig.discriminator.MarkerBasedDiscriminator">
+                <key>deviceName</key>
+                <defaultValue>unknown</defaultValue>
+            </discriminator>
+            <sift>
+                <appender name="${deviceName}-netconf-notifications" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                    <file>log/${SERVICE_NAME}/${CONTAINER_ID}/netconf-notifications/${deviceName}.log</file>
+                    <encoder>
+                        <pattern>%d{HH:mm:ss.SSS} %level %logger - %msg%n</pattern>
+                    </encoder>
+                    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+                        <maxIndex>20</maxIndex>
+                        <FileNamePattern>log/${SERVICE_NAME}/${CONTAINER_ID}/netconf-notifications/${deviceName}.log.%i</FileNamePattern>
+                    </rollingPolicy>
+                    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+                        <MaxFileSize>16MB</MaxFileSize>
+                    </triggeringPolicy>
+                </appender>
+            </sift>
+        </appender>
+        <appender name="netconf-messages" class="ch.qos.logback.classic.sift.SiftingAppender">
+            <discriminator class="io.frinx.uniconfig.discriminator.MarkerBasedDiscriminator">
+                <key>deviceName</key>
+                <defaultValue>unknown</defaultValue>
+            </discriminator>
+            <sift>
+                <appender name="${deviceName}-netconf-messages" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                    <file>log/${SERVICE_NAME}/${CONTAINER_ID}/netconf-messages/${deviceName}.log</file>
+                    <encoder>
+                        <pattern>%d{HH:mm:ss.SSS} %level %logger - %msg%n</pattern>
+                    </encoder>
+                    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+                        <maxIndex>20</maxIndex>
+                        <FileNamePattern>log/${SERVICE_NAME}/${CONTAINER_ID}/netconf-messages/${deviceName}.log.%i</FileNamePattern>
+                    </rollingPolicy>
+                    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+                        <MaxFileSize>16MB</MaxFileSize>
+                    </triggeringPolicy>
+                </appender>
+            </sift>
+        </appender>
+        <appender name="netconf-events" class="ch.qos.logback.classic.sift.SiftingAppender">
+            <discriminator class="io.frinx.uniconfig.discriminator.MarkerBasedDiscriminator">
+                <key>deviceName</key>
+                <defaultValue>unknown</defaultValue>
+            </discriminator>
+            <sift>
+                <appender name="${deviceName}-netconf-events" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                    <file>log/${SERVICE_NAME}/${CONTAINER_ID}/netconf-events/${deviceName}.log</file>
+                    <encoder>
+                        <pattern>%d{HH:mm:ss.SSS} %level %logger - %msg%n</pattern>
+                    </encoder>
+                    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+                        <maxIndex>20</maxIndex>
+                        <FileNamePattern>log/${SERVICE_NAME}/${CONTAINER_ID}/netconf-events/${deviceName}.log.%i</FileNamePattern>
+                    </rollingPolicy>
+                    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+                        <MaxFileSize>16MB</MaxFileSize>
+                    </triggeringPolicy>
+                </appender>
+            </sift>
+        </appender>
+        <appender name="restconf" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <File>log/${SERVICE_NAME}/${CONTAINER_ID}/restconf.log</File>
+            <encoder>
+                <pattern>%d{HH:mm:ss.SSS} %level %logger - %msg%n</pattern>
+            </encoder>
+            <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+                <maxIndex>20</maxIndex>
+                <FileNamePattern>log/${SERVICE_NAME}/${CONTAINER_ID}/restconf.%i</FileNamePattern>
+            </rollingPolicy>
+            <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+                <MaxFileSize>50MB</MaxFileSize>
+            </triggeringPolicy>
+        </appender>
+        <appender name="cli-messages" class="ch.qos.logback.classic.sift.SiftingAppender">
+            <discriminator class="io.frinx.uniconfig.discriminator.MarkerBasedDiscriminator">
+                <key>deviceName</key>
+                <defaultValue>unknown</defaultValue>
+            </discriminator>
+            <sift>
+                <appender name="${deviceName}-cli-messages" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                    <file>log/${SERVICE_NAME}/${CONTAINER_ID}/cli-messages/${deviceName}.log</file>
+                    <encoder>
+                        <pattern>%d{HH:mm:ss.SSS} %level %logger - %msg%n</pattern>
+                    </encoder>
+                    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+                        <maxIndex>20</maxIndex>
+                        <FileNamePattern>log/${SERVICE_NAME}/${CONTAINER_ID}/cli-messages/${deviceName}.log.%i</FileNamePattern>
+                    </rollingPolicy>
+                    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+                        <MaxFileSize>16MB</MaxFileSize>
+                    </triggeringPolicy>
+                </appender>
+            </sift>
+        </appender>
+  
+        <appender name="gnmi" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <File>log/${SERVICE_NAME}/${CONTAINER_ID}/gnmi.log</File>
+            <encoder>
+                <pattern>%d{HH:mm:ss} %level %logger - %msg%n</pattern>
+            </encoder>
+            <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+                <maxIndex>20</maxIndex>
+                <FileNamePattern>log/${SERVICE_NAME}/${CONTAINER_ID}/gnmi.log.%i</FileNamePattern>
+            </rollingPolicy>
+            <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+                <MaxFileSize>16MB</MaxFileSize>
+            </triggeringPolicy>
+        </appender>
+  
+        <appender name="metrics" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <File>log/${SERVICE_NAME}/${CONTAINER_ID}/metrics.log</File>
+            <encoder>
+                <pattern> uniconfig,zone=${SERVICE_NAME},instance=${CONTAINER_ID} %replace(%replace(%msg){'=','="'}){', ','",'}"%n </pattern>
+            </encoder>
+            <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+                <maxIndex>20</maxIndex>
+                <FileNamePattern>log/${SERVICE_NAME}/${CONTAINER_ID}/metrics.log.%i</FileNamePattern>
+            </rollingPolicy>
+            <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+                <MaxFileSize>16MB</MaxFileSize>
+            </triggeringPolicy>
+        </appender>
+  
+        <!-- used for automatic propagation of set logger level to JUL logging implementation -->
+        <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+            <resetJUL>true</resetJUL>
+        </contextListener>
+  
+        <!-- root logger -->
+        <root level="INFO">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="logs"/>
+        </root>
+  
+        <!-- UniConfig layer part -->
+        <logger name="io.frinx.uniconfig" level="INFO"/>
+  
+        <!-- Unified layer part -->
+        <logger name="io.frinx.unitopo" level="INFO"/>
+  
+        <!-- NETCONF part -->
+        <logger name="org.opendaylight.netconf" level="INFO"/>
+  
+        <!-- CLI part -->
+        <logger name="io.frinx.cli" level="INFO"/>
+  
+        <!-- SSH part (used by CLI and NETCONF) -->
+        <logger name="org.apache.sshd" level="INFO"/>
+        <logger name="org.apache.sshd.client.session.ClientConnectionService" level="ERROR"/>
+  
+        <!-- translation unit framework part -->
+        <logger name="io.frinx.translate.unit.commons" level="INFO"/>
+        <logger name="io.fd.honeycomb" level="INFO"/>
+  
+        <logger name="io.uniconfig.gnmi" level="DEBUG" additivity="false">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="logs"/>
+            <appender-ref ref="gnmi"/>
+        </logger>
+  
+        <!-- RESTCONF part -->
+        <logger name="org.opendaylight.restconf" level="INFO"/>
+        <logger name="org.opendaylight.aaa" level="INFO"/>
+  
+        <!-- controller part -->
+        <logger name="org.opendaylight.daexim" level="INFO"/>
+        <logger name="org.opendaylight.controller" level="INFO"/>
+        <logger name="org.opendaylight.yangtools" level="INFO"/>
+  
+        <!-- DOM mountpoint service -->
+        <logger name="org.opendaylight.controller.md.sal.dom.broker.impl.mount" level="INFO"/>
+  
+        <!-- Kafka -->
+        <logger name="org.apache.kafka.clients.NetworkClient" level="INFO"/>
+  
+        <!-- Metrics -->
+        <logger name="io.frinx.uniconfig.metrics" level="INFO" additivity="false">
+            <appender-ref ref="metrics"/>
+        </logger>
+  
+        <!-- CLI shell -->
+        <logger name="io.frinx.uniconfig.shell" level="INFO"/>
+  
+        <!-- PostgreSQL driver -->
+        <logger name="org.postgresql" level="INFO"/>
+  
+        <!-- do not modify this part, we should use RESTCONF RPCs for controlling of logging brokers -->
+        <logger name="org.opendaylight.restconf.nb.rfc8040.jersey.providers.logging.RestconfLoggingBroker" level="TRACE" additivity="false">
+            <appender-ref ref="restconf"/>
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <logger name="org.opendaylight.netconf.logging.brokers.NetconfMessagesLoggingBroker" level="TRACE" additivity="false">
+            <appender-ref ref="netconf-messages"/>
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <logger name="org.opendaylight.netconf.logging.brokers.NotificationsLoggingBroker" level="TRACE" additivity="false">
+            <appender-ref ref="netconf-notifications"/>
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <logger name="org.opendaylight.netconf.logging.brokers.NetconfEventsLoggingBroker" level="TRACE" additivity="false">
+            <appender-ref ref="netconf-events"/>
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <logger name="io.frinx.cli.io.impl.cli.CliLoggingBroker" level="TRACE" additivity="false">
+            <appender-ref ref="cli-messages"/>
+            <appender-ref ref="STDOUT"/>
+        </logger>
+    </configuration>
+---
+# Source: uniconfig/charts/traefik/templates/rbac/clusterrole.yaml
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: uniconfig-frinx
+  labels:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/instance: release-name-frinx
+    helm.sh/chart: traefik-20.8.0
+    app.kubernetes.io/managed-by: Helm
+rules:
+  - apiGroups:
+      - extensions
+      - networking.k8s.io
+    resources:
+      - ingressclasses
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - services
+      - endpoints
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - extensions
+      - networking.k8s.io
+    resources:
+      - ingresses/status
+    verbs:
+      - update
+  - apiGroups:
+      - traefik.containo.us
+    resources:
+      - ingressroutes
+      - ingressroutetcps
+      - ingressrouteudps
+      - middlewares
+      - middlewaretcps
+      - tlsoptions
+      - tlsstores
+      - traefikservices
+      - serverstransports
+    verbs:
+      - get
+      - list
+      - watch
+---
+# Source: uniconfig/charts/traefik/templates/rbac/clusterrolebinding.yaml
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: uniconfig-frinx
+  labels:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/instance: release-name-frinx
+    helm.sh/chart: traefik-20.8.0
+    app.kubernetes.io/managed-by: Helm
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: uniconfig-frinx
+subjects:
+  - kind: ServiceAccount
+    name: uniconfig
+    namespace: frinx
+---
+# Source: uniconfig/charts/postgresql/templates/primary/svc-headless.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-postgresql-hl
+  namespace: "frinx"
+  labels:
+    app.kubernetes.io/name: postgresql
+    helm.sh/chart: postgresql-11.9.13
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: primary
+    # Use this annotation in addition to the actual publishNotReadyAddresses
+    # field below because the annotation will stop being respected soon but the
+    # field is broken in some versions of Kubernetes:
+    # https://github.com/kubernetes/kubernetes/issues/58662
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+spec:
+  type: ClusterIP
+  clusterIP: None
+  # We want all pods in the StatefulSet to have their addresses published for
+  # the sake of the other Postgresql pods even before they're ready, since they
+  # have to be able to talk to each other in order to become ready.
+  publishNotReadyAddresses: true
+  ports:
+    - name: tcp-postgresql
+      port: 5432
+      targetPort: tcp-postgresql
+  selector:
+    app.kubernetes.io/name: postgresql
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/component: primary
+---
+# Source: uniconfig/charts/postgresql/templates/primary/svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-postgresql
+  namespace: "frinx"
+  labels:
+    app.kubernetes.io/name: postgresql
+    helm.sh/chart: postgresql-11.9.13
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: primary
+  annotations:
+spec:
+  type: ClusterIP
+  sessionAffinity: None
+  ports:
+    - name: tcp-postgresql
+      port: 5432
+      targetPort: tcp-postgresql
+      nodePort: null
+  selector:
+    app.kubernetes.io/name: postgresql
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/component: primary
+---
+# Source: uniconfig/charts/traefik/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: uniconfig
+  namespace: frinx
+  labels:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/instance: release-name-frinx
+    helm.sh/chart: traefik-20.8.0
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/instance: release-name-frinx
+  ports:
+  - port: 8181
+    name: "uniconfig"
+    targetPort: uniconfig
+    protocol: TCP
+  - port: 80
+    name: "web"
+    targetPort: web
+    protocol: TCP
+  - port: 443
+    name: "websecure"
+    targetPort: websecure
+    protocol: TCP
+---
+# Source: uniconfig/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: uniconfig-controller
+  labels:
+    helm.sh/chart: uniconfig-5.0.1
+    app.kubernetes.io/name: uniconfig
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "6.0.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    traefik.ingress.kubernetes.io/service.passhostheader: "true"
+    traefik.ingress.kubernetes.io/service.sticky.cookie: "true"
+    traefik.ingress.kubernetes.io/service.sticky.cookie.name: uniconfig_server_id
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8181
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: uniconfig
+    app.kubernetes.io/instance: release-name
+---
+# Source: uniconfig/charts/traefik/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uniconfig
+  namespace: frinx
+  labels:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/instance: release-name-frinx
+    helm.sh/chart: traefik-20.8.0
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: traefik
+      app.kubernetes.io/instance: release-name-frinx
+  strategy: 
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  minReadySeconds: 0
+  template: 
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: "9100"
+      labels:
+        app.kubernetes.io/name: traefik
+        app.kubernetes.io/instance: release-name-frinx
+        helm.sh/chart: traefik-20.8.0
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: uniconfig
+      terminationGracePeriodSeconds: 60
+      hostNetwork: false
+      containers:
+      - image: traefik:v2.9.6
+        imagePullPolicy: IfNotPresent
+        name: uniconfig
+        resources:
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: 9000
+            scheme: HTTP
+          failureThreshold: 1
+          initialDelaySeconds: 2
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 2
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: 9000
+            scheme: HTTP
+          failureThreshold: 3
+          initialDelaySeconds: 2
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 2
+        lifecycle:
+        ports:
+        - name: "metrics"
+          containerPort: 9100
+          protocol: "TCP"
+        - name: "traefik"
+          containerPort: 9000
+          protocol: "TCP"
+        - name: "uniconfig"
+          containerPort: 8181
+          protocol: "TCP"
+        - name: "web"
+          containerPort: 8000
+          protocol: "TCP"
+        - name: "websecure"
+          containerPort: 8443
+          protocol: "TCP"
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+        volumeMounts:
+          - name: data
+            mountPath: /data
+          - name: tmp
+            mountPath: /tmp
+        args:
+          - "--global.checknewversion"
+          - "--global.sendanonymoususage"
+          - "--entrypoints.metrics.address=:9100/tcp"
+          - "--entrypoints.traefik.address=:9000/tcp"
+          - "--entrypoints.uniconfig.address=:8181/tcp"
+          - "--entrypoints.web.address=:8000/tcp"
+          - "--entrypoints.websecure.address=:8443/tcp"
+          - "--api.dashboard=true"
+          - "--ping=true"
+          - "--metrics.prometheus=true"
+          - "--metrics.prometheus.entrypoint=metrics"
+          - "--providers.kubernetescrd"
+          - "--providers.kubernetesingress"
+          - "--providers.kubernetesingress.ingressClass=traefik-uniconfig"
+          - "--entrypoints.websecure.http.tls=true"
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}
+      securityContext:
+        fsGroup: 65532
+---
+# Source: uniconfig/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uniconfig-controller
+  labels:
+    helm.sh/chart: uniconfig-5.0.1
+    app.kubernetes.io/name: uniconfig
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "6.0.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: uniconfig
+      app.kubernetes.io/instance: release-name
+  template:
+    metadata:
+      annotations:
+      labels:
+        app.kubernetes.io/name: uniconfig
+        app.kubernetes.io/instance: release-name
+    spec:
+      volumes:
+        - name: uniconfig-frinx-volume
+          emptyDir: {}
+        - name: frinx-uniconfig-controller-logs
+          emptyDir: {}
+        - name: logback
+          configMap:
+            name: uniconfig-controller-configmap-logback
+            defaultMode: 0777
+            items:
+            - key: logback.xml
+              path: logback.xml
+      imagePullSecrets:
+        - name: regcred
+      serviceAccountName: uniconfig-controller
+      securityContext:
+        {}
+      initContainers:
+        - name: check-db-ready
+          image: postgres:alpine
+          command: ['sh', '-c',
+            "until pg_isready -h ${DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST} -p 5432 -U ${DBPERSISTENCE_CONNECTION_USERNAME};
+            do echo waiting for database; sleep 2; done;"]
+          env:
+            - name: DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST
+              value: "release-name-postgresql"
+            - name: DBPERSISTENCE_CONNECTION_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: uniconfig-controller
+                  key: POSTGRES_USERNAME
+        - name: copy-config-files
+          image: "frinx/uniconfig:6.0.0"
+          command:
+            - sh
+            - '-c'
+            - 'cp -r /opt/uniconfig-frinx/* /tmp/uniconfig-frinx/'
+          volumeMounts:
+            - name: uniconfig-frinx-volume
+              mountPath: /tmp/uniconfig-frinx/
+        - name: copy-uniconfig-cache
+          image: frinx:1.0.0
+          command:
+            - sh
+            - '-c'
+            - 'cp -rp /tmp/eeeg /tmp/uniconfig-frinx/cache && chmod -R 777 /tmp/uniconfig-frinx/cache'
+          volumeMounts:
+            - name: uniconfig-frinx-cache
+              mountPath: /tmp/uniconfig-frinx/cache
+      containers:
+        - name: uniconfig
+          securityContext:
+            capabilities:
+              add:
+              - CAP_NET_BIND_SERVICE
+              - NET_ADMIN
+              drop:
+              - ALL
+          image: "frinx/uniconfig:6.0.0"
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/sh","-c"]
+          args: ["/opt/uniconfig-frinx/run_uniconfig.sh"]
+          volumeMounts:
+          - name: frinx-uniconfig-controller-logs
+            mountPath: /opt/uniconfig-frinx/log
+          - name: uniconfig-frinx-volume
+            mountPath: /opt/uniconfig-frinx
+          - name: logback
+            mountPath: /opt/uniconfig-frinx/config/logback.xml
+            subPath: logback.xml
+          ports:
+            - name: http
+              containerPort: 8181
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - 'curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST localhost:8181/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"'
+            timeoutSeconds: 35
+            failureThreshold: 20
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - 'curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST localhost:8181/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"'
+            timeoutSeconds: 35
+            failureThreshold: 20
+          resources:
+            {}
+          env:
+            - name: CONTAINER_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: SERVICE_NAME
+              value: "uniconfig"
+            - name: PROXY_ENABLED
+              value: "false"
+            - name: HTTP_PROXY
+              value: 
+            - name: HTTPS_PROXY
+              value: 
+            - name: NO_PROXY
+              value: 
+            - name: JAVA_MAX_MEM
+              value: "10G"
+            - name: DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST
+              value: "release-name-postgresql"
+            - name: DBPERSISTENCE_CONNECTION_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: uniconfig-controller
+                  key: POSTGRES_USERNAME
+            - name: DBPERSISTENCE_CONNECTION_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: uniconfig-controller
+                  key: POSTGRES_PASSWORD
+            - name: CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: uniconfig-controller
+                  key: CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD
+            - name: "CLISHELL_SSHSERVER_ENABLED"
+              value: "true"
+            - name: "CLISHELL_SSHSERVER_INETADDRESS"
+              value: "0.0.0.0"
+            - name: "DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_PORT"
+              value: "5432"
+            - name: "DBPERSISTENCE_CONNECTION_DBNAME"
+              value: "uniconfig"
+            - name: "DBPERSISTENCE_CONNECTION_MAXDBPOOLSIZE"
+              value: "300"
+            - name: "DBPERSISTENCE_EMBEDDEDDATABASE_ENABLED"
+              value: "false"
+            - name: "SPRING_AUTOCONFIGURE_EXCLUDE"
+              value: "org.springframework.cloud.stream.function.FunctionConfiguration"
+            - name: "SPRING_CLOUD_BUS_ENABLED"
+              value: "false"
+            - name: "TRANSACTIONS_MAXSTOREDTRANSACTIONS"
+              value: "100"
+            - name: "TRANSACTIONS_MAXTRANSACTIONAGE"
+              value: "7200"
+            - name: "TRANSACTIONS_TRANSACTIONIDLETIMEOUT"
+              value: "3600"
+            - name: "UNICONFIG_CLOUD_CONFIG_ENABLED"
+              value: "false"
+---
+# Source: uniconfig/charts/postgresql/templates/primary/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: release-name-postgresql
+  namespace: "frinx"
+  labels:
+    app.kubernetes.io/name: postgresql
+    helm.sh/chart: postgresql-11.9.13
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: primary
+  annotations:
+spec:
+  replicas: 1
+  serviceName: release-name-postgresql-hl
+  updateStrategy:
+    rollingUpdate: {}
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: postgresql
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/component: primary
+  template:
+    metadata:
+      name: release-name-postgresql
+      labels:
+        app.kubernetes.io/name: postgresql
+        helm.sh/chart: postgresql-11.9.13
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/component: primary
+      annotations:
+    spec:
+      serviceAccountName: default
+      
+      affinity:
+        podAffinity:
+          
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: postgresql
+                    app.kubernetes.io/instance: release-name
+                    app.kubernetes.io/component: primary
+                namespaces:
+                  - "frinx"
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+          
+      securityContext:
+        fsGroup: 1001
+      hostNetwork: false
+      hostIPC: false
+      initContainers:
+      containers:
+        - name: postgresql
+          image: docker.io/bitnami/postgresql:14.5.0-debian-11-r35
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            runAsUser: 1001
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: POSTGRESQL_PORT_NUMBER
+              value: "5432"
+            - name: POSTGRESQL_VOLUME_DIR
+              value: "/bitnami/postgresql"
+            - name: PGDATA
+              value: "/bitnami/postgresql/data"
+            # Authentication
+            - name: POSTGRES_USER
+              value: "postgresU"
+            - name: POSTGRES_POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: release-name-postgresql
+                  key: postgres-password
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: release-name-postgresql
+                  key: password
+            - name: POSTGRES_DB
+              value: "uniconfig"
+            # Replication
+            # Initdb
+            # Standby
+            # LDAP
+            - name: POSTGRESQL_ENABLE_LDAP
+              value: "no"
+            # TLS
+            - name: POSTGRESQL_ENABLE_TLS
+              value: "no"
+            # Audit
+            - name: POSTGRESQL_LOG_HOSTNAME
+              value: "false"
+            - name: POSTGRESQL_LOG_CONNECTIONS
+              value: "false"
+            - name: POSTGRESQL_LOG_DISCONNECTIONS
+              value: "false"
+            - name: POSTGRESQL_PGAUDIT_LOG_CATALOG
+              value: "off"
+            # Others
+            - name: POSTGRESQL_CLIENT_MIN_MESSAGES
+              value: "error"
+            - name: POSTGRESQL_SHARED_PRELOAD_LIBRARIES
+              value: "pgaudit"
+          ports:
+            - name: tcp-postgresql
+              containerPort: 5432
+          livenessProbe:
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U "postgresU" -d "dbname=uniconfig" -h 127.0.0.1 -p 5432
+          readinessProbe:
+            failureThreshold: 6
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - -e
+                
+                - |
+                  exec pg_isready -U "postgresU" -d "dbname=uniconfig" -h 127.0.0.1 -p 5432
+                  [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
+          resources:
+            limits: {}
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          volumeMounts:
+            - name: dshm
+              mountPath: /dev/shm
+            - name: data
+              mountPath: /bitnami/postgresql
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: "8Gi"
+---
+# Source: uniconfig/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: uniconfig-controller
+  labels:
+    helm.sh/chart: uniconfig-5.0.1
+    app.kubernetes.io/name: uniconfig
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "6.0.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  defaultBackend:
+    service:
+      name: uniconfig-controller
+      port:
+        number: 8181
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: uniconfig-controller
+                port:
+                  number: 8181
+---
+# Source: uniconfig/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "uniconfig-controller-test-connection"
+  labels:
+    helm.sh/chart: uniconfig-5.0.1
+    app.kubernetes.io/name: uniconfig
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "6.0.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: check-uniconfig
+      image: curlimages/curl
+      command: ["/bin/sh","-c"]
+      args: ['curl --fail --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST uniconfig:8181/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"']
+  restartPolicy: Never

@@ -98,6 +98,9 @@ dbPersistence:
   POSTGRES_DATABASE: inventory
   POSTGRES_DB_SCHEMA: public
   existingSecret:
+    secretName: 
+    postgresUsernameKey: 
+    postgresPasswordKey: 
   POSTGRES_USERNAME: postgresU
   POSTGRES_PASSWORD: postgresP
 

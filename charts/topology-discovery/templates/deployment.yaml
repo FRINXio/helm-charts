@@ -49,12 +49,20 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ include "topology-discovery.secretName" . }}
+                  {{- if (include "topology-discovery.createSecret" .) }}
                   key: ARANGO_USERNAME
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.arangoUsernameKey }}
+                  {{- end}}
             - name: ARANGO_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ include "topology-discovery.secretName" . }}
+                  {{- if (include "topology-discovery.createSecret" .) }}
                   key: ARANGO_ROOT_PASSWORD
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.arangoRootPasswordKey }}
+                  {{- end}}
           args: ['while [ $(curl -ksw "%{http_code}" --user "${ARANGO_USERNAME}:${ARANGO_ROOT_PASSWORD}" "${ARANGO_URL}/_api/version" -o /dev/null) -ne 200 ];
             do sleep 5; echo "waiting for arangodb";
             done;
@@ -83,13 +91,20 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ include "topology-discovery.secretName" . }}
+                  {{- if (include "topology-discovery.createSecret" .) }}
                   key: ARANGO_USERNAME
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.arangoUsernameKey }}
+                  {{- end}}
             - name: ARANGO_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ include "topology-discovery.secretName" . }}
+                  {{- if (include "topology-discovery.createSecret" .) }}
                   key: ARANGO_ROOT_PASSWORD
-            
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.arangoRootPasswordKey }}
+                  {{- end}}
           {{- range $key, $val := .Values.env }}
             - name: {{ $key | quote }}
               value: {{ $val | quote }}

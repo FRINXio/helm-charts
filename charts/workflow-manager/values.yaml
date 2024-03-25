@@ -89,6 +89,13 @@ dbPersistence:
   POSTGRES_DATABASE: conductor
   CONDUCTOR_DATASOURCE_SCHEMA: public
   existingSecret:
+    secretName: 
+    conductorExternalpayloadstoragePostgresUsernameKey: 
+    conductorExternalpayloadstoragePostgresPasswordKey: 
+    springDatasourceUsernameKey:
+    springDatasourcePasswordKey:
+    springSearchdatasourceUsernameKey:
+    springSearchdatasourcePasswordKey:
   CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME: postgresU
   CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD: postgresP
   SPRING_DATASOURCE_USERNAME: postgresU
@@ -127,7 +134,7 @@ conductorExtraEnv:
   CONDUCTOR_APP_MAXTASKOUTPUTPAYLOADSIZETHRESHOLD: 102400
   # PostgreSQL External Payload Storage variables
   CONDUCTOR_EXTERNALPAYLOADSTORAGE_TYPE: postgres
-  CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_CONDUCTORURL: http://conductor-server:8080/proxy
+  CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_CONDUCTORURL: http://conductor-server:8080
   CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_MAXDATAROWS: 100000
   CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_MAXDATADAYS: 0
   CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_MAXDATAMONTHS: 0
@@ -151,6 +158,9 @@ schellarDbPersistence:
   POSTGRES_PORT: 5432
   POSTGRES_DATABASE: schellar
   existingSecret:
+    secretName: 
+    postgresUsernameKey: 
+    postgresPasswordKey: 
   POSTGRES_USERNAME: postgresU
   POSTGRES_PASSWORD: postgresP
 
@@ -160,9 +170,12 @@ schellarEnv:
   CONDUCTOR_API_URL: http://localhost:8080/api
   BACKEND: postgres
   POSTGRES_MIGRATIONS_DIR: migrations
+  PLAYGROUND_QUERY_ENDPOINT: /api/schedule
+
+schellarExtraEnv: []
 
 postgresql:
-  enabled: true
+  enabled: false
   auth:
     enablePostgresUser: true
     username: postgresU

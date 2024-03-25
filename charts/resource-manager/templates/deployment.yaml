@@ -36,12 +36,20 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: {{ include "resource-manager.secretName" . }}
+                {{- if (include "resource-manager.createSecret" .) }}
                 key: POSTGRES_USERNAME
+                {{- else }}
+                key: {{ .Values.dbPersistence.existingSecret.postgresUsernameKey }}
+                {{- end}}
           - name: POSTGRES_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: {{ include "resource-manager.secretName" . }}
+                {{- if (include "resource-manager.createSecret" .) }}
                 key: POSTGRES_PASSWORD
+                {{- else }}
+                key: {{ .Values.dbPersistence.existingSecret.postgresPasswordKey }}
+                {{- end}}
             {{ if .Values.postgresql.enabled }}            
           - name: "POSTGRES_HOST"
             value: "{{ .Release.Name }}-postgresql"
@@ -97,12 +105,20 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ include "resource-manager.secretName" . }}
+                  {{- if (include "resource-manager.createSecret" .) }}
                   key: POSTGRES_USERNAME
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.postgresUsernameKey }}
+                  {{- end}}
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ include "resource-manager.secretName" . }}
+                  {{- if (include "resource-manager.createSecret" .) }}
                   key: POSTGRES_PASSWORD
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.postgresPasswordKey }}
+                  {{- end}}
               {{ if .Values.postgresql.enabled }}            
             - name: "POSTGRES_HOST"
               value: "{{ .Release.Name }}-postgresql"

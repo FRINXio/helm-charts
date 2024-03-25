@@ -38,11 +38,10 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: postgres:alpine
           env:
-            {{ if .Values.postgresql.enabled }}            
             - name: "POSTGRES_HOST"
+            {{ if .Values.postgresql.enabled }}            
               value: "{{ .Release.Name }}-postgresql"
             {{ else }}
-            - name: "POSTGRES_HOST"  
               value: "{{ .Values.dbPersistence.POSTGRES_HOST }}"
             {{ end }}
             - name: "POSTGRES_PORT"
@@ -51,7 +50,11 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ include "inventory.secretName" . }}
+                  {{- if (include "inventory.createSecret" .) }}
                   key: POSTGRES_USERNAME
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.postgresUsernameKey }}
+                  {{- end}}
           command: ['sh', '-c',
             "until pg_isready -h ${POSTGRES_HOST} -p ${POSTGRES_PORT} -U ${POSTGRES_USERNAME};
             do echo waiting for database; sleep 2; done;"]
@@ -91,14 +94,12 @@ spec:
               value: {{ .Values.env.TOPOLOGY_DISCOVERY_GRAPHQL_API_URL | quote }}
             - name: "SHELL_HOST"
               value: {{ .Values.env.SHELL_HOST | quote }}
-
-              {{ if .Values.postgresql.enabled }}            
             - name: "POSTGRES_HOST"
+              {{- if .Values.postgresql.enabled }}            
               value: "{{ .Release.Name }}-postgresql"
-              {{ else }}
-            - name: "POSTGRES_HOST"  
+              {{- else }}
               value: "{{ .Values.dbPersistence.POSTGRES_HOST }}"
-              {{ end }}
+              {{- end }}
             - name: "POSTGRES_PORT"
               value: {{ .Values.dbPersistence.POSTGRES_PORT | quote }}
             - name: "POSTGRES_DATABASE"
@@ -109,39 +110,40 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ include "inventory.secretName" . }}
+                  {{- if (include "inventory.createSecret" .) }}
                   key: POSTGRES_USERNAME
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.postgresUsernameKey }}
+                  {{- end}}
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ include "inventory.secretName" . }}
+                  {{- if (include "inventory.createSecret" .) }}
                   key: POSTGRES_PASSWORD
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.postgresPasswordKey }}
+                  {{- end}}
             - name: "DATABASE_URL"
               value: "postgres://$(POSTGRES_USERNAME):$(POSTGRES_PASSWORD)@$(POSTGRES_HOST):$(POSTGRES_PORT)/$(POSTGRES_DATABASE)?sslmode=disable&schema=$(POSTGRES_DB_SCHEMA)"
-          
           {{- range $key, $val := .Values.extraEnv }}
             - name: {{ $key | quote }}
               value: {{ $val | quote }}
           {{- end }}
-          # livenessProbe:
-          #   exec:
-          #     command:
-          #     - wget
-          #     - --spider
-          #     - -q
-          #     - 0.0.0.0:8000/.well-known/apollo/server-health
-          #   initialDelaySeconds: 40
-          #   timeoutSeconds: 5
-          #   failureThreshold: 5
-          # readinessProbe:
-          #   exec:
-          #     command:
-          #     - wget
-          #     - --spider
-          #     - -q
-          #     - 0.0.0.0:8000/.well-known/apollo/server-health
-            # initialDelaySeconds: 40
-            # timeoutSeconds: 5
-            # failureThreshold: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 5
           command: ['/bin/sh', '-c']
           args:
           - yarn prisma migrate deploy --schema=prisma/schema.prisma && node index.js

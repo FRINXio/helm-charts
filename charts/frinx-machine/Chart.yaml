@@ -15,15 +15,11 @@ dependencies:
     version: 1.2.38
     repository: https://arangodb.github.io/kube-arangodb
     condition: kube-arangodb.enabled
-    # tags:
-    #   - crds
 
   - name: cloudnative-pg
     repository: https://cloudnative-pg.github.io/charts
     version: 0.20.1
     condition: cloudnative-pg.enabled
-    # tags:
-    #   - crds
 
   # Local DBS
 
@@ -32,16 +28,11 @@ dependencies:
     version: 11.9.13
     condition: postgresql.enabled
 
-    # tags:
-    #   - statefulpg
-
   - name: postgresql
     repository: https://charts.bitnami.com/bitnami
     version: 11.9.13
     alias: uniconfig-postgresql
     condition: uniconfig-postgresql.enabled
-    # tags:
-    #   - statefulpg
 
   # Monitoring
 
@@ -49,50 +40,31 @@ dependencies:
     repository: "https://grafana.github.io/helm-charts"
     version: 7.3.1
     condition: grafana.enabled
-    # tags:
-    #   - monitoring
-    #   - grafana
 
   - name: frinx-grafana-configs
     repository: "https://FRINXio.github.io/helm-charts"
     version: 1.x.x
     condition: grafana.enabled
 
-    # tags:
-    #   - monitoring
-    #   - grafana
-
   - name: influxdb2
     repository: "https://helm.influxdata.com"
     version: 2.1.2
     condition: influxdb2.enabled
-    # tags:
-    #   - monitoring
-    #   - influxdb
 
   - name: telegraf-ds
     repository: https://helm.influxdata.com
     version: 1.1.24
     condition: telegraf-ds.enabled
-    # tags:
-    #   - monitoring
-    #   - influxdb
 
   - name: loki
     repository: https://grafana.github.io/helm-charts
     version: 2.16.0
     condition: loki.enabled
-    # tags:
-    #   - monitoring
-    #   - loki
 
   - name: promtail
     repository: https://grafana.github.io/helm-charts
     version: 6.15.5
     condition: loki.enabled
-    # tags:
-    #   - monitoring
-    #   - loki
 
   # Frinx Machine Core
 
@@ -103,119 +75,68 @@ dependencies:
     repository: file://../cloud-native-pg
     condition: workflow-manager-postgres.enabled
 
-    # tags:
-    #   - base
-    #   - frinx-machine-db
-    #   - workflow-manager-postgres
-
   - name: cloud-native-pg
     alias: uniconfig-postgres
     version: 0.0.1
     repository: file://../cloud-native-pg
     condition: uniconfig-postgres.enabled
     # repository: https://FRINXio.github.io/helm-charts
-    # tags:
-    #   - base
-    #   - frinx-machine-db
-    #   - uniconfig-postgres
 
   - name: frinx-arango-config
     repository: file://../frinx-arango-config
     # repository: https://FRINXio.github.io/helm-charts
     version: 3.0.0
     condition: frinx-arango-config.enabled
-    # tags:
-    #   - base
-    #   - frinx-machine-db
-    #   - frinx-arango-config
 
   - name: krakend
     repository: file://../krakend
     # repository: https://FRINXio.github.io/helm-charts
     version: 2.10.0
     condition: krakend.enabled
-    # tags:
-    #   - base
-    #   - frinx-machine
 
   - name: frinx-frontend
     repository: file://../frinx-frontend
     # repository: https://FRINXio.github.io/helm-charts
     version: 3.1.2
     condition: frinx-frontend.enabled
-    # tags:
-    #   - base
-    #   - frinx-machine
 
   - name: resource-manager
     repository: file://../resource-manager
     # repository: https://FRINXio.github.io/helm-charts
     version: 1.1.1
     condition: resource-manager.enabled
-    # tags:
-    #   - base
-    #   - frinx-machine
 
   - name: workflow-manager
     repository: file://../workflow-manager
     # repository: https://FRINXio.github.io/helm-charts
     version: 2.1.0
     condition: workflow-manager.enabled
-    # tags:
-    #   - base
-    #   - frinx-machine
 
   - name: inventory
     repository: file://../inventory
     # repository: https://FRINXio.github.io/helm-charts
     version: 4.1.0
     condition: inventory.enabled
-    # tags:
-    #   - base
-    #   - frinx-machine
 
   - name: uniconfig
     repository: file://../uniconfig
     # repository: https://FRINXio.github.io/helm-charts
     version: 5.0.1
     condition: uniconfig.enabled
-    # tags:
-    #   - base
-    #   - frinx-machine
-
 
   - name: topology-discovery
     version: 2.4.0
     repository: file://../topology-discovery
     condition: topology-discovery.enabled
     # repository: https://FRINXio.github.io/helm-charts
-    # tags:
-    #   - base
-    #   - frinx-machine
 
   - name: oauth2-proxy
     repository: https://oauth2-proxy.github.io/manifests
     version: 6.24.1
     condition: oauth2-proxy.enabled
-    # tags:
-    #   - base
-    #   - frinx-machine
 
-  - name: oauth2-proxy-assets
-    repository: file://../oauth2-proxy-assets
-    # repository: https://oauth2-proxy.github.io/manifests
-    version: 0.0.1
-    condition: oauth2-proxy.enabled
-
-  - condition: traefik.enabled
-    name: traefik
-    repository: https://helm.traefik.io/traefik
-    version: 20.8.0
-
-    # tags:
-    #   - base
-    #   - frinx-machine
-
-  # - name: swaggerui
-  #   repository: https://cetic.github.io/helm-charts
-  #   version: 0.3.6
+  - name: worker
+    alias: frinx-demo-workflows
+    version: 2.5.0
+    repository: file://../worker
+    condition: frinx-demo-workflows.enabled

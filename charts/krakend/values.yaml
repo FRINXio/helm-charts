@@ -10,6 +10,13 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
+proxyImage:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: 1.25.4-alpine
+
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -36,6 +43,7 @@ containerSecurityContext:
 
 service:
   type: ClusterIP
+  # SideCar proxy (nginx reverse proxy for http/ws protocols)
   port: 8080
   targetPort: 8080
   nodePort: 30000
@@ -86,6 +94,7 @@ env:
   KRAKEND_TLS_PROTOCOL: "http"
   ALLOWED_HOSTS:
   ALLOWED_ORIGINS:
+  LOG_LEVEL: INFO
 
   # Proxy settings
   PROXY_ENABLED: false

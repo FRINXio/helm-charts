@@ -45,7 +45,11 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: {{ include "workflow-manager.secretName" . }}
+                {{- if (include "workflow-manager.createSecret" .) }}
                 key: SPRING_DATASOURCE_USERNAME
+                {{- else }}
+                key: {{ .Values.dbPersistence.existingSecret.springDatasourceUsernameKey }}
+                {{- end}}
       containers:
         # conductor
         - name: {{ .Chart.Name }}
@@ -82,33 +86,56 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ include "workflow-manager.secretName" . }}
+                  {{- if (include "workflow-manager.createSecret" .) }}
                   key: CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.conductorExternalpayloadstoragePostgresUsernameKey }}
+                  {{- end}}
             - name: CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ include "workflow-manager.secretName" . }}
+                  {{- if (include "workflow-manager.createSecret" .) }}
                   key: CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.conductorExternalpayloadstoragePostgresPasswordKey }}
+                  {{- end}}
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: {{ include "workflow-manager.secretName" . }}
+                  {{- if (include "workflow-manager.createSecret" .) }}
                   key: SPRING_DATASOURCE_USERNAME
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.springDatasourceUsernameKey }}
+                  {{- end}}
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ include "workflow-manager.secretName" . }}
+                  {{- if (include "workflow-manager.createSecret" .) }}
                   key: SPRING_DATASOURCE_PASSWORD
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.springDatasourcePasswordKey }}
+                  {{- end}}
             - name: SPRING_SEARCHDATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: {{ include "workflow-manager.secretName" . }}
+                  {{- if (include "workflow-manager.createSecret" .) }}
                   key: SPRING_SEARCHDATASOURCE_USERNAME
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.springSearchdatasourceUsernameKey }}
+                  {{- end}}
             - name: SPRING_SEARCHDATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ include "workflow-manager.secretName" . }}
+                  {{- if (include "workflow-manager.createSecret" .) }}
                   key: SPRING_SEARCHDATASOURCE_PASSWORD
-
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.springSearchdatasourcePasswordKey }}
+                  {{- end}}
               {{ if .Values.postgresql.enabled }}            
             - name: "SPRING_SEARCHDATASOURCE_HOST"
               value: "{{ .Release.Name }}-postgresql"
@@ -178,12 +205,14 @@ spec:
               value: {{ .Values.schellarEnv.BACKEND | quote }}
             - name: "POSTGRES_MIGRATIONS_DIR"
               value: {{ .Values.schellarEnv.POSTGRES_MIGRATIONS_DIR | quote }}
+            - name: "PLAYGROUND_QUERY_ENDPOINT"
+              value: {{ .Values.schellarEnv.PLAYGROUND_QUERY_ENDPOINT }}
             - name: "POSTGRES_HOST"
-              {{ if .Values.postgresql.enabled }}            
+              {{- if .Values.postgresql.enabled }}            
               value: "{{ .Release.Name }}-postgresql"
-              {{ else }}
+              {{- else }}
               value: {{ .Values.schellarDbPersistence.POSTGRES_HOST | quote }}
-              {{ end }}
+              {{- end }}
             - name: "POSTGRES_PORT"
               value: {{ .Values.schellarDbPersistence.POSTGRES_PORT | quote }}
             - name: "POSTGRES_DATABASE"
@@ -192,14 +221,26 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ include "workflow-manager.schellarSecretName" . }}
+                  {{- if (include "workflow-manager.createSchellarSecret" .) }}
                   key: POSTGRES_USERNAME
+                  {{- else }}
+                  key: {{ .Values.schellarDbPersistence.existingSecret.postgresUsernameKey }}
+                  {{- end}}
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ include "workflow-manager.schellarSecretName" . }}
+                  {{- if (include "workflow-manager.createSchellarSecret" .) }}
                   key: POSTGRES_PASSWORD
+                  {{- else }}
+                  key: {{ .Values.schellarDbPersistence.existingSecret.postgresPasswordKey }}
+                  {{- end}}
             - name: "POSTGRES_DATABASE_URL"
               value: "host=$(POSTGRES_HOST) port=$(POSTGRES_PORT) user=$(POSTGRES_USERNAME) password=$(POSTGRES_PASSWORD) database=$(POSTGRES_DATABASE)"
+          {{- range $key, $val := .Values.schellarExtraEnv }}
+            - name: {{ $key | quote }}
+              value: {{ $val | quote }}
+          {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

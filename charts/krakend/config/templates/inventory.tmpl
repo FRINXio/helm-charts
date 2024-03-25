@@ -11,15 +11,12 @@
         {{range $query_enabled, $query := .input_query_strings}} {{if gt $query_enabled 0}},{{end}} "{{$query}}" {{ end }} 
         ],
     {{end}}
-
-
     "backend": [
     {
         "url_pattern": "{{ .url_pattern }}",
         "encoding": "no-op",
-        "extra_config": {
-            {{ include "modifiers.tmpl" }}
-        },
+        "sd": "static",
+        "disable_host_sanitize": false,
         "host": [
             "inventory:8000"
         ]

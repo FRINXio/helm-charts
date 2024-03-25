@@ -1,7 +1,5 @@
 # Global settings
 
-x-device-discovery-enabled: &device-discovery-enabled true
-
 # Default values for FRINX-machine.
 
 krakend:
@@ -37,6 +35,7 @@ workflow-manager:
         paths: 
           - path: "/"
             pathType: ImplementationSpecific
+
 inventory:
   ingress:
     enabled: true

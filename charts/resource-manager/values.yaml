@@ -93,6 +93,9 @@ dbPersistence:
   POSTGRES_PORT: 5432
   POSTGRES_DATABASE: postgres
   existingSecret:
+    secretName: 
+    postgresUsernameKey: 
+    postgresPasswordKey: 
   POSTGRES_USERNAME: postgresU
   POSTGRES_PASSWORD: postgresP
 

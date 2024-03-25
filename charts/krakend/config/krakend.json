@@ -1,7 +1,7 @@
 {
   "version": 3,
   "name": "krakend for FM",
-  "port": 8080,
+  "port": 80,
   "cache_ttl": "3600s",
   "tls": {
     "public_key": "/usr/local/share/ca-certificates/frinx_krakend_tls_cert.pem",
@@ -12,11 +12,16 @@
     "disabled": {{ env "TLS_DISABLED" }}
   },
   "timeout": "{{ env "DEFAULT_TIMEOUT" }}",
-  "plugin": {
-    "pattern": ".so",
-    "folder": "/usr/local/lib/krakend/"
-  },
   "extra_config": {
+    "contribute/websocketproxy": {
+      "port": "8001",
+      "websockets": [
+        {
+          "endpoint": "/api/proxy",
+          "backend": "ws://frinx-frontend:5555/graphql"
+        }
+      ]
+    },
     "router":{
       "disable_path_decoding" : true,
       "disable_redirect_fixed_path": true,
@@ -25,11 +30,6 @@
         "/__health"
       ]
     },
-
-    "plugin/http-server": {
-      "name": "krakend-oauth2-proxy"
-    }, 
-
     "security/http": {
       {{ $allowed_hosts := env "ALLOWED_HOSTS" }}
       "@comment": "https://www.krakend.io/docs/service-settings/security/",
@@ -42,7 +42,6 @@
         {{end}}
       ],
       {{end}}
-
       "frame_deny": true,
       "referrer_policy": "same-origin",
       "content_type_nosniff": true,
@@ -75,8 +74,9 @@
       ],
       "allow_credentials": false
     },
+    {{ $log_level := env "LOG_LEVEL" }}
     "telemetry/logging": {
-      "level": "INFO",
+      "level": "{{ $log_level }}",
       "prefix": "[KRAKEND]",
       "syslog": false,
       "stdout": true
@@ -87,6 +87,7 @@
     {{ $wfm_enabled := env "WORKFLOW_MANAGER_ENABLED" }}
     {{ if eq $wfm_enabled "true"}}
     {{ template "workflow_manager.tmpl" .workflow_manager_settings.endpoints }},
+    {{ template "schellar.tmpl" .schellar_settings.endpoints }},
     {{end}}
 
     {{ $uniconfig_enabled := env "UNICONFIG_ENABLED" }}
@@ -115,7 +116,6 @@
     {{end}}
 
     {{ template "frinx_frontend.tmpl" .frinx_frontend_settings}},
-    {{ template "frinx_frontend_proxy.tmpl" .frinx_frontend_settings}}
-
+    {{ template "frinx_frontend_proxy.tmpl" }}
   ]
 }
