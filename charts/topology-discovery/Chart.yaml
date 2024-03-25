@@ -3,24 +3,24 @@ name: topology-discovery
 description: A Helm chart for Kubernetes deployment of the Topology Discovery
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 2.4.0
-appVersion: "0.0.11"
+version: 3.0.0
+appVersion: "6.0.0"
 maintainers:
   - name: FRINX
 annotations:
   artifacthub.io/changes: |
-    - kind: added
-      description: Add IMPORT_DEVICE_INVENTORY_DATA and X_TENANT_ID env variables
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/298
-    - kind: added
-      description: Add check-inventory-ready init-container
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/298
     - kind: changed
-      description: Changed supported version of topology-discovery to 0.0.11
+      description: Changed ingress configuration
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/298
+          url: https://github.com/FRINXio/helm-charts/pull/340
+    - kind: changed
+      description: Configuration of db connections via secrets
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/340
+    - kind: added
+      description: Conductor dependency. Topoloy discovery contain conductor workers
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/340

@@ -32,10 +32,38 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
+        - name: check-conductor-ready
+          image: curlimages/curl
+          command: ["/bin/sh","-c"]
+          args: ['while [ $(curl -o /dev/null --silent --write-out "%{http_code}" {{ .Values.env.CONDUCTOR_URL }}/health) -ne 200 ];
+            do sleep 5; echo "waiting for conductor";
+            done;
+            echo "connection successful!"']
         - name: check-arangodb-ready
           image: curlimages/curl
           command: ["/bin/sh","-c"]
-          args: ['while [ $(curl -ksw "%{http_code}" --user "{{ .Values.env.ARANGO_USERNAME }}:{{ .Values.env.ARANGO_ROOT_PASSWORD }}" "{{ .Values.env.ARANGO_URL }}/_api/version" -o /dev/null) -ne 200 ];
+          env:
+            - name: ARANGO_URL 
+              value: {{ .Values.dbPersistence.ARANGO_URL | quote }}
+            - name: ARANGO_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "topology-discovery.secretName" . }}
+                  {{- if (include "topology-discovery.createSecret" .) }}
+                  key: ARANGO_USERNAME
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.arangoUsernameKey }}
+                  {{- end}}
+            - name: ARANGO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "topology-discovery.secretName" . }}
+                  {{- if (include "topology-discovery.createSecret" .) }}
+                  key: ARANGO_ROOT_PASSWORD
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.arangoRootPasswordKey }}
+                  {{- end}}
+          args: ['while [ $(curl -ksw "%{http_code}" --user "${ARANGO_USERNAME}:${ARANGO_ROOT_PASSWORD}" "${ARANGO_URL}/_api/version" -o /dev/null) -ne 200 ];
             do sleep 5; echo "waiting for arangodb";
             done;
             echo "connection successful!"']
@@ -55,6 +83,28 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            - name: CONDUCTOR_URL_BASE 
+              value: "{{ .Values.env.CONDUCTOR_URL }}/api"
+            - name: ARANGO_URL 
+              value: {{ .Values.dbPersistence.ARANGO_URL | quote }}
+            - name: ARANGO_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "topology-discovery.secretName" . }}
+                  {{- if (include "topology-discovery.createSecret" .) }}
+                  key: ARANGO_USERNAME
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.arangoUsernameKey }}
+                  {{- end}}
+            - name: ARANGO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "topology-discovery.secretName" . }}
+                  {{- if (include "topology-discovery.createSecret" .) }}
+                  key: ARANGO_ROOT_PASSWORD
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.arangoRootPasswordKey }}
+                  {{- end}}
           {{- range $key, $val := .Values.env }}
             - name: {{ $key | quote }}
               value: {{ $val | quote }}
