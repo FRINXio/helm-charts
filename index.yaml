@@ -12949,6 +12949,36 @@ entries:
   topology-discovery:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Changed ingress configuration
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/340
+        - kind: changed
+          description: Configuration of db connections via secrets
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/340
+        - kind: added
+          description: Conductor dependency. Topoloy discovery contain conductor workers
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/340
+    apiVersion: v2
+    appVersion: 6.0.0
+    created: "2024-03-25T12:38:30.522735588Z"
+    description: A Helm chart for Kubernetes deployment of the Topology Discovery
+    digest: f30399fcde091a7713d4c430e2857aedfe30f264f152ed8d13fcf24e3c4d762c
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: topology-discovery
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/topology-discovery-3.0.0/topology-discovery-3.0.0.tgz
+    version: 3.0.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Add IMPORT_DEVICE_INVENTORY_DATA and X_TENANT_ID env variables
           links:
@@ -14454,4 +14484,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-03-14T09:20:46.479231469Z"
+generated: "2024-03-25T12:38:30.523954658Z"
