@@ -60,3 +60,23 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Get the password secret.
+*/}}
+{{- define "topology-discovery.secretName" -}}
+{{- if .Values.dbPersistence.existingSecret.secretName }}
+    {{- printf "%s" (tpl .Values.dbPersistence.existingSecret.secretName $) -}}
+{{- else -}}
+    {{- printf "%s" (include "topology-discovery.fullname" .) -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return true if a secret object should be created
+*/}}
+{{- define "topology-discovery.createSecret" -}}
+{{- if not .Values.dbPersistence.existingSecret.secretName -}}
+    {{- true -}}
+{{- end -}}
+{{- end -}}
