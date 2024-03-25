@@ -46,10 +46,12 @@ helm uninstall [RELEASE_NAME]
 | `securityContext` | Deployment securityContext | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/inventory/values.yaml) |
 | `service.type` | Kubernetes service type | `ClusterIP` |
 | `service.port` | Kubernetes port where workflow-proxy is exposed | `8000` |
-| `ingress.enabled` | Enables Ingress | `false` |
-| `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
-| `ingress.hosts` | Ingress accepted hostnames  | `[]` |
-| `ingress.tls` | Ingress TLS configuration | `[]` |
+| `ingress.enabled` | Enable [ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/). | `false` |
+| `ingress.labels` | Ingress labels | `{}` |
+| `ingress.annotations` | Annotations to be added to the ingress. | `{}` |
+| `ingress.className` | Ingress [class name](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class). | `""` |
+| `ingress.tls` | Enable or disable tls attribute in ingress | `false` |
+| `ingress.hosts` | Ingress accepted hostname  | `""` |
 | `resources` | CPU/Memory resource requests/limits | `{}` |
 | `autoscaling.enabled` | Enable replica autoscaling settings | `false` |
 | `autoscaling.minReplicas` | Minimum replicas for the pod autoscaling | `1` |
@@ -71,6 +73,7 @@ helm uninstall [RELEASE_NAME]
 | `env.POSTGRES_PORT` | POSTGRES_PORT env value | `5432` |
 | `env.TOPOLOGY_ENABLED` | Enable/Disable connection to arangodb | `false` |
 | `env.TOPOLOGY_DISCOVERY_API_URL` | TOPOLOGY_DISCOVERY_API_URL env variable | `http://topology-discovery:5000/api/data` |
+| `env.TOPOLOGY_DISCOVERY_GRAPHQL_API_URL` | TOPOLOGY_DISCOVERY_GRAPHQL_API_URL env variable | `http://topology-discovery:5000/api/graphql` |
 | `env.SHELL_HOST` | SHELL_HOST env value | `"uniconfig-controller"` |
 | `extraEnv` | Additional env variables |  |
 | `postgresql.enabled` | Switch to enable or disable the PostgreSQL helm chart | `true` |

@@ -37,24 +37,27 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: postgres:alpine
-          {{ if .Values.env.POSTGRES_HOSTNAME }}
-          command: ['sh', '-c',
-            "until pg_isready -h {{ .Values.env.POSTGRES_HOSTNAME }} -p {{ .Values.env.POSTGRES_PORT }} -U {{ .Values.env.POSTGRES_USER }};
-            do echo waiting for database; sleep 2; done;"]
-          {{ else }}
-          command: ['sh', '-c',
-            "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432 -U {{ .Values.env.POSTGRES_USER }};
-            do echo waiting for database; sleep 2; done;"]
-          {{ end }}
-        - name: seed-db
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ['/bin/sh', '-c', "node prisma/seed.js -z uniconfig"]
           env:
-            - name: "X_TENANT_ID"
-              value: {{ .Values.env.X_TENANT_ID | quote }}
+            - name: "POSTGRES_HOST"
+            {{ if .Values.postgresql.enabled }}            
+              value: "{{ .Release.Name }}-postgresql"
+            {{ else }}
+              value: "{{ .Values.dbPersistence.POSTGRES_HOST }}"
+            {{ end }}
+            - name: "POSTGRES_PORT"
+              value: {{ .Values.dbPersistence.POSTGRES_PORT | quote }}
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "inventory.secretName" . }}
+                  {{- if (include "inventory.createSecret" .) }}
+                  key: POSTGRES_USERNAME
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.postgresUsernameKey }}
+                  {{- end}}
+          command: ['sh', '-c',
+            "until pg_isready -h ${POSTGRES_HOST} -p ${POSTGRES_PORT} -U ${POSTGRES_USERNAME};
+            do echo waiting for database; sleep 2; done;"]
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -74,41 +77,62 @@ spec:
               value: {{ .Values.env.UNICONFIG_LIST_URL | quote }}
             - name: "X_TENANT_ID"
               value: {{ .Values.env.X_TENANT_ID | quote }}
-              {{ if .Values.postgresql.enabled }}
-            - name: "DATABASE_URL"
-              value: "postgres://{{ .Values.env.POSTGRES_USER }}:{{ .Values.env.POSTGRES_PASSWORD }}@{{ .Release.Name }}-postgresql:5432/inventory?sslmode=disable"
-              {{ else }}
-            - name: "DATABASE_URL"
-              value: "postgres://{{ .Values.env.POSTGRES_USER }}:{{ .Values.env.POSTGRES_PASSWORD }}@{{ .Values.env.POSTGRES_HOSTNAME }}:{{ .Values.env.POSTGRES_PORT }}/{{ .Values.env.POSTGRES_DB }}?sslmode=disable&schema={{ .Values.env.POSTGRES_DB_SCHEMA }}"
-              {{ end }}
             - name: "TOPOLOGY_ENABLED"
               value: {{ .Values.env.TOPOLOGY_ENABLED | quote }}
             - name: "TOPOLOGY_DISCOVERY_API_URL"
               value: {{ .Values.env.TOPOLOGY_DISCOVERY_API_URL | quote }}
+            - name: "TOPOLOGY_DISCOVERY_GRAPHQL_API_URL"
+              value: {{ .Values.env.TOPOLOGY_DISCOVERY_GRAPHQL_API_URL | quote }}
             - name: "SHELL_HOST"
               value: {{ .Values.env.SHELL_HOST | quote }}
+            - name: "POSTGRES_HOST"
+              {{- if .Values.postgresql.enabled }}            
+              value: "{{ .Release.Name }}-postgresql"
+              {{- else }}
+              value: "{{ .Values.dbPersistence.POSTGRES_HOST }}"
+              {{- end }}
+            - name: "POSTGRES_PORT"
+              value: {{ .Values.dbPersistence.POSTGRES_PORT | quote }}
+            - name: "POSTGRES_DATABASE"
+              value: {{ .Values.dbPersistence.POSTGRES_DATABASE | quote }}
+            - name: "POSTGRES_DB_SCHEMA"
+              value: {{ .Values.dbPersistence.POSTGRES_DB_SCHEMA | quote }}
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "inventory.secretName" . }}
+                  {{- if (include "inventory.createSecret" .) }}
+                  key: POSTGRES_USERNAME
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.postgresUsernameKey }}
+                  {{- end}}
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "inventory.secretName" . }}
+                  {{- if (include "inventory.createSecret" .) }}
+                  key: POSTGRES_PASSWORD
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.postgresPasswordKey }}
+                  {{- end}}
+            - name: "DATABASE_URL"
+              value: "postgres://$(POSTGRES_USERNAME):$(POSTGRES_PASSWORD)@$(POSTGRES_HOST):$(POSTGRES_PORT)/$(POSTGRES_DATABASE)?sslmode=disable&schema=$(POSTGRES_DB_SCHEMA)"
           {{- range $key, $val := .Values.extraEnv }}
             - name: {{ $key | quote }}
               value: {{ $val | quote }}
           {{- end }}
           livenessProbe:
-            exec:
-              command:
-              - wget
-              - --spider
-              - -q
-              - 0.0.0.0:8000/.well-known/apollo/server-health
-            initialDelaySeconds: 40
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 20
             timeoutSeconds: 5
             failureThreshold: 5
           readinessProbe:
-            exec:
-              command:
-              - wget
-              - --spider
-              - -q
-              - 0.0.0.0:8000/.well-known/apollo/server-health
-            initialDelaySeconds: 40
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 20
             timeoutSeconds: 5
             failureThreshold: 5
           command: ['/bin/sh', '-c']
