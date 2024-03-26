@@ -10,6 +10,13 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
+proxyImage:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: 1.25.4-alpine
+
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -36,22 +43,25 @@ containerSecurityContext:
 
 service:
   type: ClusterIP
+  # SideCar proxy (nginx reverse proxy for http/ws protocols)
   port: 8080
   targetPort: 8080
   nodePort: 30000
 
 ingress:
   enabled: false
+  className: ""
   labels: {}
   annotations: {}
-    # Use this annotations for traefik as ingress
-    # kubernetes.io/ingress.class: traefik
-    # traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
-    # traefik.ingress.kubernetes.io/router.tls: "true"
-    # traefik.ingress.kubernetes.io/router.tls.certresolver: "production"
-  tls: false
-  ingressClassName:
-  host: "services.frinx.io"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -78,59 +88,58 @@ tolerations: []
 
 affinity: {}
 
-deployment:
-  env:
-    TLS_DISABLED: true
-    DEFAULT_TIMEOUT: "2m"
-    UNICONFIG_TIMEOUT: "2m"
-    KRAKEND_TLS_PROTOCOL: "http"
-    # IF false, THEN Fake-Frinx-Token Used
-    # IF true,  THEN Azure AD Token Required
-    AUTH_ENABLED: false
-    PROXY_ENABLED: false
-    HTTP_PROXY:
-    HTTPS_PROXY:
-    NO_PROXY:
-    UNICONFIG_PROTOCOL: "http"
-    UNICONFIG_ZONES_LIST: "uniconfig"
-    ALLOWED_HOSTS:
-    ALLOWED_ORIGINS:
-    WORKFLOW_MANAGER_ENABLED: true
-    UNICONFIG_ENABLED: true
-    INVENTORY_ENABLED: true
-    RESOURCE_MANAGER_ENABLED: true
-    L3VPN_ENABLED: false
-    DEVICE_TOPOLOGY_ENABLED: false
-  azureAuth:
+env:
+  TLS_DISABLED: true
+  DEFAULT_TIMEOUT: "2m"
+  KRAKEND_TLS_PROTOCOL: "http"
+  ALLOWED_HOSTS:
+  ALLOWED_ORIGINS:
+  LOG_LEVEL: INFO
+
+  # Proxy settings
+  PROXY_ENABLED: false
+  HTTP_PROXY:
+  HTTPS_PROXY:
+  NO_PROXY:
+
+  # Uniconfig settings
+  UNICONFIG_PROTOCOL: "http"
+  UNICONFIG_ZONES_LIST: "uniconfig"
+  UNICONFIG_TIMEOUT: "2m"
+
+  # KrakenD endpoints settings
+  WORKFLOW_MANAGER_ENABLED: true
+  UNICONFIG_ENABLED: true
+  INVENTORY_ENABLED: true
+  RESOURCE_MANAGER_ENABLED: true
+  L3VPN_ENABLED: false
+  DEVICE_TOPOLOGY_ENABLED: false
+
+  # Oauth2-Proxy
+  OAUTH2_KRAKEND_PLUGIN_TENANT_ID: "frinx"
+  OAUTH2_KRAKEND_PLUGIN_USER_ROLES_MAP: "X-Forwarded-Roles"
+  OAUTH2_KRAKEND_PLUGIN_USER_GROUPS_MAP: "X-Forwarded-Groups"
+  OAUTH2_KRAKEND_PLUGIN_FROM_MAP: "X-Forwarded-User"
+
+rbac:
+  UNICONFIG_CONTROLLER_ADMIN_GROUP: "network-admin"
+  UNISTORE_CONTROLLER_ADMIN_GROUP: "network-admin"
+  UNISTORE_BEARER_ROLE: ""
+  UNISTORE_SERVICE_ROLE: ""
+  UNISTORE_NETWORK_ROLE: ""
+  UNISTORE_OTHER_PERMITTED_ROLES: ""
+  UNISTORE_BEARER_NODE: "bearer"
+  UNISTORE_SERVICE_NODE: "service"
+  UNISTORE_NETWORK_NODE: "network"
+
+  INVENTORY_ADMIN_GROUP: "network-admin"
+  ADMIN_ACCESS_ROLE: "network-admin"
+  X_AUTH_USER_GROUP: "network-admin"
+
+extraEnv: []
+volumes:
+  azureFile:
     enabled: false
-    AZURE_LOGIN_URL: "https://login.microsoftonline.com"
-    AZURE_TENANT_NAME: "frinx"
-    AZURE_TENANT_ID: "frinx"
-    AZURE_KRAKEND_PLUGIN_JWT_VALUE_PREFIX: "Bearer"
-    AZURE_KRAKEND_PLUGIN_GROUP_DISABLE: true
-    # secrets
-    existingSecret:
-    AZURE_KRAKEND_PLUGIN_CLIENT_ID: ""
-    AZURE_KRAKEND_PLUGIN_CLIENT_SECRET: ""
-  rbac:
-    UNICONFIG_CONTROLLER_ADMIN_GROUP: "network-admin"
-    UNISTORE_CONTROLLER_ADMIN_GROUP: "network-admin"
-    UNISTORE_BEARER_ROLE: ""
-    UNISTORE_SERVICE_ROLE: ""
-    UNISTORE_NETWORK_ROLE: ""
-    UNISTORE_OTHER_PERMITTED_ROLES: ""
-    UNISTORE_BEARER_NODE: "bearer"
-    UNISTORE_SERVICE_NODE: "service"
-    UNISTORE_NETWORK_NODE: "network"
-    RM_ADMIN_GROUPS: "network-admin"
-    RM_ADMIN_ROLES: ""
-    INVENTORY_ADMIN_GROUP: "network-admin"
-    ADMIN_ACCESS_ROLE: "network-admin"
-    X_AUTH_USER_GROUP: "network-admin"
-  extraEnv: []
-  volumes:
-    azureFile:
-      enabled: false
-      storage:
-        accountName:
-        accessKey:
+    storage:
+      accountName:
+      accessKey:

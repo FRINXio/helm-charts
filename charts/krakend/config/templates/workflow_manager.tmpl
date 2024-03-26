@@ -11,14 +11,23 @@
         {{range $query_enabled, $query := .input_query_strings}} {{if gt $query_enabled 0}},{{end}} "{{$query}}" {{ end }} 
         ],
     {{end}}
+
     "backend": [
     {
         "url_pattern": "{{ .url_pattern }}",
         "encoding": "no-op",
         "sd": "static",
+
+        {{ if .backend_method }}
+            "method": "{{.backend_method}}",
+        {{end}}
+        
         "disable_host_sanitize": false,
+        "extra_config": {
+            {{ include "modifiers.tmpl" }}
+        },
         "host": [
-            "topology-discovery:5000"
+            "conductor-server:8080"
         ]
     }
 ]

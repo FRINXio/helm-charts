@@ -1,12 +1,12 @@
 {
     "endpoints": [
         {
-            "endpoint": "/api/resource",
+            "endpoint": "/api/schedule",
             "method": "POST",
             "url_pattern": "/query"
         },
         {
-            "endpoint": "/api/resource",
+            "endpoint": "/api/schedule",
             "method": "GET",
             "url_pattern": "/"
         }
