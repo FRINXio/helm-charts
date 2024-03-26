@@ -386,6 +386,36 @@ entries:
   frinx-frontend:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Changed ingress configuration
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/345
+        - kind: added
+          description: Frinx Graphql Proxy setup
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/345
+      artifacthub.io/images: |
+        - name: frinx-frontend
+          image: frinx/frinx-frontend:6.0.0
+        - name: frinx-graphql-proxy
+          image: frinx/frinx-graphql-proxy:6.0.0
+    apiVersion: v2
+    appVersion: 6.0.0
+    created: "2024-03-26T13:02:16.181274603Z"
+    description: A Helm chart for Kubernetes deployment of the Frinx UI
+    digest: 21c4530d3e13a896c3a7933254e175c1df669afd0a40763001710428bdf5ca8c
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-frontend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-frontend-4.0.0/frinx-frontend-4.0.0.tgz
+    version: 4.0.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: Fix permission error with cache folder
           links:
@@ -14661,4 +14691,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-03-26T11:56:05.092880455Z"
+generated: "2024-03-26T13:02:16.182424467Z"
