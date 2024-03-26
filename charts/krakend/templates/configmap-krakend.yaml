@@ -1,4 +1,4 @@
-{{ if not .Values.deployment.volumes.azureFile.enabled }}
+{{ if not .Values.volumes.azureFile.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:

@@ -24,9 +24,13 @@ spec:
       {{- toYaml .Values.arangodb_config.securityContext | nindent 6 }}
     resources:
       {{- toYaml .Values.arangodb_config.resources | nindent 6 }}
+    affinity:
+      {{- toYaml .Values.arangodb_config.affinity | nindent 6 }}
   id:
     securityContext:
       {{- toYaml .Values.arangodb_config.securityContext | nindent 6 }}
     resources:
       {{- toYaml .Values.arangodb_config.resources | nindent 6 }}
+    affinity:
+      {{- toYaml .Values.arangodb_config.affinity | nindent 6 }}
 {{ end }}

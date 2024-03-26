@@ -19,6 +19,7 @@ spec:
         checksum/config-scripts: {{ include (print $.Template.BasePath "/configmap-scripts.yaml") . | sha256sum }}
         checksum/config-settings: {{ include (print $.Template.BasePath "/configmap-settings.yaml") . | sha256sum }}
         checksum/config-templates: {{ include (print $.Template.BasePath "/configmap-templates.yaml") . | sha256sum }}
+        checksum/config-templates: {{ include (print $.Template.BasePath "/configmap-nginx.yaml") . | sha256sum }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -26,13 +27,6 @@ spec:
         {{- include "krakend.selectorLabels" . | nindent 8 }}
     spec:
       volumes:
-        {{ if .Values.deployment.volumes.azureFile.enabled }}
-        - name: config
-          azureFile:
-            secretName: {{ template "krakend.fullname" . }}-azureStorage
-            shareName: frinxmachine-configs/krakend
-            readOnly: false
-        {{ else }}
         - name: config
           configMap:
             name: {{ template "krakend.fullname" . }}-krakend
@@ -48,7 +42,9 @@ spec:
         - name: templates
           configMap:
             name: {{ template "krakend.fullname" . }}-templates
-        {{ end }}
+        - name: nginx-conf
+          configMap:
+            name: {{ template "krakend.fullname" . }}-nginx-config
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -57,16 +53,20 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
+        - name: nginx
+          image: "{{ .Values.proxyImage.repository }}:{{ .Values.proxyImage.tag }}"
+          ports:
+          - containerPort: 8080
+          volumeMounts:
+          - name: nginx-conf
+            mountPath: /etc/nginx/nginx.conf
+            subPath: nginx.conf
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.containerSecurityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
-            {{ if .Values.deployment.volumes.azureFile.enabled }}
-            - name: config
-              mountPath: /etc/krakend/
-            {{ else }}
             - name: config
               mountPath: /etc/krakend/
             - name: partials
@@ -77,7 +77,6 @@ spec:
               mountPath: /etc/krakend/settings/
             - name: templates
               mountPath: /etc/krakend/templates/
-            {{ end }}
           env:
             - name: FC_ENABLE
               value: "1"
@@ -88,123 +87,113 @@ spec:
             - name: FC_TEMPLATES
               value: "/etc/krakend/templates"
             - name: KRAKEND_PORT
-              value: "8080"
+              value: "8000"
             - name: FC_OUT
               value: "/tmp/output.json"
+            - name: LOG_LEVEL
+              value: {{ .Values.env.LOG_LEVEL | quote }}
             - name: TLS_DISABLED
-              value: {{ .Values.deployment.env.TLS_DISABLED | quote }}
+              value: {{ .Values.env.TLS_DISABLED | quote }}
             - name: DEFAULT_TIMEOUT
-              value: {{ .Values.deployment.env.DEFAULT_TIMEOUT | quote }}
-            - name: UNICONFIG_TIMEOUT
-              value: {{ .Values.deployment.env.UNICONFIG_TIMEOUT | quote }}
+              value: {{ .Values.env.DEFAULT_TIMEOUT | quote }}
             - name: KRAKEND_TLS_PROTOCOL
-              value: {{ .Values.deployment.env.KRAKEND_TLS_PROTOCOL | quote }}
-            - name: AUTH_ENABLED
-              value: {{ .Values.deployment.env.AUTH_ENABLED | quote }}
-            - name: UNICONFIG_PROTOCOL
-              value: {{ .Values.deployment.env.UNICONFIG_PROTOCOL | quote }}
-            - name: UNICONFIG_ZONES_LIST
-              value: {{ .Values.deployment.env.UNICONFIG_ZONES_LIST | quote }}
+              value: {{ .Values.env.KRAKEND_TLS_PROTOCOL | quote }}
             - name: ALLOWED_HOSTS
-              value: {{ .Values.deployment.env.ALLOWED_HOSTS | quote }}
+              value: {{ .Values.env.ALLOWED_HOSTS | quote }}
             - name: ALLOWED_ORIGINS
-              value: {{ .Values.deployment.env.ALLOWED_ORIGINS | quote }}
+              value: {{ .Values.env.ALLOWED_ORIGINS | quote }}
+            - name: UNICONFIG_PROTOCOL
+              value: {{ .Values.env.UNICONFIG_PROTOCOL | quote }}
+            - name: UNICONFIG_ZONES_LIST
+              value: {{ .Values.env.UNICONFIG_ZONES_LIST | quote }}
+            - name: UNICONFIG_TIMEOUT
+              value: {{ .Values.env.UNICONFIG_TIMEOUT | quote }}
             - name: WORKFLOW_MANAGER_ENABLED
-              value: {{ .Values.deployment.env.WORKFLOW_MANAGER_ENABLED | quote }}
+              value: {{ .Values.env.WORKFLOW_MANAGER_ENABLED | quote }}
             - name: UNICONFIG_ENABLED
-              value: {{ .Values.deployment.env.UNICONFIG_ENABLED | quote }}
+              value: {{ .Values.env.UNICONFIG_ENABLED | quote }}
             - name: L3VPN_ENABLED
-              value: {{ .Values.deployment.env.L3VPN_ENABLED | quote }}
+              value: {{ .Values.env.L3VPN_ENABLED | quote }}
             - name: INVENTORY_ENABLED
-              value: {{ .Values.deployment.env.INVENTORY_ENABLED | quote }}
+              value: {{ .Values.env.INVENTORY_ENABLED | quote }}
             - name: RESOURCE_MANAGER_ENABLED
-              value: {{ .Values.deployment.env.RESOURCE_MANAGER_ENABLED | quote }}
+              value: {{ .Values.env.RESOURCE_MANAGER_ENABLED | quote }}
             - name: DEVICE_TOPOLOGY_ENABLED
-              value: {{ .Values.deployment.env.DEVICE_TOPOLOGY_ENABLED | quote }}
-            # azureAuth
-            - name: AZURE_LOGIN_URL
-              value: {{ .Values.deployment.azureAuth.AZURE_LOGIN_URL | quote }}
-            - name: AZURE_TENANT_NAME
-              value: {{ .Values.deployment.azureAuth.AZURE_TENANT_NAME | quote }}
-            - name: AZURE_TENANT_ID
-              value: {{ .Values.deployment.azureAuth.AZURE_TENANT_ID | quote }}
-            - name: AZURE_KRAKEND_PLUGIN_JWT_VALUE_PREFIX
-              value: {{ .Values.deployment.azureAuth.AZURE_KRAKEND_PLUGIN_JWT_VALUE_PREFIX | quote }}
-            - name: AZURE_KRAKEND_PLUGIN_GROUP_DISABLE
-              value: {{ .Values.deployment.azureAuth.AZURE_KRAKEND_PLUGIN_GROUP_DISABLE | quote }}
-            {{- if .Values.deployment.azureAuth.enabled }}
-            - name: AZURE_KRAKEND_PLUGIN_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "krakend.secretName" . }}
-                  key: AZURE_KRAKEND_PLUGIN_CLIENT_ID
-            - name: AZURE_KRAKEND_PLUGIN_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "krakend.secretName" . }}
-                  key: AZURE_KRAKEND_PLUGIN_CLIENT_SECRET
-            {{- end }}
+              value: {{ .Values.env.DEVICE_TOPOLOGY_ENABLED | quote }}
             # RBAC - UNICONFIG
             - name: UNICONFIG_CONTROLLER_ADMIN_GROUP
-              value: {{ .Values.deployment.rbac.UNICONFIG_CONTROLLER_ADMIN_GROUP | quote }}
+              value: {{ .Values.rbac.UNICONFIG_CONTROLLER_ADMIN_GROUP | quote }}
             # RBAC - UNISTORE
             - name: UNISTORE_CONTROLLER_ADMIN_GROUP
-              value: {{ .Values.deployment.rbac.UNISTORE_CONTROLLER_ADMIN_GROUP | quote }}
+              value: {{ .Values.rbac.UNISTORE_CONTROLLER_ADMIN_GROUP | quote }}
             - name: UNISTORE_BEARER_ROLE
-              value: {{ .Values.deployment.rbac.UNISTORE_BEARER_ROLE | quote }}
+              value: {{ .Values.rbac.UNISTORE_BEARER_ROLE | quote }}
             - name: UNISTORE_SERVICE_ROLE
-              value: {{ .Values.deployment.rbac.UNISTORE_SERVICE_ROLE | quote }}
+              value: {{ .Values.rbac.UNISTORE_SERVICE_ROLE | quote }}
             - name: UNISTORE_NETWORK_ROLE
-              value: {{ .Values.deployment.rbac.UNISTORE_NETWORK_ROLE | quote }}
+              value: {{ .Values.rbac.UNISTORE_NETWORK_ROLE | quote }}
             - name: UNISTORE_OTHER_PERMITTED_ROLES
-              value: {{ .Values.deployment.rbac.UNISTORE_OTHER_PERMITTED_ROLES | quote }}
+              value: {{ .Values.rbac.UNISTORE_OTHER_PERMITTED_ROLES | quote }}
             - name: UNISTORE_BEARER_NODE
-              value: {{ .Values.deployment.rbac.UNISTORE_BEARER_NODE | quote }}
+              value: {{ .Values.rbac.UNISTORE_BEARER_NODE | quote }}
             - name: UNISTORE_SERVICE_NODE
-              value: {{ .Values.deployment.rbac.UNISTORE_SERVICE_NODE | quote }}
+              value: {{ .Values.rbac.UNISTORE_SERVICE_NODE | quote }}
             - name: UNISTORE_NETWORK_NODE
-              value: {{ .Values.deployment.rbac.UNISTORE_NETWORK_NODE | quote }}
-            # RBAC - RESOURCE-MANAGER
-            - name: RM_ADMIN_GROUPS
-              value: {{ .Values.deployment.rbac.RM_ADMIN_GROUPS | quote }}
-            - name: RM_ADMIN_ROLES
-              value: {{ .Values.deployment.rbac.RM_ADMIN_ROLES | quote }}
+              value: {{ .Values.rbac.UNISTORE_NETWORK_NODE | quote }}
             # RBAC - INVENTORY
             - name: INVENTORY_ADMIN_GROUP
-              value: {{ .Values.deployment.rbac.INVENTORY_ADMIN_GROUP | quote }}
+              value: {{ .Values.rbac.INVENTORY_ADMIN_GROUP | quote }}
             # RBAC - WORKFLOW_PROXY
             - name: ADMIN_ACCESS_ROLE
-              value: {{ .Values.deployment.rbac.ADMIN_ACCESS_ROLE | quote }}
+              value: {{ .Values.rbac.ADMIN_ACCESS_ROLE | quote }}
             # RBAC - WORKERS
             - name: X_AUTH_USER_GROUP
-              value: {{ .Values.deployment.rbac.X_AUTH_USER_GROUP | quote }}
+              value: {{ .Values.rbac.X_AUTH_USER_GROUP | quote }}
             # PROXY
             - name: PROXY_ENABLED
-              value: {{ .Values.deployment.env.PROXY_ENABLED | quote }}
-            {{- if .Values.deployment.env.PROXY_ENABLED }}  
+              value: {{ .Values.env.PROXY_ENABLED | quote }}
+            # OAUTH2-PROXY
+            - name: OAUTH2_KRAKEND_PLUGIN_TENANT_ID
+              value: {{ .Values.env.OAUTH2_KRAKEND_PLUGIN_TENANT_ID | quote }}
+            - name: OAUTH2_KRAKEND_PLUGIN_USER_ROLES_MAP
+              value: {{ .Values.env.OAUTH2_KRAKEND_PLUGIN_USER_ROLES_MAP | quote }}
+            - name: OAUTH2_KRAKEND_PLUGIN_USER_GROUPS_MAP
+              value: {{ .Values.env.OAUTH2_KRAKEND_PLUGIN_USER_GROUPS_MAP | quote }}
+            - name: OAUTH2_KRAKEND_PLUGIN_FROM_MAP
+              value: {{ .Values.env.OAUTH2_KRAKEND_PLUGIN_FROM_MAP | quote }}              
+            {{- if .Values.env.PROXY_ENABLED }}  
             - name: HTTP_PROXY
-              value: {{ .Values.deployment.env.HTTP_PROXY | quote }}
+              value: {{ .Values.env.HTTP_PROXY | quote }}
             - name: HTTPS_PROXY
-              value: {{ .Values.deployment.env.HTTPS_PROXY | quote }}
+              value: {{ .Values.env.HTTPS_PROXY | quote }}
             - name: NO_PROXY
-              value: "workflow-proxy,frinx-frontend,inventory,krakend,unistore,resource-manager,{{ .Values.deployment.env.NO_PROXY }},$(UNICONFIG_ZONES_LIST)"
+              value: "workflow-proxy,frinx-frontend,inventory,krakend,unistore,resource-manager,{{ .Values.env.NO_PROXY }},$(UNICONFIG_ZONES_LIST)"
             {{- end }}
-          {{- range $key, $val := .Values.deployment.extraEnv }}
+          {{- range $key, $val := .Values.extraEnv }}
             - name: {{ $key | quote }}
               value: {{ $val | quote }}
           {{- end }}
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 8000
+              protocol: TCP
+            - name: websocket
+              containerPort: 8001
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /__health
               port: http
+            # httpGet:
+            #   path: /health
+            #   port: websocket
           readinessProbe:
             httpGet:
               path: /__health
               port: http
+            # httpGet:
+            #   path: /health
+            #   port: websocket
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

@@ -49,12 +49,12 @@ helm uninstall [RELEASE_NAME]
 | `service.port` | Kubernetes port where service is exposed | `8080` |
 | `service.nodePort` | Option to specify nodePort if type of service is NodePort | `30000` |
 | `service.targetPort` | Port on which the service will send requests to, that your pod will be listening on | `8080` |
-| `ingress.enabled` | Enables Ingress | `false` |
+| `ingress.enabled` | Enable [ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/). | `false` |
 | `ingress.labels` | Ingress labels | `{}` |
-| `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
-| `ingress.ingressClassName` | ingressClassName value for ingress | |
+| `ingress.annotations` | Annotations to be added to the ingress. | `{}` |
+| `ingress.className` | Ingress [class name](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class). | `""` |
 | `ingress.tls` | Enable or disable tls attribute in ingress | `false` |
-| `ingress.host` | Ingress accepted hostname  | `""` |
+| `ingress.hosts` | Ingress accepted hostname  | `""` |
 | `resources` | CPU/Memory resource requests/limits | `{}` |
 | `autoscaling.enabled` | Enable replica autoscaling settings | `false` |
 | `autoscaling.minReplicas` | Minimum replicas for the pod autoscaling | `1` |
@@ -64,49 +64,41 @@ helm uninstall [RELEASE_NAME]
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
-| `deployment.env.TLS_DISABLED` | TLS_DISABLED env variable | `true` |
-| `deployment.env.DEFAULT_TIMEOUT` | DEFAUTL_TIMEOUT for requests | `"2m"` |
-| `deployment.env.UNICONFIG_TIMEOUT` | UNICONFIG_TIMEOUT for uniconfig requests | `"2m"` |
-| `deployment.env.KRAKEND_TLS_PROTOCOL` | KRAKEND_TLS_PROTOCOL env variable | `"http"` |
-| `deployment.env.AUTH_ENABLED` | AUTH_ENABLED env variable | `false` |
-| `deployment.env.PROXY_ENABLED` | PROXY_ENABLED env variable | `false` |
-| `deployment.env.HTTP_PROXY` | HTTP_PROXY env variable | |
-| `deployment.env.HTTPS_PROXY` | HTTPS_PROXY env variable | |
-| `deployment.env.NO_PROXY` | NO_PROXY env variable | |
-| `deployment.env.UNICONFIG_PROTOCOL` | UNICONFIG_PROTOCOL env variable | `"http"` |
-| `deployment.env.UNICONFIG_ZONES_LIST` | UNICONFIG_ZONES_LIST env variable | `"uniconfig"` |
-| `deployment.env.ALLOWED_HOSTS` | ALLOWED_HOSTS env variable | `""` |
-| `deployment.env.ALLOWED_ORIGINS` | ALLOWED_ORIGINS env variable | `""` |
-| `deployment.env.WORKFLOW_MANAGER_ENABLED` | WORKFLOW_MANAGER_ENABLED env variable | `true` |
-| `deployment.env.UNICONFIG_ENABLED` | UNICONFIG_ENABLED env variable | `true` |
-| `deployment.env.INVENTORY_ENABLED` | INVENTORY_ENABLED env variable | `true` |
-| `deployment.env.RESOURCE_MANAGER_ENABLED` | RESOURCE_MANAGER_ENABLED env variable | `true` |
-| `deployment.env.DEVICE_TOPOLOGY_ENABLED` | DEVICE_TOPOLOGY_ENABLED env variable | `false` |
-| `deployment.env.L3VPN_ENABLED` | L3VPN_ENABLED env variable | `false` |
-| `deployment.azureAuth.enabled` | Enabled azure authentication | `false` |
-| `deployment.azureAuth.AZURE_LOGIN_URL` | AZURE_LOGIN_URL env variable | `"https://login.microsoftonline.com"` |
-| `deployment.azureAuth.AZURE_TENANT_NAME` | AZURE_TENANT_NAME env variable | `"frinx"` |
-| `deployment.azureAuth.AZURE_TENANT_ID` | AZURE_TENANT_ID env variable | `"frinx"` |
-| `deployment.azureAuth.AZURE_KRAKEND_PLUGIN_JWT_VALUE_PREFIX` | AZURE_KRAKEND_PLUGIN_JWT_VALUE_PREFIX env variable | `"Bearer"` |
-| `deployment.azureAuth.AZURE_KRAKEND_PLUGIN_GROUP_DISABLE` | AZURE_KRAKEND_PLUGIN_GROUP_DISABLE env variable | `true` |
-| `deployment.azureAuth.existingSecret` | Name for existing Secret for azure authentication | |
-| `deployment.azureAuth.AZURE_KRAKEND_PLUGIN_CLIENT_ID` | AZURE_KRAKEND_PLUGIN_CLIENT_ID env variable | `""` |
-| `deployment.azureAuth.AZURE_KRAKEND_PLUGIN_CLIENT_SECRET` | AZURE_KRAKEND_PLUGIN_CLIENT_SECRET env variable | `""` |
-| `deployment.rbac.UNICONFIG_CONTROLLER_ADMIN_GROUP` | UNICONFIG_CONTROLLER_ADMIN_GROUP env variable | `"network-admin"` |
-| `deployment.rbac.UNISTORE_CONTROLLER_ADMIN_GROUP` | UNISTORE_CONTROLLER_ADMIN_GROUP env variable | `"network-admin"` |
-| `deployment.rbac.UNISTORE_BEARER_ROLE` | UNISTORE_BEARER_ROLE env variable | `""` |
-| `deployment.rbac.UNISTORE_SERVICE_ROLE` | UNISTORE_SERVICE_ROLE env variable | `""` |
-| `deployment.rbac.UNISTORE_NETWORK_ROLE` | UNISTORE_NETWORK_ROLE env variable | `""` |
-| `deployment.rbac.UNISTORE_OTHER_PERMITTED_ROLES` | UNISTORE_OTHER_PERMITTED_ROLES env variable | `""` |
-| `deployment.rbac.UNISTORE_BEARER_NODE` | UNISTORE_BEARER_NODE env variable | `"bearer"` |
-| `deployment.rbac.UNISTORE_SERVICE_NODE` | UNISTORE_SERVICE_NODE env variable | `"service"` |
-| `deployment.rbac.UNISTORE_NETWORK_NODE` | UNISTORE_NETWORK_NODE env variable | `"network"` |
-| `deployment.rbac.RM_ADMIN_GROUPS` | RM_ADMIN_GROUPS env variable | `"network-admin"` |
-| `deployment.rbac.RM_ADMIN_ROLES` | RM_ADMIN_ROLES env variable | `""` |
-| `deployment.rbac.INVENTORY_ADMIN_GROUP` | INVENTORY_ADMIN_GROUP env variable | `"network-admin"` |
-| `deployment.rbac.ADMIN_ACCESS_ROLE` | ADMIN_ACCESS_ROLE env variable | `"network-admin"` |
-| `deployment.rbac.X_AUTH_USER_GROUP` | X_AUTH_USER_GROUP env variable | `"network-admin"` |
-| `deployment.extraEnv` | Additional env variables |  |
-| `deployment.volumes.azureFile.enabled` | Enable azureFile for config | `false` |
-| `deployment.volumes.azureFile.storage.accountName` | accountName for azure storage | |
-| `deployment.volumes.azureFile.storage.accessKey` | accessKey for azure storage | |
+| `env.TLS_DISABLED` | TLS_DISABLED env variable | `true` |
+| `env.DEFAULT_TIMEOUT` | DEFAUTL_TIMEOUT for requests | `"2m"` |
+| `env.UNICONFIG_TIMEOUT` | UNICONFIG_TIMEOUT for uniconfig requests | `"2m"` |
+| `env.KRAKEND_TLS_PROTOCOL` | KRAKEND_TLS_PROTOCOL env variable | `"http"` |
+| `env.PROXY_ENABLED` | PROXY_ENABLED env variable | `false` |
+| `env.HTTP_PROXY` | HTTP_PROXY env variable | |
+| `env.HTTPS_PROXY` | HTTPS_PROXY env variable | |
+| `env.NO_PROXY` | NO_PROXY env variable | |
+| `env.UNICONFIG_PROTOCOL` | UNICONFIG_PROTOCOL env variable | `"http"` |
+| `env.UNICONFIG_ZONES_LIST` | UNICONFIG_ZONES_LIST env variable | `"uniconfig"` |
+| `env.ALLOWED_HOSTS` | ALLOWED_HOSTS env variable | `""` |
+| `env.ALLOWED_ORIGINS` | ALLOWED_ORIGINS env variable | `""` |
+| `env.WORKFLOW_MANAGER_ENABLED` | WORKFLOW_MANAGER_ENABLED env variable | `true` |
+| `env.UNICONFIG_ENABLED` | UNICONFIG_ENABLED env variable | `true` |
+| `env.INVENTORY_ENABLED` | INVENTORY_ENABLED env variable | `true` |
+| `env.RESOURCE_MANAGER_ENABLED` | RESOURCE_MANAGER_ENABLED env variable | `true` |
+| `env.DEVICE_TOPOLOGY_ENABLED` | DEVICE_TOPOLOGY_ENABLED env variable | `false` |
+| `env.L3VPN_ENABLED` | L3VPN_ENABLED env variable | `false` |
+| `env.OAUTH2_KRAKEND_PLUGIN_TENANT_ID` | OAUTH2_KRAKEND_PLUGIN_TENANT_ID env variable | `frinx` |
+| `env.OAUTH2_KRAKEND_PLUGIN_USER_ROLES_MAP` | OAUTH2_KRAKEND_PLUGIN_USER_ROLES_MAP env variable | `X-Forwarded-Roles` |
+| `env.OAUTH2_KRAKEND_PLUGIN_USER_GROUPS_MAP` | OAUTH2_KRAKEND_PLUGIN_USER_GROUPS_MAP env variable | `X-Forwarded-Groups` |
+| `env.OAUTH2_KRAKEND_PLUGIN_FROM_MAP` | OAUTH2_KRAKEND_PLUGIN_FROM_MAP env variable | `X-Forwarded-User` |
+| `rbac.UNICONFIG_CONTROLLER_ADMIN_GROUP` | UNICONFIG_CONTROLLER_ADMIN_GROUP env variable | `"network-admin"` |
+| `rbac.UNISTORE_CONTROLLER_ADMIN_GROUP` | UNISTORE_CONTROLLER_ADMIN_GROUP env variable | `"network-admin"` |
+| `rbac.UNISTORE_BEARER_ROLE` | UNISTORE_BEARER_ROLE env variable | `""` |
+| `rbac.UNISTORE_SERVICE_ROLE` | UNISTORE_SERVICE_ROLE env variable | `""` |
+| `rbac.UNISTORE_NETWORK_ROLE` | UNISTORE_NETWORK_ROLE env variable | `""` |
+| `rbac.UNISTORE_OTHER_PERMITTED_ROLES` | UNISTORE_OTHER_PERMITTED_ROLES env variable | `""` |
+| `rbac.UNISTORE_BEARER_NODE` | UNISTORE_BEARER_NODE env variable | `"bearer"` |
+| `rbac.UNISTORE_SERVICE_NODE` | UNISTORE_SERVICE_NODE env variable | `"service"` |
+| `rbac.UNISTORE_NETWORK_NODE` | UNISTORE_NETWORK_NODE env variable | `"network"` |
+| `rbac.INVENTORY_ADMIN_GROUP` | INVENTORY_ADMIN_GROUP env variable | `"network-admin"` |
+| `rbac.ADMIN_ACCESS_ROLE` | ADMIN_ACCESS_ROLE env variable | `"network-admin"` |
+| `rbac.X_AUTH_USER_GROUP` | X_AUTH_USER_GROUP env variable | `"network-admin"` |
+| `extraEnv` | Additional env variables |  |
+| `volumes.azureFile.enabled` | Enable azureFile for config | `false` |
+| `volumes.azureFile.storage.accountName` | accountName for azure storage | |
+| `volumes.azureFile.storage.accessKey` | accessKey for azure storage | |
