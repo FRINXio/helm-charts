@@ -6,3 +6,4 @@ chart-dirs:
 chart-repos:
   - frinx=https://FRINXio.github.io/helm-charts
   - bitnami=https://charts.bitnami.com/bitnami
+  - traefik=https://helm.traefik.io/traefik

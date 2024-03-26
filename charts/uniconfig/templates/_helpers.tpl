@@ -65,8 +65,8 @@ Create the name of the service account to use
 Get the password secret.
 */}}
 {{- define "uniconfig.secretName" -}}
-{{- if .Values.dbPersistence.existingSecret }}
-    {{- printf "%s" (tpl .Values.dbPersistence.existingSecret $) -}}
+{{- if .Values.dbPersistence.existingSecret.secretName }}
+    {{- printf "%s" (tpl .Values.dbPersistence.existingSecret.secretName $) -}}
 {{- else -}}
     {{- printf "%s" (include "uniconfig.fullname" .) -}}
 {{- end -}}
@@ -76,7 +76,7 @@ Get the password secret.
 Return true if a secret object should be created
 */}}
 {{- define "uniconfig.createSecret" -}}
-{{- if not .Values.dbPersistence.existingSecret -}}
+{{- if not .Values.dbPersistence.existingSecret.secretName -}}
     {{- true -}}
 {{- end -}}
 {{- end -}}

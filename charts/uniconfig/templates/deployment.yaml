@@ -26,19 +26,6 @@ spec:
       volumes:
         - name: uniconfig-frinx-volume
           emptyDir: {}
-        {{- if .Values.azure.AKS.enabled }}
-        - name: frinx-uniconfig-controller-cache
-          azureFile:
-            secretName: {{ include "uniconfig.storageSecretName" . }}
-            shareName: {{ .Values.uniconfigCacheFolderPath }}
-            readOnly: false
-        {{- else}}
-        {{- if .Values.uniconfigCacheFolderPath }}
-        - name: frinx-uniconfig-controller-cache
-          hostPath:
-            path: {{ .Values.uniconfigCacheFolderPath }}
-        {{- end }}
-        {{- end }}
         - name: frinx-uniconfig-controller-logs
           emptyDir: {}
         - name: logback
@@ -56,19 +43,27 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
-      {{ if .Values.dbPersistence.DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST }}
         - name: check-db-ready
           image: postgres:alpine
           command: ['sh', '-c',
-            "until pg_isready -h {{ .Values.dbPersistence.DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST }} -p 5432 -U {{ .Values.dbPersistence.DBPERSISTENCE_CONNECTION_USERNAME }};
+            "until pg_isready -h ${DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST} -p 5432 -U ${DBPERSISTENCE_CONNECTION_USERNAME};
             do echo waiting for database; sleep 2; done;"]
-      {{ else }}
-        - name: check-db-ready
-          image: postgres:alpine
-          command: ['sh', '-c',
-            "until pg_isready -h {{ .Release.Name }}-postgresql -p 5432 -U {{ .Values.dbPersistence.DBPERSISTENCE_CONNECTION_USERNAME }};
-            do echo waiting for database; sleep 2; done;"]
-      {{ end }}
+          env:
+            - name: DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST
+              {{- if .Values.postgresql.enabled }}
+              value: "{{ .Release.Name }}-postgresql"
+              {{- else }}
+              value: {{ .Values.dbPersistence.POSTGRES_HOST | quote }}
+              {{- end }}
+            - name: DBPERSISTENCE_CONNECTION_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "uniconfig.secretName" . }}
+                  {{- if (include "uniconfig.createSecret" .) }}
+                  key: POSTGRES_USERNAME
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.postgresUsernameKey }}
+                  {{- end}}
         - name: copy-config-files
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command:
@@ -78,7 +73,7 @@ spec:
           volumeMounts:
             - name: uniconfig-frinx-volume
               mountPath: /tmp/uniconfig-frinx/
-        {{ if .Values.cacheImage.enabled }}
+        {{- if .Values.cacheImage.enabled }}
         - name: copy-uniconfig-cache
           image: {{ .Values.cacheImage.repository }}:{{ .Values.cacheImage.tag }}
           command:
@@ -87,10 +82,10 @@ spec:
             - 'cp -rp {{ .Values.cacheImage.cachePath }} /tmp/uniconfig-frinx/cache && chmod -R 777 /tmp/uniconfig-frinx/cache'
           volumeMounts:
             - name: uniconfig-frinx-volume
-              mountPath: /tmp/uniconfig-frinx/
-        {{ end }}
-        {{ if .Values.mibsImage.enabled }}
-        - name: copy-mib-files
+              mountPath: /tmp/uniconfig-frinx
+        {{- end }}
+        {{- if .Values.mibsImage.enabled }}
+        - name: copy-mibs-files
           image: {{ .Values.mibsImage.repository }}:{{ .Values.mibsImage.tag }}
           command:
             - sh
@@ -98,8 +93,11 @@ spec:
             - 'mkdir -p /tmp/uniconfig-frinx/mibs && cp -rp {{ .Values.mibsImage.mibsPath }} /tmp/uniconfig-frinx/mibs && chmod -R 777 /tmp/uniconfig-frinx/mibs'
           volumeMounts:
             - name: uniconfig-frinx-volume
-              mountPath: /tmp/uniconfig-frinx/
-        {{ end }}
+              mountPath: /tmp/uniconfig-frinx
+        {{- end }}
+        {{- with .Values.extraInitContainers }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         {{- with .Values.extraInitContainers }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -109,62 +107,13 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.uniconfigCacheFolderPath }}
           command: ["/bin/sh","-c"]
           args: ["/opt/uniconfig-frinx/run_uniconfig.sh"]
-          {{- end }}
-          env:
-            - name: CONTAINER_ID
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.name
-            - name: SERVICE_NAME
-              value: {{ .Values.serviceName | quote }}
-            - name: PROXY_ENABLED
-              value: {{ .Values.proxy.enabled | quote }}
-            - name: HTTP_PROXY
-              value: {{ .Values.proxy.http_proxy | quote }}
-            - name: HTTPS_PROXY
-              value: {{ .Values.proxy.https_proxy | quote }}
-            - name: NO_PROXY
-              value: {{ .Values.proxy.no_proxy | quote }}
-            - name: JAVA_MAX_MEM
-              value: {{ .Values.java.max_mem | quote }}
-              {{- if and (eq .Values.postgresql.enabled true) (not .Values.dbPersistence.DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST) }}
-            - name: DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST
-              value: "{{ .Release.Name }}-postgresql"
-              {{ else }}
-            - name: DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST
-              value: {{ .Values.dbPersistence.DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST }}
-              {{ end }}
-            - name: DBPERSISTENCE_CONNECTION_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "uniconfig.secretName" . }}
-                  key: DBPERSISTENCE_CONNECTION_USERNAME
-            - name: DBPERSISTENCE_CONNECTION_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "uniconfig.secretName" . }}
-                  key: DBPERSISTENCE_CONNECTION_PASSWORD
-            - name: CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "uniconfig.secretName" . }}
-                  key: CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD
-          {{- range $key, $val := .Values.extraEnv }}
-            - name: {{ $key | quote }}
-              value: {{ $val | quote }}
-          {{- end }}
           volumeMounts:
           - name: frinx-uniconfig-controller-logs
             mountPath: /opt/uniconfig-frinx/log
           - name: uniconfig-frinx-volume
             mountPath: /opt/uniconfig-frinx
-          {{- if .Values.uniconfigCacheFolderPath }}
-          - name: frinx-uniconfig-controller-cache
-            mountPath: {{ .Values.mountCachePath }}
-          {{- end}}
           - name: logback
             mountPath: /opt/uniconfig-frinx/config/logback.xml
             subPath: logback.xml
@@ -190,6 +139,60 @@ spec:
             failureThreshold: 20
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: CONTAINER_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: SERVICE_NAME
+              value: {{ .Values.serviceName | quote }}
+            - name: PROXY_ENABLED
+              value: {{ .Values.proxy.enabled | quote }}
+            - name: HTTP_PROXY
+              value: {{ .Values.proxy.http_proxy | quote }}
+            - name: HTTPS_PROXY
+              value: {{ .Values.proxy.https_proxy | quote }}
+            - name: NO_PROXY
+              value: {{ .Values.proxy.no_proxy | quote }}
+            - name: JAVA_MAX_MEM
+              value: {{ .Values.java.max_mem | quote }}
+            - name: DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST
+              {{ if .Values.postgresql.enabled -}}
+              value: "{{ .Release.Name }}-postgresql"
+              {{- else }}
+              value: {{ .Values.dbPersistence.POSTGRES_HOST | quote }}
+              {{- end }}
+            - name: DBPERSISTENCE_CONNECTION_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "uniconfig.secretName" . }}
+                  {{- if (include "uniconfig.createSecret" .) }}
+                  key: POSTGRES_USERNAME
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.postgresUsernameKey }}
+                  {{- end}}
+            - name: DBPERSISTENCE_CONNECTION_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "uniconfig.secretName" . }}
+                  {{- if (include "uniconfig.createSecret" .) }}
+                  key: POSTGRES_PASSWORD
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.postgresPasswordKey }}
+                  {{- end}}
+            - name: CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "uniconfig.secretName" . }}
+                  {{- if (include "uniconfig.createSecret" .) }}
+                  key: CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.clishellSshserverUsernamepasswordauthPasswordKey }}
+                  {{- end}}
+          {{- range $key, $val := .Values.extraEnv }}
+            - name: {{ $key | quote }}
+              value: {{ $val | quote }}
+          {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
