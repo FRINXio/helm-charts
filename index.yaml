@@ -12814,6 +12814,26 @@ entries:
     - https://github.com/FRINXio/helm-charts/releases/download/krakend-1.0.0/krakend-1.0.0.tgz
     version: 1.0.0
   postgrest:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Changed ingress configuration
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/355
+    apiVersion: v2
+    appVersion: v9.0.1
+    created: "2024-03-26T16:39:33.058456162Z"
+    description: A Helm chart for Kubernetes
+    digest: b345d0a3f46b550ffcae28875e4a0cd1a6f58aa82c39719e033a0f2ecd565c9d
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: postgrest
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/postgrest-2.0.0/postgrest-2.0.0.tgz
+    version: 2.0.0
   - apiVersion: v2
     appVersion: v9.0.1
     created: "2023-10-25T08:25:11.973294009Z"
@@ -14761,4 +14781,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-03-26T14:55:34.321207282Z"
+generated: "2024-03-26T16:39:33.0598068Z"
