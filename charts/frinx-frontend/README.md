@@ -46,11 +46,14 @@ helm uninstall [RELEASE_NAME]
 | `securityContext` | Deployment securityContext | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/frinx-frontend/values.yaml#L31) |
 | `service.type` | Kubernetes service type | `ClusterIP` |
 | `service.port` | Kubernetes port where service is exposed | `8888` |
-| `ingress.enabled` | Enables Ingress | `false` |
-| `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
-| `ingress.hosts` | Ingress accepted hostnames  | `[]` |
-| `ingress.tls` | Ingress TLS configuration | `[]` |
-| `resources` | CPU/Memory resource requests/limits | `{}` |
+| `ingress.enabled` | Enable [ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/). | `false` |
+| `ingress.labels` | Ingress labels | `{}` |
+| `ingress.annotations` | Annotations to be added to the ingress. | `{}` |
+| `ingress.className` | Ingress [class name](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class). | `""` |
+| `ingress.tls` | Enable or disable tls attribute in ingress | `false` |
+| `ingress.hosts` | Ingress accepted hostname  | `""` |
+| `resources` | CPU/Memory resource requests/limits for frontend | `{}` |
+| `proxyResources` | CPU/Memory resource requests/limits for proxy | `{}` |
 | `autoscaling.enabled` | Enable replica autoscaling settings | `false` |
 | `autoscaling.minReplicas` | Minimum replicas for the pod autoscaling | `1` |
 | `autoscaling.maxReplicas` | Maximum replicas for the pod autoscaling | `100` |
@@ -68,13 +71,17 @@ helm uninstall [RELEASE_NAME]
 | `env.UNICONFIG_ENABLED` | UNICONFIG_ENABLED env variable | `true` |
 | `env.UNICONFIG_API_DOCS_URL` | UNICONFIG_API_DOCS_URL env variable | `"/api/workflow/docs-uniconfig"` |
 | `env.INVENTORY_ENABLED` | INVENTORY_ENABLED env variable | `true` |
-| `env.INVENTORY_API_URL` | INVENTORY_API_URL env variable | `"/api/inventory"` |
-| `env.INVENTORY_WS_URL` | INVENTORY_WS_URL env variable | `"/api/inventory/uniconfig"` |
+| `env.INVENTORY_API_URL` | INVENTORY_API_URL env variable | `"/api/proxy"` |
 | `env.RESOURCE_MANAGER_ENABLED` | RESOURCE_MANAGER_ENABLED env variable | `true` |
-| `env.RESOURCE_MANAGER_API_URL` | RESOURCE_MANAGER_API_URL env variable | `"/api/resource"` |
+| `env.RESOURCE_MANAGER_API_URL` | RESOURCE_MANAGER_API_URL env variable | `"/api/proxy"` |
 | `env.UNISTORE_API_URL` | UNISTORE_API_URL env variable | `"/api/unistore"` |
 | `env.L3VPN_ENABLED` | L3VPN_ENABLED env variable | `false` |
 | `env.AUTH_CLIENT_ID` | AUTH_CLIENT_ID env variable | `"frinx"` |
 | `env.AUTH_REDIRECT_DOMAIN` | AUTH_REDIRECT_DOMAIN env variable | `localhost` |
 | `env.MSAL_AUTHORITY` | MSAL_AUTHORITY env variable | `https://login.microsoftonline.com/common/` |
 | `env.DEVICE_TOPOLOGY_ENABLED` | DEVICE_TOPOLOGY_ENABLED env variable | `false` |
+
+| `proxyEnv.CONDUCTOR_URL` | CONDUCTOR_URL proxyEnv variable | `http://conductor-server:8080` |
+| `proxyEnv.SCHELLAR_URL` | SCHELLAR_URL proxyEnv variable | `http://conductor-server:3000/query` |
+| `proxyEnv.INVENTORY_URL` | INVENTORY_URL proxyEnv variable | `http://inventory:8000/graphql` |
+| `proxyEnv.RESOURCE_MANAGER_URL` | RESOURCE_MANAGER_URL proxyEnv variable | `http://resource-manager:8884/query` |
