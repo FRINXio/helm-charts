@@ -1,8 +1,8 @@
 name: null
-imageName: "ghcr.io/cloudnative-pg/postgresql:12.10@sha256:3cd378bf6b4e6bdc495cf478ca893a3490ecdab5332a614d99d2adb41b1e63ce"
+imageName: "ghcr.io/cloudnative-pg/postgresql:12.18"
 imagePullPolicy: IfNotPresent
 imagePullSecrets: []
-instances: 3
+instances: 2
 primaryUpdateStrategy: "unsupervised"
 primaryUpdateMethod: "switchover"
 startDelay: 30
@@ -17,7 +17,7 @@ storage:
   # https://cloudnative-pg.io/documentation/1.18/api_reference/#storageconfiguration
   size: "1Gi"
   # storageClass: 'default'
-  # resizeInUseVolumes: true
+  resizeInUseVolumes: true
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -31,11 +31,11 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-postgresql: {}
+postgresql:
   # PostgresConfiguration defines the PostgreSQL configuration
   # https://cloudnative-pg.io/documentation/1.18/api_reference/#postgresconfiguration
-  # parameters:
-  #   max_connections: 300
+  parameters:
+    max_connections: '300'
   #   shared_buffers: 256MB
   # pg_hba:
   #   - host all all 10.244.0.0/16 md5
@@ -54,10 +54,11 @@ bootstrap:
       # key-value format 
       extraConfigMapRefs: {}
       # extraSecretRefs holds a list of references to secrets
-      # If secrets.postInitSqlSecret exist, automatically is imported to secretRefs list
       # key-value format 
       extraSecretRefs: {}
-
+      # secretRefs:
+      #   - name: cloud-native-pq-post-init-sql-secret
+      #     key: secret.sql
 backup: {}
   # BackupConfiguration defines how the backup of the cluster are taken.
   # Currently the only supported backup method is barmanObjectStore.
@@ -90,6 +91,5 @@ secrets:
     password: frinx
   postInitSqlSecret:
     # existingSecret:
-    # name: post-init-sql-secret
     # sql: |-
     #   CREATE SCHEMA inventory AUTHORIZATION inventory;
