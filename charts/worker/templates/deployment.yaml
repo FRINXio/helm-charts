@@ -65,7 +65,7 @@ spec:
         - name: check-inventory-ready
           image: curlimages/curl
           command: ["/bin/sh","-c"]
-          args: ['while [ $(curl -o /dev/null --silent --write-out "%{http_code}" {{ .Values.initContainersUrl.INVENTORY_URL_BASE }}/.well-known/apollo/server-health) -ne 200 ];
+          args: ['while [ $(curl -o /dev/null --silent --write-out "%{http_code}" {{ .Values.initContainersUrl.INVENTORY_URL_BASE }}/health) -ne 200 ];
             do sleep 5; echo "waiting for inventory";
             done;
             echo "connection successful!"']
