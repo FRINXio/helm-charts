@@ -5,6 +5,7 @@ Expand the name of the chart.
 {{- or $.Values.name $.Chart.Name | trunc 63 | trimSuffix "-" -}}
 {{- end }}
 
+
 {{/*
 Return true if a secret object should be created
 */}}
@@ -67,6 +68,6 @@ Get the password secret.
 {{- if .Values.secrets.postInitSqlSecret.existingSecret }}
     {{- printf "%s" (tpl  .Values.secrets.postInitSqlSecret.existingSecret $) -}}
 {{- else -}}
-    {{- printf "%s-post-init-sql-secret"  (include "cloud-native-pg.fullname" .) -}}
+    {{ template "cloud-native-pg.fullname" . }}-post-init-sql-secret
 {{- end -}}
 {{- end -}}
