@@ -24,6 +24,16 @@ arangodb_config:
     # runAsGroup: 2000 # group in your OpenShift cluster
     # fsGroup: 3000
 
+  affinity: {}
+    # nodeAffinity:
+    # requiredDuringSchedulingIgnoredDuringExecution:
+    #   nodeSelectorTerms:
+    #   - matchExpressions:
+    #     - key: kubernetes.io/zone
+    #       operator: In
+    #       values:
+    #       - arangobd
+
 arango_operator_secret:
   username: frinx
   password: frinx
