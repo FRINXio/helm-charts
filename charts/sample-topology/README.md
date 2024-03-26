@@ -45,14 +45,12 @@ helm uninstall [RELEASE_NAME]
 | `podSecurityContext` | Pod deployment securityContext | `{}` |
 | `securityContext` | Deployment securityContext | `{}` |
 | `service.type` | Kubernetes service type | `ClusterIP` |
-| `ingress.enabled` | Enables Ingress | `false` |
-| `ingress.className` | Class name for Ingress | `""` |
-| `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
-| `ingress.hosts` | Ingress accepted hostnames  | `[]` |
-| `ingress.tls` | Ingress TLS configuration | `[]` |
-| `ingress.tlsSecret.enabled` | Enable Ingress TLS Secret configuration | `false` |
-| `ingress.tlsSecret.crt` | TLS Certificate | `false` |
-| `ingress.tlsSecret.key` | TLS Private key | `false` |
+| `ingress.enabled` | Enable [ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/). | `false` |
+| `ingress.labels` | Ingress labels | `{}` |
+| `ingress.annotations` | Annotations to be added to the ingress. | `{}` |
+| `ingress.className` | Ingress [class name](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class). | `""` |
+| `ingress.tls` | Enable or disable tls attribute in ingress | `false` |
+| `ingress.hosts` | Ingress accepted hostname  | `""` |
 | `resources` | CPU/Memory resource requests/limits | `{}` |
 | `autoscaling.enabled` | Enable replica autoscaling settings | `false` |
 | `autoscaling.minReplicas` | Minimum replicas for the pod autoscaling | `1` |
