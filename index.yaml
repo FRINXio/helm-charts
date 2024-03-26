@@ -12030,6 +12030,44 @@ entries:
   krakend:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Changed ingress configuration
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/354
+        - kind: changed
+          description: Refactoring of configuration structure. Created rbac, removed deployment
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/354
+        - kind: added
+          description: Nginx loadbalancer for websocket/http on port 8080 as a sidecarproxy with oauth2-proxy header parser
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/354
+        - kind: removed
+          description: Removed unused krakend plugins and configurations for JWT token manipulating
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/354
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:6.0.0
+    apiVersion: v2
+    appVersion: 6.0.0
+    created: "2024-03-26T14:38:21.598762166Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: 6c2d994bf07006d9941f260ba89670bb6690bd408cccf473d0bc36bff8822a02
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-3.0.0/krakend-3.0.0.tgz
+    version: 3.0.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: add new headers tmpl to avoid overriding existing ones
           links:
@@ -14691,4 +14729,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-03-26T13:02:16.182424467Z"
+generated: "2024-03-26T14:38:21.60055187Z"
