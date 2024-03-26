@@ -10,15 +10,10 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
-proxyImage:
-  repository: frinx/workflow-proxy
-  pullPolicy: IfNotPresent
-  tag: "2.1.4"
-
 schellarImage:
   repository: frinx/schellar
   pullPolicy: IfNotPresent
-  tag: "3.0.0"
+  tag: "6.0.0"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -31,7 +26,7 @@ serviceAccount:
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: workflow-proxy
+  name: conductor
 
 podAnnotations: {}
 
@@ -45,25 +40,30 @@ securityContext:
 
 service:
   type: ClusterIP
-  port: 8088
-  portWorkers: 8089
-  portSchellar: 8087
+  portSchellar: 3000
   portConductor: 8080
 
 ingress:
   enabled: false
+  className: ""
+  labels: {}
   annotations: {}
-  # ingressClassName: nginx
   hosts:
-    - host: workflow-manager.127.0.0.1.nip.io
-      paths: ["/"]
+    - host: workflow-manager.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  schellarHosts:
+    - host: workflow-manager-schellar.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
 
 resources: {}
-resourcesProxy: {}
 
 autoscaling:
   enabled: false
@@ -82,25 +82,36 @@ configScripts:
   log4j.properties: |
     {{ .Files.Get "configs/log4j.properties" }}
 
-conductorEnv:
-  CONFIG_PROP: config.properties
-  _JAVA_OPTIONS: -Xmx2g
-  LOG4J_PROP: log4j.properties
-  SPRING_DATASOURCE_HOSTNAME:
-  CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_HOSTNAME:
-  SPRING_SEARCHDATASOURCE_HOSTNAME:
-  DATABASE: conductor
-
-conductorExtraEnv:
-  CONDUCTOR_APP_OWNEREMAILMANDATORY: false
-  CONDUCTOR_DB_TYPE: postgres
+dbPersistence:
+  SPRING_DATASOURCE_HOST:
+  SPRING_SEARCHDATASOURCE_HOST:
+  CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_HOST:
+  POSTGRES_DATABASE: conductor
+  CONDUCTOR_DATASOURCE_SCHEMA: public
+  existingSecret:
+    secretName:
+    conductorExternalpayloadstoragePostgresUsernameKey:
+    conductorExternalpayloadstoragePostgresPasswordKey:
+    springDatasourceUsernameKey:
+    springDatasourcePasswordKey:
+    springSearchdatasourceUsernameKey:
+    springSearchdatasourcePasswordKey:
+  CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME: postgresU
+  CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD: postgresP
   SPRING_DATASOURCE_USERNAME: postgresU
   SPRING_DATASOURCE_PASSWORD: postgresP
   SPRING_SEARCHDATASOURCE_USERNAME: postgresU
   SPRING_SEARCHDATASOURCE_PASSWORD: postgresP
+
+conductorEnv:
+  CONFIG_PROP: config.properties
+  _JAVA_OPTIONS: -Xmx2g
+  LOG4J_PROP: log4j.properties
+
+conductorExtraEnv:
+  CONDUCTOR_APP_OWNEREMAILMANDATORY: false
+  CONDUCTOR_DB_TYPE: postgres
   SPRING_SEARCHDATASOURCE_HIKARI_MAXIMUMPOOLSIZE: 8
-  CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME: postgresU
-  CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD: postgresP
   CONDUCTOR_APP_ASYNCINDEXINGENABLED: false
   CONDUCTOR_INDEXING_ENABLED: false
   CONDUCTOR_ARCHIVE_DB_TYPE: postgres
@@ -123,7 +134,7 @@ conductorExtraEnv:
   CONDUCTOR_APP_MAXTASKOUTPUTPAYLOADSIZETHRESHOLD: 102400
   # PostgreSQL External Payload Storage variables
   CONDUCTOR_EXTERNALPAYLOADSTORAGE_TYPE: postgres
-  CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_CONDUCTORURL: http://workflow-proxy:8088/proxy
+  CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_CONDUCTORURL: http://conductor-server:8080
   CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_MAXDATAROWS: 100000
   CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_MAXDATADAYS: 0
   CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_MAXDATAMONTHS: 0
@@ -140,12 +151,18 @@ conductorExtraEnv:
   CONDUCTOR_WORKFLOWREPAIRSERVICE_ENABLED: false
   SPRING_AUTOCONFIGURE_EXCLUDE: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
 
-proxyEnv:
-  AUTH_ENABLED: false
-  OAUTH2_AUTH_URL: "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
-  OAUTH2_TOKEN_URL: "/api/workflow-manager/docs/token"
-  ADMIN_ACCESS_ROLE: "network-admin"
-  UNICONFIG_ZONES_LIST: "uniconfig"
+schellarResources: {}
+
+schellarDbPersistence:
+  POSTGRES_HOST: postgresql
+  POSTGRES_PORT: 5432
+  POSTGRES_DATABASE: schellar
+  existingSecret:
+    secretName:
+    postgresUsernameKey:
+    postgresPasswordKey:
+  POSTGRES_USERNAME: postgresU
+  POSTGRES_PASSWORD: postgresP
 
 schellarEnv:
   LOG_LEVEL: debug
@@ -153,8 +170,9 @@ schellarEnv:
   CONDUCTOR_API_URL: http://localhost:8080/api
   BACKEND: postgres
   POSTGRES_MIGRATIONS_DIR: migrations
-  POSTGRES_PORT: 5432
-  POSTGRES_DATABASE_URL: "host=postgresql port=5432 user=postgres password=postgres database=schellar"
+  PLAYGROUND_QUERY_ENDPOINT: /api/schedule
+
+schellarExtraEnv: []
 
 postgresql:
   enabled: true

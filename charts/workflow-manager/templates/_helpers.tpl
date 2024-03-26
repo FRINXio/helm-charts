@@ -61,3 +61,44 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Get the password secret.
+*/}}
+{{- define "workflow-manager.secretName" -}}
+{{- if .Values.dbPersistence.existingSecret.secretName }}
+    {{- printf "%s" (tpl .Values.dbPersistence.existingSecret.secretName $) -}}
+{{- else -}}
+    {{- printf "%s" (include "workflow-manager.fullname" .) -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return true if a secret object should be created
+*/}}
+{{- define "workflow-manager.createSecret" -}}
+{{- if not .Values.dbPersistence.existingSecret.secretName -}}
+    {{- true -}}
+{{- end -}}
+{{- end -}}
+
+
+{{/*
+Get the password secret.
+*/}}
+{{- define "workflow-manager.schellarSecretName" -}}
+{{- if .Values.schellarDbPersistence.existingSecret.secretName }}
+    {{- printf "%s" (tpl .Values.schellarDbPersistence.existingSecret.secretName $) -}}
+{{- else -}}
+    {{- printf "%s-schellar" (include "workflow-manager.fullname" .) -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return true if a secret object should be created
+*/}}
+{{- define "workflow-manager.createSchellarSecret" -}}
+{{- if not .Values.schellarDbPersistence.existingSecret.secretName -}}
+    {{- true -}}
+{{- end -}}
+{{- end -}}
