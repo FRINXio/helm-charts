@@ -199,6 +199,38 @@ entries:
   frinx-arango-config:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Changes type of secret from opaque to generic
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/356
+        - kind: added
+          description: Possibility to set affinity
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/356
+        - kind: changed
+          description: Bumped version of arangodb
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/356
+    apiVersion: v2
+    appVersion: 3.9.9
+    created: "2024-03-26T14:55:34.319763511Z"
+    description: A Helm chart for Kubernetes deployment of the Arango CRD and ArangoDB
+      configuration files
+    digest: c4aebb85ed6dd510292358509e807c4c7d01f4b889a2997893f0094ae47caad6
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-arango-config
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-arango-config-4.0.0/frinx-arango-config-4.0.0.tgz
+    version: 4.0.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: removed
           description: Remove crds from chart
           links:
@@ -14729,4 +14761,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-03-26T14:38:21.60055187Z"
+generated: "2024-03-26T14:55:34.321207282Z"
