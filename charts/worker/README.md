@@ -52,7 +52,7 @@ helm uninstall [RELEASE_NAME]
 | `commands` | Option to specify commands for main container | `[ "python3", "main.py" ]` |
 | `workdir` | Option to specify WORKDIR of container. It is used for creating volume for application in non root environment | `/home/app` |
 | `initContainersUrl.UNICONFIG_URL_BASE` | UNICONFIG_URL_BASE env variable | `http://uniconfig:8181` |
-| `initContainersUrl.CONDUCTOR_URL_BASE` | CONDUCTOR_URL_BASE env variable | `http://workflow-proxy:8080` |
+| `initContainersUrl.CONDUCTOR_URL_BASE` | CONDUCTOR_URL_BASE env variable | `http://conductor-server:8080` |
 | `initContainersUrl.INVENTORY_URL_BASE` | INVENTORY_URL_BASE env variable | `http://inventory:8000` |
 | `env.X_TENANT_ID` | X_TENANT_ID env variable | `frinx` |
 | `env.X_AUTH_USER_GROUP` | X_AUTH_USER_GROUP env variable | `network-admin` |

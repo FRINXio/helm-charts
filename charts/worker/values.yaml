@@ -62,7 +62,7 @@ workdir: /home/app
 
 initContainersUrl:
   UNICONFIG_URL_BASE: http://uniconfig:8181
-  CONDUCTOR_URL_BASE: http://workflow-proxy:8080
+  CONDUCTOR_URL_BASE: http://conductor-server:8080
   INVENTORY_URL_BASE: http://inventory:8000
 
 env:
