@@ -1,28 +1,57 @@
 # Global settings
 
-x-device-discovery-enabled: &device-discovery-enabled false
+x-frinx-database-password: &frinx-database-password frinx-database-password
+x-frinx-image-pull-secret: &frinx-image-pull-secret regcred
+x-frinx-rbac-admin-role: &frinx-rbac-admin-role FRINXio
 
-# Default values for FRINX-machine.
 
-krakend:
+global:
+  dbPersistence:
+    enabled: true
+    secretName: *frinx-database-password
+    secrets:
+      TD_ARANGO_USERNAME: root
+      TD_ARANGO_ROOT_PASSWORD: frinx
+      INVENTORY_POSTGRES_USERNAME: inventory_user
+      INVENTORY_POSTGRES_PASSWORD: inventory
+      RM_POSTGRES_USERNAME: resource_user
+      RM_POSTGRES_PASSWORD: resource
+      SCHELLAR_POSTGRES_USERNAME: schellar_user
+      SCHELLAR_POSTGRES_PASSWORD: schellar
+      CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME: conductor_user
+      CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD: conductor
+      SPRING_DATASOURCE_USERNAME: conductor_user
+      SPRING_DATASOURCE_PASSWORD: conductor
+      SPRING_SEARCHDATASOURCE_USERNAME: conductor_user
+      SPRING_SEARCHDATASOURCE_PASSWORD: conductor
+      UNICONFIG_POSTGRES_USERNAME: postgresU
+      UNICONFIG_POSTGRES_PASSWORD: postgresP
+      UNICONFIG_CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD: admin
+
+# CRDs
+
+kube-arangodb:
   enabled: true
-  fullnameOverride: "krakend"
-  image:
-    repository: "frinx/krakend"
-    tag: "1.0.6"
+  operator:
+    replicaCount: 2
+    enableCRDManagement: true
+    args:
+      - --deployment.feature.ephemeral-volumes=true
+  rbac:
+    enabled: true
+    extensions:
+      monitoring: false
+      acs: false
+      at: false
 
-frinx-frontend:
+cloudnative-pg:
   enabled: true
-  fullnameOverride: "frinx-frontend"
-  image:
-    repository: "frinx/frinx-frontend"
-    tag: "1.0.53"
-  env:
-    AUTH_CLIENT_ID: "frinx"
-    DEVICE_TOPOLOGY_ENABLED: true
+
+# Stateful PG
+# This section is deprecated
 
 postgresql:
-  enabled: true
+  enabled: false
   fullnameOverride: "frinx-postgresql"
   auth:
     enablePostgresUser: true
@@ -38,82 +67,8 @@ postgresql:
           CREATE DATABASE conductor;
           CREATE DATABASE inventory;
 
-resource-manager:
-  enabled: true
-  fullnameOverride: "resource-manager"
-  image:
-    repository: "frinx/resource-manager"
-    tag: "1.0.10"
-  postgresql:
-    enabled: false
-  env:
-    PSQL_HOSTNAME: frinx-postgresql
-    RM_DB_CONNECTION_STRING: "postgres://postgresU:postgresP@frinx-postgresql:5432/postgres?sslmode=disable"
-
-workflow-manager:
-  enabled: true
-  fullnameOverride: "workflow-proxy"
-  image:
-    repository: "frinx/conductor-server"
-    tag: "2.2.2"
-  proxyImage:
-    repository: "frinx/workflow-proxy"
-    tag: "2.1.5"
-  schellarImage:
-    repository: "frinx/schellar"
-    tag: "3.0.0"
-  postgresql:
-    enabled: false
-  conductorEnv:
-    SPRING_DATASOURCE_HOSTNAME: frinx-postgresql
-    CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_HOSTNAME: frinx-postgresql
-    SPRING_SEARCHDATASOURCE_HOSTNAME: frinx-postgresql
-  schellarEnv:
-    POSTGRES_DATABASE_URL: "host=frinx-postgresql port=5432 user=postgresU password=postgresP database=schellar"
-
-inventory:
-  enabled: true
-  fullnameOverride: "inventory"
-  image:
-    repository: "frinx/frinx-inventory-server"
-    tag: "1.9.3"
-  postgresql:
-    enabled: false
-  env:
-    POSTGRES_HOSTNAME: frinx-postgresql
-    TOPOLOGY_ENABLED: *device-discovery-enabled
-
-topology-discovery:
-  enabled: *device-discovery-enabled
-  fullnameOverride: "topology-discovery"
-  image:
-    repository: "frinx/topology-discovery"
-    tag: "0.0.11"
-
-frinx-arango-config:
-  enabled: *device-discovery-enabled
-  arangodb_config:
-    enabled: *device-discovery-enabled
-    securityContext:
-      readOnlyRootFilesystem: true
-      runAsUser: 1000
-      runAsGroup: 2000
-      fsGroup: 3000
-
-kube-arangodb:
-  operator:
-    replicaCount: 1
-    args:
-      - --deployment.feature.ephemeral-volumes=true
-  rbac:
-    enabled: true
-    extensions:
-      monitoring: false
-      acs: false
-      at: false
-
 uniconfig-postgresql:
-  enabled: true
+  enabled: false
   fullnameOverride: "uniconfig-postgresql"
   auth:
     enablePostgresUser: true
@@ -122,95 +77,8 @@ uniconfig-postgresql:
     database: uniconfig
   architecture: standalone
 
-uniconfig:
-  enabled: true
-  image:
-    repository: "frinx/uniconfig"
-    tag: "5.1.9"
-  imagePullSecrets:
-    - name: regcred
-  postgresql:
-    enabled: false
-  dbPersistence:
-    DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST: "uniconfig-postgresql"
-    DBPERSISTENCE_CONNECTION_USERNAME: "postgresU"
-    DBPERSISTENCE_CONNECTION_PASSWORD: "postgresP"
-  traefik:
-    rbac:
-      namespaced: true
-  securityContext:
-    capabilities:
-      add:
-      - NET_BIND_SERVICE
-      drop:
-      - ALL
 
-demo-workflows:
-  enabled: false
-  fullnameOverride: "demo-workflows"
-  image:
-    repository: "frinx/demo-workflows"
-    tag: "2.0.12"
-  sample-topology:
-    enabled: false
-
-sample-topology:
-  enabled: false
-  fullnameOverride: "sample-topology"
-  image:
-    repository: "frinx/sample-topology"
-    tag: "3.2.0"
-  devices:
-    create: true
-    devicesSpecification:
-      - protocol: cli
-        device_name: saos6_1
-        port: 10000
-      - protocol: cli
-        device_name: saos6_2
-        port: 10001
-      - protocol: cli
-        device_name: saos8_1
-        port: 10002
-      - protocol: cli
-        device_name: saos8_2
-        port: 10003
-      - protocol: cli
-        device_name: cisco_IOS
-        port: 10004
-      - protocol: cli
-        device_name: cisco_IOS
-        port: 10005
-      - protocol: cli
-        device_name: cisco_XR
-        port: 10006
-      - protocol: cli
-        device_name: cisco_XR
-        port: 10007
-      - protocol: cli
-        device_name: huawei_VRP
-        port: 10008
-      - protocol: cli
-        device_name: leaf1
-        port: 10009
-      - protocol: cli
-        device_name: leaf2
-        port: 10010
-      - protocol: cli
-        device_name: leaf3
-        port: 10011
-      - protocol: cli
-        device_name: leaf4
-        port: 10012
-      - protocol: cli
-        device_name: leaf5
-        port: 10013
-      - protocol: cli
-        device_name: spine1
-        port: 10014
-      - protocol: cli
-        device_name: spine2
-        port: 10015
+# Monitoring
 
 grafana:
   enabled: true
@@ -240,9 +108,6 @@ influxdb2:
     organization: "frinx-machine"
     bucket: "frinx"
     retention_policy: "2d"
-  env:
-    - name: DOCKER_INFLUXDB_INIT_MODE
-      value: setup
 
 telegraf-ds:
   enabled: true
@@ -256,7 +121,6 @@ telegraf-ds:
       valueFrom:
         fieldRef:
           fieldPath: spec.nodeName
-
   config:
     docker_endpoint: ""
 
@@ -313,12 +177,13 @@ telegraf-ds:
 loki:
   enabled: true
   fullnameOverride: loki
-  config:
-    chunk_store_config:
-      max_look_back_period: 24h
-    table_manager:
-      retention_deletes_enabled: true
-      retention_period: 24h
+  loki:
+    config: |
+      chunk_store_config:
+        max_look_back_period: 24h
+      table_manager:
+        retention_deletes_enabled: false
+        retention_period: 24h
 
 promtail:
   fullnameOverride: promtail
@@ -371,3 +236,350 @@ promtail:
             {{- with .Values.config.snippets.extraRelabelConfigs }}
             {{- toYaml . | nindent 4 }}
             {{- end }}
+
+
+# Default values for FRINX-machine
+# Database configuration
+
+uniconfig-postgres:
+  enabled: true
+  name: uniconfig-postgresql
+  imageName: "ghcr.io/cloudnative-pg/postgresql:12.18"
+
+  bootstrap:
+    initdb:
+      database: uniconfig
+      owner: postgresU
+
+  postgresql:
+    parameters:
+      max_connections: '300'
+
+  storage:
+    size: 10Gi
+    resizeInUseVolumes: true
+
+  secrets:
+    superuserSecret:
+      username: postgres
+      password: postgres
+    userSecret:
+      username: postgresU
+      password: postgresP
+
+workflow-manager-postgres:
+  enabled: true
+  name: postgresql
+  imageName: "ghcr.io/cloudnative-pg/postgresql:12.18"
+
+  bootstrap:
+    initdb:
+      postInitApplicationSQLRefs:
+        secretRefs:
+          - name: postgresql-post-init-sql-secret
+            key: secret.sql
+
+  postgresql:
+    parameters:
+      max_connections: '300'
+
+  storage:
+    size: 100Gi
+    resizeInUseVolumes: true
+
+  secrets:
+    superuserSecret:
+      username: postgres
+      password: postgres
+    userSecret:
+      username: frinx
+      password: postgres
+    postInitSqlSecret:
+      sql: |-
+        CREATE ROLE schellar LOGIN PASSWORD 'schellar';
+        GRANT CONNECT ON DATABASE frinx TO schellar;
+        CREATE USER schellar_user WITH PASSWORD 'schellar';
+        GRANT schellar TO schellar_user;
+        CREATE SCHEMA schellar AUTHORIZATION schellar;
+        ALTER ROLE schellar SET search_path=schellar;
+        ALTER USER schellar_user SET search_path TO schellar;
+        CREATE ROLE inventory LOGIN PASSWORD 'inventory';
+        GRANT CONNECT ON DATABASE frinx TO inventory;
+        CREATE USER inventory_user WITH PASSWORD 'inventory';
+        GRANT inventory TO inventory_user;
+        CREATE SCHEMA inventory AUTHORIZATION inventory;
+        ALTER ROLE inventory SET search_path=inventory;
+        ALTER USER inventory_user SET search_path TO inventory;
+        CREATE ROLE conductor LOGIN PASSWORD 'conductor';
+        GRANT CONNECT ON DATABASE frinx TO conductor;
+        CREATE USER conductor_user WITH PASSWORD 'conductor';
+        GRANT conductor TO conductor_user;
+        CREATE SCHEMA conductor AUTHORIZATION conductor;
+        CREATE SCHEMA archive AUTHORIZATION conductor;
+        CREATE SCHEMA external AUTHORIZATION conductor;
+        ALTER ROLE conductor SET search_path=public,conductor,archive,external;
+        ALTER USER conductor_user SET search_path TO conductor,archive,external;
+        CREATE ROLE resource LOGIN PASSWORD 'resource';
+        GRANT CONNECT ON DATABASE frinx TO resource;
+        CREATE USER resource_user WITH PASSWORD 'resource';
+        GRANT resource TO resource_user;
+        CREATE SCHEMA resource AUTHORIZATION resource;
+        ALTER ROLE resource SET search_path=resource;
+        ALTER USER resource_user SET search_path TO resource;
+
+frinx-arango-config:
+  enabled: true
+  arangodb_config:
+    enabled: true
+    image:
+      repository: arangodb/arangodb
+      tag: 3.9.9
+    securityContext:
+      readOnlyRootFilesystem: true
+      runAsUser: 1000
+      runAsGroup: 2000
+      fsGroup: 3000
+
+
+# Core component configuration
+
+krakend:
+  enabled: true
+  fullnameOverride: "krakend"
+  replicaCount: 1
+
+  image:
+    repository: "frinx/krakend"
+    tag: "6.0.0"
+
+  proxyImage:
+    repository: "nginx"
+    tag: "1.25.4-alpine"
+
+  rbac:
+    UNICONFIG_CONTROLLER_ADMIN_GROUP: *frinx-rbac-admin-role
+    INVENTORY_ADMIN_GROUP: *frinx-rbac-admin-role
+    ADMIN_ACCESS_ROLE: *frinx-rbac-admin-role
+    X_AUTH_USER_GROUP: *frinx-rbac-admin-role
+
+  debug:
+    # This setting should be disabled in production
+    enabled: true
+    x_forwarded_roles: "owner"
+    x_forwarded_groups: "network-admin"
+    x_forwarded_user: "frinx-admin-user"
+
+
+frinx-frontend:
+  enabled: true
+  fullnameOverride: "frinx-frontend"
+
+  image:
+    repository: "frinx/frinx-frontend"
+    tag: "6.0.0"
+
+  proxyImage:
+    name: frinx/frinx-graphql-proxy
+    tag: "6.0.0"
+
+  env:
+    AUTH_ENABLED: true
+
+
+resource-manager:
+  enabled: true
+  fullnameOverride: "resource-manager"
+
+  image:
+    repository: "frinx/resource-manager"
+    tag: "6.0.0"
+
+  postgresql:
+    enabled: false
+
+  dbPersistence:
+    POSTGRES_HOST: postgresql-rw
+    POSTGRES_DATABASE: frinx
+    existingSecret:
+      secretName: *frinx-database-password
+      postgresUsernameKey: RM_POSTGRES_USERNAME
+      postgresPasswordKey: RM_POSTGRES_PASSWORD
+
+  rbac:
+    RM_ADMIN_ROLES: *frinx-rbac-admin-role
+    RM_ADMIN_GROUPS: *frinx-rbac-admin-role
+
+
+workflow-manager:
+  enabled: true
+  fullnameOverride: "conductor-server"
+
+  image:
+    repository: "frinx/conductor-server"
+    tag: "6.0.0"
+
+  schellarImage:
+    repository: "frinx/schellar"
+    tag: "6.0.0"
+
+  postgresql:
+    enabled: false
+
+  dbPersistence:
+    SPRING_DATASOURCE_HOST: postgresql-rw
+    SPRING_SEARCHDATASOURCE_HOST: postgresql-rw
+    CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_HOST: postgresql-rw
+    POSTGRES_DATABASE: frinx
+    CONDUCTOR_DATASOURCE_SCHEMA: conductor
+    POSTGRES_DB_SCHEMA: conductor
+    existingSecret:
+      secretName: *frinx-database-password
+      conductorExternalpayloadstoragePostgresUsernameKey: CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME
+      conductorExternalpayloadstoragePostgresPasswordKey: CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD
+      springDatasourceUsernameKey: SPRING_DATASOURCE_USERNAME
+      springDatasourcePasswordKey: SPRING_DATASOURCE_PASSWORD
+      springSearchdatasourceUsernameKey: SPRING_SEARCHDATASOURCE_USERNAME
+      springSearchdatasourcePasswordKey: SPRING_SEARCHDATASOURCE_PASSWORD
+
+  schellarDbPersistence:
+    POSTGRES_HOST: postgresql-rw
+    POSTGRES_DATABASE: frinx
+    existingSecret:
+      secretName: *frinx-database-password
+      postgresUsernameKey: SCHELLAR_POSTGRES_USERNAME
+      postgresPasswordKey: SCHELLAR_POSTGRES_PASSWORD
+
+
+inventory:
+  enabled: true
+  fullnameOverride: "inventory"
+
+  image:
+    repository: "frinx/frinx-inventory-server"
+    tag: "6.0.1"
+
+  postgresql:
+    enabled: false
+
+  dbPersistence:
+    POSTGRES_HOST: "postgresql-rw"
+    POSTGRES_DATABASE: frinx
+    POSTGRES_DB_SCHEMA: inventory
+    existingSecret:
+      secretName: *frinx-database-password
+      postgresUsernameKey: INVENTORY_POSTGRES_USERNAME
+      postgresPasswordKey: INVENTORY_POSTGRES_PASSWORD
+
+  # extraEnv:
+  #   NODE_ENV: 'development'
+
+
+topology-discovery:
+  enabled: true
+  fullnameOverride: "topology-discovery"
+
+  image:
+    repository: "frinx/topology-discovery"
+    tag: "6.0.0"
+
+  imagePullSecrets:
+    - name: *frinx-image-pull-secret
+
+  dbPersistence:
+    existingSecret:
+      secretName: *frinx-database-password
+      arangoUsernameKey: TD_ARANGO_USERNAME
+      arangoRootPasswordKey: TD_ARANGO_ROOT_PASSWORD
+
+
+uniconfig:
+  enabled: true
+  fullnameOverride: "uniconfig-controller"
+
+  image:
+    repository: "frinx/uniconfig"
+    tag: "6.0.0"
+
+  imagePullSecrets:
+    - name: *frinx-image-pull-secret
+
+  postgresql:
+    enabled: false
+
+  dbPersistence:
+    POSTGRES_HOST: "uniconfig-postgresql-rw"
+    existingSecret:
+      secretName: *frinx-database-password
+      postgresUsernameKey: UNICONFIG_POSTGRES_USERNAME
+      postgresPasswordKey: UNICONFIG_POSTGRES_PASSWORD
+      clishellSshserverUsernamepasswordauthPasswordKey: UNICONFIG_CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD
+
+  traefik:
+    enabled: true
+    rbac:
+      namespaced: true
+
+  securityContext:
+    capabilities:
+      add:
+      - NET_BIND_SERVICE
+      drop:
+      - ALL
+
+  cacheImage:
+    enabled: false
+
+  mibsImage:
+    enabled: false
+
+
+# Identity provider configuration
+
+oauth2-proxy:
+  enabled: false
+  fullnameOverride: "oauth2-proxy"
+
+  image:
+    repository: "frinx/oauth2-proxy"
+    tag: "6.0.0-alpine"
+
+    imagePullSecrets:
+      - name: *frinx-image-pull-secret
+
+  ingress:
+    enabled: false
+    ingressClassName: nginx
+    hosts:
+      - "fm.127.0.0.1.nip.io"
+
+  config:
+    cookieSecret: create_strong_secret
+    clientSecret: ""
+    clientID: ""
+    configFile: |-
+      # DEFAULT CONFIGURATION
+      # https://oauth2-proxy.github.io/oauth2-proxy/configuration/overview
+
+      custom_sign_in_logo = "/tmp/frinx/frinx.png"
+      upstreams = ["http://krakend:8080"]
+
+      cookie_secure = true
+      cookie_expire = 0
+      pass_authorization_header = false
+      proxy_websockets = true
+
+      scope = "user:email read:org groups"
+      email_domains = [ "*" ]
+
+      # DEPENDS ON DEPLOYMENT SETUP, INGRESS CONFIGURATION
+      cookie_domains = [ "fm.127.0.0.1.nip.io" ]
+      whitelist_domains = [ "fm.127.0.0.1.nip.io" ]
+
+      # IDENTITY PROVIDER CONFIGURATION
+      # https://oauth2-proxy.github.io/oauth2-proxy/configuration/providers/
+      # Configuration example with github
+
+      github_org = "FRINXio"
+      provider = "github"
+      login_url = "https://github.com/login/oauth/authorize"
+      redirect_url = "https://fm.127.0.0.1.nip.io/oauth2/callback"

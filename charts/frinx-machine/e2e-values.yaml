@@ -53,19 +53,6 @@ uniconfig:
       cpu: 2000m
       memory: 12Gi
 
-demo-workflows:
-  enabled: true
-
-sample-topology:
-  enabled: true
-  resources:
-    limits:
-      cpu: 600m
-      memory: 12Gi
-    requests:
-      cpu: 25m
-      memory: 10Gi
-
 grafana:
   enabled: false
 influxdb:
