@@ -11,5 +11,9 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+    - port: {{ .Values.service.portProxy }}
+      targetPort: http-proxy
+      protocol: TCP
+      name: http-proxy
   selector:
     {{- include "frinx-frontend.selectorLabels" . | nindent 4 }}

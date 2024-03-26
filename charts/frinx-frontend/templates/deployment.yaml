@@ -59,6 +59,31 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+        # graphql-proxy
+        - name: {{ .Chart.Name }}-proxy
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.proxyImage.name }}:{{ .Values.proxyImage.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.proxyImage.pullPolicy }}
+          ports:
+            - name: http-proxy
+              containerPort: 5555
+              protocol: TCP
+          env:
+          {{- range $key, $val := .Values.proxyEnv }}
+            - name: {{ $key | quote }}
+              value: {{ $val | quote }}
+          {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5555
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5555
+          resources:
+            {{- toYaml .Values.proxyResources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
