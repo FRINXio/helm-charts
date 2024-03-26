@@ -100,26 +100,6 @@
               ]
         },
         {
-            "endpoint": "/api/workflow/schedule",
-            "method": "GET",
-            "url_pattern": "/schedule"
-        },
-        {
-            "endpoint": "/api/workflow/schedule/{name}",
-            "method": "GET",
-            "url_pattern": "/schedule/{name}"
-        },
-        {
-            "endpoint": "/api/workflow/schedule/{name}",
-            "method": "PUT",
-            "url_pattern": "/schedule/{name}"
-        },
-        {
-            "endpoint": "/api/workflow/schedule/{name}",
-            "method": "DELETE",
-            "url_pattern": "/schedule/{name}"
-        },
-        {
             "endpoint": "/api/workflow/queue/data",
             "method": "GET",
             "url_pattern": "/queue/data"
@@ -153,37 +133,6 @@
             "endpoint": "/api/workflow/workflow/bulk/terminate",
             "method": "POST",
             "url_pattern": "/workflow/bulk/terminate"
-        },
-        {
-            "@comment": "Deprecated",
-            "endpoint": "/api/workflow/workflow/bulk/terminate",
-            "method": "DELETE",
-            "backend_method": "POST",
-            "url_pattern": "/workflow/bulk/terminate"
-        },
-        {
-            "endpoint": "/api/workflow/hierarchical",
-            "method": "GET",
-            "url_pattern": "/hierarchical",
-            "input_query_strings": [
-                "start",
-                "size",
-                "status",
-                "workflowId",
-                "order"
-              ]
-        },
-        {
-            "endpoint": "/api/workflow/executions",
-            "method": "GET",
-            "url_pattern": "/executions?q=&h=",
-            "input_query_strings": [
-                "start",
-                "size",
-                "status",
-                "workflowId",
-                "order"
-              ]
         },
         {
             "endpoint": "/api/workflow/external/postgres/{dataId}",

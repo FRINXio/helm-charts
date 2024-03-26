@@ -1,46 +1,26 @@
+{{range $index, $element := .}}
+{{if gt $index 0}},{{end}}
 {
-    "endpoint": "/api/inventory",
-    "method": "POST",
+    "endpoint": "{{ .endpoint }}",
+    "method": "{{ .method }}",
     "output_encoding": "no-op",
     "input_headers": [ {{ include "allowed_headers.tmpl" }} ],
 
-    "extra_config": {
-        {{ $jwt_production := env "AUTH_ENABLED" }}
-        {{ if eq $jwt_production "true" }}
-            {{ include "jwt_config.tmpl" }}
-        {{ else if eq $jwt_production "false" }}
-            {{ include "jwt_fake_config.tmpl" }}
-        {{ end }}
-    },
-
+    {{ if .input_query_strings }}
+    "input_query_strings": [ 
+        {{range $query_enabled, $query := .input_query_strings}} {{if gt $query_enabled 0}},{{end}} "{{$query}}" {{ end }} 
+        ],
+    {{end}}
     "backend": [
-        {
-            "url_pattern": "/graphql",
-            "sd": "static",
-            "encoding": "no-op",
-            "disable_host_sanitize": false,
-            "extra_config": {
-                {{ include "modifiers.tmpl" }}
-            },
-            "host": [
-                "inventory:8000"
-            ]
-        }
-    ]
-}, 
-{
-    "endpoint": "/api/inventory",
-    "method": "GET",
-    "output_encoding": "no-op",
-    "input_headers": ["*"],
-
-    "backend": [
-        {
-            "url_pattern": "/graphql",
-            "encoding": "no-op",
-            "host": [
-                "inventory:8000"
-            ]
-        }
-    ]
+    {
+        "url_pattern": "{{ .url_pattern }}",
+        "encoding": "no-op",
+        "sd": "static",
+        "disable_host_sanitize": false,
+        "host": [
+            "inventory:8000"
+        ]
+    }
+]
 }
+{{end}}

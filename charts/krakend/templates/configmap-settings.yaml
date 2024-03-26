@@ -1,14 +1,15 @@
-{{ if not .Values.deployment.volumes.azureFile.enabled }}
+{{ if not .Values.volumes.azureFile.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ template "krakend.fullname" . }}-settings
 data:
   frinx_frontend_settings.json: {{ (.Files.Get "config/settings/frinx_frontend_settings.json") | quote }}
+  inventory_settings.json: {{ (.Files.Get "config/settings/inventory_settings.json") | quote }}
   uniconfig_settings.json: {{ (.Files.Get "config/settings/uniconfig_settings.json") | quote }}
   resource_settings.json: {{ (.Files.Get "config/settings/resource_settings.json") | quote }}
+  schellar_settings.json: {{ (.Files.Get "config/settings/schellar_settings.json") | quote }}
   unistore_settings.json: {{ (.Files.Get "config/settings/unistore_settings.json") | quote }}
-  workflow_proxy_docs_settings.json: {{ (.Files.Get "config/settings/workflow_proxy_docs_settings.json") | quote }}
-  workflow_proxy_settings.json: {{ (.Files.Get "config/settings/workflow_proxy_settings.json") | quote }}
   topology_discovery_settings.json: {{ (.Files.Get "config/settings/topology_discovery_settings.json") | quote }}
+  workflow_manager_settings.json: {{ (.Files.Get "config/settings/workflow_manager_settings.json") | quote }}
 {{ end }}
