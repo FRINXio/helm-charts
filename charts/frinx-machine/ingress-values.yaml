@@ -1,0 +1,71 @@
+# Ingres confiuration example for FRINX-machine services
+
+krakend:
+  ingress:
+    enabled: false
+    ingressClassName: nginx
+    hosts:
+      - host: krakend.127.0.0.1.nip.io
+        paths: 
+          - path: "/"
+            pathType: ImplementationSpecific
+
+resource-manager:
+  ingress:
+    enabled: false
+    ingressClassName: nginx
+    hosts:
+      - host: resource-manager.127.0.0.1.nip.io
+        paths: 
+          - path: "/"
+            pathType: ImplementationSpecific
+
+workflow-manager:
+  ingress:
+    enabled: false
+    hosts:
+      - host: workflow-manager.127.0.0.1.nip.io
+        paths: 
+          - path: "/"
+            pathType: ImplementationSpecific
+    schellarHosts:
+      - host: workflow-manager-schellar.127.0.0.1.nip.io
+        paths: 
+          - path: "/"
+            pathType: ImplementationSpecific
+
+inventory:
+  ingress:
+    enabled: false
+    ingressClassName: nginx
+    hosts:
+      - host: inventory.127.0.0.1.nip.io
+        paths: 
+          - path: "/"
+            pathType: ImplementationSpecific
+
+
+topology-discovery:
+  ingress:
+    enabled: false
+    ingressClassName: nginx
+    hosts:
+      - host: topology-discovery.127.0.0.1.nip.io
+        paths: 
+          - path: "/"
+            pathType: ImplementationSpecific
+
+uniconfig:
+  traefik:
+    ingress:
+      enabled: false
+      host: uniconfig.127.0.0.1.nip.io
+    rbac:
+      namespaced: true
+
+oauth2-proxy:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts: 
+      - "fm.127.0.0.1.nip.io"

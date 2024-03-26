@@ -20,6 +20,12 @@ helm repo update
 helm install [RELEASE_NAME] frinx/frinx-machine
 ```
 
+To access UI, port-forward KrakenD service
+
+```console
+kubectl port-forward -n frinx svc/krakend 8080:8080
+```
+
 ## Upgrading Chart
 
 ```console
@@ -44,8 +50,6 @@ helm uninstall [RELEASE_NAME]
 | `inventory` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/inventory) |
 | `uniconfig-postgresql` | [ArtifactHub](https://artifacthub.io/packages/helm/bitnami/postgresql) |
 | `uniconfig` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/uniconfig) |
-| `demo-workflows` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/demo-workflows) |
-| `sample-topology` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/sample-topology) |
 | `kube-arangodb` | [Github](https://github.com/arangodb/kube-arangodb) |
 | `frinx-arango-config` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/frinx-arango-config) |
 | `topology-discovery` | [ArtifactHub](https://artifacthub.io/packages/helm/frinx-helm-charts/topology-discovery) |
@@ -55,6 +59,8 @@ helm uninstall [RELEASE_NAME]
 | `telegraf-ds` | [ArtifactHub](https://artifacthub.io/packages/helm/influxdata/telegraf-ds) |
 | `loki` | [ArtifactHub](https://artifacthub.io/packages/helm/grafana/loki) |
 | `promtail` | [ArtifactHub](https://artifacthub.io/packages/helm/grafana/promtail) |
+| `cloudnative-pg` | [ArtifactHub](https://artifacthub.io/packages/helm/cloudnative-pg/cloudnative-pg) |
+| `oauth2-proxy` | [ArtifactHub](https://artifacthub.io/packages/helm/oauth2-proxy/oauth2-proxy) |
 
 ## Requirements
 
