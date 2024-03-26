@@ -34,6 +34,7 @@ helm uninstall [RELEASE_NAME]
 | `arangodb_config.enabled` | Deploy custom ArangoDeployment | `false` |
 | `arangodb_config.image.repository` | Image repository | `arangodb/arangodb` |
 | `arangodb_config.image.tag` | mage tag | `""` |
+| `arango_operator_secret.affinity` | Configure ArangoDB affinity | `{}` |
 | `arangodb_config.tokenSecretName` | ArangoDB jwt token name | `arangodb-jwt` |
 | `arangodb_config.bearerSecretName` | ArangoDB bearer token name | `arangodb-bearer` |
 | `arangodb_config.token` | ArangoDB jwt token value | `""` |
