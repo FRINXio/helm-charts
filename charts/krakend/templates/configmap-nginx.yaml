@@ -19,7 +19,7 @@ data:
         }
     
         upstream api_gateway {
-            server 127.0.0.1:80;
+            server 127.0.0.1:8000;
         }
 
         map $http_x_forwarded_roles $x_auth_user_roles {

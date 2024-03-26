@@ -1,7 +1,7 @@
 {
   "version": 3,
   "name": "krakend for FM",
-  "port": 80,
+  "port": 8000,
   "cache_ttl": "3600s",
   "tls": {
     "public_key": "/usr/local/share/ca-certificates/frinx_krakend_tls_cert.pem",

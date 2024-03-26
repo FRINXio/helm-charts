@@ -87,7 +87,7 @@ spec:
             - name: FC_TEMPLATES
               value: "/etc/krakend/templates"
             - name: KRAKEND_PORT
-              value: "80"
+              value: "8000"
             - name: FC_OUT
               value: "/tmp/output.json"
             - name: LOG_LEVEL
@@ -175,7 +175,7 @@ spec:
           {{- end }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 8000
               protocol: TCP
             - name: websocket
               containerPort: 8001
@@ -183,7 +183,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /__health
-              port: 80
+              port: http
             # httpGet:
             #   path: /health
             #   port: websocket
