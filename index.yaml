@@ -13151,6 +13151,51 @@ entries:
   uniconfig:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Changed ingress configuration
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/343
+        - kind: changed
+          description: Configuration of db connections via secrets
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/343
+        - kind: changed
+          description: Changed implementation of cache and mibs
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/343
+        - kind: removed
+          description: Removed AKS storage configuration
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/343
+    apiVersion: v2
+    appVersion: 6.0.0
+    created: "2024-03-26T09:01:34.174330795Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: traefik.enabled
+      name: traefik
+      repository: https://helm.traefik.io/traefik
+      version: 26.1.0
+    description: A Helm chart for UniConfig Kubernetes deployment
+    digest: c4ae373fa2bab321909ca93e4b607ddaac77d72cd746ff77ade33836b4e875c8
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: uniconfig
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniconfig-6.0.0/uniconfig-6.0.0.tgz
+    version: 6.0.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Add Init stage to copy MIB files for SNMP support
           links:
@@ -14515,4 +14560,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-03-25T14:33:01.14610739Z"
+generated: "2024-03-26T09:01:34.17547677Z"
