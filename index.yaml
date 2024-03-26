@@ -14285,6 +14285,46 @@ entries:
   workflow-manager:
   - annotations:
       artifacthub.io/changes: |
+        - kind: removed
+          description: Remove workflow-proxy and separate conductor and schellar
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/344
+        - kind: changed
+          description: Changed ingress configuration
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/344
+        - kind: changed
+          description: Configuration of db connections via secrets
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/344
+      artifacthub.io/images: |
+        - name: conductor-server
+          image: frinx/conductor-server:6.0.0
+        - name: schellar
+          image: frinx/schellar:6.0.0
+    apiVersion: v2
+    appVersion: 6.0.0
+    created: "2024-03-26T09:44:34.091540875Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deploying conductor-server and schellar
+    digest: a757b7e3609a706e1bee0c3ede17c50eadab4c657dd611fb32befa4b2a7b6aed
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: workflow-manager
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-3.0.0/workflow-manager-3.0.0.tgz
+    version: 3.0.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Added possibility to set conductor database by env variable
           links:
@@ -14560,4 +14600,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-03-26T09:01:34.17547677Z"
+generated: "2024-03-26T09:44:34.092600779Z"
