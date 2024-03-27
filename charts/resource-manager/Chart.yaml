@@ -3,19 +3,34 @@ name: resource-manager
 description: A Helm chart for Kubernetes deploying of the Frinx Resource-Manager
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 1.1.1
-appVersion: "1.0.4"
+version: 2.0.0
+appVersion: "6.0.0"
 maintainers:
   - name: FRINX
 dependencies:
   - condition: postgresql.enabled
     name: postgresql
     repository: https://charts.bitnami.com/bitnami
-    version: 11.x.x
+    version: 14.x.x
 annotations:
   artifacthub.io/changes: |
-    - kind: fixed
-      description: Fix smoke test in non-root container
+    - kind: changed
+      description: Changed ingress configuration
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/248
+          url: https://github.com/FRINXio/helm-charts/pull/341
+    - kind: changed
+      description: Configuration of db connections via secrets
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/341
+    - kind: changed
+      description: Configuration of RBAC via Values.rbac
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/341
+    - kind: changed
+      description: Bump postgresql dependency helm chart version
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/341

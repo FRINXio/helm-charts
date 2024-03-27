@@ -46,10 +46,12 @@ helm uninstall [RELEASE_NAME]
 | `securityContext` | Deployment securityContext | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/resource-manager/values.yaml) |
 | `service.type` | Kubernetes service type | `ClusterIP` |
 | `service.port` | Kubernetes port where service is exposed | `8888` |
-| `ingress.enabled` | Enables Ingress | `false` |
-| `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
-| `ingress.hosts` | Ingress accepted hostnames  | `[]` |
-| `ingress.tls` | Ingress TLS configuration | `[]` |
+| `ingress.enabled` | Enable [ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/). | `false` |
+| `ingress.labels` | Ingress labels | `{}` |
+| `ingress.annotations` | Annotations to be added to the ingress. | `{}` |
+| `ingress.className` | Ingress [class name](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class). | `""` |
+| `ingress.tls` | Enable or disable tls attribute in ingress | `false` |
+| `ingress.hosts` | Ingress accepted hostname  | `""` |
 | `resources` | CPU/Memory resource requests/limits | `{}` |
 | `autoscaling.enabled` | Enable replica autoscaling settings | `false` |
 | `autoscaling.minReplicas` | Minimum replicas for the pod autoscaling | `1` |
@@ -61,20 +63,18 @@ helm uninstall [RELEASE_NAME]
 | `affinity` | Affinity settings for pod assignment | `{}` |
 | `postgresql.enabled` | Switch to enable or disable the PostgreSQL helm chart | `true` |
 | `postgresql.image.tag` | Image tag | `"12.2"` |
-| `postgresql.postgresql.username` | Name for a custom user to create | `postgres` |
-| `postgresql.postgresql.password` | Password for the custom user to create | `postgres` |
+| `postgresql.postgresql.username` | Name for a custom user to create | `postgresU` |
+| `postgresql.postgresql.password` | Password for the custom user to create | `postgresP` |
 | `postgresql.postgresql.database` | Name for a custom database to createe | `postgres` |
-| `env.PSQL_USERNAME` | Username for external database | `postgres` |
-| `env.PSQL_PASSWORD` | Password for external database | `postgres` |
-| `env.PSQL_HOSTNAME` | Hostname of external database | |
-| `env.PSQL_DATABASE` | External database name | `postgres` |
-| `env.PSQL_CREDENTIAL_SECRET` | Secrets with credentials for external database | `""` |
-| `env.PSQL_PORT` | Port of external database | `5432` |
+| `dbPersistence.POSTGRES_HOST` | Hostname of external database | |
+| `dbPersistence.POSTGRES_PORT` | Port of external database | `5432` |
+| `dbPersistence.POSTGRES_USERNAME` | Username for external database | `postgresU` |
+| `dbPersistence.POSTGRES_PASSWORD` | Password for external database | `postgresP` |
+| `dbPersistence.POSTGRES_DATABASE` | External database name | `postgres` |
 | `env.RM_API_PORT` | Port for resource-manager | `8884` |
-| `env.RM_ADMIN_ROLES` | Admin roles | `OWNER` |
-| `env.RM_ADMIN_GROUPS` | Admin groups | `NETWORK-ADMIN` |
 | `env.RM_LOG_PATH` | Log path | `/var/log/rm.log` |
 | `env.RM_LOG_LEVEL` | Log level | `info` |
 | `env.WASMER_MAX_TIMEOUT_MILLIS` | WASMER_MAX_TIMEOUT_MILLIS env value | `1000` |
-| `env.RM_DB_CONNECTION_STRING` | Connection string for connection to external database | `"postgres://$(PSQL_USERNAME):$(PSQL_PASSWORD)@$(PSQL_HOSTNAME):$(PSQL_PORT)/postgres?sslmode=disable"` |
 | `extraEnv` | Additional env variables |  |
+| `rbac.RM_ADMIN_ROLES` | Admin roles | `OWNER` |
+| `rbac.RM_ADMIN_GROUPS` | Admin groups | `NETWORK-ADMIN` |
