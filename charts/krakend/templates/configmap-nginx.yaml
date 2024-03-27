@@ -57,11 +57,18 @@ data:
                 proxy_set_header       From "";
                 proxy_set_header       X-Auth-User-Roles "";
                 proxy_set_header       X-Auth-User-Groups "";
-                
+
+                {{ if .Values.debug.enabled }}
+                # SIMULTE OAUTH2-PROXY RBAC HEADERS
+                proxy_set_header       X-Auth-User-Roles {{ .Values.debug.x_forwarded_roles }};
+                proxy_set_header       X-Auth-User-Groups {{ .Values.debug.x_forwarded_groups }};
+                proxy_set_header       From {{ .Values.debug.x_forwarded_user }};
+                {{ else }}
                 # MAP RBAC HEADERS FROM OAUTH2-PROXY TO FRINX
                 proxy_set_header X-Auth-User-Roles $x_auth_user_roles;
                 proxy_set_header X-Auth-User-Groups $x_auth_user_groups;
                 proxy_set_header From $from;
+                {{ end }}
 
                 # REVERSE PROXY CONFIG FOR REST AND WEBSOCKET REQUESTS
                 set $websocket 1;

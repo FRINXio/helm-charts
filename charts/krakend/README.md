@@ -102,3 +102,7 @@ helm uninstall [RELEASE_NAME]
 | `volumes.azureFile.enabled` | Enable azureFile for config | `false` |
 | `volumes.azureFile.storage.accountName` | accountName for azure storage | |
 | `volumes.azureFile.storage.accessKey` | accessKey for azure storage | |
+| `debug.enabled` | Simulate RBAC headers from Oauth2-Proxy | `false` |
+| `debug.x_forwarded_roles` | Set value for X-Forwarded-Roles header | `"owner"` |
+| `debug.x_forwarded_groups` | Set value for X-Forwarded-Groups header | `"network-admin"` |
+| `debug.x_forwarded_user` | Set value for X-Forwarded-User header | `"frinx-admin-user"` |
