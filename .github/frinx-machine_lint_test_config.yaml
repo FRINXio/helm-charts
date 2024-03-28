@@ -11,6 +11,9 @@ chart-repos:
   - grafana=https://grafana.github.io/helm-charts
   - influx=https://helm.influxdata.com
   - arango=https://arangodb.github.io/kube-arangodb
+  - cloudnative-pg=https://cloudnative-pg.github.io/charts
+  - oauth2-proxy=https://oauth2-proxy.github.io/manifests
+
 helm-extra-args: --timeout 1200s
 excluded-charts:
   - demo-workflows
