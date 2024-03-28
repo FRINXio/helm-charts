@@ -200,6 +200,28 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Upgrade ArangoDB database API version
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/359
+    apiVersion: v2
+    appVersion: 3.9.9
+    created: "2024-03-28T10:42:09.865646298Z"
+    description: A Helm chart for Kubernetes deployment of the Arango CRD and ArangoDB
+      configuration files
+    digest: d34bca52a3856b4413f3c8f0f49279db4fa2925ad52b657a4874a292d5e4ad3c
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-arango-config
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-arango-config-4.1.0/frinx-arango-config-4.1.0.tgz
+    version: 4.1.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Changes type of secret from opaque to generic
           links:
             - name: GitHub PR
@@ -14844,4 +14866,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-03-27T10:02:30.277197727Z"
+generated: "2024-03-28T10:42:09.866818447Z"
