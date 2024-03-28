@@ -17,7 +17,7 @@ dependencies:
 
   - name: cloudnative-pg
     repository: https://cloudnative-pg.github.io/charts
-    version: 0.20.1
+    version: 0.20.2
     condition: cloudnative-pg.enabled
 
   # Local DBS
@@ -81,7 +81,7 @@ dependencies:
 
   - name: frinx-arango-config
     repository: https://FRINXio.github.io/helm-charts
-    version: 4.0.0
+    version: 4.1.0
     condition: frinx-arango-config.enabled
 
   - name: krakend
