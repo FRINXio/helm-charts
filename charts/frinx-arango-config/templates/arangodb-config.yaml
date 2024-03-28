@@ -1,5 +1,5 @@
 {{ if eq .Values.arangodb_config.enabled true }}
-apiVersion: "database.arangodb.com/v1alpha"
+apiVersion: "database.arangodb.com/v1"
 kind: "ArangoDeployment"
 metadata:
   name: "arangodb"

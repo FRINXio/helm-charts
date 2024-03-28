@@ -1,6 +1,6 @@
 apiVersion: v2
 name: frinx-arango-config
-version: 4.0.0
+version: 4.1.0
 appVersion: "3.9.9"
 description: A Helm chart for Kubernetes deployment of the Arango CRD and ArangoDB configuration files
 type: application
@@ -11,17 +11,7 @@ icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 annotations:
   artifacthub.io/changes: |
     - kind: changed
-      description: Changes type of secret from opaque to generic
+      description: Upgrade ArangoDB database API version
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/356
-    - kind: added
-      description: Possibility to set affinity
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/356
-    - kind: changed
-      description: Bumped version of arangodb
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/356
+          url: https://github.com/FRINXio/helm-charts/pull/359
