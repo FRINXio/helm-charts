@@ -470,6 +470,9 @@ inventory:
       postgresUsernameKey: INVENTORY_POSTGRES_USERNAME
       postgresPasswordKey: INVENTORY_POSTGRES_PASSWORD
 
+  env:
+    TOPOLOGY_ENABLED: true
+
   # extraEnv:
   #   NODE_ENV: 'development'
 
