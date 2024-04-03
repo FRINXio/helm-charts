@@ -1,0 +1,99 @@
+
+uniconfig-postgres:
+  enabled: false
+  name: uniconfig-postgresql
+  imageName: "ghcr.io/cloudnative-pg/postgresql:12.18"
+
+  bootstrap:
+    initdb:
+      database: uniconfig
+      owner: postgresU
+
+  postgresql:
+    parameters:
+      max_connections: '300'
+
+  storage:
+    size: 10Gi
+    resizeInUseVolumes: true
+
+  secrets:
+    superuserSecret:
+      username: postgres
+      password: postgres
+    userSecret:
+      username: postgresU
+      password: postgresP
+
+workflow-manager-postgres:
+  enabled: false
+  name: postgresql
+  imageName: "ghcr.io/cloudnative-pg/postgresql:12.18"
+
+  bootstrap:
+    initdb:
+      postInitApplicationSQLRefs:
+        secretRefs:
+          - name: postgresql-post-init-sql-secret
+            key: secret.sql
+
+  postgresql:
+    parameters:
+      max_connections: '300'
+
+  storage:
+    size: 100Gi
+    resizeInUseVolumes: true
+
+  secrets:
+    superuserSecret:
+      username: postgres
+      password: postgres
+    userSecret:
+      username: frinx
+      password: postgres
+    postInitSqlSecret:
+      sql: |-
+        CREATE ROLE schellar LOGIN PASSWORD 'schellar';
+        GRANT CONNECT ON DATABASE frinx TO schellar;
+        CREATE USER schellar_user WITH PASSWORD 'schellar';
+        GRANT schellar TO schellar_user;
+        CREATE SCHEMA schellar AUTHORIZATION schellar;
+        ALTER ROLE schellar SET search_path=schellar;
+        ALTER USER schellar_user SET search_path TO schellar;
+        CREATE ROLE inventory LOGIN PASSWORD 'inventory';
+        GRANT CONNECT ON DATABASE frinx TO inventory;
+        CREATE USER inventory_user WITH PASSWORD 'inventory';
+        GRANT inventory TO inventory_user;
+        CREATE SCHEMA inventory AUTHORIZATION inventory;
+        ALTER ROLE inventory SET search_path=inventory;
+        ALTER USER inventory_user SET search_path TO inventory;
+        CREATE ROLE conductor LOGIN PASSWORD 'conductor';
+        GRANT CONNECT ON DATABASE frinx TO conductor;
+        CREATE USER conductor_user WITH PASSWORD 'conductor';
+        GRANT conductor TO conductor_user;
+        CREATE SCHEMA conductor AUTHORIZATION conductor;
+        CREATE SCHEMA archive AUTHORIZATION conductor;
+        CREATE SCHEMA external AUTHORIZATION conductor;
+        ALTER ROLE conductor SET search_path=public,conductor,archive,external;
+        ALTER USER conductor_user SET search_path TO conductor,archive,external;
+        CREATE ROLE resource LOGIN PASSWORD 'resource';
+        GRANT CONNECT ON DATABASE frinx TO resource;
+        CREATE USER resource_user WITH PASSWORD 'resource';
+        GRANT resource TO resource_user;
+        CREATE SCHEMA resource AUTHORIZATION resource;
+        ALTER ROLE resource SET search_path=resource;
+        ALTER USER resource_user SET search_path TO resource;
+
+frinx-arango-config:
+  enabled: false
+  arangodb_config:
+    enabled: true
+    image:
+      repository: arangodb/arangodb
+      tag: 3.9.9
+    securityContext:
+      readOnlyRootFilesystem: true
+      runAsUser: 1000
+      runAsGroup: 2000
+      fsGroup: 3000

@@ -1,0 +1,27 @@
+apiVersion: v2
+name: frinx-machine-persistance
+description: Kubernetes deployment of FRINX-machine
+icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+type: application
+version: 0.0.1
+appVersion: 7.0.0
+maintainers:
+  - name: FRINX
+dependencies:
+
+  - name: cloud-native-pg
+    alias: workflow-manager-postgres
+    version: 0.0.2
+    repository: https://FRINXio.github.io/helm-charts
+    condition: workflow-manager-postgres.enabled
+
+  - name: cloud-native-pg
+    alias: uniconfig-postgres
+    version: 0.0.2
+    condition: uniconfig-postgres.enabled
+    repository: https://FRINXio.github.io/helm-charts
+
+  - name: frinx-arango-config
+    repository: https://FRINXio.github.io/helm-charts
+    version: 4.1.0
+    condition: frinx-arango-config.enabled

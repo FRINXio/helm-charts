@@ -10,23 +10,6 @@ dependencies:
 
   # Frinx Machine Core
 
-  - name: cloud-native-pg
-    alias: workflow-manager-postgres
-    version: 0.0.2
-    repository: https://FRINXio.github.io/helm-charts
-    condition: workflow-manager-postgres.enabled
-
-  - name: cloud-native-pg
-    alias: uniconfig-postgres
-    version: 0.0.2
-    condition: uniconfig-postgres.enabled
-    repository: https://FRINXio.github.io/helm-charts
-
-  - name: frinx-arango-config
-    repository: https://FRINXio.github.io/helm-charts
-    version: 4.1.0
-    condition: frinx-arango-config.enabled
-
   - name: krakend
     repository: https://FRINXio.github.io/helm-charts
     version: 3.1.0
