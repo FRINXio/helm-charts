@@ -1,0 +1,16 @@
+kube-arangodb:
+  enabled: true
+  operator:
+    replicaCount: 2
+    enableCRDManagement: true
+    args:
+      - --deployment.feature.ephemeral-volumes=true
+  rbac:
+    enabled: true
+    extensions:
+      monitoring: false
+      acs: false
+      at: false
+
+cloudnative-pg:
+  enabled: true
