@@ -11662,6 +11662,32 @@ entries:
   inventory:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: TOPOLOGY_ENABLED enabled by default
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/362
+    apiVersion: v2
+    appVersion: 6.0.1
+    created: "2024-04-11T11:11:45.255245877Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deployment of the Device Inventory
+    digest: 248193e85f890fdb594168717ecda356efb77209c3f725f5a7dbcd657ed1bfd4
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: inventory
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/inventory-5.0.1/inventory-5.0.1.tgz
+    version: 5.0.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Changed ingress configuration
           links:
@@ -12182,6 +12208,29 @@ entries:
     - https://github.com/FRINXio/helm-charts/releases/download/inventory-1.0.0/inventory-1.0.0.tgz
     version: 1.0.0
   krakend:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: Fixed wrong checksum annotation name for nginx configmap
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/362
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:6.0.0
+    apiVersion: v2
+    appVersion: 6.0.0
+    created: "2024-04-11T11:11:45.359344595Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: db3275fb9e0d9c44a160c09a04c2c34d10ead6063365e47917386051ec5bcfa5
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-3.1.1/krakend-3.1.1.tgz
+    version: 3.1.1
   - annotations:
       artifacthub.io/changes: |
         - kind: added
@@ -14966,4 +15015,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-03-28T11:13:27.966952166Z"
+generated: "2024-04-11T11:11:45.360634934Z"
