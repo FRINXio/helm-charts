@@ -71,7 +71,7 @@ helm uninstall [RELEASE_NAME]
 | `env.POSTGRES_DB_SCHEMA` | POSTGRES_DB_SCHEMA env value | `public` |
 | `env.POSTGRES_HOSTNAME` | POSTGRES_HOSTNAME env value | |
 | `env.POSTGRES_PORT` | POSTGRES_PORT env value | `5432` |
-| `env.TOPOLOGY_ENABLED` | Enable/Disable connection to arangodb | `false` |
+| `env.TOPOLOGY_ENABLED` | Enable/Disable connection to arangodb | `true` |
 | `env.TOPOLOGY_DISCOVERY_API_URL` | TOPOLOGY_DISCOVERY_API_URL env variable | `http://topology-discovery:5000/api/data` |
 | `env.TOPOLOGY_DISCOVERY_GRAPHQL_API_URL` | TOPOLOGY_DISCOVERY_GRAPHQL_API_URL env variable | `http://topology-discovery:5000/api/graphql` |
 | `env.SHELL_HOST` | SHELL_HOST env value | `"uniconfig-controller"` |

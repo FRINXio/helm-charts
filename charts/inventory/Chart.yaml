@@ -1,6 +1,6 @@
 apiVersion: v2
 name: inventory
-version: 5.0.0
+version: 5.0.1
 appVersion: "6.0.1"
 description: A Helm chart for Kubernetes deployment of the Device Inventory
 type: application
@@ -15,13 +15,8 @@ maintainers:
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 annotations:
   artifacthub.io/changes: |
-    - kind: changed
-      description: Changed ingress configuration
+    - kind: fixed
+      description: TOPOLOGY_ENABLED enabled by default
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/342
-    - kind: changed
-      description: Configuration of db connections via secrets
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/342
+          url: https://github.com/FRINXio/helm-charts/pull/362

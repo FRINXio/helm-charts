@@ -25,13 +25,14 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext: {}
+podSecurityContext:
+  {}
   # fsGroup: 2000
 
 securityContext:
   capabilities:
     drop:
-    - ALL
+      - ALL
 
 service:
   type: ClusterIP
@@ -52,7 +53,8 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources: {}
+resources:
+  {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -111,7 +113,7 @@ env:
   TOPOLOGY_DISCOVERY_API_URL: http://topology-discovery:5000
   TOPOLOGY_DISCOVERY_GRAPHQL_API_URL: http://topology-discovery:5000/api/graphql
   X_TENANT_ID: frinx
-  TOPOLOGY_ENABLED: false
+  TOPOLOGY_ENABLED: true
   SHELL_HOST: uniconfig-controller
 
 extraEnv: []
