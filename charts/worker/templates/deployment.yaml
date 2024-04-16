@@ -74,7 +74,7 @@ spec:
           command:
             - sh
             - '-c'
-            - 'cp -r {{ .Values.workdir }}/* /tmp/app/'
+            - 'cp -r {{ .Values.workdir }}/. /tmp/app/'
           volumeMounts:
             - name: app-volume
               mountPath: /tmp/app/
