@@ -3,27 +3,27 @@
         {
             "endpoint": "/api/workflow/metadata/taskdefs",
             "method": "GET",
-            "url_pattern": "/metadata/taskdefs"
+            "url_pattern": "/api/metadata/taskdefs"
         },
         {
             "endpoint": "/api/workflow/metadata/taskdefs",
             "method": "POST",
-            "url_pattern": "/metadata/taskdefs"
+            "url_pattern": "/api/metadata/taskdefs"
         },
         {
             "endpoint": "/api/workflow/metadata/taskdefs",
             "method": "PUT",
-            "url_pattern": "/metadata/taskdefs"
+            "url_pattern": "/api/metadata/taskdefs"
         },
         {
             "endpoint": "/api/workflow/metadata/taskdefs/{name}",
             "method": "GET",
-            "url_pattern": "/metadata/taskdefs/{name}"
+            "url_pattern": "/api/metadata/taskdefs/{name}"
         },
         {
             "endpoint": "/api/workflow/metadata/taskdefs/{name}",
             "method": "DELETE",
-            "url_pattern": "/metadata/taskdefs/{name}",
+            "url_pattern": "/api/metadata/taskdefs/{name}",
             "input_query_strings": [
                 "archiveWorkflow"
               ]
@@ -31,22 +31,22 @@
         {
             "endpoint": "/api/workflow/metadata/workflow",
             "method": "GET",
-            "url_pattern": "/metadata/workflow"
+            "url_pattern": "/api/metadata/workflow"
         },
         {
             "endpoint": "/api/workflow/metadata/workflow",
             "method": "PUT",
-            "url_pattern": "/metadata/workflow"
+            "url_pattern": "/api/metadata/workflow"
         },
         {
             "endpoint": "/api/workflow/metadata/workflow",
             "method": "POST",
-            "url_pattern": "/metadata/workflow"
+            "url_pattern": "/api/metadata/workflow"
         },   
         {
             "endpoint": "/api/workflow/metadata/workflow/{name}",
             "method": "GET",
-            "url_pattern": "/metadata/workflow/{name}",
+            "url_pattern": "/api/metadata/workflow/{name}",
             "input_query_strings": [
                 "version"
               ]
@@ -54,47 +54,47 @@
         {
             "endpoint": "/api/workflow/metadata/workflow/{name}/{version}",
             "method": "DELETE",
-            "url_pattern": "/metadata/workflow/{name}/{version}"
+            "url_pattern": "/api/metadata/workflow/{name}/{version}"
         },
         {
             "endpoint": "/api/workflow/workflow/{a}",
             "method": "DELETE",
-            "url_pattern": "/workflow/{a}"
+            "url_pattern": "/api/workflow/{a}"
         },
         {
             "endpoint": "/api/workflow/workflow/{a}/{b}",
             "method": "DELETE",
-            "url_pattern": "/workflow/{a}/{b}"
+            "url_pattern": "/api/workflow/{a}/{b}"
         },
         {
             "endpoint": "/api/workflow/workflow",
             "method": "POST",
-            "url_pattern": "/workflow"
+            "url_pattern": "/api/workflow"
         },
         {
             "endpoint": "/api/workflow/event",
             "method": "GET",
-            "url_pattern": "/event"
+            "url_pattern": "/api/event"
         },
         {
             "endpoint": "/api/workflow/event",
             "method": "POST",
-            "url_pattern": "/event"
+            "url_pattern": "/api/event"
         },
         {
             "endpoint": "/api/workflow/event/{name}",
             "method": "DELETE",
-            "url_pattern": "/event/{name}"
+            "url_pattern": "/api/event/{name}"
         },
         {
             "endpoint": "/api/workflow/event/{event}",
             "method": "GET",
-            "url_pattern": "/event/{event}"
+            "url_pattern": "/api/event/{event}"
         },
         {
             "endpoint": "/api/workflow/id/{workflowId}",
             "method": "GET",
-            "url_pattern": "/id/{workflowId}",
+            "url_pattern": "/api/id/{workflowId}",
             "input_query_strings": [
                 "includeTasks"
               ]
@@ -102,42 +102,42 @@
         {
             "endpoint": "/api/workflow/queue/data",
             "method": "GET",
-            "url_pattern": "/queue/data"
+            "url_pattern": "/api/queue/data"
         },
         {
             "endpoint": "/api/workflow/editableworkflows",
             "method": "GET",
-            "url_pattern": "/editableworkflows"
+            "url_pattern": "/api/editableworkflows"
         },
         {
             "endpoint": "/api/workflow/workflow/bulk/pause",
             "method": "PUT",
-            "url_pattern": "/workflow/bulk/pause"
+            "url_pattern": "/api/workflow/bulk/pause"
         },
         {
             "endpoint": "/api/workflow/workflow/bulk/resume",
             "method": "PUT",
-            "url_pattern": "/workflow/bulk/resume"
+            "url_pattern": "/api/workflow/bulk/resume"
         },
         {
             "endpoint": "/api/workflow/workflow/bulk/retry",
             "method": "POST",
-            "url_pattern": "/workflow/bulk/retry"
+            "url_pattern": "/api/workflow/bulk/retry"
         },
         {
             "endpoint": "/api/workflow/workflow/bulk/restart",
             "method": "POST",
-            "url_pattern": "/workflow/bulk/restart"
+            "url_pattern": "/api/workflow/bulk/restart"
         },
         {
             "endpoint": "/api/workflow/workflow/bulk/terminate",
             "method": "POST",
-            "url_pattern": "/workflow/bulk/terminate"
+            "url_pattern": "/api/workflow/bulk/terminate"
         },
         {
             "endpoint": "/api/workflow/external/postgres/{dataId}",
             "method": "GET",
-            "url_pattern": "/external/postgres/{dataId}"
+            "url_pattern": "/api/external/postgres/{dataId}"
         }
     ]
 }
