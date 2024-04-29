@@ -6,7 +6,7 @@ krakend:
     ingressClassName: nginx
     hosts:
       - host: krakend.127.0.0.1.nip.io
-        paths: 
+        paths:
           - path: "/"
             pathType: ImplementationSpecific
 
@@ -16,7 +16,7 @@ resource-manager:
     ingressClassName: nginx
     hosts:
       - host: resource-manager.127.0.0.1.nip.io
-        paths: 
+        paths:
           - path: "/"
             pathType: ImplementationSpecific
 
@@ -25,12 +25,12 @@ workflow-manager:
     enabled: false
     hosts:
       - host: workflow-manager.127.0.0.1.nip.io
-        paths: 
+        paths:
           - path: "/"
             pathType: ImplementationSpecific
     schellarHosts:
       - host: workflow-manager-schellar.127.0.0.1.nip.io
-        paths: 
+        paths:
           - path: "/"
             pathType: ImplementationSpecific
 
@@ -40,10 +40,9 @@ inventory:
     ingressClassName: nginx
     hosts:
       - host: inventory.127.0.0.1.nip.io
-        paths: 
+        paths:
           - path: "/"
             pathType: ImplementationSpecific
-
 
 topology-discovery:
   ingress:
@@ -51,21 +50,23 @@ topology-discovery:
     ingressClassName: nginx
     hosts:
       - host: topology-discovery.127.0.0.1.nip.io
-        paths: 
+        paths:
           - path: "/"
             pathType: ImplementationSpecific
 
 uniconfig:
-  traefik:
-    ingress:
-      enabled: false
-      host: uniconfig.127.0.0.1.nip.io
-    rbac:
-      namespaced: true
+  ingress:
+    enabled: false
+    ingressClassName: nginx
+    hosts:
+      - host: uniconfig-controller.127.0.0.1.nip.io
+        paths:
+          - path: "/"
+            pathType: ImplementationSpecific
 
 oauth2-proxy:
   ingress:
     enabled: true
     ingressClassName: nginx
-    hosts: 
+    hosts:
       - "fm.127.0.0.1.nip.io"

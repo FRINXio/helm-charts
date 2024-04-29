@@ -4,7 +4,6 @@ x-frinx-database-password: &frinx-database-password frinx-database-password
 x-frinx-image-pull-secret: &frinx-image-pull-secret regcred
 x-frinx-rbac-admin-role: &frinx-rbac-admin-role FRINXio
 
-
 global:
   dbPersistence:
     enabled: true
@@ -76,7 +75,6 @@ uniconfig-postgresql:
     password: postgresP
     database: uniconfig
   architecture: standalone
-
 
 # Monitoring
 
@@ -237,7 +235,6 @@ promtail:
             {{- toYaml . | nindent 4 }}
             {{- end }}
 
-
 # Default values for FRINX-machine
 # Database configuration
 
@@ -253,7 +250,7 @@ uniconfig-postgres:
 
   postgresql:
     parameters:
-      max_connections: '300'
+      max_connections: "300"
 
   storage:
     size: 10Gi
@@ -281,7 +278,7 @@ workflow-manager-postgres:
 
   postgresql:
     parameters:
-      max_connections: '300'
+      max_connections: "300"
 
   storage:
     size: 100Gi
@@ -340,7 +337,6 @@ frinx-arango-config:
       runAsGroup: 2000
       fsGroup: 3000
 
-
 # Core component configuration
 
 krakend:
@@ -365,10 +361,9 @@ krakend:
   debug:
     # This setting should be disabled in production
     enabled: true
-    x_forwarded_roles: "owner"
-    x_forwarded_groups: "network-admin"
+    x_forwarded_roles: *frinx-rbac-admin-role
+    x_forwarded_groups: *frinx-rbac-admin-role
     x_forwarded_user: "frinx-admin-user"
-
 
 frinx-frontend:
   enabled: true
@@ -384,7 +379,6 @@ frinx-frontend:
 
   env:
     AUTH_ENABLED: true
-
 
 resource-manager:
   enabled: true
@@ -408,7 +402,6 @@ resource-manager:
   rbac:
     RM_ADMIN_ROLES: *frinx-rbac-admin-role
     RM_ADMIN_GROUPS: *frinx-rbac-admin-role
-
 
 workflow-manager:
   enabled: true
@@ -449,7 +442,6 @@ workflow-manager:
       postgresUsernameKey: SCHELLAR_POSTGRES_USERNAME
       postgresPasswordKey: SCHELLAR_POSTGRES_PASSWORD
 
-
 inventory:
   enabled: true
   fullnameOverride: "inventory"
@@ -473,7 +465,6 @@ inventory:
   # extraEnv:
   #   NODE_ENV: 'development'
 
-
 topology-discovery:
   enabled: true
   fullnameOverride: "topology-discovery"
@@ -491,14 +482,43 @@ topology-discovery:
       arangoUsernameKey: TD_ARANGO_USERNAME
       arangoRootPasswordKey: TD_ARANGO_ROOT_PASSWORD
 
+uc-zone-lb:
+  enabled: true
+  fullnameOverride: "uc-zone-lb"
+
+  ingressClass:
+    enabled: false
+
+  service:
+    enabled: false
+
+  providers:
+    kubernetesIngress:
+      enabled: false
+
+    kubernetesCRD:
+      enabled: true
+
+  additionalArguments:
+    - "--entryPoints.uniconfig.address=:8181"
+    - "--log.level=DEBUG"
+
+  ports:
+    uniconfig:
+      port: 8181
+      expose: false
+      exposedPort: 8181
+      protocol: TCP
 
 uniconfig:
   enabled: true
   fullnameOverride: "uniconfig-controller"
 
+  replicaCount: 1
+
   image:
     repository: "frinx/uniconfig"
-    tag: "6.0.0"
+    tag: "6.0.1"
 
   imagePullSecrets:
     - name: *frinx-image-pull-secret
@@ -514,24 +534,26 @@ uniconfig:
       postgresPasswordKey: UNICONFIG_POSTGRES_PASSWORD
       clishellSshserverUsernamepasswordauthPasswordKey: UNICONFIG_CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD
 
-  traefik:
-    enabled: true
-    rbac:
-      namespaced: true
-
   securityContext:
     capabilities:
       add:
-      - NET_BIND_SERVICE
+        - NET_BIND_SERVICE
       drop:
-      - ALL
+        - ALL
 
-  cacheImage:
-    enabled: false
-
-  mibsImage:
-    enabled: false
-
+  highAvailability:
+    enabled: true
+    traefik:
+      selectorName: uc-zone-lb
+    stickyCookie:
+      name: uniconfig_server_id
+      httpOnly: true
+      secure: false
+      sameSite: strict
+    # Expose extra service into traefik lb with sticky cookies
+    # Service name must be uniqie in FM installation
+    hosts:
+      - uniconfig
 
 # Identity provider configuration
 
