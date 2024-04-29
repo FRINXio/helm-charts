@@ -2,19 +2,8 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
-
-image:
-  repository: frinx/uniconfig
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
-
-imagePullSecrets:
-  - name: regcred
-
 nameOverride: ""
-fullnameOverride: "uniconfig-controller"
+fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -27,39 +16,75 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext: {}
+podSecurityContext:
+  {}
   # fsGroup: 2000
 
 securityContext:
   capabilities:
     drop:
-    - ALL
+      - ALL
     add:
-    - CAP_NET_BIND_SERVICE
-    - NET_ADMIN
+      - CAP_NET_BIND_SERVICE
+      - NET_ADMIN
 
 service:
-  annotations:
-    # Use this annotations for traefik as ingress
-    traefik.ingress.kubernetes.io/service.sticky.cookie: "true"
-    traefik.ingress.kubernetes.io/service.sticky.cookie.name: uniconfig_server_id
-    traefik.ingress.kubernetes.io/service.passhostheader: "true"
+  annotations: {}
   type: ClusterIP
   port: 8181
   loadBalancerIP:
 
 ingress:
-  enabled: true
+  enabled: false
+  className: ""
   labels: {}
-    # environment: development
-  annotations:
-    # Use this annotations for traefik as ingress
-    # kubernetes.io/ingress.class: 'traefik-uniconfig'
-  ingressClassName: traefik-uniconfig
-  path: /
-  pathType: Prefix
+  annotations: {}
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
 
-resources: {}
+# DEPLOYMENT configuration
+
+# if you want to use more than 1 replica, must deploy it with cookie sticky sessions
+# to create sticky session, deploy it with traefik and set highAvailability.enabled=true
+replicaCount: 1
+
+highAvailability:
+  enabled: false
+  traefik:
+    selectorName:
+    selectorInstance:
+    entrypoint: uniconfig
+    port: 8181
+  stickyCookie:
+    name: uniconfig_server_id
+    httpOnly: true
+    secure: true
+    sameSite: strict
+  hosts:
+    # TODO can't use same name as chart name because conflict of LB and app
+    - uniconfig
+
+image:
+  repository: frinx/uniconfig
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets:
+  - name: regcred
+
+affinity: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+resources:
+  {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -76,31 +101,57 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 100
   targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
-
-serviceName: "uniconfig"
-tls_keystorePassword: "password"
-
-proxy:
-  enabled: false
-  http_proxy:
-  https_proxy:
-  no_proxy:
+  targetMemoryUtilizationPercentage: 80
 
 alwaysRollAfterUpgrade: false
 extraScriptConfigMap:
-extraLightyConfigMap:
 extraLogbackConfigMap:
 
+# Init containers
+# global configuration of mibs
+
+mibsConfigs:
+  # mibs1:
+  #   repository: frinx/uniconfig
+  #   tag: latest
+  #   mibsPath:
+  # mibs2:
+  #   repository: frinx/uniconfig
+  #   tag: ""
+  #   mibsPath:
+
+# global configuration of cache
+cacheConfigs:
+  # cache1:
+  #   repository: frinx/uniconfig
+  #   tag: "latest"
+  #   cachePath:
+  # cache2:
+  #   repository: frinx/uniconfig
+  #   tag: ""
+  #   cachePath:
+
+extraInitContainers: []
+
+# Uniconfig container
+
+command: ["/bin/sh", "-c"]
+args: ["/opt/uniconfig-frinx/run_uniconfig.sh"]
+
+# ENV settings
+
+proxy:
+  enabled: false
+  config:
+    HTTP_PROXY:
+    HTTPS_PROXY:
+    NO_PROXY:
+
+# java max memory
 java:
   max_mem: "10G"
 
+# db persistence connection
 dbPersistence:
   POSTGRES_HOST:
   existingSecret:
@@ -114,7 +165,7 @@ dbPersistence:
 
 extraEnv:
   DBPERSISTENCE_CONNECTION_DBNAME: uniconfig
-  # DBPERSISTANCE CONNECTION PARAMETERS, CREDENTIALS STORED IN SECRETS
+  # DBPERSISTENCE CONNECTION PARAMETERS, CREDENTIALS STORED IN SECRETS
   DBPERSISTENCE_EMBEDDEDDATABASE_ENABLED: false
   DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_PORT: 5432
   DBPERSISTENCE_CONNECTION_MAXDBPOOLSIZE: 300
@@ -125,18 +176,12 @@ extraEnv:
   TRANSACTIONS_TRANSACTIONIDLETIMEOUT: 3600
   TRANSACTIONS_MAXTRANSACTIONAGE: 7200
   TRANSACTIONS_MAXSTOREDTRANSACTIONS: 100
- # KAFKA CLOUD CONFIG
+  # KAFKA CLOUD CONFIG
   UNICONFIG_CLOUD_CONFIG_ENABLED: false
   SPRING_CLOUD_BUS_ENABLED: false
   SPRING_AUTOCONFIGURE_EXCLUDE: org.springframework.cloud.stream.function.FunctionConfiguration
 
-azure:
-  AKS:
-    enabled: false
-    storage:
-      existingSecret:
-      accountName:
-      accessKey:
+# External services
 
 postgresql:
   enabled: true
@@ -146,47 +191,3 @@ postgresql:
     password: postgresP
     database: uniconfig
   architecture: standalone
-
-mountCachePath: "/opt/uniconfig-frinx/cache"
-
-cacheImage:
-  enabled: false
-  repository:
-  tag: ""
-  cachePath:
-
-mountMibsPath: "/opt/uniconfig-frinx/mibs"
-
-mibsImage:
-  enabled: false
-  repository:
-  tag: ""
-  mibsPath:
-
-extraInitContainers: []
-
-traefikExtraService:
-  enabled: false
-  name: "unistore"
-
-traefik:
-  fullnameOverride: "uniconfig"
-  enabled: true
-  ingress: {}
-  ingressClass:
-    enabled: false
-  ingressRoute:
-    dashboard:
-      enabled: false
-  service:
-    type: ClusterIP
-  ports:
-    uniconfig:
-      port: 8181
-      expose: true
-      exposedPort: 8181
-      protocol: TCP
-  providers:
-    kubernetesIngress:
-      # ingressClass: traefik-uniconfig
-      # labelSelector: environment=development

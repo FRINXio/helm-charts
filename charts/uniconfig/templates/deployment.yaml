@@ -23,25 +23,38 @@ spec:
       labels:
         {{- include "uniconfig.selectorLabels" . | nindent 8 }}
     spec:
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      # TODO check
+      serviceAccountName: {{ include "uniconfig.serviceAccountName" . }}
       volumes:
-        - name: uniconfig-frinx-volume
+        - name: {{ include "uniconfig.data-volume" . }}
           emptyDir: {}
-        - name: frinx-uniconfig-controller-logs
+        - name: {{ include "uniconfig.logs-volume" . }}
           emptyDir: {}
-        - name: logback
+        - name: {{ include "uniconfig.logback-volume" . }}
           configMap:
             name: {{ include "uniconfig.logbackConfigMapName" . }}
             defaultMode: 0777
             items:
             - key: logback.xml
               path: logback.xml
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "uniconfig.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
         - name: check-db-ready
           image: postgres:alpine
@@ -64,62 +77,52 @@ spec:
                   {{- else }}
                   key: {{ .Values.dbPersistence.existingSecret.postgresUsernameKey }}
                   {{- end}}
+        # Copy data files
         - name: copy-config-files
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command:
             - sh
             - '-c'
-            - 'cp -r /opt/uniconfig-frinx/* /tmp/uniconfig-frinx/'
+            - 'cp -r /opt/uniconfig-frinx/. /tmp/uniconfig-frinx/'
           volumeMounts:
-            - name: uniconfig-frinx-volume
+            - name: {{ include "uniconfig.data-volume" . }}
               mountPath: /tmp/uniconfig-frinx/
-        {{- if .Values.cacheImage.enabled }}
-        - name: copy-uniconfig-cache
-          image: {{ .Values.cacheImage.repository }}:{{ .Values.cacheImage.tag }}
+        # Copy mibs files
+        {{- range $mib, $config := .Values.mibsConfigs }}
+        - name: {{ $mib }}-mibs-copy
+          image: {{ $config.repository }}{{ if $config.tag }}:{{ $config.tag }}{{ end }}
+          volumeMounts:
+            - name: {{ include "uniconfig.data-volume" $ }}
+              mountPath: /tmp/uniconfig-frinx
           command:
             - sh
             - '-c'
-            - 'cp -rp {{ .Values.cacheImage.cachePath }} /tmp/uniconfig-frinx/cache && chmod -R 777 /tmp/uniconfig-frinx/cache'
-          volumeMounts:
-            - name: uniconfig-frinx-volume
-              mountPath: /tmp/uniconfig-frinx
+            - 'mkdir -p /tmp/uniconfig-frinx/mibs && cp -rp {{ $config.mibsPath }} /tmp/uniconfig-frinx/mibs && chmod -R 777 /tmp/uniconfig-frinx/mibs'
         {{- end }}
-        {{- if .Values.mibsImage.enabled }}
-        - name: copy-mibs-files
-          image: {{ .Values.mibsImage.repository }}:{{ .Values.mibsImage.tag }}
+        # Copy cache files
+        {{- range $cache, $config := .Values.cacheConfigs }}
+        - name: {{ $cache }}-cache-copy
+          image: {{ $config.repository }}{{ if $config.tag }}:{{ $config.tag }}{{ end }}
+          volumeMounts:
+            - name: {{ include "uniconfig.data-volume" $ }}
+              mountPath: /tmp/uniconfig-frinx
           command:
             - sh
             - '-c'
-            - 'mkdir -p /tmp/uniconfig-frinx/mibs && cp -rp {{ .Values.mibsImage.mibsPath }} /tmp/uniconfig-frinx/mibs && chmod -R 777 /tmp/uniconfig-frinx/mibs'
-          volumeMounts:
-            - name: uniconfig-frinx-volume
-              mountPath: /tmp/uniconfig-frinx
-        {{- end }}
-        {{- with .Values.extraInitContainers }}
-        {{- toYaml . | nindent 8 }}
+            - 'mkdir -p /tmp/uniconfig-frinx/cache && cp -rp {{ $config.cachePath }} /tmp/uniconfig-frinx/cache && chmod -R 777 /tmp/uniconfig-frinx/cache'
         {{- end }}
         {{- with .Values.extraInitContainers }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
       containers:
         - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["/bin/sh","-c"]
-          args: ["/opt/uniconfig-frinx/run_uniconfig.sh"]
-          volumeMounts:
-          - name: frinx-uniconfig-controller-logs
-            mountPath: /opt/uniconfig-frinx/log
-          - name: uniconfig-frinx-volume
-            mountPath: /opt/uniconfig-frinx
-          - name: logback
-            mountPath: /opt/uniconfig-frinx/config/logback.xml
-            subPath: logback.xml
+          command: {{- toYaml .Values.command | nindent 12 }}
+          args: {{- toYaml .Values.args | nindent 12 }}
           ports:
-            - name: http
-              containerPort: {{ .Values.service.port }}
+            - name: uc-rest-port
+              containerPort: 8181
               protocol: TCP
           livenessProbe:
             exec:
@@ -139,29 +142,17 @@ spec:
             failureThreshold: 20
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
           env:
-            - name: CONTAINER_ID
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.name
-            - name: SERVICE_NAME
-              value: {{ .Values.serviceName | quote }}
-            - name: PROXY_ENABLED
-              value: {{ .Values.proxy.enabled | quote }}
-            - name: HTTP_PROXY
-              value: {{ .Values.proxy.http_proxy | quote }}
-            - name: HTTPS_PROXY
-              value: {{ .Values.proxy.https_proxy | quote }}
-            - name: NO_PROXY
-              value: {{ .Values.proxy.no_proxy | quote }}
-            - name: JAVA_MAX_MEM
-              value: {{ .Values.java.max_mem | quote }}
+          # DB SECRET ENV
+            {{- if .Values.postgresql.enabled }}
             - name: DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST
-              {{ if .Values.postgresql.enabled -}}
               value: "{{ .Release.Name }}-postgresql"
-              {{- else }}
+            {{- else }}
+            - name: DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST
               value: {{ .Values.dbPersistence.POSTGRES_HOST | quote }}
-              {{- end }}
+            {{- end }}
             - name: DBPERSISTENCE_CONNECTION_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -189,19 +180,33 @@ spec:
                   {{- else }}
                   key: {{ .Values.dbPersistence.existingSecret.clishellSshserverUsernamepasswordauthPasswordKey }}
                   {{- end}}
+          # Java ENV
+            - name: JAVA_MAX_MEM
+              value: {{ .Values.java.max_mem | quote }}
+          # Logging ENV
+            - name: CONTAINER_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: SERVICE_NAME
+              value: {{ include "uniconfig.fullname" . }}
+          # Proxy ENV
+          {{- if $.Values.proxy.enabled }}
+          {{- range $key, $val := $.Values.proxy.config }}
+            - name: {{ $key | quote }}
+              value: {{ $val | quote }}
+          {{- end }}
+          {{- end }}
+          # Extra ENV
           {{- range $key, $val := .Values.extraEnv }}
             - name: {{ $key | quote }}
               value: {{ $val | quote }}
           {{- end }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+          volumeMounts:
+          - name: {{ include "uniconfig.logs-volume" . }}
+            mountPath: /opt/uniconfig-frinx/log
+          - name: {{ include "uniconfig.data-volume" . }}
+            mountPath: /opt/uniconfig-frinx
+          - name: {{ include "uniconfig.logback-volume" . }}
+            mountPath: /opt/uniconfig-frinx/config/logback.xml
+            subPath: logback.xml

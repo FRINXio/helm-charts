@@ -91,21 +91,33 @@ Return true if a storage secret object should be created
 {{- end -}}
 {{- end -}}
 
-{{/*
-Get storage secret name.
-*/}}
-{{- define "uniconfig.storageSecretName" -}}
-{{- if .Values.azure.AKS.storage.existingSecret }}
-    {{- printf "%s" (tpl .Values.azure.AKS.storage.existingSecret $) -}}
-{{- else -}}
-    {{- printf "storage-secret" -}}
-{{- end -}}
-{{- end -}}
 
 {{/*
 Selector labels
 */}}
 {{- define "uniconfig.selectorLabelsForTraefik" -}}
-app.kubernetes.io/name: traefik
-app.kubernetes.io/instance: {{ .Release.Name }}-{{ .Release.Namespace }}
+app.kubernetes.io/name: {{ .Values.highAvailability.traefik.selectorName | default "uc-zone-lb" }}
+app.kubernetes.io/instance: {{ .Values.highAvailability.traefik.selectorInstance | default .Release.Name }}-{{ .Release.Namespace }}
 {{- end }}
+
+{{/*
+Get the uniconfig data volume.
+*/}}
+{{- define "uniconfig.data-volume" -}}
+    {{- printf "%s-data" (include "uniconfig.fullname" .) -}}
+{{- end -}}
+
+{{/*
+Get the uniconfig logs volume.
+*/}}
+{{- define "uniconfig.logs-volume" -}}
+    {{- printf "%s-logs" (include "uniconfig.fullname" .) -}}
+{{- end -}}
+
+{{/*
+Get the uniconfig logback volume.
+*/}}
+{{- define "uniconfig.logback-volume" -}}
+    {{- printf "%s-logback" (include "uniconfig.fullname" .) -}}
+{{- end -}}
+

@@ -19,26 +19,6 @@ Get the uniconfig script configMap.
 {{- end -}}
 
 {{/*
-Return true if a lighty configMap object should be created
-*/}}
-{{- define "uniconfig.createLightyConfigMap" -}}
-{{- if not .Values.extraLightyConfigMap -}}
-    {{- true -}}
-{{- end -}}
-{{- end -}}
-
-{{/*
-Get the uniconfig Lighty configMap.
-*/}}
-{{- define "uniconfig.lightyConfigMapName" -}}
-{{- if .Values.extraLightyConfigMap }}
-    {{- printf "%s" (tpl .Values.extraLightyConfigMap $) -}}
-{{- else -}}
-    {{- printf "%s-configmap-lighty-uniconfig-config" (include "uniconfig.fullname" .) -}}
-{{- end -}}
-{{- end -}}
-
-{{/*
 Return true if a Logback configMap object should be created
 */}}
 {{- define "uniconfig.createLogbackConfigMap" -}}
