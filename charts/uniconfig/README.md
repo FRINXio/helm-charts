@@ -1,101 +1,76 @@
 # uniconfig
 
+![Version: 7.0.0](https://img.shields.io/badge/Version-7.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.0.0](https://img.shields.io/badge/AppVersion-6.0.0-informational?style=flat-square)
+
 A Helm chart for UniConfig Kubernetes deployment
 
-## Get Repo Info
+**Homepage:** <https://github.com/FRINXio/helm-charts>
 
-```console
-helm repo add frinx https://FRINXio.github.io/helm-charts
-helm repo update
-```
+## Maintainers
 
-## Install Chart
+| Name | Email | Url |
+| ---- | ------ | --- |
+| FRINX | <services@frinx.io> | <https://frinx.io> |
 
-```console
-helm install [RELEASE_NAME] frinx/uniconfig
-```
+## Requirements
 
-## Upgrading Chart
+| Repository | Name | Version |
+|------------|------|---------|
+| [bitnami](https://charts.bitnami.com/bitnami) | postgresql | 11.x.x |
 
-```console
-helm upgrade [RELEASE_NAME] frinx/uniconfig
-```
+## Values
 
-## Uninstall Chart
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| affinity | object | `{}` | [Affinity for pod assignment](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
+| alwaysRollAfterUpgrade | bool | `false` |  |
+| args | list | `["/opt/uniconfig-frinx/run_uniconfig.sh"]` | Uniconfig container args |
+| autoscaling | object | `{"enabled":false,"maxReplicas":100,"minReplicas":1,"targetCPUUtilizationPercentage":80,"targetMemoryUtilizationPercentage":80}` | [Autoscaling parameters](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
+| cacheConfigs | object | `{}` | global configuration of cache |
+| command | list | `["/bin/sh","-c"]` | Uniconfig container command |
+| dbPersistence.CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD | string | `"admin"` |  |
+| dbPersistence.POSTGRES_HOST | string | `nil` | Database hostname |
+| dbPersistence.POSTGRES_PASSWORD | string | `"postgresP"` |  |
+| dbPersistence.POSTGRES_USERNAME | string | `"postgresU"` | Database credentials. Exposed when existing dbPersistence.existingSecret.secretName is empty |
+| dbPersistence.existingSecret | object | `{"clishellSshserverUsernamepasswordauthPasswordKey":null,"postgresPasswordKey":null,"postgresUsernameKey":null,"secretName":null}` | Existing database credentials |
+| extraEnv | object | `{"CLISHELL_SSHSERVER_ENABLED":true,"CLISHELL_SSHSERVER_INETADDRESS":"0.0.0.0","DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_PORT":5432,"DBPERSISTENCE_CONNECTION_MAXDBPOOLSIZE":300,"DBPERSISTENCE_EMBEDDEDDATABASE_ENABLED":false,"SPRING_AUTOCONFIGURE_EXCLUDE":"org.springframework.cloud.stream.function.FunctionConfiguration","SPRING_CLOUD_BUS_ENABLED":false,"TRANSACTIONS_MAXSTOREDTRANSACTIONS":100,"TRANSACTIONS_MAXTRANSACTIONAGE":7200,"TRANSACTIONS_TRANSACTIONIDLETIMEOUT":3600,"UNICONFIG_CLOUD_CONFIG_ENABLED":false}` | Application properties |
+| extraInitContainers | list | `[]` | Extra init containers |
+| extraLogbackConfigMap | string | `nil` |  |
+| extraScriptConfigMap | string | `nil` |  |
+| fullnameOverride | string | `""` | String to fully override app name |
+| highAvailability.enabled | bool | `false` | Deploy extra traefik compatible resources to provide sticky session and zone loadbalancing |
+| highAvailability.hosts | list | `["uniconfig"]` | Additional traefik services which are used to forward requests to uniconfig controller with sticky session |
+| highAvailability.stickyCookie | object | `{"httpOnly":true,"name":"uniconfig_server_id","sameSite":"strict","secure":true}` | Traefik [sticky cookie](https://doc.traefik.io/traefik/v2.11/routing/services/#sticky-sessions) |
+| highAvailability.traefik.entrypoint | string | `"uniconfig"` | Traefik port name for uniconfig entrypoint |
+| highAvailability.traefik.port | int | `8181` | Traefik port value for uniconfig entrypoint |
+| highAvailability.traefik.selectorInstance | string | `nil` | Override traefik service instance |
+| highAvailability.traefik.selectorName | string | `nil` | Override traefik service name. If not defined, default value is uc-zone-lb |
+| image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
+| image.repository | string | `"frinx/uniconfig"` | Uniconfig image repository |
+| image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion. |
+| imagePullSecrets | list | `[{"name":"regcred"}]` | [Image Pull Secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
+| ingress.annotations | object | `{}` | Additional annotations for the Ingress resource |
+| ingress.className | string | `""` | IngressClass that will be be used to implement the Ingress |
+| ingress.enabled | bool | `false` | Enable ingress |
+| ingress.hosts | list | `[{"host":"chart-example.local","paths":[{"path":"/","pathType":"ImplementationSpecific"}]}]` | [Ingress Host](https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource) |
+| ingress.labels | object | `{}` | Additional labels for the Ingress resource |
+| ingress.tls | list | `[]` | [Ingress TLS resource](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls) |
+| java | object | `{"max_mem":"10G"}` | Java max memory for Uniconfig container |
+| mibsConfigs | object | `{}` | global configuration of mibs |
+| nameOverride | string | `""` | String to partially override app name |
+| nodeSelector | object | `{}` | [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) |
+| podAnnotations | object | `{}` | Pod annotations |
+| podSecurityContext | object | `{}` | Configure [Pods Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
+| postgresql | object | `{"architecture":"standalone","auth":{"database":"uniconfig","enablePostgresUser":true,"password":"postgresP","username":"postgresU"},"enabled":true}` | Internal Postgres Database |
+| proxy | object | `{"config":{"HTTPS_PROXY":null,"HTTP_PROXY":null,"NO_PROXY":null},"enabled":false}` | Configure proxy settings fr unicnfig container |
+| replicaCount | int | `1` | Number of replicas of the deployment. If you want to use more than 1 replica, must deploy it with cookie sticky sessions To create sticky session, deploy it with traefik and set highAvailability.enabled=true |
+| resources | object | `{}` | [Container resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/) |
+| service.annotations | object | `{}` |  |
+| service.loadBalancerIP | string | `nil` | Service [Load Balancer IP](https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer) |
+| service.port | int | `8181` | Service port |
+| service.type | string | `"ClusterIP"` | Service type |
+| serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
+| serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
+| serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
+| tolerations | list | `[]` | [Tolerations for pod assignment](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
 
-```console
-helm uninstall [RELEASE_NAME]
-```
-
-## Uniconfig license
-
-Uniconfig docker image has been moved to a private repository
-For access, contact info@frinx.io
-
-## Configuration
-
-| Parameter | Description | Default |
-|-----------|-------------|---------|
-| `replicaCount` | Number of nodes | `1` |
-| `image.repository` | Image repository | `frinx/uniconfig` |
-| `image.pullPolicy` | Image pull policy | `IfNotPresent` |
-| `image.tag` | Image tag | `""` |
-| `imagePullSecrets` | Image pull secrets | `[]` |
-| `nameOverride` | Replaces the name of the chart in the Chart.yaml file | `""` |
-| `fullnameOverride` |  Completely replaces the generated name | `""` |
-| `serviceAccount.create` | Create service account | `true` |
-| `serviceAccount.annotations` | ServiceAccount annotations | `{}` |
-| `serviceAccount.name` | Service account name to use, when empty will be set to created account if `serviceAccount.create` is set else to `default` | `""` |
-| `podAnnotations` | Deployment | `{}` |
-| `podSecurityContext` | Pod deployment securityContext | `{}` |
-| `securityContext` | Deployment securityContext | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/uniconfig/values.yaml) |
-| `service.annotations` | Annotations for service resource | `{}` |
-| `service.type` | Kubernetes service type | `ClusterIP` |
-| `service.port` | Kubernetes port of service | `8181` |
-| `ingress.enabled` | Enables Ingress | `true` |
-| `ingress.labels` | Ingress labels. It is highly recommendet to use labels with environment value in cluster with multiple traefik ingress controllers. Please also set traefik.providers.kubernetesIngress.labelSelector to specific label | `{}` |
-| `ingress.annotations` | Ingress annotations (values are templated) | `{}` |
-| `ingress.path` | Path for service  | `/` |
-| `ingress.pathType` | Path type variable | `Prefix` |
-| `ingress.host` | Host variable | |
-| `resources` | CPU/Memory resource requests/limits | `{}` |
-| `autoscaling.enabled` | Enable replica autoscaling settings | `false` |
-| `autoscaling.minReplicas` | Minimum replicas for the pod autoscaling | `1` |
-| `autoscaling.maxReplicas` | Maximum replicas for the pod autoscaling | `100` |
-| `autoscaling.targetCPUUtilizationPercentage` | Percentage of CPU to consider when autoscaling | `80` |
-| `autoscaling.targetMemoryUtilizationPercentage` | Percentage of Memory to consider when autoscaling | |
-| `nodeSelector` | Node labels for pod assignment | `{}` |
-| `tolerations` | Toleration labels for pod assignment | `[]` |
-| `affinity` | Affinity settings for pod assignment | `{}` |
-| `mountPath` | Mount path for uniconfig config files | |
-| `serviceName` | serviceName env variable | `"uniconfig"` |
-| `tls_keystorePassword` | tls_keystorePassword env variable | `"password"` |
-| `proxy.enabled` | Enable proxy for uniconfig  | `false` |
-| `proxy.http_proxy` | Proxy address for http | `""` |
-| `proxy.https_proxy` | Proxy address for https | `""` |
-| `proxy.no_proxy` | List of no proxy | `""` |
-| `alwaysRollAfterUpgrade` | Always roll after upgrade option | `false` |
-| `extraScriptConfigMap` | Mount different config map with script for uniconfig | |
-| `extraLightyConfigMap` | Mount different config map with lighty configuration file for uniconfig | |
-| `extraLogbackConfigMap` | Mount different config map with logback configuration file for uniconfig | |
-| `java.max_mem` | Max memory for java | `"10G"` |
-| `dbPersistence.POSTGRES_HOST` | Database host | |
-| `dbPersistence.existingSecret` | Name of existing secret with database credentials | `` |
-| `dbPersistence.POSTGRES_USERNAME` | Database username | `"postgresU"` |
-| `dbPersistence.POSTGRES_PASSWORD` | Database password | `"postgresP"` |
-| `dbPersistence.CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD` | CLI shell password | `admin` |
-| `extraEnv` | Extra env for uniconfig-controller | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/uniconfig/values.yaml) |
-| `postgresql.enabled` | Switch to enable or disable the PostgreSQL helm chart | `true` |
-| `postgresql.auth.enablePostgresUser` | Assign a password to the "postgres" admin user. Otherwise, remote access will be blocked for this user | `true` |
-| `postgresql.auth.username` | Name for a custom user to create | `postgresU` |
-| `postgresql.auth.password` | Password for the custom user to create | `postgresP` |
-| `postgresql.auth.database` | Name for a custom database to create | `conductor` |
-| `postgresql.architecture` | PostgreSQL architecture (`standalone` or `replication`) | `standalone` |
-| `cacheImage.enabled` | Enable cacheImage | `false` |
-| `cacheImage.repository` | cacheImage repository | |
-| `cacheImage.tag` | cacheImage tag | `""` |
-| `cacheImage.cachePath` | Path to cache files in cacheImage | |
-| `extraInitContainers` | Option to add extraInitContainers | `[]` |
-| `traefikExtraService.enabled` | Enable extra service for traefik | `true` |
-| `traefikExtraService.name` | Name for extra service for traefik | `"unistore"` |
-| `traefik.enabled` | Switch to enable or disable the traefik helm chart | `true` |

@@ -2,87 +2,113 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# -- String to partially override app name
 nameOverride: ""
+
+# -- String to fully override app name
 fullnameOverride: ""
 
 serviceAccount:
-  # Specifies whether a service account should be created
+  # -- Specifies whether a service account should be created
   create: true
-  # Annotations to add to the service account
+  # -- Annotations to add to the service account
   annotations: {}
-  # The name of the service account to use.
+  # -- The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+# -- Pod annotations
 podAnnotations: {}
-
+# -- Configure [Pods Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
 podSecurityContext:
   {}
   # fsGroup: 2000
-
-securityContext:
-  capabilities:
-    drop:
-      - ALL
-    add:
-      - CAP_NET_BIND_SERVICE
-      - NET_ADMIN
+# securityContext:
+#   capabilities:
+#     drop:
+#       - ALL
+#     add:
+#       - CAP_NET_BIND_SERVICE
+#       - NET_ADMIN
 
 service:
   annotations: {}
+  # -- Service type
   type: ClusterIP
+  # -- Service port
   port: 8181
+  # -- Service [Load Balancer IP](https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer)
   loadBalancerIP:
 
+# Configure the [Ingress resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 ingress:
+  # -- Enable ingress
   enabled: false
+  # -- IngressClass that will be be used to implement the Ingress
   className: ""
+  # -- Additional labels for the Ingress resource
   labels: {}
+  # -- Additional annotations for the Ingress resource
   annotations: {}
+  # -- [Ingress Host](https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource)
   hosts:
     - host: chart-example.local
       paths:
         - path: /
           pathType: ImplementationSpecific
+  # -- [Ingress TLS resource](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls)
   tls: []
 
-# DEPLOYMENT configuration
-
-# if you want to use more than 1 replica, must deploy it with cookie sticky sessions
-# to create sticky session, deploy it with traefik and set highAvailability.enabled=true
+# -- Number of replicas of the deployment.
+# If you want to use more than 1 replica, must deploy it with cookie sticky sessions
+# To create sticky session, deploy it with traefik and set highAvailability.enabled=true
 replicaCount: 1
 
 highAvailability:
+  # -- Deploy extra traefik compatible resources to provide sticky session and zone loadbalancing
   enabled: false
   traefik:
+    # -- Override traefik service name. If not defined, default value is uc-zone-lb
     selectorName:
+    # -- Override traefik service instance
     selectorInstance:
+    # -- Traefik port name for uniconfig entrypoint
     entrypoint: uniconfig
+    # -- Traefik port value for uniconfig entrypoint
     port: 8181
+  # -- Traefik [sticky cookie](https://doc.traefik.io/traefik/v2.11/routing/services/#sticky-sessions)
   stickyCookie:
     name: uniconfig_server_id
     httpOnly: true
     secure: true
     sameSite: strict
+  # -- Additional traefik services which are used to forward requests to uniconfig controller with sticky session
   hosts:
     # TODO can't use same name as chart name because conflict of LB and app
     - uniconfig
 
 image:
+  # -- Uniconfig image repository
   repository: frinx/uniconfig
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
+  # -- Overrides the image tag whose default is the chart appVersion.
   tag: ""
+  # -- Image pull policy
+  pullPolicy: IfNotPresent
 
+# -- [Image Pull Secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
 imagePullSecrets:
   - name: regcred
 
+# -- [Affinity for pod assignment](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
 affinity: {}
 
+# -- [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/)
 nodeSelector: {}
 
+# -- [Tolerations for pod assignment](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
 tolerations: []
 
+# -- [Container resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/)
 resources:
   {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -96,6 +122,7 @@ resources:
   #   cpu: 100m
   #   memory: 128Mi
 
+# -- [Autoscaling parameters](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -107,10 +134,9 @@ alwaysRollAfterUpgrade: false
 extraScriptConfigMap:
 extraLogbackConfigMap:
 
-# Init containers
-# global configuration of mibs
-
+# -- global configuration of mibs
 mibsConfigs:
+  {}
   # mibs1:
   #   repository: frinx/uniconfig
   #   tag: latest
@@ -120,8 +146,9 @@ mibsConfigs:
   #   tag: ""
   #   mibsPath:
 
-# global configuration of cache
+# -- global configuration of cache
 cacheConfigs:
+  {}
   # cache1:
   #   repository: frinx/uniconfig
   #   tag: "latest"
@@ -131,15 +158,15 @@ cacheConfigs:
   #   tag: ""
   #   cachePath:
 
+# -- Extra init containers
 extraInitContainers: []
 
-# Uniconfig container
-
+# -- Uniconfig container command
 command: ["/bin/sh", "-c"]
+# -- Uniconfig container args
 args: ["/opt/uniconfig-frinx/run_uniconfig.sh"]
 
-# ENV settings
-
+# -- Configure proxy settings fr unicnfig container
 proxy:
   enabled: false
   config:
@@ -147,23 +174,27 @@ proxy:
     HTTPS_PROXY:
     NO_PROXY:
 
-# java max memory
+# -- Java max memory for Uniconfig container
 java:
   max_mem: "10G"
 
-# db persistence connection
 dbPersistence:
+  # -- Database hostname
   POSTGRES_HOST:
+  # -- Existing database credentials
   existingSecret:
     secretName:
     postgresUsernameKey:
     postgresPasswordKey:
     clishellSshserverUsernamepasswordauthPasswordKey:
+  # -- Database credentials. Exposed when existing dbPersistence.existingSecret.secretName is empty
   POSTGRES_USERNAME: postgresU
   POSTGRES_PASSWORD: postgresP
   CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD: admin
 
+# -- Application properties
 extraEnv:
+  # @ignored
   DBPERSISTENCE_CONNECTION_DBNAME: uniconfig
   # DBPERSISTENCE CONNECTION PARAMETERS, CREDENTIALS STORED IN SECRETS
   DBPERSISTENCE_EMBEDDEDDATABASE_ENABLED: false
@@ -182,7 +213,7 @@ extraEnv:
   SPRING_AUTOCONFIGURE_EXCLUDE: org.springframework.cloud.stream.function.FunctionConfiguration
 
 # External services
-
+# -- Internal Postgres Database
 postgresql:
   enabled: true
   auth:
