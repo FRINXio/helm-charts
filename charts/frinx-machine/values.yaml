@@ -352,6 +352,13 @@ krakend:
     repository: "nginx"
     tag: "1.25.4-alpine"
 
+  ingress:
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+
   rbac:
     UNICONFIG_CONTROLLER_ADMIN_GROUP: *frinx-rbac-admin-role
     INVENTORY_ADMIN_GROUP: *frinx-rbac-admin-role
@@ -365,17 +372,20 @@ krakend:
     x_forwarded_groups: *frinx-rbac-admin-role
     x_forwarded_user: "frinx-admin-user"
 
+  env:
+    L3VPN_ENABLED: true
+
 frinx-frontend:
   enabled: true
   fullnameOverride: "frinx-frontend"
 
   image:
     repository: "frinx/frinx-frontend"
-    tag: "6.0.0"
+    tag: "6.0.1"
 
   proxyImage:
     name: frinx/frinx-graphql-proxy
-    tag: "6.0.0"
+    tag: "6.0.1"
 
   env:
     AUTH_ENABLED: true
@@ -462,8 +472,8 @@ inventory:
       postgresUsernameKey: INVENTORY_POSTGRES_USERNAME
       postgresPasswordKey: INVENTORY_POSTGRES_PASSWORD
 
-  # extraEnv:
-  #   NODE_ENV: 'development'
+  extraEnv:
+    NODE_ENV: "development"
 
 topology-discovery:
   enabled: true
@@ -471,7 +481,7 @@ topology-discovery:
 
   image:
     repository: "frinx/topology-discovery"
-    tag: "6.0.0"
+    tag: "6.0.1"
 
   imagePullSecrets:
     - name: *frinx-image-pull-secret
@@ -555,6 +565,12 @@ uniconfig:
     hosts:
       - uniconfig
 
+  cacheImage:
+    cache1:
+      repository: frinxio/custom-gamma-scripts
+      tag: latest
+      cachePath: /home/app/yang-schemas/.
+
 # Identity provider configuration
 
 oauth2-proxy:
@@ -573,6 +589,11 @@ oauth2-proxy:
     ingressClassName: nginx
     hosts:
       - "fm.127.0.0.1.nip.io"
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
 
   config:
     cookieSecret: create_strong_secret
