@@ -13771,6 +13771,34 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Changed mutlizone deployment configuration
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/367
+    apiVersion: v2
+    appVersion: 6.0.0
+    created: "2024-05-02T08:41:07.912862326Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for UniConfig Kubernetes deployment
+    digest: 43a8760af7357c2315daee63088c46d2e0858cd5b55a18adfc6f1c0db73381f9
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: uniconfig
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniconfig-7.0.0/uniconfig-7.0.0.tgz
+    version: 7.0.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Changed ingress configuration
           links:
             - name: GitHub PR
@@ -15261,4 +15289,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-04-17T08:32:49.869109503Z"
+generated: "2024-05-02T08:41:07.915063331Z"
