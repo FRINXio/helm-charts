@@ -78,10 +78,12 @@ spec:
             httpGet:
               path: /health
               port: 5555
+            initialDelaySeconds: 15
           readinessProbe:
             httpGet:
               path: /health
               port: 5555
+            initialDelaySeconds: 15
           resources:
             {{- toYaml .Values.proxyResources | nindent 12 }}
       {{- with .Values.nodeSelector }}
