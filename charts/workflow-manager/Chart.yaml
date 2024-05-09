@@ -19,18 +19,8 @@ annotations:
     - name: schellar
       image: frinx/schellar:6.0.0
   artifacthub.io/changes: |
-    - kind: removed
-      description: Remove workflow-proxy and separate conductor and schellar
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/344
     - kind: changed
-      description: Changed ingress configuration
+      description: Changed path for custom files. Previous one overrides default configuration
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/344
-    - kind: changed
-      description: Configuration of db connections via secrets
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/344
+          url: https://github.com/FRINXio/helm-charts/pull/370

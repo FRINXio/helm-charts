@@ -69,7 +69,7 @@ helm uninstall [RELEASE_NAME]
 | `configScripts.log4j.properties` | log4j.properties file for conductor | `{{ .Files.Get "configs/log4j.properties" }}` |
 | `conductorEnv.CONFIG_PROP` | CONFIG_PROP env value | `config.properties` |
 | `conductorEnv._JAVA_OPTIONS` | _JAVA_OPTIONS env value | `-Xmx2g` |
-| `conductorEnv.LOG4J_PROP` | LOG4J_PROP env value | `log4j.properties` |
+| `conductorEnv.LOG4J_PROP` | LOG4J_PROP env value | `custom/log4j.properties` |
 | `conductorEnv.SPRING_DATASOURCE_HOSTNAME` | Hostname of external database | |
 | `conductorEnv.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_HOSTNAME` | CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_HOSTNAME env value | |
 | `conductorEnv.DATABASE` | DATABASE env value | `conductor` |
