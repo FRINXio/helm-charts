@@ -810,6 +810,112 @@ entries:
   frinx-machine:
   - apiVersion: v2
     appVersion: 6.0.0
+    created: "2024-05-15T07:17:28.563716498Z"
+    dependencies:
+    - condition: kube-arangodb.enabled
+      name: kube-arangodb
+      repository: https://arangodb.github.io/kube-arangodb
+      version: 1.2.38
+    - condition: cloudnative-pg.enabled
+      name: cloudnative-pg
+      repository: https://cloudnative-pg.github.io/charts
+      version: 0.20.2
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.9.13
+    - alias: uniconfig-postgresql
+      condition: uniconfig-postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.9.13
+    - condition: grafana.enabled
+      name: grafana
+      repository: https://grafana.github.io/helm-charts
+      version: 7.3.1
+    - condition: grafana.enabled
+      name: frinx-grafana-configs
+      repository: https://FRINXio.github.io/helm-charts
+      version: 1.x.x
+    - condition: influxdb2.enabled
+      name: influxdb2
+      repository: https://helm.influxdata.com
+      version: 2.1.2
+    - condition: telegraf-ds.enabled
+      name: telegraf-ds
+      repository: https://helm.influxdata.com
+      version: 1.1.24
+    - condition: loki.enabled
+      name: loki
+      repository: https://grafana.github.io/helm-charts
+      version: 2.16.0
+    - condition: loki.enabled
+      name: promtail
+      repository: https://grafana.github.io/helm-charts
+      version: 6.15.5
+    - alias: workflow-manager-postgres
+      condition: workflow-manager-postgres.enabled
+      name: cloud-native-pg
+      repository: https://FRINXio.github.io/helm-charts
+      version: 0.0.2
+    - alias: uniconfig-postgres
+      condition: uniconfig-postgres.enabled
+      name: cloud-native-pg
+      repository: https://FRINXio.github.io/helm-charts
+      version: 0.0.2
+    - condition: frinx-arango-config.enabled
+      name: frinx-arango-config
+      repository: https://FRINXio.github.io/helm-charts
+      version: 4.1.0
+    - condition: krakend.enabled
+      name: krakend
+      repository: https://FRINXio.github.io/helm-charts
+      version: ~3.1.2
+    - condition: frinx-frontend.enabled
+      name: frinx-frontend
+      repository: https://FRINXio.github.io/helm-charts
+      version: 4.0.1
+    - condition: resource-manager.enabled
+      name: resource-manager
+      repository: https://FRINXio.github.io/helm-charts
+      version: 2.0.0
+    - condition: workflow-manager.enabled
+      name: workflow-manager
+      repository: https://FRINXio.github.io/helm-charts
+      version: 3.0.0
+    - condition: inventory.enabled
+      name: inventory
+      repository: https://FRINXio.github.io/helm-charts
+      version: ~5.0.1
+    - alias: uc-zone-lb
+      condition: uc-zone-lb.enabled
+      name: traefik
+      repository: https://traefik.github.io/charts
+      version: 27.0.2
+    - condition: uniconfig.enabled
+      name: uniconfig
+      repository: https://FRINXio.github.io/helm-charts
+      version: 7.0.0
+    - condition: topology-discovery.enabled
+      name: topology-discovery
+      repository: https://FRINXio.github.io/helm-charts
+      version: 3.0.0
+    - condition: oauth2-proxy.enabled
+      name: oauth2-proxy
+      repository: https://oauth2-proxy.github.io/manifests
+      version: 6.24.1
+    description: Kubernetes deployment of FRINX-machine
+    digest: d7c571f30b6482a307ec0cb52af8f3bc0dfe561970d347d60c564e4a6ec6051e
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-machine
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-machine-7.0.1/frinx-machine-7.0.1.tgz
+    version: 7.0.1
+  - apiVersion: v2
+    appVersion: 6.0.0
     created: "2024-05-06T12:40:21.427522396Z"
     dependencies:
     - condition: kube-arangodb.enabled
@@ -15420,4 +15526,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-05-07T12:16:13.844963698Z"
+generated: "2024-05-15T07:17:28.565037997Z"
