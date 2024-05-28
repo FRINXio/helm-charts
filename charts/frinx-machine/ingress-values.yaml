@@ -1,4 +1,4 @@
-# Ingres confiuration example for FRINX-machine services
+# Ingres configuration example for FRINX-machine services
 
 krakend:
   ingress:

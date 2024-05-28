@@ -1,0 +1,25 @@
+kube-arangodb:
+  # -- Enable kube-arangodb
+  enabled: true
+  operator:
+    # -- Number of replicas for the operator
+    replicaCount: 2
+    # -- Enable CRD management for the operator
+    enableCRDManagement: true
+    args:
+      # -- Additional arguments for the operator
+      - --deployment.feature.ephemeral-volumes=true
+  rbac:
+    # -- Enable RBAC
+    enabled: true
+    extensions:
+      # -- Enable monitoring extension
+      monitoring: false
+      # -- Enable ACS extension
+      acs: false
+      # -- Enable AT extension
+      at: false
+
+cloudnative-pg:
+  # -- Enable cloudnative-pg
+  enabled: true
