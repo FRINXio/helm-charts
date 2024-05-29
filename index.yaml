@@ -810,6 +810,104 @@ entries:
   frinx-machine:
   - apiVersion: v2
     appVersion: 6.0.0
+    created: "2024-05-29T11:49:40.059389564Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.9.13
+    - alias: uniconfig-postgresql
+      condition: uniconfig-postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.9.13
+    - condition: grafana.enabled
+      name: grafana
+      repository: https://grafana.github.io/helm-charts
+      version: 7.3.1
+    - condition: grafana.enabled
+      name: frinx-grafana-configs
+      repository: https://FRINXio.github.io/helm-charts
+      version: 1.x.x
+    - condition: influxdb2.enabled
+      name: influxdb2
+      repository: https://helm.influxdata.com
+      version: 2.1.2
+    - condition: telegraf-ds.enabled
+      name: telegraf-ds
+      repository: https://helm.influxdata.com
+      version: 1.1.24
+    - condition: loki.enabled
+      name: loki
+      repository: https://grafana.github.io/helm-charts
+      version: 2.16.0
+    - condition: loki.enabled
+      name: promtail
+      repository: https://grafana.github.io/helm-charts
+      version: 6.15.5
+    - alias: workflow-manager-postgres
+      condition: workflow-manager-postgres.enabled
+      name: cloud-native-pg
+      repository: https://FRINXio.github.io/helm-charts
+      version: 0.0.2
+    - alias: uniconfig-postgres
+      condition: uniconfig-postgres.enabled
+      name: cloud-native-pg
+      repository: https://FRINXio.github.io/helm-charts
+      version: 0.0.2
+    - condition: frinx-arango-config.enabled
+      name: frinx-arango-config
+      repository: https://FRINXio.github.io/helm-charts
+      version: 4.1.0
+    - condition: krakend.enabled
+      name: krakend
+      repository: https://FRINXio.github.io/helm-charts
+      version: ~3.1.2
+    - condition: frinx-frontend.enabled
+      name: frinx-frontend
+      repository: https://FRINXio.github.io/helm-charts
+      version: 4.0.1
+    - condition: resource-manager.enabled
+      name: resource-manager
+      repository: https://FRINXio.github.io/helm-charts
+      version: 2.0.0
+    - condition: workflow-manager.enabled
+      name: workflow-manager
+      repository: https://FRINXio.github.io/helm-charts
+      version: 3.0.0
+    - condition: inventory.enabled
+      name: inventory
+      repository: https://FRINXio.github.io/helm-charts
+      version: ~5.0.1
+    - alias: uc-zone-lb
+      condition: uc-zone-lb.enabled
+      name: traefik
+      repository: https://traefik.github.io/charts
+      version: 27.0.2
+    - condition: uniconfig.enabled
+      name: uniconfig
+      repository: https://FRINXio.github.io/helm-charts
+      version: 7.0.0
+    - condition: topology-discovery.enabled
+      name: topology-discovery
+      repository: https://FRINXio.github.io/helm-charts
+      version: 3.0.0
+    - condition: oauth2-proxy.enabled
+      name: oauth2-proxy
+      repository: https://oauth2-proxy.github.io/manifests
+      version: 6.24.1
+    description: Kubernetes deployment of FRINX-machine
+    digest: d35fec0c03d03445a6fba6e1036de31ab476e326bf319ace8ef3623bfbe9f38d
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-machine
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-machine-8.0.0/frinx-machine-8.0.0.tgz
+    version: 8.0.0
+  - apiVersion: v2
+    appVersion: 6.0.0
     created: "2024-05-15T07:17:28.563716498Z"
     dependencies:
     - condition: kube-arangodb.enabled
@@ -12098,6 +12196,29 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/frinx-machine-0.1.0/frinx-machine-0.1.0.tgz
     version: 0.1.0
+  frinx-machine-operators:
+  - apiVersion: v2
+    appVersion: 6.0.0
+    created: "2024-05-29T11:49:40.27979861Z"
+    dependencies:
+    - condition: cloudnative-pg.enabled
+      name: cloudnative-pg
+      repository: https://cloudnative-pg.github.io/charts
+      version: 0.20.2
+    - condition: kube-arangodb.enabled
+      name: kube-arangodb
+      repository: https://arangodb.github.io/kube-arangodb
+      version: 1.2.38
+    description: A Helm chart for installing operators and crds.
+    digest: 84a9be9254a89e7c257de23818a85e4a1f9d56705c3af3164a100f9f89356d4c
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: frinx-machine-operators
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-machine-operators-0.1.0/frinx-machine-operators-0.1.0.tgz
+    version: 0.1.0
   inventory:
   - annotations:
       artifacthub.io/changes: |
@@ -15555,4 +15676,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-05-28T12:29:18.21611658Z"
+generated: "2024-05-29T11:49:40.281716419Z"
