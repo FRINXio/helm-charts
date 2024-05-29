@@ -8,6 +8,8 @@ chart-repos:
   - elastic=https://helm.elastic.co
   - frinx=https://FRINXio.github.io/helm-charts
   - traefik=https://helm.traefik.io/traefik
+  - arango=https://arangodb.github.io/kube-arangodb
+  - cloudnative-pg=https://cloudnative-pg.github.io/charts
 helm-extra-args: --timeout 600s
 additional-commands:
   - helm unittest --helm3 --strict --file unittests/*.yaml --file 'unittests/**/*.yaml' {{ .Path }}

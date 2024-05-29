@@ -14,6 +14,14 @@ helm repo add frinx https://FRINXio.github.io/helm-charts
 helm repo update
 ```
 
+## Install Operators Chart
+
+Before installing Frinx MACHINE, install required operators and crds
+
+```console
+helm install [RELEASE_NAME]-operators frinx/frinx-machine-operators
+```
+
 ## Install Chart
 
 ```console
@@ -36,6 +44,12 @@ helm upgrade [RELEASE_NAME] frinx/frinx-machine
 
 ```console
 helm uninstall [RELEASE_NAME]
+```
+
+## Uninstall Operators Chart
+
+```console
+helm uninstall [RELEASE_NAME]-operators
 ```
 
 ## Dependencies
