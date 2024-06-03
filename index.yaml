@@ -15109,6 +15109,37 @@ entries:
   worker:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Added default resource limits for init initContainers
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/376
+        - kind: added
+          description: Added possibility to disable initContainers
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/376
+        - kind: added
+          description: Copy imagePullPolicy setting from container to worker-copy initContainer
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/376
+    apiVersion: v2
+    appVersion: 6.0.0
+    created: "2024-06-03T12:07:49.007393955Z"
+    description: A Helm chart for conductor workers
+    digest: 878248a2edb29ff1f16ee5c9178cd0160a6e45f8917cd54ef582b6a2eb188877
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: worker
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/worker-3.1.0/worker-3.1.0.tgz
+    version: 3.1.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Copy hidden files in initContainer
           links:
@@ -15732,4 +15763,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-06-03T11:11:55.362285611Z"
+generated: "2024-06-03T12:07:49.00868742Z"
