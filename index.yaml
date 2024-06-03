@@ -14180,6 +14180,39 @@ entries:
   uniconfig:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Added default resource limits for init initContainers
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/374
+        - kind: added
+          description: Added possibility to set imagePullPolicy for initContainers
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/374
+    apiVersion: v2
+    appVersion: 6.0.0
+    created: "2024-06-03T11:11:55.360558719Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for UniConfig Kubernetes deployment
+    digest: 8ef6dcc49a81cb1e74441fd467a9b28372fcc033b9f0a0bfc0858c4a5c53b9c9
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: uniconfig
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniconfig-7.1.0/uniconfig-7.1.0.tgz
+    version: 7.1.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Changed mutlizone deployment configuration
           links:
@@ -15699,4 +15732,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-06-03T10:03:09.380699217Z"
+generated: "2024-06-03T11:11:55.362285611Z"
