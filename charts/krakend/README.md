@@ -106,3 +106,5 @@ helm uninstall [RELEASE_NAME]
 | `debug.x_forwarded_roles` | Set value for X-Forwarded-Roles header | `"owner"` |
 | `debug.x_forwarded_groups` | Set value for X-Forwarded-Groups header | `"network-admin"` |
 | `debug.x_forwarded_user` | Set value for X-Forwarded-User header | `"frinx-admin-user"` |
+| `nginx.clientBodyBufferSize` | Sets buffer size for reading client request body | `"8k"` |
+| `nginx.clientHeaderBufferSize` | Sets buffer size for reading client request header | `"1k"` |
