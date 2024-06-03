@@ -12770,6 +12770,29 @@ entries:
   krakend:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Add possibility to configure nginx max header an body size
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/374
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:6.0.0
+    apiVersion: v2
+    appVersion: 6.0.0
+    created: "2024-06-03T10:03:09.378718231Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: d2e2c2921d2c8e1dd524f1e76f18131a2611d7f68a9f444cbeef3caf88c333cd
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-3.2.0/krakend-3.2.0.tgz
+    version: 3.2.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: Fixed wrong API url to workflow-manager backend service
           links:
@@ -15676,4 +15699,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-05-29T11:49:40.281716419Z"
+generated: "2024-06-03T10:03:09.380699217Z"
