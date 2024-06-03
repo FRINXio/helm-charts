@@ -1,6 +1,6 @@
 apiVersion: v2
 name: worker
-version: 3.0.1
+version: 3.1.0
 appVersion: "6.0.0"
 description: A Helm chart for conductor workers
 type: application
@@ -10,8 +10,18 @@ maintainers:
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 annotations:
   artifacthub.io/changes: |
-    - kind: changed
-      description: Copy hidden files in initContainer
+    - kind: added
+      description: Added default resource limits for init initContainers
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/364
+          url: https://github.com/FRINXio/helm-charts/pull/376
+    - kind: added
+      description: Added possibility to disable initContainers
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/376
+    - kind: added
+      description: Copy imagePullPolicy setting from container to worker-copy initContainer
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/376

@@ -48,6 +48,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
+        {{- if .Values.initContainers.checkUniconfigReady }}
         - name: check-uniconfig-ready
           image: curlimages/curl
           command: ["/bin/sh","-c"]
@@ -55,6 +56,15 @@ spec:
             do sleep 5; echo "waiting for uniconfig";
             done;
             echo "connection successful!"']
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+        {{- end }}
+        {{- if .Values.initContainers.checkConductorReady }}
         - name: check-conductor-ready
           image: curlimages/curl
           command: ["/bin/sh","-c"]
@@ -62,6 +72,15 @@ spec:
             do sleep 5; echo "waiting for conductor";
             done;
             echo "connection successful!"']
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+        {{- end }}
+        {{- if .Values.initContainers.checkInventoryReady }}
         - name: check-inventory-ready
           image: curlimages/curl
           command: ["/bin/sh","-c"]
@@ -69,8 +88,18 @@ spec:
             do sleep 5; echo "waiting for inventory";
             done;
             echo "connection successful!"']
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+        {{- end }}
+        {{- if .Values.initContainers.copyWorkerFiles }}
         - name: copy-worker-files
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
             - sh
             - '-c'
@@ -78,6 +107,14 @@ spec:
           volumeMounts:
             - name: app-volume
               mountPath: /tmp/app/
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+        {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
