@@ -1,6 +1,9 @@
 # frinx-machine
 
-FRINX Machine is a dockerized deployment of multiple elements. The FRINX Machine enables large scale automation of network devices, services and retrieval of operational state data from a network. User specific workflows are designed through the use of OpenConfig NETCONF & YANG models, vendor native models, and the CLI. The FRINX Machine uses dockerized containers that are designed and tested to work together to create a user specific solution. Further information is available on [docs.frinx.io](https://docs.frinx.io/frinx-machine/getting-started/).
+FRINX Machine is a dockerized deployment of multiple elements. The FRINX Machine enables large scale automation of network devices, services and retrieval of operational state data from a network. 
+User specific workflows are designed through the use of OpenConfig NETCONF & YANG models, vendor native models, and the CLI. 
+The FRINX Machine uses dockerized containers that are designed and tested to work together to create a user specific solution. 
+Further information is available on [docs.frinx.io](https://docs.frinx.io/frinx-machine/getting-started/).
 
 ## Prerequisites
 
@@ -94,4 +97,4 @@ helm uninstall [RELEASE_NAME]-operators
 - tested on nodes with Ubuntu
 
 ## Where to Purchase
-For information regarding sales, visit [frinx.io](https://frinx.io/) or contact us at info@frinx.io
+For information regarding sales, visit [frinx.io](https://frinx.io/)
