@@ -35,7 +35,7 @@ FRINX Performance Monitor chart for FRINX-machine
 | fullnameOverride | string | `""` | String to partially override app name |
 | image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | image.repository | string | `"frinx/performance-monitor"` | Performance Monitor image repository |
-| image.tag | string | `"latest"` | Overrides the image tag whose default is the chart appVersion. TODO remove it when image with tag will be released |
+| image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion |
 | imagePullSecrets | list | `[{"name":"regcred"}]` | [Image Pull Secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
 | ingress.annotations | object | `{}` | Additional annotations for the Ingress resource |
 | ingress.className | string | `""` | IngressClass that will be be used to implement the Ingress |
