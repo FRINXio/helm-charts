@@ -3,8 +3,8 @@ name: performance-monitor
 description: FRINX Performance Monitor chart for FRINX-machine
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 0.1.0
-appVersion: "6.1.0"
+version: 0.1.1
+appVersion: "6.0.0"
 dependencies:
   - condition: postgresql.enabled
     name: postgresql
@@ -22,3 +22,9 @@ annotations:
   artifacthub.io/images: |
     - name: performance-monitor
       image: frinx/performance-monitor:6.0.0
+  artifacthub.io/changes: |
+    - kind: fixed
+      description: Removed latest tag from helm values
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/378

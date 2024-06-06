@@ -9,8 +9,7 @@ image:
   # -- Performance Monitor image repository
   repository: frinx/performance-monitor
   # -- Overrides the image tag whose default is the chart appVersion.
-  # TODO remove it when image with tag will be released
-  tag: "latest"
+  tag: ""
   # -- Image pull policy
   pullPolicy: IfNotPresent
 
