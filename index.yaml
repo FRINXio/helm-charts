@@ -13715,6 +13715,40 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
+          description: Remove duplicated env vars in deployment template
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/379
+      artifacthub.io/images: |
+        - name: performance-monitor
+          image: frinx/performance-monitor:6.0.0
+    apiVersion: v2
+    appVersion: 6.0.0
+    created: "2024-06-13T13:59:12.157251456Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: kafka.enabled
+      name: kafka
+      repository: https://charts.bitnami.com/bitnami
+      version: 22.1.1
+    description: FRINX Performance Monitor chart for FRINX-machine
+    digest: 9df6c2e4aeba40ee56e210f4585f762d7e667789c5454f7bded235d62c95f549
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: performance-monitor
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/performance-monitor-0.1.2/performance-monitor-0.1.2.tgz
+    version: 0.1.2
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
           description: Removed latest tag from helm values
           links:
             - name: GitHub PR
@@ -15895,4 +15929,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-06-06T14:21:32.406870973Z"
+generated: "2024-06-13T13:59:12.158540679Z"
