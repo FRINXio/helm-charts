@@ -93,10 +93,6 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-          {{- range $key, $val := .Values.env }}
-            - name: {{ $key | quote }}
-              value: {{ $val | quote }}
-          {{- end }}
             # TODO
             # - name: "POSTGRES_DB_SCHEMA"
             #   value: {{ .Values.dbPersistence.POSTGRES_DB_SCHEMA | quote }}
