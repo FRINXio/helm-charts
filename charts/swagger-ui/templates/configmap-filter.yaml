@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "swagger-ui.fullname" . }}-formatter
+data:
+  formatter.py: {{ (.Files.Get "config/formatter.py") | quote }}
+
+---
+
+{{- range $name, $configMap := .Values.extraConfigMaps }}
+{{- if $configMap.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "swagger-ui.fullname" $ }}-{{ $name }}
+data:
+  {{- $yamlString := $configMap | toYaml }}
+  config.yaml: |
+{{ $yamlString | indent 4 }}
+---
+{{- end }}
+{{- end }}
