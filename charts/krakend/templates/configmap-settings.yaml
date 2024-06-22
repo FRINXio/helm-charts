@@ -11,5 +11,7 @@ data:
   schellar_settings.json: {{ (.Files.Get "config/settings/schellar_settings.json") | quote }}
   unistore_settings.json: {{ (.Files.Get "config/settings/unistore_settings.json") | quote }}
   topology_discovery_settings.json: {{ (.Files.Get "config/settings/topology_discovery_settings.json") | quote }}
+  performance_monitor_settings.json: {{ (.Files.Get "config/settings/performance_monitor_settings.json") | quote }}
   workflow_manager_settings.json: {{ (.Files.Get "config/settings/workflow_manager_settings.json") | quote }}
+  swagger_settings.json: {{ (.Files.Get "config/settings/swagger_settings.json") | quote }}
 {{ end }}

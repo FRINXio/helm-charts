@@ -1,0 +1,49 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "/swagger/index.html",
+            "method": "GET",
+            "url_pattern": "/swagger/index.html"
+        },
+        {
+            "endpoint": "/swagger/swagger-ui.css",
+            "method": "GET",
+            "url_pattern": "/swagger/swagger-ui.css"
+        },
+        {
+            "endpoint": "/swagger/index.css",
+            "method": "GET",
+            "url_pattern": "/swagger/index.css"
+        },
+        {
+            "endpoint": "/swagger/swagger-ui-bundle.js",
+            "method": "GET",
+            "url_pattern": "/swagger/swagger-ui-bundle.js"
+        },
+        {
+            "endpoint": "/swagger/swagger-ui-standalone-preset.js",
+            "method": "GET",
+            "url_pattern": "/swagger/swagger-ui-standalone-preset.js"
+        },
+        {
+            "endpoint": "/swagger/swagger-initializer.js",
+            "method": "GET",
+            "url_pattern": "/swagger/swagger-initializer.js"
+        },
+        {
+            "endpoint": "/swagger/favicon-32x32.png",
+            "method": "GET",
+            "url_pattern": "/swagger/favicon-32x32.png"
+        },
+        {
+            "endpoint": "/swagger/favicon-16x16.png",
+            "method": "GET",
+            "url_pattern": "/swagger/favicon-16x16.png"
+        },
+        {
+            "endpoint": "/swagger/api/{filename}",
+            "method": "GET",
+            "url_pattern": "/swagger/api/{filename}"
+        }
+    ]
+}

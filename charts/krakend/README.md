@@ -80,7 +80,8 @@ helm uninstall [RELEASE_NAME]
 | `env.UNICONFIG_ENABLED` | UNICONFIG_ENABLED env variable | `true` |
 | `env.INVENTORY_ENABLED` | INVENTORY_ENABLED env variable | `true` |
 | `env.RESOURCE_MANAGER_ENABLED` | RESOURCE_MANAGER_ENABLED env variable | `true` |
-| `env.DEVICE_TOPOLOGY_ENABLED` | DEVICE_TOPOLOGY_ENABLED env variable | `false` |
+| `env.DEVICE_TOPOLOGY_ENABLED` | DEVICE_TOPOLOGY_ENABLED env variable | `true` |
+| `env.PERFORMANCE_MONITOR_ENABLED` | PERFORMANCE_MONITOR_ENABLED env variable | `true` |
 | `env.L3VPN_ENABLED` | L3VPN_ENABLED env variable | `false` |
 | `env.OAUTH2_KRAKEND_PLUGIN_TENANT_ID` | OAUTH2_KRAKEND_PLUGIN_TENANT_ID env variable | `frinx` |
 | `env.OAUTH2_KRAKEND_PLUGIN_USER_ROLES_MAP` | OAUTH2_KRAKEND_PLUGIN_USER_ROLES_MAP env variable | `X-Forwarded-Roles` |

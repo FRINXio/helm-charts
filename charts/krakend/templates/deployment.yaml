@@ -120,6 +120,8 @@ spec:
               value: {{ .Values.env.RESOURCE_MANAGER_ENABLED | quote }}
             - name: DEVICE_TOPOLOGY_ENABLED
               value: {{ .Values.env.DEVICE_TOPOLOGY_ENABLED | quote }}
+            - name: PERFORMANCE_MONITOR_ENABLED
+              value: {{ .Values.env.PERFORMANCE_MONITOR_ENABLED | quote }}
             # RBAC - UNICONFIG
             - name: UNICONFIG_CONTROLLER_ADMIN_GROUP
               value: {{ .Values.rbac.UNICONFIG_CONTROLLER_ADMIN_GROUP | quote }}
