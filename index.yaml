@@ -14159,6 +14159,31 @@ entries:
     version: 1.0.0
   swagger-ui:
   - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: Wait for server in fetch initContainers
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/381
+      artifacthub.io/images: |
+        - name: swagger-ui
+          image: swaggerapi/swagger-ui
+    apiVersion: v2
+    appVersion: v5.17.14
+    created: "2024-06-22T13:04:31.803869519Z"
+    description: A Helm chart for Swagger UI
+    digest: 45fde71f669366ef139214c1e26b1e6c11be7ef7c24bc2fb2db5606c877dcbe5
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: swagger-ui
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/swagger-ui-0.1.1/swagger-ui-0.1.1.tgz
+    version: 0.1.1
+  - annotations:
       artifacthub.io/images: |
         - name: swagger-ui
           image: swaggerapi/swagger-ui
@@ -15949,4 +15974,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-06-21T10:37:21.916041704Z"
+generated: "2024-06-22T13:04:31.805029405Z"
