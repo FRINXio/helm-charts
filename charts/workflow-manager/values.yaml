@@ -30,13 +30,14 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext: {}
+podSecurityContext:
+  {}
   # fsGroup: 2000
 
 securityContext:
   capabilities:
     drop:
-    - ALL
+      - ALL
 
 service:
   type: ClusterIP
@@ -106,7 +107,7 @@ dbPersistence:
 conductorEnv:
   CONFIG_PROP: config.properties
   _JAVA_OPTIONS: -Xmx2g
-  LOG4J_PROP: log4j.properties
+  LOG4J_PROP: custom/log4j.properties
 
 conductorExtraEnv:
   CONDUCTOR_APP_OWNEREMAILMANDATORY: false

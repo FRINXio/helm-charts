@@ -167,7 +167,7 @@ spec:
           {{- end }}
           volumeMounts:
             - name: {{ include "workflow-manager.fullname" . }}-config
-              mountPath: /app/config/
+              mountPath: /app/config/custom
         # schellar
         - name: {{ .Chart.Name }}-schellar
           securityContext:
