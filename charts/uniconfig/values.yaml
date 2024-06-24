@@ -140,6 +140,7 @@ mibsConfigs:
   # mibs1:
   #   repository: frinx/uniconfig
   #   tag: latest
+  #   pullPolicy: "IfNotPresent"
   #   mibsPath:
   # mibs2:
   #   repository: frinx/uniconfig
@@ -152,6 +153,7 @@ cacheConfigs:
   # cache1:
   #   repository: frinx/uniconfig
   #   tag: "latest"
+  #   pullPolicy: "IfNotPresent"
   #   cachePath:
   # cache2:
   #   repository: frinx/uniconfig

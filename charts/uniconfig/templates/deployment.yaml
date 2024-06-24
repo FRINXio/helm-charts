@@ -77,9 +77,17 @@ spec:
                   {{- else }}
                   key: {{ .Values.dbPersistence.existingSecret.postgresUsernameKey }}
                   {{- end}}
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
         # Copy data files
         - name: copy-config-files
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
           command:
             - sh
             - '-c'
@@ -87,10 +95,18 @@ spec:
           volumeMounts:
             - name: {{ include "uniconfig.data-volume" . }}
               mountPath: /tmp/uniconfig-frinx/
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
         # Copy mibs files
         {{- range $mib, $config := .Values.mibsConfigs }}
         - name: {{ $mib }}-mibs-copy
           image: {{ $config.repository }}{{ if $config.tag }}:{{ $config.tag }}{{ end }}
+          imagePullPolicy: {{  $config.pullPolicy | default "IfNotPresent" }}
           volumeMounts:
             - name: {{ include "uniconfig.data-volume" $ }}
               mountPath: /tmp/uniconfig-frinx
@@ -98,11 +114,19 @@ spec:
             - sh
             - '-c'
             - 'mkdir -p /tmp/uniconfig-frinx/mibs && cp -rp {{ $config.mibsPath }} /tmp/uniconfig-frinx/mibs && chmod -R 777 /tmp/uniconfig-frinx/mibs'
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
         {{- end }}
         # Copy cache files
         {{- range $cache, $config := .Values.cacheConfigs }}
         - name: {{ $cache }}-cache-copy
           image: {{ $config.repository }}{{ if $config.tag }}:{{ $config.tag }}{{ end }}
+          imagePullPolicy: {{  $config.pullPolicy | default "IfNotPresent" }}
           volumeMounts:
             - name: {{ include "uniconfig.data-volume" $ }}
               mountPath: /tmp/uniconfig-frinx
@@ -110,6 +134,13 @@ spec:
             - sh
             - '-c'
             - 'mkdir -p /tmp/uniconfig-frinx/cache && cp -rp {{ $config.cachePath }} /tmp/uniconfig-frinx/cache && chmod -R 777 /tmp/uniconfig-frinx/cache'
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
         {{- end }}
         {{- with .Values.extraInitContainers }}
         {{- toYaml . | nindent 8 }}

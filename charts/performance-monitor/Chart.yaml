@@ -1,0 +1,30 @@
+apiVersion: v2
+name: performance-monitor
+description: FRINX Performance Monitor chart for FRINX-machine
+icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+type: application
+version: 0.1.2
+appVersion: "6.0.0"
+dependencies:
+  - condition: postgresql.enabled
+    name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    version: 11.x.x
+  - condition: kafka.enabled
+    name: kafka
+    version: 22.1.1
+    repository: https://charts.bitnami.com/bitnami
+maintainers:
+  - name: FRINX
+    email: services@frinx.io
+    url: https://frinx.io
+annotations:
+  artifacthub.io/images: |
+    - name: performance-monitor
+      image: frinx/performance-monitor:6.0.0
+  artifacthub.io/changes: |
+    - kind: fixed
+      description: Remove duplicated env vars in deployment template
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/379

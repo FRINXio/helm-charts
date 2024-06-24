@@ -8,6 +8,8 @@ chart-repos:
   - elastic=https://helm.elastic.co
   - frinx=https://FRINXio.github.io/helm-charts
   - traefik=https://helm.traefik.io/traefik
+  - arango=https://arangodb.github.io/kube-arangodb
+  - cloudnative-pg=https://cloudnative-pg.github.io/charts
 helm-extra-args: --timeout 600s
 additional-commands:
   - helm unittest --helm3 --strict --file unittests/*.yaml --file 'unittests/**/*.yaml' {{ .Path }}
@@ -18,14 +20,15 @@ excluded-charts:
   - frinx-machine
   # This chart has a dependency on uniconfig, workflow-manager and inventory charts
   - worker
-  # This chart has a dependency to arangodb 
+  # This chart has a dependency to arangodb
   - topology-discovery
-  # This chart has a dependency to postresql 
+  # This chart has a dependency to postresql
   - postgrest
-  # This chart has a dependency to CloudNativePG operator 
+  # This chart has a dependency to CloudNativePG operator
   - cloud-native-pg
-  # Dependency to krakend 
+  # Dependency to krakend
   - inventory
   # Temporary disabled for bug in RM
   - resource-manager
-
+  # Temporary disabled for bug in Kafka
+  - performance-monitor

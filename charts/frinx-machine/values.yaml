@@ -27,25 +27,6 @@ global:
       UNICONFIG_POSTGRES_PASSWORD: postgresP
       UNICONFIG_CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD: admin
 
-# CRDs
-
-kube-arangodb:
-  enabled: true
-  operator:
-    replicaCount: 2
-    enableCRDManagement: true
-    args:
-      - --deployment.feature.ephemeral-volumes=true
-  rbac:
-    enabled: true
-    extensions:
-      monitoring: false
-      acs: false
-      at: false
-
-cloudnative-pg:
-  enabled: true
-
 # Stateful PG
 # This section is deprecated
 

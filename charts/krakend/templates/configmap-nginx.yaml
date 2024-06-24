@@ -40,6 +40,9 @@ data:
         server {
             listen {{ .Values.service.port }};
 
+            client_header_buffer_size {{ .Values.nginx.clientHeaderBufferSize }};
+            client_body_buffer_size {{ .Values.nginx.clientBodyBufferSize }};
+
             location /websocket {
                 internal;
                 rewrite ^/websocket(.*)$ $1 break;

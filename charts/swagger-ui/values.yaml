@@ -1,0 +1,217 @@
+# Default values for swagger-ui.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# -- Number of replicas of the deployment.
+replicaCount: 1
+
+image:
+  # -- swagger-ui image repository
+  repository: swaggerapi/swagger-ui
+  # -- Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+  # -- Image pull policy
+  pullPolicy: IfNotPresent
+
+# -- [Image Pull Secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
+imagePullSecrets: []
+
+# -- String to partially override app name
+nameOverride: ""
+
+# -- String to partially override app name
+fullnameOverride: ""
+
+serviceAccount:
+  # -- Specifies whether a service account should be created
+  create: true
+  # -- Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # -- Annotations to add to the service account
+  annotations: {}
+  # -- The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# -- Pod annotations
+podAnnotations: {}
+# -- Pod labels
+podLabels: {}
+
+# -- Configure [Pods Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
+podSecurityContext:
+  {}
+  # fsGroup: 2000
+
+# -- Security context
+securityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  # -- Service annotations
+  annotations: {}
+  # -- Service type
+  type: ClusterIP
+  # -- Service port
+  port: 8080
+  # -- Service [Load Balancer IP](https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer)
+  loadBalancerIP:
+
+# Configure the [Ingress resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+ingress:
+  # -- Enable ingress
+  enabled: false
+  # -- IngressClass that will be be used to implement the Ingress
+  className: ""
+  # -- Additional labels for the Ingress resource
+  labels: {}
+  # -- Additional annotations for the Ingress resource
+  annotations: {}
+  # -- [Ingress Host](https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource)
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+# -- [Container resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/)
+resources:
+  {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# -- Liveness probe
+livenessProbe:
+  # @ignored
+  tcpSocket:
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 30
+  timeoutSeconds: 10
+
+# -- [Autoscaling parameters](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+# -- [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/)
+nodeSelector: {}
+
+# -- [Tolerations for pod assignment](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
+tolerations: []
+
+# -- [Affinity for pod assignment](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
+affinity: {}
+
+# -- Additional volumes on the output Deployment definition
+extraVolumes: {}
+
+# DEPLOYMENT
+
+# -- Application environment variables
+env:
+  URLS: "[{ url: \"./api/workflow-manager.json\", name: \"WorkflowManager\"}]"
+  BASE_URL: /swagger
+
+# -- InitContainer configuration used to fetch and format openapi documentation
+# Define service name, endpoint to documentation, output file name and extra config map with configuration for formatter script.
+manageApiDocs:
+  workflow-manager:
+    enabled: true
+    fetch:
+      url: https://raw.githubusercontent.com/FRINXio/conductor/swagger_docs/latest.json
+      file: workflow-manager.json
+    formatConfigMap: workflow-manager-filter
+
+  # uniconfig:
+  #   enabled: false
+  #   fetch:
+  #     url: http://uniconfig:8181/rests/openapi/uniconfig
+  #     file: uniconfig.yaml
+  #   formatConfigMap: uniconfig-filter
+
+# -- additional InitContainers
+initContainers: {}
+
+# -- Extra Config maps
+# Define configuration for formetter script.
+extraConfigMaps:
+
+  # # -- uniconfig filter configuration
+  # uniconfig-filter:
+  #   server:
+  #     url: /api/uniconfig
+
+  # -- workflow-manager filter configuration
+  workflow-manager-filter:
+    enabled: true
+    server:
+      url: /api/workflow
+    api:
+      rewrite:
+        from: ^/api/
+        to: "/"
+      whitelist:
+          # TODO CHECK
+        "/api/metadata/taskdefs":
+          - "get"
+          - "post"
+          - "put"
+        "/api/metadata/taskdefs/{name}":
+          - "get"
+          - "delete"
+        "/api/metadata/workflow":
+          - "get"
+          - "post"
+          - "put"
+        "/api/metadata/workflow/{name}":
+          - "get"
+        "/api/metadata/workflow/{name}/{version}":
+          - "delete"
+        "/api/workflow/{name}":
+          - "delete"
+        "/api/workflow/{workflowId}/remove":
+          - "delete"
+        "/api/workflow":
+          - "post"
+        "/api/event":
+          - "get"
+          - "post"
+        "/api/event/{name}":
+          - "delete"
+          - "get"
+        "/api/workflow/bulk/pause":
+          - "put"
+        "/api/workflow/bulk/resume":
+          - "put"
+        "/api/workflow/bulk/retry":
+          - "post"
+        "/api/workflow/bulk/restart":
+          - "post"
+        "/api/workflow/bulk/terminate":
+          - "post"
+        "/api/external/postgres/{externalPayloadPath}":
+          - "get"
+        "/health":
+          - "get"

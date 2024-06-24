@@ -51,6 +51,10 @@ helm uninstall [RELEASE_NAME]
 | `deployment.annotations` | Option to specify deployment annotation | `{}` |
 | `commands` | Option to specify commands for main container | `[ "python3", "main.py" ]` |
 | `workdir` | Option to specify WORKDIR of container. It is used for creating volume for application in non root environment | `/home/app` |
+| `initContainers.checkUniconfigReady` | Enable checkUniconfigReady initContainer | true |
+| `initContainers.checkConductorReady` | Enable checkConductorReady initContainer | true |
+| `initContainers.checkInventoryReady` | Enable checkInventoryReady initContainer | true |
+| `initContainers.copyWorkerFiles` | Enable copyWorkerFiles initContainer | true |
 | `initContainersUrl.UNICONFIG_URL_BASE` | UNICONFIG_URL_BASE env variable | `http://uniconfig:8181` |
 | `initContainersUrl.CONDUCTOR_URL_BASE` | CONDUCTOR_URL_BASE env variable | `http://conductor-server:8080` |
 | `initContainersUrl.INVENTORY_URL_BASE` | INVENTORY_URL_BASE env variable | `http://inventory:8000` |

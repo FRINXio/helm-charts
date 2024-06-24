@@ -1,6 +1,9 @@
 # frinx-machine
 
-FRINX Machine is a dockerized deployment of multiple elements. The FRINX Machine enables large scale automation of network devices, services and retrieval of operational state data from a network. User specific workflows are designed through the use of OpenConfig NETCONF & YANG models, vendor native models, and the CLI. The FRINX Machine uses dockerized containers that are designed and tested to work together to create a user specific solution. Further information is available on [docs.frinx.io](https://docs.frinx.io/frinx-machine/getting-started/).
+FRINX Machine is a dockerized deployment of multiple elements. The FRINX Machine enables large scale automation of network devices, services and retrieval of operational state data from a network. 
+User specific workflows are designed through the use of OpenConfig NETCONF & YANG models, vendor native models, and the CLI. 
+The FRINX Machine uses dockerized containers that are designed and tested to work together to create a user specific solution. 
+Further information is available on [docs.frinx.io](https://docs.frinx.io/frinx-machine/getting-started/).
 
 ## Prerequisites
 
@@ -12,6 +15,14 @@ FRINX Machine is a dockerized deployment of multiple elements. The FRINX Machine
 ```console
 helm repo add frinx https://FRINXio.github.io/helm-charts
 helm repo update
+```
+
+## Install Operators Chart
+
+Before installing Frinx MACHINE, install required operators and crds
+
+```console
+helm install [RELEASE_NAME]-operators frinx/frinx-machine-operators
 ```
 
 ## Install Chart
@@ -36,6 +47,12 @@ helm upgrade [RELEASE_NAME] frinx/frinx-machine
 
 ```console
 helm uninstall [RELEASE_NAME]
+```
+
+## Uninstall Operators Chart
+
+```console
+helm uninstall [RELEASE_NAME]-operators
 ```
 
 ## Dependencies
@@ -80,4 +97,4 @@ helm uninstall [RELEASE_NAME]
 - tested on nodes with Ubuntu
 
 ## Where to Purchase
-For information regarding sales, visit [frinx.io](https://frinx.io/) or contact us at info@frinx.io
+For information regarding sales, visit [frinx.io](https://frinx.io/)

@@ -1,0 +1,21 @@
+apiVersion: v2
+name: frinx-machine-operators
+description: A Helm chart for installing operators and crds.
+version: 0.1.0
+appVersion: 6.0.0
+maintainers:
+  - name: FRINX
+    email: services@frinx.io
+    url: https://frinx.io
+
+dependencies:
+
+  - name: cloudnative-pg
+    repository: https://cloudnative-pg.github.io/charts
+    version: 0.20.2
+    condition: cloudnative-pg.enabled
+
+  - name: kube-arangodb
+    version: 1.2.38
+    repository: https://arangodb.github.io/kube-arangodb
+    condition: kube-arangodb.enabled

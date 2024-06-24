@@ -1,0 +1,163 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "performance-monitor.fullname" . }}
+  labels:
+    {{- include "performance-monitor.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "performance-monitor.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "performance-monitor.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "performance-monitor.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: check-db-ready
+          image: postgres:alpine
+          command: ['sh', '-c',
+            "until pg_isready -h ${PM_DB__DB_HOST} -p ${PM_DB__DB_PORT} -U ${PM_DB__DB_USER};
+            do echo waiting for database; sleep 2; done;"]
+          env:
+            - name: "PM_DB__DB_PORT"
+              value: {{ .Values.dbPersistence.POSTGRES_PORT | quote }}
+            - name: "PM_DB__DB_HOST"
+              {{- if .Values.postgresql.enabled }}            
+              value: "{{ .Release.Name }}-postgresql"
+              {{- else }}
+              value: "{{ .Values.dbPersistence.POSTGRES_HOST }}"
+              {{- end }}
+            - name: PM_DB__DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "performance-monitor.secretName" . }}
+                  {{- if (include "performance-monitor.createSecret" .) }}
+                  key: POSTGRES_USERNAME
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.postgresUsernameKey }}
+                  {{- end}}
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+        - name: check-kafka-ready
+          image: busybox:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - |
+              echo "Checking Kafka readiness at ${KAFKA_HOST}:${KAFKA_PORT}..."
+              while ! nc -z ${KAFKA_HOST} ${KAFKA_PORT}; do
+                echo "Kafka is not ready, waiting..."
+                sleep 5
+              done
+              echo "Kafka is ready!"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+          env:
+            - name: "KAFKA_HOST"
+              value: {{ .Values.initContainersUrl.KAFKA_HOST | quote }}
+            - name: "KAFKA_PORT"
+              value: {{ .Values.initContainersUrl.KAFKA_PORT | quote }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            # TODO
+            # - name: "POSTGRES_DB_SCHEMA"
+            #   value: {{ .Values.dbPersistence.POSTGRES_DB_SCHEMA | quote }}
+
+            - name: "PM_DB__DB_HOST"
+              {{- if .Values.postgresql.enabled }}            
+              value: "{{ .Release.Name }}-postgresql"
+              {{- else }}
+              value: "{{ .Values.dbPersistence.POSTGRES_HOST }}"
+              {{- end }}
+            - name: "PM_DB__DB_PORT"
+              value: {{ .Values.dbPersistence.POSTGRES_PORT | quote }}
+            - name: "PM_DB__DB_NAME"
+              value: {{ .Values.dbPersistence.POSTGRES_DATABASE | quote }}
+            - name: PM_DB__DB_MIGRATIONS_DIR
+              value: {{ .Values.dbPersistence.POSTGRES_MIGRATION_DIR | quote }}
+            - name: PM_DB__DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "performance-monitor.secretName" . }}
+                  {{- if (include "performance-monitor.createSecret" .) }}
+                  key: POSTGRES_USERNAME
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.postgresUsernameKey }}
+                  {{- end}}
+            - name: PM_DB__DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "performance-monitor.secretName" . }}
+                  {{- if (include "performance-monitor.createSecret" .) }}
+                  key: POSTGRES_PASSWORD
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.postgresPasswordKey }}
+                  {{- end}}
+          {{- range $key, $val := .Values.env }}
+            - name: {{ $key | quote }}
+              value: {{ $val | quote }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          {{- with .Values.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
