@@ -14,7 +14,7 @@ proxyImage:
   repository: nginx
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 1.25.4-alpine
+  tag: 1.27-alpine
 
 imagePullSecrets: []
 nameOverride: ""
@@ -152,5 +152,9 @@ volumes:
       accessKey:
 
 nginx:
-  clientBodyBufferSize: "8k"
-  clientHeaderBufferSize: "1k"
+  server: |
+    client_body_buffer_size "8k";
+    client_header_buffer_size "1k";
+    proxy_connect_timeout "3600";
+    proxy_read_timeout "3600";
+    proxy_send_timeout "3600";

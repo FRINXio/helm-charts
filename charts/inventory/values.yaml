@@ -112,8 +112,13 @@ env:
   UNICONFIG_LIST_URL: http://krakend:8080/static/list/uniconfig
   TOPOLOGY_DISCOVERY_API_URL: http://topology-discovery:5000
   TOPOLOGY_DISCOVERY_GRAPHQL_API_URL: http://topology-discovery:5000/api/graphql
-  X_TENANT_ID: frinx
-  TOPOLOGY_ENABLED: true
-  SHELL_HOST: uniconfig-controller
+  PERFORMANCE_MONITORING_GRAPHQL_API_URL: http://performance-monitor:8000/api/graphql
 
-extraEnv: []
+  X_TENANT_ID: frinx
+  PERFORMANCE_MONITORING_ENABLED: true
+  TOPOLOGY_ENABLED: true
+
+  SHELL_HOST: uniconfig-controller
+  KAFKA_BROKER: "kafka:9092"
+  KAFKA_TOPIC: device-inventory
+  KAFKA_ENABLED: false

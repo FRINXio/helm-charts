@@ -8,19 +8,6 @@ appVersion: 6.0.0
 maintainers:
   - name: FRINX
 dependencies:
-  # Local DBS
-
-  - name: postgresql
-    repository: https://charts.bitnami.com/bitnami
-    version: 11.9.13
-    condition: postgresql.enabled
-
-  - name: postgresql
-    repository: https://charts.bitnami.com/bitnami
-    version: 11.9.13
-    alias: uniconfig-postgresql
-    condition: uniconfig-postgresql.enabled
-
   # Monitoring
 
   - name: grafana
@@ -55,6 +42,7 @@ dependencies:
 
   # Frinx Machine Core
 
+  ## Databases
   - name: cloud-native-pg
     alias: workflow-manager-postgres
     version: 0.0.2
@@ -68,18 +56,27 @@ dependencies:
     repository: https://FRINXio.github.io/helm-charts
 
   - name: frinx-arango-config
-    repository: https://FRINXio.github.io/helm-charts
+    repository: file://../frinx-arango-config
+    # repository: https://FRINXio.github.io/helm-charts
     version: 4.1.0
     condition: frinx-arango-config.enabled
 
+  - condition: kafka.enabled
+    name: kafka
+    version: 25.2.0
+    repository: https://charts.bitnami.com/bitnami
+
+  ## Services 
   - name: krakend
-    repository: https://FRINXio.github.io/helm-charts
-    version: ~3.2.0
+    # repository: https://FRINXio.github.io/helm-charts
+    repository: file://../krakend
+    version: 3.2.0
     condition: krakend.enabled
 
   - name: frinx-frontend
-    repository: https://FRINXio.github.io/helm-charts
-    version: 4.0.1
+    repository: file://../frinx-frontend
+    # repository: https://FRINXio.github.io/helm-charts
+    version: 4.1.0
     condition: frinx-frontend.enabled
 
   - name: resource-manager
@@ -88,13 +85,15 @@ dependencies:
     condition: resource-manager.enabled
 
   - name: workflow-manager
-    repository: https://FRINXio.github.io/helm-charts
+    repository: file://../workflow-manager
+    # repository: https://FRINXio.github.io/helm-charts
     version: 3.0.0
     condition: workflow-manager.enabled
 
   - name: inventory
-    repository: https://FRINXio.github.io/helm-charts
-    version: ~5.0.1
+    repository: file://../inventory
+    # repository: https://FRINXio.github.io/helm-charts
+    version: 5.1.0
     condition: inventory.enabled
 
   - name: traefik
@@ -110,10 +109,34 @@ dependencies:
 
   - name: topology-discovery
     version: 3.0.0
-    repository: https://FRINXio.github.io/helm-charts
+    repository: file://../topology-discovery
+    # repository: https://FRINXio.github.io/helm-charts
     condition: topology-discovery.enabled
+
+  - name: performance-monitor
+    repository: file://../performance-monitor
+    # repository: https://FRINXio.github.io/helm-charts
+    version: 0.1.2
+    condition: performance-monitor.enabled
+
+  - name: swagger-ui
+    repository: https://FRINXio.github.io/helm-charts
+    version: 0.1.1
+    condition: swagger-ui.enabled
+
+  - condition: device-induction.enabled
+    name: worker
+    repository: file://../worker
+    # repository: https://FRINXio.github.io/helm-charts
+    version: 4.0.0
+    alias: device-induction
 
   - name: oauth2-proxy
     repository: https://oauth2-proxy.github.io/manifests
-    version: 6.24.1
+    version: 7.7.4
     condition: oauth2-proxy.enabled
+
+# TODO: remove
+  - name: kafka-ui
+    repository: https://provectus.github.io/kafka-ui-charts
+    version: 0.7.5

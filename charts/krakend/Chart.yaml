@@ -4,13 +4,13 @@ description: FRINX KrakenD API Gateway for FRINX-machine
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
 version: 3.2.0
-appVersion: "6.0.0"
+appVersion: "6.1.0"
 maintainers:
   - name: FRINX
 annotations:
   artifacthub.io/images: |
     - name: krakend
-      image: frinx/krakend:6.0.0
+      image: frinx/krakend:6.1.0
   artifacthub.io/changes: |
     - kind: added
       description: Add possibility to configure nginx max header an body size

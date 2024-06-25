@@ -76,6 +76,10 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
+            - name: "CONDUCTOR_RBAC_ADMIN_ADMINROLES_0_"
+              value: {{ .Values.rbac.WM_ADMIN_ROLES | quote }}
+            - name: "CONDUCTOR_RBAC_ADMIN_ADMINGROUPS_0_"
+              value: {{ .Values.rbac.WM_ADMIN_GROUPS | quote }}
             - name: "CONFIG_PROP"
               value: {{ .Values.conductorEnv.CONFIG_PROP }}
             - name: "LOG4J_PROP"

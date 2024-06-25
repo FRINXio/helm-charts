@@ -36,6 +36,7 @@ securityContext:
 service:
   type: ClusterIP
   port: 5000
+  kafkaClientPort: 5005
 
 ingress:
   enabled: false
@@ -53,6 +54,18 @@ ingress:
   #      - chart-example.local
 
 resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+kafkaClientResources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -104,3 +117,7 @@ env:
   IMPORT_ARANGO_DEMO_DATA: false
   IMPORT_DEVICE_INVENTORY_DATA: false
   X_TENANT_ID: "frinx"
+  TD_KAFKA__TOPICS__DEVICE_INVENTORY_TOPIC: device-inventory
+  TD_KAFKA__TOPICS__DEVICE_EVENTS_TOPIC: device-events
+  TD_KAFKA__BOOTSTRAP_SERVERS: '["kafka:9092"]'
+  TD_KAFKA__API_VERSION:  '["0", "11", "5"]'

@@ -129,6 +129,62 @@ spec:
             failureThreshold: 5
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+        - name: {{ .Chart.Name }}-kafka-consumer-api
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/.venv/bin/python"]
+          args: ["/home/app/topology_discovery/kafka/kafka_client.py"]
+          env:
+            - name: PYTHONPATH
+              value: /home/app
+            - name: CONDUCTOR_URL_BASE 
+              value: "{{ .Values.env.CONDUCTOR_URL }}/api"
+            - name: ARANGO_URL 
+              value: {{ .Values.dbPersistence.ARANGO_URL | quote }}
+            - name: ARANGO_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "topology-discovery.secretName" . }}
+                  {{- if (include "topology-discovery.createSecret" .) }}
+                  key: ARANGO_USERNAME
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.arangoUsernameKey }}
+                  {{- end}}
+            - name: ARANGO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "topology-discovery.secretName" . }}
+                  {{- if (include "topology-discovery.createSecret" .) }}
+                  key: ARANGO_ROOT_PASSWORD
+                  {{- else }}
+                  key: {{ .Values.dbPersistence.existingSecret.arangoRootPasswordKey }}
+                  {{- end}}
+          {{- range $key, $val := .Values.env }}
+            - name: {{ $key | quote }}
+              value: {{ $val | quote }}
+          {{- end }}
+          ports:
+            - name: http-kafka
+              containerPort: 5005
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: http-kafka
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: http-kafka
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 5
+          resources:
+            {{- toYaml .Values.kafkaClientResources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

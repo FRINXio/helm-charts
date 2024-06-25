@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ template "krakend.fullname" . }}-nginx-config
 data:
-  nginx.conf: |
+  nginx.conf: |-
     events {
         worker_connections  1024;
     }
@@ -40,8 +40,7 @@ data:
         server {
             listen {{ .Values.service.port }};
 
-            client_header_buffer_size {{ .Values.nginx.clientHeaderBufferSize }};
-            client_body_buffer_size {{ .Values.nginx.clientBodyBufferSize }};
+{{ .Values.nginx.server | indent 12 }}
 
             location /websocket {
                 internal;

@@ -1,5 +1,5 @@
 # Global settings
-
+x-frinx-machine-version: &frinx-machine-version 6.1
 x-frinx-database-password: &frinx-database-password frinx-database-password
 x-frinx-image-pull-secret: &frinx-image-pull-secret regcred
 x-frinx-rbac-admin-role: &frinx-rbac-admin-role FRINXio
@@ -26,36 +26,6 @@ global:
       UNICONFIG_POSTGRES_USERNAME: postgresU
       UNICONFIG_POSTGRES_PASSWORD: postgresP
       UNICONFIG_CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD: admin
-
-# Stateful PG
-# This section is deprecated
-
-postgresql:
-  enabled: false
-  fullnameOverride: "frinx-postgresql"
-  auth:
-    enablePostgresUser: true
-    username: postgresU
-    password: postgresP
-    database: postgres
-  architecture: standalone
-  primary:
-    initdb:
-      scripts:
-        init_db.sql: |
-          CREATE DATABASE schellar;
-          CREATE DATABASE conductor;
-          CREATE DATABASE inventory;
-
-uniconfig-postgresql:
-  enabled: false
-  fullnameOverride: "uniconfig-postgresql"
-  auth:
-    enablePostgresUser: true
-    username: postgresU
-    password: postgresP
-    database: uniconfig
-  architecture: standalone
 
 # Monitoring
 
@@ -318,6 +288,33 @@ frinx-arango-config:
       runAsGroup: 2000
       fsGroup: 3000
 
+kafka:
+  enabled: true
+  fullnameOverride: kafka
+  listeners:
+    client:
+      protocol: PLAINTEXT
+
+  controller:
+    replicaCount: 1
+
+  configurationOverrides:
+    log.retention.hours: 168
+  persistence:
+    enabled: true
+    size: 10Gi
+
+  provisioning:
+    enabled: true
+    topics:
+      - name: device-inventory
+        partitions: 1
+        replicationFactor: 1
+        config:
+          max.message.bytes: 64000
+          flush.messages: 1
+
+
 # Core component configuration
 
 krakend:
@@ -327,7 +324,7 @@ krakend:
 
   image:
     repository: "frinx/krakend"
-    tag: "6.0.0"
+    tag: "6.1.0"
 
   proxyImage:
     repository: "nginx"
@@ -352,14 +349,15 @@ frinx-frontend:
 
   image:
     repository: "frinx/frinx-frontend"
-    tag: "6.0.0"
+    tag: "latest"
 
   proxyImage:
     name: frinx/frinx-graphql-proxy
-    tag: "6.0.0"
+    tag: "latest"
 
   env:
     AUTH_ENABLED: true
+    COMMIT_HASH: *frinx-machine-version
 
 resource-manager:
   enabled: true
@@ -390,7 +388,7 @@ workflow-manager:
 
   image:
     repository: "frinx/conductor-server"
-    tag: "6.0.0"
+    tag: "RBAC8"
 
   schellarImage:
     repository: "frinx/schellar"
@@ -423,13 +421,17 @@ workflow-manager:
       postgresUsernameKey: SCHELLAR_POSTGRES_USERNAME
       postgresPasswordKey: SCHELLAR_POSTGRES_PASSWORD
 
+  rbac:
+    WM_ADMIN_ROLES: *frinx-rbac-admin-role
+    WM_ADMIN_GROUPS: *frinx-rbac-admin-role
+
 inventory:
   enabled: true
   fullnameOverride: "inventory"
 
   image:
     repository: "frinx/frinx-inventory-server"
-    tag: "6.0.1"
+    tag: "6.1.0"
 
   postgresql:
     enabled: false
@@ -443,8 +445,8 @@ inventory:
       postgresUsernameKey: INVENTORY_POSTGRES_USERNAME
       postgresPasswordKey: INVENTORY_POSTGRES_PASSWORD
 
-  # extraEnv:
-  #   NODE_ENV: 'development'
+  extraEnv:
+    NODE_ENV: 'development'
 
 topology-discovery:
   enabled: true
@@ -452,7 +454,7 @@ topology-discovery:
 
   image:
     repository: "frinx/topology-discovery"
-    tag: "6.0.0"
+    tag: "6.2.2"
 
   imagePullSecrets:
     - name: *frinx-image-pull-secret
@@ -462,6 +464,9 @@ topology-discovery:
       secretName: *frinx-database-password
       arangoUsernameKey: TD_ARANGO_USERNAME
       arangoRootPasswordKey: TD_ARANGO_ROOT_PASSWORD
+
+  env:
+    X_AUTH_USER_GROUP: *frinx-rbac-admin-role
 
 uc-zone-lb:
   enabled: true
@@ -482,6 +487,7 @@ uc-zone-lb:
 
   additionalArguments:
     - "--entryPoints.uniconfig.address=:8181"
+    - "--entryPoints.uniconfig.http.encodequerysemicolons=true"
     - "--log.level=DEBUG"
 
   ports:
@@ -498,8 +504,8 @@ uniconfig:
   replicaCount: 1
 
   image:
-    repository: "frinx/uniconfig"
-    tag: "6.0.1"
+    repository: "frinxio/uniconfig"
+    tag: "latest"
 
   imagePullSecrets:
     - name: *frinx-image-pull-secret
@@ -519,6 +525,7 @@ uniconfig:
     capabilities:
       add:
         - NET_BIND_SERVICE
+        - NET_RAW
       drop:
         - ALL
 
@@ -536,6 +543,119 @@ uniconfig:
     hosts:
       - uniconfig
 
+performance-monitor:
+  enabled: true
+  fullnameOverride: performance-monitor
+
+  image:
+    repository: frinx/performance-monitor
+    tag: "6.0.1"
+
+  imagePullSecrets:
+    - name: *frinx-image-pull-secret
+
+  kafka:
+    enabled: false
+
+  postgres:
+    enabled: true
+
+  dbPersistence:
+    POSTGRES_USERNAME: postgresU
+    POSTGRES_PASSWORD: postgresP
+
+swagger-ui:
+  enabled: true
+  fullnameOverride: "swagger-ui"
+
+  env:
+    URLS: "[{ url: \"./api/workflow-manager.json\", name: \"WorkflowManager\"}, { url: \"./api/uniconfig.yaml\", name: \"Uniconfig\"}]"
+
+  manageApiDocs:
+    workflow-manager:
+      enabled: true
+      fetch:
+        url: http://conductor-server:8080/v3/api-docs
+        file: workflow-manager.json
+      formatConfigMap: workflow-manager-filter
+    uniconfig:
+      enabled: true
+      fetch:
+        url: http://uniconfig:8181/rests/openapi/uniconfig
+        file: uniconfig.yaml
+      formatConfigMap: uniconfig-filter
+
+  extraConfigMaps:
+    uniconfig-filter:
+      enabled: true
+      server:
+        url: /api/uniconfig
+    workflow-manager-filter:
+      enabled: true
+      server:
+        url: /api/workflow
+      api:
+        rewrite:
+          from: ^/api/
+          to: "/"
+        whitelist:
+          "/api/metadata/taskdefs":
+            - "get"
+            - "post"
+            - "put"
+          "/api/metadata/taskdefs/{name}":
+            - "get"
+            - "delete"
+          "/api/metadata/workflow":
+            - "get"
+            - "post"
+            - "put"
+          "/api/metadata/workflow/{name}":
+            - "get"
+          "/api/metadata/workflow/{name}/{version}":
+            - "delete"
+          "/api/workflow/{name}":
+            - "delete"
+          "/api/workflow/{workflowId}/remove":
+            - "delete"
+          "/api/workflow":
+            - "post"
+          "/api/event":
+            - "get"
+            - "post"
+          "/api/event/{name}":
+            - "delete"
+            - "get"
+          "/api/workflow/bulk/pause":
+            - "put"
+          "/api/workflow/bulk/resume":
+            - "put"
+          "/api/workflow/bulk/retry":
+            - "post"
+          "/api/workflow/bulk/restart":
+            - "post"
+          "/api/workflow/bulk/terminate":
+            - "post"
+          "/api/external/postgres/{externalPayloadPath}":
+            - "get"
+          "/health":
+            - "get"
+
+device-induction:
+  enabled: true
+
+  fullnameOverride: "device-induction"
+
+  image:
+    repository: frinx/device-induction
+    tag: "0.6.1"
+
+  imagePullSecrets:
+    - name: *frinx-image-pull-secret
+
+  env:
+    X_AUTH_USER_GROUP: *frinx-rbac-admin-role
+
 # Identity provider configuration
 
 oauth2-proxy:
@@ -543,15 +663,20 @@ oauth2-proxy:
   fullnameOverride: "oauth2-proxy"
 
   image:
-    repository: "frinx/oauth2-proxy"
-    tag: "6.0.0-alpine"
+    repository: "frinxio/oauth2-proxy"
+    tag: "latest-alpine"
 
     imagePullSecrets:
       - name: *frinx-image-pull-secret
 
   ingress:
     enabled: false
-    ingressClassName: nginx
+    className: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
     hosts:
       - "fm.127.0.0.1.nip.io"
 
@@ -586,3 +711,16 @@ oauth2-proxy:
       provider = "github"
       login_url = "https://github.com/login/oauth/authorize"
       redirect_url = "https://fm.127.0.0.1.nip.io/oauth2/callback"
+
+
+# TODO remove
+kafka-ui:
+  fullnameOverride: kafka-ui
+  yamlApplicationConfig:
+    kafka:
+      clusters:
+        - name: kafka
+          bootstrapServers: kafka:9092
+  ingress:
+    enabled: true
+    host: kafka.192.168.49.2.nip.io
