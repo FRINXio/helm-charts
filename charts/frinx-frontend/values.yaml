@@ -96,7 +96,7 @@ env:
   UNISTORE_API_URL: "/api/unistore"
   INVENTORY_API_URL: "/api/proxy"
   INVENTORY_WS_PATH: /api/proxy
-  INVENTORY_WS_SCHEMA: "ws://"
+  INVENTORY_WS_SCHEMA: "wss://"
   # DOCS
   WORKFLOW_MANAGER_API_DOCS_URL: "/swagger/index.html?urls.primaryName=WorkflowManager"
   UNICONFIG_API_DOCS_URL: "/swagger/index.html?urls.primaryName=Uniconfig"

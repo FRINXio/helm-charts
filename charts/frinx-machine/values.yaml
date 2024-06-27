@@ -388,7 +388,7 @@ workflow-manager:
 
   image:
     repository: "frinx/conductor-server"
-    tag: "RBAC8"
+    tag: "latest"
 
   schellarImage:
     repository: "frinx/schellar"
@@ -664,10 +664,10 @@ oauth2-proxy:
 
   image:
     repository: "frinxio/oauth2-proxy"
-    tag: "latest-alpine"
+    tag: "6.1-alpine"
 
-    imagePullSecrets:
-      - name: *frinx-image-pull-secret
+  imagePullSecrets:
+    - name: *frinx-image-pull-secret
 
   ingress:
     enabled: false
