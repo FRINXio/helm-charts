@@ -103,7 +103,8 @@ dependencies:
     condition: uc-zone-lb.enabled
 
   - name: uniconfig
-    repository: https://FRINXio.github.io/helm-charts
+    repository: file://../uniconfig
+    # repository: https://FRINXio.github.io/helm-charts
     version: 7.1.0
     condition: uniconfig.enabled
 

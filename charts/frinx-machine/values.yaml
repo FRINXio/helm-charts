@@ -392,7 +392,7 @@ workflow-manager:
 
   schellarImage:
     repository: "frinx/schellar"
-    tag: "6.0.0"
+    tag: "latest"
 
   postgresql:
     enabled: false
@@ -655,6 +655,8 @@ device-induction:
 
   env:
     X_AUTH_USER_GROUP: *frinx-rbac-admin-role
+    DEVI_DEVICE_AUTHENTICATION__DEFAULT_USERNAME: admin
+    DEVI_DEVICE_AUTHENTICATION__DEFAULT_PASSWORD: admin
 
 # Identity provider configuration
 

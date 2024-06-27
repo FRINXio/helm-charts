@@ -48,7 +48,7 @@ dependencies:
   repository: https://traefik.github.io/charts
   version: 27.0.2
 - name: uniconfig
-  repository: https://FRINXio.github.io/helm-charts
+  repository: file://../uniconfig
   version: 7.1.0
 - name: topology-discovery
   repository: file://../topology-discovery
@@ -68,5 +68,5 @@ dependencies:
 - name: kafka-ui
   repository: https://provectus.github.io/kafka-ui-charts
   version: 0.7.5
-digest: sha256:6dd468309d13fd3315eac4bc6a269e381faed41a06dadc1cb2f61ad2ba79583c
-generated: "2024-06-25T16:04:20.023315956+02:00"
+digest: sha256:43b0766f6530f5616f29c0b51119e6cbc942403350cb2b7a50df3f81d2499805
+generated: "2024-06-27T09:51:28.916970643+02:00"

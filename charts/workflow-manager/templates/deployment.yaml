@@ -199,6 +199,10 @@ spec:
           resources:
             {{- toYaml .Values.schellarResources | nindent 12 }}
           env:
+            - name: "ADMIN_ROLES"
+              value: {{ .Values.rbac.WM_ADMIN_ROLES | quote }}
+            - name: "ADMIN_GROUPS"
+              value: {{ .Values.rbac.WM_ADMIN_GROUPS | quote }}
             - name: "LOG_LEVEL"
               value: {{ .Values.schellarEnv.LOG_LEVEL | quote }}
             - name: "CHECK_INTERVAL_SECONDS"
