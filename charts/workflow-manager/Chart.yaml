@@ -3,7 +3,7 @@ name: workflow-manager
 description: A Helm chart for Kubernetes deploying conductor-server and schellar
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 3.0.0
+version: 3.1.0
 appVersion: "6.0.0"
 maintainers:
   - name: FRINX
@@ -15,22 +15,17 @@ dependencies:
 annotations:
   artifacthub.io/images: |
     - name: conductor-server
-      image: frinx/conductor-server:6.0.0
+      image: frinx/conductor-server:6.1.0
     - name: schellar
-      image: frinx/schellar:6.0.0
+      image: frinx/schellar:6.1.0
   artifacthub.io/changes: |
+    - kind: added
+      description: Add rbac settings for conductor
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/382
     - kind: removed
-      description: Remove workflow-proxy and separate conductor and schellar
+      description: Removed log4j settings
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/344
-    - kind: changed
-      description: Changed ingress configuration
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/344
-    - kind: changed
-      description: Configuration of db connections via secrets
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/344
+          url: https://github.com/FRINXio/helm-charts/pull/382

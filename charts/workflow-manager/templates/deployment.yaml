@@ -82,6 +82,10 @@ spec:
               value: {{ .Values.conductorEnv.LOG4J_PROP }}
             - name: "_JAVA_OPTIONS"
               value: {{ .Values.conductorEnv._JAVA_OPTIONS}}
+            - name: CONDUCTOR_RBAC_ADMIN_ADMINROLES_0_
+              value: {{ .Values.rbac.WM_ADMIN_ROLES | quote }}
+            - name: CONDUCTOR_RBAC_ADMIN_ADMINGROUPS_0_
+              value: {{ .Values.rbac.WM_ADMIN_GROUPS | quote }}
             - name: CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -165,9 +169,6 @@ spec:
             - name: {{ $key | quote }}
               value: {{ $val | quote }}
           {{- end }}
-          volumeMounts:
-            - name: {{ include "workflow-manager.fullname" . }}-config
-              mountPath: /app/config/
         # schellar
         - name: {{ .Chart.Name }}-schellar
           securityContext:
@@ -203,6 +204,10 @@ spec:
               value: {{ .Values.schellarEnv.CONDUCTOR_API_URL | quote }}
             - name: "BACKEND"
               value: {{ .Values.schellarEnv.BACKEND | quote }}
+            - name: "ADMIN_ROLES"
+              value: {{ .Values.rbac.WM_ADMIN_ROLES | quote }}
+            - name: "ADMIN_GROUPS"
+              value: {{ .Values.rbac.WM_ADMIN_GROUPS | quote }}  
             - name: "POSTGRES_MIGRATIONS_DIR"
               value: {{ .Values.schellarEnv.POSTGRES_MIGRATIONS_DIR | quote }}
             - name: "PLAYGROUND_QUERY_ENDPOINT"
@@ -253,7 +258,3 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      volumes:
-      - name: {{ include "workflow-manager.fullname" . }}-config
-        configMap:
-          name: {{ include "workflow-manager.fullname" . }}-config
