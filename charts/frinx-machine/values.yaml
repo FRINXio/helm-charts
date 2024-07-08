@@ -324,7 +324,7 @@ krakend:
 
   image:
     repository: "frinx/krakend"
-    tag: "6.1.0"
+    tag: "rbac_fix_2"
 
   proxyImage:
     repository: "nginx"
