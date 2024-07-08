@@ -3,8 +3,8 @@ name: resource-manager
 description: A Helm chart for Kubernetes deploying of the Frinx Resource-Manager
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 2.0.0
-appVersion: "6.0.0"
+version: 2.1.0
+appVersion: "6.1.0"
 maintainers:
   - name: FRINX
 dependencies:
@@ -15,22 +15,7 @@ dependencies:
 annotations:
   artifacthub.io/changes: |
     - kind: changed
-      description: Changed ingress configuration
+      description: Bump application version to 6.1
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/341
-    - kind: changed
-      description: Configuration of db connections via secrets
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/341
-    - kind: changed
-      description: Configuration of RBAC via Values.rbac
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/341
-    - kind: changed
-      description: Bump postgresql dependency helm chart version
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/341
+          url: https://github.com/FRINXio/helm-charts/pull/386
