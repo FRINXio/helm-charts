@@ -155,6 +155,8 @@ nginx:
   server: |
     client_body_buffer_size "8k";
     client_header_buffer_size "1k";
+    proxy_headers_hash_max_size 2048;
+    proxy_headers_hash_bucket_size 128;
     proxy_connect_timeout "3600";
     proxy_read_timeout "3600";
     proxy_send_timeout "3600";

@@ -121,4 +121,4 @@ env:
   SHELL_HOST: uniconfig-controller
   KAFKA_BROKER: "kafka:9092"
   KAFKA_TOPIC: device-inventory
-  KAFKA_ENABLED: false
+  KAFKA_ENABLED: true

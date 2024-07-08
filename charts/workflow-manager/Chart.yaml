@@ -4,7 +4,7 @@ description: A Helm chart for Kubernetes deploying conductor-server and schellar
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
 version: 3.0.0
-appVersion: "6.0.0"
+appVersion: "6.1.0"
 maintainers:
   - name: FRINX
 dependencies:
@@ -15,9 +15,9 @@ dependencies:
 annotations:
   artifacthub.io/images: |
     - name: conductor-server
-      image: frinx/conductor-server:6.0.0
+      image: frinx/conductor-server:6.1.0
     - name: schellar
-      image: frinx/schellar:6.0.0
+      image: frinx/schellar:6.1.0
   artifacthub.io/changes: |
     - kind: removed
       description: Remove workflow-proxy and separate conductor and schellar

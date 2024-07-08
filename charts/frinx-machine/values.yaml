@@ -388,11 +388,11 @@ workflow-manager:
 
   image:
     repository: "frinx/conductor-server"
-    tag: "latest"
+    tag: "6.1.0"
 
   schellarImage:
     repository: "frinx/schellar"
-    tag: "latest"
+    tag: "6.1.0"
 
   postgresql:
     enabled: false
@@ -431,7 +431,7 @@ inventory:
 
   image:
     repository: "frinx/frinx-inventory-server"
-    tag: "6.1.0"
+    tag: "latest"
 
   postgresql:
     enabled: false
@@ -505,7 +505,7 @@ uniconfig:
 
   image:
     repository: "frinxio/uniconfig"
-    tag: "latest"
+    tag: "6.1.1"
 
   imagePullSecrets:
     - name: *frinx-image-pull-secret
@@ -549,7 +549,7 @@ performance-monitor:
 
   image:
     repository: frinx/performance-monitor
-    tag: "6.0.1"
+    tag: "6.0.2"
 
   imagePullSecrets:
     - name: *frinx-image-pull-secret

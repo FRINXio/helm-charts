@@ -169,9 +169,6 @@ spec:
             - name: {{ $key | quote }}
               value: {{ $val | quote }}
           {{- end }}
-          volumeMounts:
-            - name: {{ include "workflow-manager.fullname" . }}-config
-              mountPath: /app/config/
         # schellar
         - name: {{ .Chart.Name }}-schellar
           securityContext:
@@ -261,7 +258,3 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      volumes:
-      - name: {{ include "workflow-manager.fullname" . }}-config
-        configMap:
-          name: {{ include "workflow-manager.fullname" . }}-config

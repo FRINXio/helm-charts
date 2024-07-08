@@ -109,6 +109,7 @@ proxyEnv:
   CONDUCTOR_URL: http://conductor-server:8080
   SCHELLAR_URL: http://conductor-server:3000/query
   INVENTORY_URL: http://inventory:8000/graphql
+  WS_INVENTORY_URL: ws://inventory:8000/graphql
   RESOURCE_MANAGER_URL: http://resource-manager:8884/query
 
 proxyResources: {}
