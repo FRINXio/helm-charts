@@ -78,6 +78,8 @@ env:
   X_TENANT_ID: frinx
   X_AUTH_USER_GROUP: network-admin
   UNICONFIG_URL_BASE: http://uniconfig:8181/rests
+  CONDUCTOR_URL_BASE: http://conductor-server:8080/api
+  SCHELLAR_URL_BASE: http://conductor-server:3000/query
 
 configMaps:
   # - name: properties-file

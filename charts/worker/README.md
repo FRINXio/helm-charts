@@ -61,6 +61,8 @@ helm uninstall [RELEASE_NAME]
 | `env.X_TENANT_ID` | X_TENANT_ID env variable | `frinx` |
 | `env.X_AUTH_USER_GROUP` | X_AUTH_USER_GROUP env variable | `network-admin` |
 | `env.UNICONFIG_URL_BASE` | UNICONFIG_URL_BASE env variable | `http://uniconfig:8181/rests` |
+| `env.CONDUCTOR_URL_BASE` | CONDUCTOR_URL_BASE env variable | `http://conductor-server:8080/api` |
+| `env.SCHELLAR_URL_BASE` | SCHELLAR_URL_BASE env variable | `http://conductor-server:3000/query` |
 | `configMaps` | Option to attach configmaps into the pod. [See example in values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/worker/values.yaml) | |
 | `extraSecrets` | Option to add secrets into the pod. [See example in values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/worker/values.yaml) | |
 | `fileSecrets` | Option to attach secrets as a file into the pod. Need to define secret name, env name and target path. [See example in values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/worker/values.yaml) | |
