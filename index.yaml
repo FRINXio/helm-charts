@@ -15659,6 +15659,41 @@ entries:
   workflow-manager:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Add rbac settings for conductor
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/382
+        - kind: removed
+          description: Removed log4j settings
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/382
+      artifacthub.io/images: |
+        - name: conductor-server
+          image: frinx/conductor-server:6.1.0
+        - name: schellar
+          image: frinx/schellar:6.1.0
+    apiVersion: v2
+    appVersion: 6.0.0
+    created: "2024-07-08T13:27:38.014445552Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deploying conductor-server and schellar
+    digest: 37e8375bb2154c4b5f0217ad0d85e26e113e396a8ece2fb96215fcbfa315f857
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: workflow-manager
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-3.1.0/workflow-manager-3.1.0.tgz
+    version: 3.1.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: removed
           description: Remove workflow-proxy and separate conductor and schellar
           links:
@@ -15974,4 +16009,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-06-22T13:04:31.805029405Z"
+generated: "2024-07-08T13:27:38.016428271Z"
