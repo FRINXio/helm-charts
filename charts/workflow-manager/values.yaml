@@ -13,7 +13,7 @@ image:
 schellarImage:
   repository: frinx/schellar
   pullPolicy: IfNotPresent
-  tag: "6.0.0"
+  tag: "6.1.0"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -78,10 +78,6 @@ tolerations: []
 
 affinity: {}
 
-configScripts:
-  log4j.properties: |
-    {{ .Files.Get "configs/log4j.properties" }}
-
 dbPersistence:
   SPRING_DATASOURCE_HOST:
   SPRING_SEARCHDATASOURCE_HOST:
@@ -104,9 +100,13 @@ dbPersistence:
   SPRING_SEARCHDATASOURCE_PASSWORD: postgresP
 
 conductorEnv:
-  CONFIG_PROP: config.properties
+  CONFIG_PROP: /app/nofile/config.properties
   _JAVA_OPTIONS: -Xmx2g
-  LOG4J_PROP: log4j.properties
+  LOG4J_PROP: /app/config/log4j-cluster.properties
+
+rbac:
+  WM_ADMIN_ROLES: OWNER
+  WM_ADMIN_GROUPS: NETWORK-ADMIN
 
 conductorExtraEnv:
   CONDUCTOR_APP_OWNEREMAILMANDATORY: false

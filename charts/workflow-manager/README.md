@@ -66,10 +66,9 @@ helm uninstall [RELEASE_NAME]
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
-| `configScripts.log4j.properties` | log4j.properties file for conductor | `{{ .Files.Get "configs/log4j.properties" }}` |
 | `conductorEnv.CONFIG_PROP` | CONFIG_PROP env value | `config.properties` |
 | `conductorEnv._JAVA_OPTIONS` | _JAVA_OPTIONS env value | `-Xmx2g` |
-| `conductorEnv.LOG4J_PROP` | LOG4J_PROP env value | `log4j.properties` |
+| `conductorEnv.LOG4J_PROP` | LOG4J_PROP env value on specified image path | `/app/config/log4j-cluster.properties` |
 | `conductorEnv.SPRING_DATASOURCE_HOSTNAME` | Hostname of external database | |
 | `conductorEnv.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_HOSTNAME` | CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_HOSTNAME env value | |
 | `conductorEnv.DATABASE` | DATABASE env value | `conductor` |
@@ -89,3 +88,5 @@ helm uninstall [RELEASE_NAME]
 | `postgresql.auth.database` | Name for a custom database to create | `conductor` |
 | `postgresql.architecture` | PostgreSQL architecture (`standalone` or `replication`) | `standalone` |
 | `postgresql.primary.initdb.scripts.init_db.sql` | Init script for creating another databases | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/workflow-manager/values.yaml) |
+| `rbac.WM_ADMIN_GROUPS` | Rbac admin roles setting | `"NETWORK-ADMIN"` |  |
+| `rbac.WM_ADMIN_ROLES` | Rbac admin groups setting | `"OWNER"` |  |
