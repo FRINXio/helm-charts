@@ -52,7 +52,7 @@ helm uninstall [RELEASE_NAME]
 | ingress.tls | list | `[]` |  |
 | nameOverride | string | `""` | String to partially override app name |
 | nginx.server | string | `"client_body_buffer_size \"8k\";\nclient_header_buffer_size \"1k\";\nproxy_headers_hash_max_size 2048;\nproxy_headers_hash_bucket_size 128;\nproxy_connect_timeout \"3600\";\nproxy_read_timeout \"3600\";\nproxy_send_timeout \"3600\";\n"` | Nginx server configuration |
-| nginxContainerSecurityContext | object | `{"capabilities":{"drop":["ALL"]}}` | Security context for NginX container |
+| nginxContainerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"readOnlyRootFilesystem":true,"runAsGroup":101,"runAsNonRoot":true,"runAsUser":101}` | Security context for NginX container |
 | nodeSelector | object | `{}` | [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) |
 | podAnnotations | object | `{}` | Pod annotations |
 | podSecurityContext | object | `{}` | Configure [Pods Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |

@@ -45,6 +45,10 @@ spec:
         - name: nginx-conf
           configMap:
             name: {{ template "krakend.fullname" . }}-nginx-config
+        - name: nginx-cache
+          emptyDir: {}
+        - name: nginx-run
+          emptyDir: {}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -63,6 +67,10 @@ spec:
           - name: nginx-conf
             mountPath: /etc/nginx/nginx.conf
             subPath: nginx.conf
+          - name: nginx-cache
+            mountPath: /var/cache/nginx
+          - name: nginx-run
+            mountPath: /var/run/nginx
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.containerSecurityContext | nindent 12 }}

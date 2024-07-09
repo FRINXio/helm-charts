@@ -4,6 +4,10 @@ metadata:
   name: {{ template "krakend.fullname" . }}-nginx-config
 data:
   nginx.conf: |-
+
+    worker_processes auto;
+    pid /var/run/nginx/nginx.pid;
+
     events {
         worker_connections  1024;
     }

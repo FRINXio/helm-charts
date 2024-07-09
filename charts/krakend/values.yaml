@@ -55,6 +55,11 @@ containerSecurityContext:
 
 # -- Security context for NginX container
 nginxContainerSecurityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsGroup: 101
+  runAsUser: 101
   capabilities:
     drop:
       - ALL
