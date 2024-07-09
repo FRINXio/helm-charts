@@ -156,29 +156,11 @@ spec:
               containerPort: 8181
               protocol: TCP
           startupProbe:
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - 'curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST localhost:8181/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"'
-            timeoutSeconds: 35
-            failureThreshold: 25
+            {{- toYaml .Values.startupProbe | nindent 12 }}
           livenessProbe:
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - 'curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST localhost:8181/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"'
-            timeoutSeconds: 35
-            failureThreshold: 10
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - 'curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST localhost:8181/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"'
-            timeoutSeconds: 35
-            failureThreshold: 10
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           securityContext:

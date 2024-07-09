@@ -75,6 +75,7 @@ helm uninstall [RELEASE_NAME]
 | ingress.tls | list | `[]` | [Ingress TLS resource](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls) |
 | java | object | `{"max_mem":"10G"}` | Java max memory for Uniconfig container |
 | kafka | object | `{"fullnameOverride":"kafka","listeners":{"client":{"protocol":"PLAINTEXT"}}}` | [Kafka subchart: "https://artifacthub.io/packages/helm/bitnami/kafka"] |
+| livenessProbe | object | `{"failureThreshold":10,"timeoutSeconds":35}` | Liveness probe |
 | mibsConfigs | object | `{}` | global configuration of mibs |
 | nameOverride | string | `""` | String to partially override app name |
 | nodeSelector | object | `{}` | [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) |
@@ -82,8 +83,10 @@ helm uninstall [RELEASE_NAME]
 | podSecurityContext | object | `{}` | Configure [Pods Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | postgresql | object | `{"architecture":"standalone","auth":{"database":"uniconfig","enablePostgresUser":true,"password":"postgresP","username":"postgresU"},"enabled":true}` | Internal Postgres Database |
 | proxy | object | `{"config":{"HTTPS_PROXY":null,"HTTP_PROXY":null,"NO_PROXY":null},"enabled":false}` | Configure proxy settings fr unicnfig container |
+| readinessProbe | object | `{"failureThreshold":10,"timeoutSeconds":35}` | Readiness probe |
 | replicaCount | int | `1` | Number of replicas of the deployment. If you want to use more than 1 replica, must deploy it with cookie sticky sessions To create sticky session, deploy it with traefik and set highAvailability.enabled=true |
 | resources | object | `{}` | [Container resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/) |
+| securityContext | object | `{}` | Configure [Container Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) |
 | service.annotations | object | `{}` |  |
 | service.loadBalancerIP | string | `nil` | Service [Load Balancer IP](https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer) |
 | service.port | int | `8181` | Service port |
@@ -91,5 +94,6 @@ helm uninstall [RELEASE_NAME]
 | serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
 | serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
 | serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
+| startupProbe | object | `{"failureThreshold":25,"timeoutSeconds":35}` | Startup probe |
 | tolerations | list | `[]` | [Tolerations for pod assignment](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
 

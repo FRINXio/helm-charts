@@ -23,13 +23,16 @@ podAnnotations: {}
 podSecurityContext:
   {}
   # fsGroup: 2000
-# securityContext:
-#   capabilities:
-#     drop:
-#       - ALL
-#     add:
-#       - CAP_NET_BIND_SERVICE
-#       - NET_ADMIN
+
+# -- Configure [Container Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container)
+securityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #     - ALL
+  #   add:
+  #     - CAP_NET_BIND_SERVICE
+  #     - NET_ADMIN
 
 service:
   annotations: {}
@@ -175,6 +178,39 @@ proxy:
     HTTP_PROXY:
     HTTPS_PROXY:
     NO_PROXY:
+
+# -- Startup probe
+startupProbe:
+  # @ignored
+  exec:
+    command:
+      - /bin/sh
+      - -c
+      - 'curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST localhost:8181/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"'
+  timeoutSeconds: 35
+  failureThreshold: 25
+
+# -- Liveness probe
+livenessProbe:
+  # @ignored
+  exec:
+    command:
+      - /bin/sh
+      - -c
+      - 'curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST localhost:8181/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"'
+  timeoutSeconds: 35
+  failureThreshold: 10
+
+# -- Readiness probe
+readinessProbe:
+  # @ignored
+  exec:
+    command:
+      - /bin/sh
+      - -c
+      - 'curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST localhost:8181/rests/operations/uniconfig-manager:health -H "Content-Type:application/json"'
+  timeoutSeconds: 35
+  failureThreshold: 10
 
 # -- Java max memory for Uniconfig container
 java:
