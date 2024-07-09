@@ -2,47 +2,67 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# -- Number of replicas of the deployment.
 replicaCount: 1
 
 image:
+  # -- topology-discovery image repository
   repository: frinx/topology-discovery
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
+  # -- Overrides the image tag whose default is the chart appVersion.
   tag: ""
+  # -- Image pull policy
+  pullPolicy: IfNotPresent
 
+# -- [Image Pull Secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
 imagePullSecrets: []
+
+# -- String to partially override app name
 nameOverride: ""
+
+# -- String to partially override app name
 fullnameOverride: ""
 
 serviceAccount:
-  # Specifies whether a service account should be created
+  # -- Specifies whether a service account should be created
   create: true
-  # Annotations to add to the service account
+  # -- Annotations to add to the service account
   annotations: {}
-  # The name of the service account to use.
+  # -- The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+# -- Pod annotations
 podAnnotations: {}
 
+# -- Configure [Pods Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
 podSecurityContext: {}
   # fsGroup: 2000
 
+# -- Security context
 securityContext:
   capabilities:
     drop:
     - ALL
 
 service:
+  # -- Service type
   type: ClusterIP
+  # -- Service port
   port: 5000
+  # -- Kafka Consumer API service port
   kafkaClientPort: 5005
 
+# Configure the [Ingress resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 ingress:
+  # -- Enable ingress
   enabled: false
+  # -- IngressClass that will be be used to implement the Ingress
   className: ""
+  # -- Additional labels for the Ingress resource
   labels: {}
+  # -- Additional annotations for the Ingress resource
   annotations: {}
+  # -- [Ingress Host](https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource)
   hosts:
     - host: chart-example.local
       paths:
@@ -53,6 +73,7 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+# -- [Container resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/)
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
@@ -65,6 +86,7 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+# -- [Container resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/)
 kafkaClientResources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
@@ -77,6 +99,7 @@ kafkaClientResources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+# -- [Autoscaling parameters](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -84,24 +107,32 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
+# -- [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/)
 nodeSelector: {}
 
+# -- [Tolerations for pod assignment](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
 tolerations: []
 
+# -- [Affinity for pod assignment](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
 affinity: {}
 
 deployment:
+# -- Deployment annotations
   annotations: {}
 
 dbPersistence:
+  # -- ArangoDB URL
   ARANGO_URL: 'http://arangodb:8529'
+  # -- Existing database credentials
   existingSecret:
     secretName:
     arangoUsernameKey:
     arangoRootPasswordKey:
+  # -- Database credentials. Exposed when existing dbPersistence.existingSecret.secretName is empty
   ARANGO_USERNAME: 'root'
   ARANGO_ROOT_PASSWORD: 'frinx'
 
+# -- Application environment variables
 env:
   CONDUCTOR_URL: 'http://conductor-server:8080'
   UC_URL_BASE: http://uniconfig:8181/rests/
@@ -120,4 +151,4 @@ env:
   TD_KAFKA__TOPICS__DEVICE_INVENTORY_TOPIC: device-inventory
   TD_KAFKA__TOPICS__DEVICE_EVENTS_TOPIC: device-events
   TD_KAFKA__BOOTSTRAP_SERVERS: '["kafka:9092"]'
-  TD_KAFKA__API_VERSION:  '["0", "11", "5"]'
+  TD_KAFKA__API_VERSION: '["0", "11", "5"]'
