@@ -13736,6 +13736,40 @@ entries:
   performance-monitor:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Bump application version to 6.0.2
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/386
+      artifacthub.io/images: |
+        - name: performance-monitor
+          image: frinx/performance-monitor:6.0.2
+    apiVersion: v2
+    appVersion: 6.0.2
+    created: "2024-07-09T08:10:06.852813764Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: kafka.enabled
+      name: kafka
+      repository: https://charts.bitnami.com/bitnami
+      version: 25.2.0
+    description: FRINX Performance Monitor chart for FRINX-machine
+    digest: ccd83799f810a80edd81dea8f290c3540f53e8d5ae3448e390311f8422cdabd2
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: performance-monitor
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/performance-monitor-0.1.3/performance-monitor-0.1.3.tgz
+    version: 0.1.3
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: Remove duplicated env vars in deployment template
           links:
@@ -13868,6 +13902,31 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Bump application version to 6.1
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/386
+    apiVersion: v2
+    appVersion: 6.1.0
+    created: "2024-07-09T08:10:07.015359016Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 14.x.x
+    description: A Helm chart for Kubernetes deploying of the Frinx Resource-Manager
+    digest: fe6bcd1004c23c104b4188f3516846cea2a9faae530d673cf6d04e67a8e5bab0
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: resource-manager
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/resource-manager-2.1.0/resource-manager-2.1.0.tgz
+    version: 2.1.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Changed ingress configuration
           links:
             - name: GitHub PR
@@ -13986,6 +14045,26 @@ entries:
     - https://github.com/FRINXio/helm-charts/releases/download/resource-manager-1.0.0/resource-manager-1.0.0.tgz
     version: 1.0.0
   sample-topology:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Bump application version to 6.1
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/386
+    apiVersion: v2
+    appVersion: 6.1.0
+    created: "2024-07-09T08:10:07.173906203Z"
+    description: A Helm chart for the Frinx Machine sample-topology Kubernetes deployment
+    digest: 3e79a753ec25b1bf8abd88cd465839459d036510574a387b693299d54411b3d7
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: sample-topology
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/sample-topology-3.1.0/sample-topology-3.1.0.tgz
+    version: 3.1.0
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
@@ -16082,4 +16161,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-07-08T14:34:12.77394283Z"
+generated: "2024-07-09T08:10:07.175277264Z"
