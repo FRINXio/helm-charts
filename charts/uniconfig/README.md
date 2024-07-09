@@ -1,22 +1,40 @@
 # uniconfig
 
-![Version: 7.0.0](https://img.shields.io/badge/Version-7.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.0.0](https://img.shields.io/badge/AppVersion-6.0.0-informational?style=flat-square)
-
 A Helm chart for UniConfig Kubernetes deployment
 
-**Homepage:** <https://github.com/FRINXio/helm-charts>
+![Version: 8.0.0](https://img.shields.io/badge/Version-8.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.1.1](https://img.shields.io/badge/AppVersion-6.1.1-informational?style=flat-square)
 
-## Maintainers
+## Get Repo Info
 
-| Name | Email | Url |
-| ---- | ------ | --- |
-| FRINX | <services@frinx.io> | <https://frinx.io> |
+```console
+helm repo add frinx https://FRINXio.github.io/helm-charts
+helm repo update
+```
+
+## Install Chart
+
+```console
+helm install [RELEASE_NAME] frinx/uniconfig
+```
+
+## Upgrading Chart
+
+```console
+helm upgrade [RELEASE_NAME] frinx/uniconfig
+```
+
+## Uninstall Chart
+
+```console
+helm uninstall [RELEASE_NAME]
+```
 
 ## Requirements
 
 | Repository | Name | Version |
 |------------|------|---------|
-| [bitnami](https://charts.bitnami.com/bitnami) | postgresql | 11.x.x |
+| https://charts.bitnami.com/bitnami | kafka | 25.2.0 |
+| https://charts.bitnami.com/bitnami | postgresql | 11.x.x |
 
 ## Values
 
@@ -33,7 +51,7 @@ A Helm chart for UniConfig Kubernetes deployment
 | dbPersistence.POSTGRES_PASSWORD | string | `"postgresP"` |  |
 | dbPersistence.POSTGRES_USERNAME | string | `"postgresU"` | Database credentials. Exposed when existing dbPersistence.existingSecret.secretName is empty |
 | dbPersistence.existingSecret | object | `{"clishellSshserverUsernamepasswordauthPasswordKey":null,"postgresPasswordKey":null,"postgresUsernameKey":null,"secretName":null}` | Existing database credentials |
-| extraEnv | object | `{"CLISHELL_SSHSERVER_ENABLED":true,"CLISHELL_SSHSERVER_INETADDRESS":"0.0.0.0","DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_PORT":5432,"DBPERSISTENCE_CONNECTION_MAXDBPOOLSIZE":300,"DBPERSISTENCE_EMBEDDEDDATABASE_ENABLED":false,"SPRING_AUTOCONFIGURE_EXCLUDE":"org.springframework.cloud.stream.function.FunctionConfiguration","SPRING_CLOUD_BUS_ENABLED":false,"TRANSACTIONS_MAXSTOREDTRANSACTIONS":100,"TRANSACTIONS_MAXTRANSACTIONAGE":7200,"TRANSACTIONS_TRANSACTIONIDLETIMEOUT":3600,"UNICONFIG_CLOUD_CONFIG_ENABLED":false}` | Application properties |
+| extraEnv | object | `{"CLISHELL_SSHSERVER_ENABLED":true,"CLISHELL_SSHSERVER_INETADDRESS":"0.0.0.0","DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_PORT":5432,"DBPERSISTENCE_CONNECTION_MAXDBPOOLSIZE":300,"DBPERSISTENCE_EMBEDDEDDATABASE_ENABLED":false,"NOTIFICATIONS_ENABLED":true,"NOTIFICATIONS_KAFKA_KAFKASERVERS_0_BROKERHOST":"kafka","NOTIFICATIONS_KAFKA_KAFKASERVERS_0_BROKERLISTENINGPORT":9092,"SPRING_AUTOCONFIGURE_EXCLUDE":"org.springframework.cloud.stream.function.FunctionConfiguration","SPRING_CLOUD_BUS_ENABLED":false,"SPRING_KAFKA_BOOTSTRAPSERVERS":"http://kafka:9092","TRANSACTIONS_MAXSTOREDTRANSACTIONS":100,"TRANSACTIONS_MAXTRANSACTIONAGE":7200,"TRANSACTIONS_TRANSACTIONIDLETIMEOUT":3600,"UNICONFIG_CLOUD_CONFIG_ENABLED":false}` | Application properties |
 | extraInitContainers | list | `[]` | Extra init containers |
 | extraLogbackConfigMap | string | `nil` |  |
 | extraScriptConfigMap | string | `nil` |  |
@@ -56,6 +74,7 @@ A Helm chart for UniConfig Kubernetes deployment
 | ingress.labels | object | `{}` | Additional labels for the Ingress resource |
 | ingress.tls | list | `[]` | [Ingress TLS resource](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls) |
 | java | object | `{"max_mem":"10G"}` | Java max memory for Uniconfig container |
+| kafka | object | `{"fullnameOverride":"kafka","listeners":{"client":{"protocol":"PLAINTEXT"}}}` | [Kafka subchart: "https://artifacthub.io/packages/helm/bitnami/kafka"] |
 | mibsConfigs | object | `{}` | global configuration of mibs |
 | nameOverride | string | `""` | String to partially override app name |
 | nodeSelector | object | `{}` | [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) |

@@ -1,7 +1,7 @@
 apiVersion: v2
 name: uniconfig
-version: 7.1.0
-appVersion: "6.0.0"
+version: 8.0.0
+appVersion: "6.1.1"
 description: A Helm chart for UniConfig Kubernetes deployment
 type: application
 home: https://github.com/FRINXio/helm-charts
@@ -10,6 +10,10 @@ dependencies:
     name: postgresql
     repository: https://charts.bitnami.com/bitnami
     version: 11.x.x
+  - condition: kafka.enabled
+    name: kafka
+    version: 25.2.0
+    repository: https://charts.bitnami.com/bitnami
 maintainers:
   - name: FRINX
     email: services@frinx.io
@@ -18,12 +22,17 @@ icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 annotations:
   artifacthub.io/changes: |
     - kind: added
-      description: Added default resource limits for init initContainers
+      description: Enabled Kafka notifications by default
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/374
+          url: https://github.com/FRINXio/helm-charts/pull/391
     - kind: added
-      description: Added possibility to set imagePullPolicy for initContainers
+      description: Added kafka brooker into chart dependency
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/374
+          url: https://github.com/FRINXio/helm-charts/pull/391
+    - kind: added
+      description: Added startup probe
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/391
