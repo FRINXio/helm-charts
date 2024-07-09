@@ -12922,6 +12922,48 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Bump appVersion to 6.1.1
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/390
+        - kind: added
+          description: Add performanceMonitor endpoints
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/390
+        - kind: added
+          description: Add swagger-ui endpoints
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/390
+        - kind: changed
+          description: Improved nginx server configuration
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/390
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:6.1.1
+        - name: nginx
+          image: nginx:1.27-alpine
+    apiVersion: v2
+    appVersion: 6.1.1
+    created: "2024-07-09T13:09:07.805207102Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: f8028f01833fcc2764db3d94c6b0b00825e58ce0b713454c8a7972f44291546b
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-4.0.0/krakend-4.0.0.tgz
+    version: 4.0.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Add possibility to configure nginx max header an body size
           links:
             - name: GitHub PR
@@ -16217,4 +16259,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-07-09T10:37:49.611199991Z"
+generated: "2024-07-09T13:09:07.807219738Z"
