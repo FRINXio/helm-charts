@@ -12342,6 +12342,37 @@ entries:
   inventory:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Bump application version to 6.1.0
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/389
+        - kind: added
+          description: Added performance monitoring configuration
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/389
+    apiVersion: v2
+    appVersion: 6.1.0
+    created: "2024-07-09T10:37:49.609957085Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deployment of the Device Inventory
+    digest: 4ec511d8b4b932ff214b9dee84593147310af71dac1fd2274992ef8ed6ffbb3e
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: inventory
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/inventory-6.0.0/inventory-6.0.0.tgz
+    version: 6.0.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: TOPOLOGY_ENABLED enabled by default
           links:
@@ -16186,4 +16217,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-07-09T09:35:10.724220049Z"
+generated: "2024-07-09T10:37:49.611199991Z"
