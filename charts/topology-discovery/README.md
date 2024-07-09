@@ -1,11 +1,13 @@
 # topology-discovery
 
-A Helm chart for the Topology Discovery
+A Helm chart for Kubernetes deployment of the Topology Discovery
+
+![Version: 3.1.0](https://img.shields.io/badge/Version-3.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.2.5](https://img.shields.io/badge/AppVersion-6.2.5-informational?style=flat-square)
 
 ## Get Repo Info
 
 ```console
-helm repo add frinx https://FRINXio.github.io/topology-discovery
+helm repo add frinx https://FRINXio.github.io/helm-charts
 helm repo update
 ```
 
@@ -27,55 +29,42 @@ helm upgrade [RELEASE_NAME] frinx/topology-discovery
 helm uninstall [RELEASE_NAME]
 ```
 
-## Configuration
+## Values
 
-| Parameter | Description | Default |
-|-----------|-------------|---------|
-| `replicaCount` | Number of nodes | `1` |
-| `image.repository` | Image repository | `frinx/topology-discovery` |
-| `image.pullPolicy` | Image pull policy | `IfNotPresent` |
-| `image.tag` | Image tag | `""` |
-| `imagePullSecrets` | Image pull secrets | `{}` |
-| `nameOverride` | Replaces the name of the chart in the Chart.yaml file | `""` |
-| `fullnameOverride` |  Completely replaces the generated name | `""` |
-| `serviceAccount.create` | Create service account | `true` |
-| `serviceAccount.annotations` | ServiceAccount annotations | `{}` |
-| `serviceAccount.name` | Service account name to use, when empty will be set to created account if `serviceAccount.create` is set else to `default` | `""` |
-| `podAnnotations` | Deployment | `{}` |
-| `podSecurityContext` | Pod deployment securityContext | `{}` |
-| `securityContext` | Deployment securityContext | `{}` |
-| `service.type` | Kubernetes service type | `ClusterIP` |
-| `service.port` | Kubernetes port where service is exposed | `5000` |
-| `ingress.enabled` | Enable [ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/). | `false` |
-| `ingress.labels` | Ingress labels | `{}` |
-| `ingress.annotations` | Annotations to be added to the ingress. | `{}` |
-| `ingress.className` | Ingress [class name](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class). | `""` |
-| `ingress.tls` | Enable or disable tls attribute in ingress | `false` |
-| `ingress.hosts` | Ingress accepted hostname  | `""` |
-| `resources` | CPU/Memory resource requests/limits | `{}` |
-| `autoscaling.enabled` | Enable replica autoscaling settings | `false` |
-| `autoscaling.minReplicas` | Minimum replicas for the pod autoscaling | `1` |
-| `autoscaling.maxReplicas` | Maximum replicas for the pod autoscaling | `10` |
-| `autoscaling.targetCPUUtilizationPercentage` | Percentage of CPU to consider when autoscaling | `80` |
-| `autoscaling.targetMemoryUtilizationPercentage` | Percentage of Memory to consider when autoscaling | |
-| `nodeSelector` | Node labels for pod assignment | `{}` |
-| `tolerations` | Toleration labels for pod assignment | `[]` |
-| `affinity` | Affinity settings for pod assignment | `{}` |
-| `dbPersistence.ARANGO_USERNAME` | ARANGO_USERNAME env variable | `root` |
-| `dbPersistence.ARANGO_ROOT_PASSWORD` | ARANGO_ROOT_PASSWORD env variable | `frinx` |
-| `dbPersistence.ARANGO_URL` | ARANGO_URL env variable | `http://arangodb:8529` |
-| `dbPersistence.existingSecret` | Configure ARANGO connection via existing secret | `` |
-| `env.UC_URL_BASE` | UC_URL_BASE env variable | `http://uniconfig:8181/rests` |
-| `env.CONDUCTOR_URL` | CONDUCTOR_URL env variable is used to build healthcheck and worker api url | `http://conductor-server:8080` |
-| `env.BGPLS_ENABLED` | BGPLS_ENABLED env variable | `false` |
-| `env.BGPLS_NETWORK` | BGPLS_NETWORK env variable | `172.18.0.0/16` |
-| `env.BGPLS_ROUTER_ID` | BGPLS_ROUTER_ID env variable | `192.168.99.1` |
-| `env.BGPLS_NEIGHBOR_IP` | BGPLS_NEIGHBOR_IP env variable | `192.168.99.100` |
-| `env.BGPLS_LOCAL_AS` | BGPLS_LOCAL_AS env variable | `100` |
-| `env.BGPLS_PEER_AS` | BGPLS_PEER_AS env variable | `100` |
-| `env.ADMIN` | BGPLS_PEER_AS env variable | `admin` |
-| `env.EDITOR` | BGPLS_PEER_AS env variable | `editor` |
-| `env.VIEWER` | BGPLS_PEER_AS env variable | `viewer` |
-| `env.IMPORT_ARANGO_DEMO_DATA` | Option to add demo data into topology-discovery | `false` |
-| `env.IMPORT_DEVICE_INVENTORY_DATA` | Option to add demo data into inventory | `false` |
-| `env.X_TENANT_ID` | X_TENANT_ID env variable | `"frinx"` |
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| affinity | object | `{}` | [Affinity for pod assignment](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
+| autoscaling | object | `{"enabled":false,"maxReplicas":10,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | [Autoscaling parameters](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
+| dbPersistence.ARANGO_ROOT_PASSWORD | string | `"frinx"` |  |
+| dbPersistence.ARANGO_URL | string | `"http://arangodb:8529"` | ArangoDB URL |
+| dbPersistence.ARANGO_USERNAME | string | `"root"` | Database credentials. Exposed when existing dbPersistence.existingSecret.secretName is empty |
+| dbPersistence.existingSecret | object | `{"arangoRootPasswordKey":null,"arangoUsernameKey":null,"secretName":null}` | Existing database credentials |
+| deployment.annotations | object | `{}` | Deployment annotations |
+| env | object | `{"ADMIN":"admin","BGPLS_ENABLED":false,"BGPLS_LOCAL_AS":100,"BGPLS_NEIGHBOR_IP":"192.168.99.100","BGPLS_NETWORK":"172.18.0.0/16","BGPLS_PEER_AS":100,"BGPLS_ROUTER_ID":"192.168.99.1","CONDUCTOR_URL":"http://conductor-server:8080","EDITOR":"editor","IMPORT_ARANGO_DEMO_DATA":false,"IMPORT_DEVICE_INVENTORY_DATA":false,"TD_KAFKA__API_VERSION":"[\"0\", \"11\", \"5\"]","TD_KAFKA__BOOTSTRAP_SERVERS":"[\"kafka:9092\"]","TD_KAFKA__TOPICS__DEVICE_EVENTS_TOPIC":"device-events","TD_KAFKA__TOPICS__DEVICE_INVENTORY_TOPIC":"device-inventory","UC_URL_BASE":"http://uniconfig:8181/rests/","VIEWER":"viewer","X_TENANT_ID":"frinx"}` | Application environment variables |
+| fullnameOverride | string | `""` | String to partially override app name |
+| image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
+| image.repository | string | `"frinx/topology-discovery"` | topology-discovery image repository |
+| image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion. |
+| imagePullSecrets | list | `[]` | [Image Pull Secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
+| ingress.annotations | object | `{}` | Additional annotations for the Ingress resource |
+| ingress.className | string | `""` | IngressClass that will be be used to implement the Ingress |
+| ingress.enabled | bool | `false` | Enable ingress |
+| ingress.hosts | list | `[{"host":"chart-example.local","paths":[{"path":"/","pathType":"ImplementationSpecific"}]}]` | [Ingress Host](https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource) |
+| ingress.labels | object | `{}` | Additional labels for the Ingress resource |
+| ingress.tls | list | `[]` |  |
+| kafkaClientResources | object | `{}` | [Container resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/) |
+| nameOverride | string | `""` | String to partially override app name |
+| nodeSelector | object | `{}` | [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) |
+| podAnnotations | object | `{}` | Pod annotations |
+| podSecurityContext | object | `{}` | Configure [Pods Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
+| replicaCount | int | `1` | Number of replicas of the deployment. |
+| resources | object | `{}` | [Container resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/) |
+| securityContext | object | `{"capabilities":{"drop":["ALL"]}}` | Security context |
+| service.kafkaClientPort | int | `5005` | Kafka Consumer API service port |
+| service.port | int | `5000` | Service port |
+| service.type | string | `"ClusterIP"` | Service type |
+| serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
+| serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
+| serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
+| tolerations | list | `[]` | [Tolerations for pod assignment](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
+
