@@ -1,7 +1,8 @@
 # krakend
 
 FRINX KrakenD API Gateway for FRINX-machine
-* Source code [FRINXio/krakendD](https://github.com/FRINXio/krakend-ce)
+
+![Version: 4.0.0](https://img.shields.io/badge/Version-4.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.1.1](https://img.shields.io/badge/AppVersion-6.1.1-informational?style=flat-square)
 
 ## Get Repo Info
 
@@ -28,83 +29,46 @@ helm upgrade [RELEASE_NAME] frinx/krakend
 helm uninstall [RELEASE_NAME]
 ```
 
-## Configuration
+## Values
 
-| Parameter | Description | Default |
-|-----------|-------------|---------|
-| `replicaCount` | Number of nodes | `1` |
-| `image.repository` | Image repository | `frinx/krakend` |
-| `image.pullPolicy` | Image pull policy | `IfNotPresent` |
-| `image.tag` | Image tag | `1.0.2` |
-| `imagePullSecrets` | Image pull secrets | `{}` |
-| `nameOverride` | Replaces the name of the chart in the Chart.yaml file | `""` |
-| `fullnameOverride` |  Completely replaces the generated name | `""` |
-| `serviceAccount.create` | Create service account | `true` |
-| `serviceAccount.annotations` | ServiceAccount annotations | `{}` |
-| `serviceAccount.name` | Service account name to use, when empty will be set to created account if `serviceAccount.create` is set else to `default` | `""` |
-| `podAnnotations` | Deployment | `{}` |
-| `podSecurityContext` | Pod deployment securityContext | `{}` |
-| `containerSecurityContext` | Deployment container securityContext | [See values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/krakend/values.yaml#L32) |
-| `service.type` | Kubernetes service type | `ClusterIP` |
-| `service.port` | Kubernetes port where service is exposed | `8080` |
-| `service.nodePort` | Option to specify nodePort if type of service is NodePort | `30000` |
-| `service.targetPort` | Port on which the service will send requests to, that your pod will be listening on | `8080` |
-| `ingress.enabled` | Enable [ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/). | `false` |
-| `ingress.labels` | Ingress labels | `{}` |
-| `ingress.annotations` | Annotations to be added to the ingress. | `{}` |
-| `ingress.className` | Ingress [class name](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class). | `""` |
-| `ingress.tls` | Enable or disable tls attribute in ingress | `false` |
-| `ingress.hosts` | Ingress accepted hostname  | `""` |
-| `resources` | CPU/Memory resource requests/limits | `{}` |
-| `autoscaling.enabled` | Enable replica autoscaling settings | `false` |
-| `autoscaling.minReplicas` | Minimum replicas for the pod autoscaling | `1` |
-| `autoscaling.maxReplicas` | Maximum replicas for the pod autoscaling | `100` |
-| `autoscaling.targetCPUUtilizationPercentage` | Percentage of CPU to consider when autoscaling | `80` |
-| `autoscaling.targetMemoryUtilizationPercentage` | Percentage of Memory to consider when autoscaling | |
-| `nodeSelector` | Node labels for pod assignment | `{}` |
-| `tolerations` | Toleration labels for pod assignment | `[]` |
-| `affinity` | Affinity settings for pod assignment | `{}` |
-| `env.TLS_DISABLED` | TLS_DISABLED env variable | `true` |
-| `env.DEFAULT_TIMEOUT` | DEFAUTL_TIMEOUT for requests | `"2m"` |
-| `env.UNICONFIG_TIMEOUT` | UNICONFIG_TIMEOUT for uniconfig requests | `"2m"` |
-| `env.KRAKEND_TLS_PROTOCOL` | KRAKEND_TLS_PROTOCOL env variable | `"http"` |
-| `env.PROXY_ENABLED` | PROXY_ENABLED env variable | `false` |
-| `env.HTTP_PROXY` | HTTP_PROXY env variable | |
-| `env.HTTPS_PROXY` | HTTPS_PROXY env variable | |
-| `env.NO_PROXY` | NO_PROXY env variable | |
-| `env.UNICONFIG_PROTOCOL` | UNICONFIG_PROTOCOL env variable | `"http"` |
-| `env.UNICONFIG_ZONES_LIST` | UNICONFIG_ZONES_LIST env variable | `"uniconfig"` |
-| `env.ALLOWED_HOSTS` | ALLOWED_HOSTS env variable | `""` |
-| `env.ALLOWED_ORIGINS` | ALLOWED_ORIGINS env variable | `""` |
-| `env.WORKFLOW_MANAGER_ENABLED` | WORKFLOW_MANAGER_ENABLED env variable | `true` |
-| `env.UNICONFIG_ENABLED` | UNICONFIG_ENABLED env variable | `true` |
-| `env.INVENTORY_ENABLED` | INVENTORY_ENABLED env variable | `true` |
-| `env.RESOURCE_MANAGER_ENABLED` | RESOURCE_MANAGER_ENABLED env variable | `true` |
-| `env.DEVICE_TOPOLOGY_ENABLED` | DEVICE_TOPOLOGY_ENABLED env variable | `false` |
-| `env.L3VPN_ENABLED` | L3VPN_ENABLED env variable | `false` |
-| `env.OAUTH2_KRAKEND_PLUGIN_TENANT_ID` | OAUTH2_KRAKEND_PLUGIN_TENANT_ID env variable | `frinx` |
-| `env.OAUTH2_KRAKEND_PLUGIN_USER_ROLES_MAP` | OAUTH2_KRAKEND_PLUGIN_USER_ROLES_MAP env variable | `X-Forwarded-Roles` |
-| `env.OAUTH2_KRAKEND_PLUGIN_USER_GROUPS_MAP` | OAUTH2_KRAKEND_PLUGIN_USER_GROUPS_MAP env variable | `X-Forwarded-Groups` |
-| `env.OAUTH2_KRAKEND_PLUGIN_FROM_MAP` | OAUTH2_KRAKEND_PLUGIN_FROM_MAP env variable | `X-Forwarded-User` |
-| `rbac.UNICONFIG_CONTROLLER_ADMIN_GROUP` | UNICONFIG_CONTROLLER_ADMIN_GROUP env variable | `"network-admin"` |
-| `rbac.UNISTORE_CONTROLLER_ADMIN_GROUP` | UNISTORE_CONTROLLER_ADMIN_GROUP env variable | `"network-admin"` |
-| `rbac.UNISTORE_BEARER_ROLE` | UNISTORE_BEARER_ROLE env variable | `""` |
-| `rbac.UNISTORE_SERVICE_ROLE` | UNISTORE_SERVICE_ROLE env variable | `""` |
-| `rbac.UNISTORE_NETWORK_ROLE` | UNISTORE_NETWORK_ROLE env variable | `""` |
-| `rbac.UNISTORE_OTHER_PERMITTED_ROLES` | UNISTORE_OTHER_PERMITTED_ROLES env variable | `""` |
-| `rbac.UNISTORE_BEARER_NODE` | UNISTORE_BEARER_NODE env variable | `"bearer"` |
-| `rbac.UNISTORE_SERVICE_NODE` | UNISTORE_SERVICE_NODE env variable | `"service"` |
-| `rbac.UNISTORE_NETWORK_NODE` | UNISTORE_NETWORK_NODE env variable | `"network"` |
-| `rbac.INVENTORY_ADMIN_GROUP` | INVENTORY_ADMIN_GROUP env variable | `"network-admin"` |
-| `rbac.ADMIN_ACCESS_ROLE` | ADMIN_ACCESS_ROLE env variable | `"network-admin"` |
-| `rbac.X_AUTH_USER_GROUP` | X_AUTH_USER_GROUP env variable | `"network-admin"` |
-| `extraEnv` | Additional env variables |  |
-| `volumes.azureFile.enabled` | Enable azureFile for config | `false` |
-| `volumes.azureFile.storage.accountName` | accountName for azure storage | |
-| `volumes.azureFile.storage.accessKey` | accessKey for azure storage | |
-| `debug.enabled` | Simulate RBAC headers from Oauth2-Proxy | `false` |
-| `debug.x_forwarded_roles` | Set value for X-Forwarded-Roles header | `"owner"` |
-| `debug.x_forwarded_groups` | Set value for X-Forwarded-Groups header | `"network-admin"` |
-| `debug.x_forwarded_user` | Set value for X-Forwarded-User header | `"frinx-admin-user"` |
-| `nginx.clientBodyBufferSize` | Sets buffer size for reading client request body | `"8k"` |
-| `nginx.clientHeaderBufferSize` | Sets buffer size for reading client request header | `"1k"` |
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| affinity | object | `{}` | [Affinity for pod assignment](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
+| autoscaling | object | `{"enabled":false,"maxReplicas":100,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | [Autoscaling parameters](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
+| containerSecurityContext | object | `{"capabilities":{"drop":["ALL"]}}` | Security context for KrakenD container |
+| debug | object | `{"enabled":false,"x_forwarded_groups":"network-admin","x_forwarded_roles":"owner","x_forwarded_user":"frinx-admin-user"}` | Simulate USER credentials |
+| env | object | `{"ALLOWED_HOSTS":null,"ALLOWED_ORIGINS":null,"DEFAULT_TIMEOUT":"2m","DEVICE_TOPOLOGY_ENABLED":true,"HTTPS_PROXY":null,"HTTP_PROXY":null,"INVENTORY_ENABLED":true,"KRAKEND_TLS_PROTOCOL":"http","L3VPN_ENABLED":false,"LOG_LEVEL":"INFO","NO_PROXY":null,"OAUTH2_KRAKEND_PLUGIN_FROM_MAP":"X-Forwarded-User","OAUTH2_KRAKEND_PLUGIN_TENANT_ID":"frinx","OAUTH2_KRAKEND_PLUGIN_USER_GROUPS_MAP":"X-Forwarded-Groups","OAUTH2_KRAKEND_PLUGIN_USER_ROLES_MAP":"X-Forwarded-Roles","PERFORMANCE_MONITOR_ENABLED":true,"PROXY_ENABLED":false,"RESOURCE_MANAGER_ENABLED":true,"TLS_DISABLED":true,"UNICONFIG_ENABLED":true,"UNICONFIG_PROTOCOL":"http","UNICONFIG_TIMEOUT":"2m","UNICONFIG_ZONES_LIST":"uniconfig","WORKFLOW_MANAGER_ENABLED":true}` | Application environment variables |
+| extraEnv | list | `[]` | Additional KrakenD environment variables |
+| fullnameOverride | string | `""` | String to partially override app name |
+| image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
+| image.repository | string | `"frinx/krakend"` | krakend image repository |
+| image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion. |
+| imagePullSecrets | list | `[]` | [Image Pull Secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
+| ingress.annotations | object | `{}` | Additional annotations for the Ingress resource |
+| ingress.className | string | `""` | IngressClass that will be be used to implement the Ingress |
+| ingress.enabled | bool | `false` | Enable ingress |
+| ingress.hosts | list | `[{"host":"chart-example.local","paths":[{"path":"/","pathType":"ImplementationSpecific"}]}]` | [Ingress Host](https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource) |
+| ingress.labels | object | `{}` | Additional labels for the Ingress resource |
+| ingress.tls | list | `[]` |  |
+| nameOverride | string | `""` | String to partially override app name |
+| nginx.server | string | `"client_body_buffer_size \"8k\";\nclient_header_buffer_size \"1k\";\nproxy_headers_hash_max_size 2048;\nproxy_headers_hash_bucket_size 128;\nproxy_connect_timeout \"3600\";\nproxy_read_timeout \"3600\";\nproxy_send_timeout \"3600\";\n"` | Nginx server configuration |
+| nginxContainerSecurityContext | object | `{"capabilities":{"drop":["ALL"]}}` | Security context for NginX container |
+| nodeSelector | object | `{}` | [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) |
+| podAnnotations | object | `{}` | Pod annotations |
+| podSecurityContext | object | `{}` | Configure [Pods Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
+| proxyImage.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
+| proxyImage.repository | string | `"nginx"` | nginx image repository |
+| proxyImage.tag | string | `"1.27-alpine"` | Overrides the image tag. |
+| rbac | object | `{"ADMIN_ACCESS_ROLE":"network-admin","INVENTORY_ADMIN_GROUP":"network-admin","UNICONFIG_CONTROLLER_ADMIN_GROUP":"network-admin","UNISTORE_BEARER_NODE":"bearer","UNISTORE_BEARER_ROLE":"","UNISTORE_CONTROLLER_ADMIN_GROUP":"network-admin","UNISTORE_NETWORK_NODE":"network","UNISTORE_NETWORK_ROLE":"","UNISTORE_OTHER_PERMITTED_ROLES":"","UNISTORE_SERVICE_NODE":"service","UNISTORE_SERVICE_ROLE":"","X_AUTH_USER_GROUP":"network-admin"}` | RBAC configuration |
+| replicaCount | int | `1` | Number of replicas of the deployment. |
+| resources | object | `{}` | [Container resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/) |
+| service.nodePort | int | `30000` | Node port |
+| service.port | int | `8080` | SideCar proxy (nginx reverse proxy for http/ws protocols) |
+| service.targetPort | int | `8080` | Target port |
+| service.type | string | `"ClusterIP"` | Service type |
+| serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
+| serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
+| serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
+| tolerations | list | `[]` | [Tolerations for pod assignment](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
+| volumes.azureFile | object | `{"enabled":false,"storage":{"accessKey":null,"accountName":null}}` | AzureFile volume |
+

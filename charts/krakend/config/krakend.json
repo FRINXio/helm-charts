@@ -115,6 +115,12 @@
     {{ template "topology_discovery.tmpl" .topology_discovery_settings.endpoints }},
     {{end}}
 
+    {{ $pm_enabled := env "PERFORMANCE_MONITOR_ENABLED" }}
+    {{ if eq $pm_enabled "true"}}
+    {{ template "performance_monitor.tmpl" .performance_monitor_settings.endpoints }},
+    {{end}}
+
+    {{ template "swagger.tmpl" .swagger_settings.endpoints }},
     {{ template "frinx_frontend.tmpl" .frinx_frontend_settings}},
     {{ template "frinx_frontend_proxy.tmpl" }}
   ]

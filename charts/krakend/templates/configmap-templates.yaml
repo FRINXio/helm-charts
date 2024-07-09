@@ -12,5 +12,7 @@ data:
   schellar.tmpl: {{ (.Files.Get "config/templates/schellar.tmpl") | quote }}
   unistore.tmpl: {{ (.Files.Get "config/templates/unistore.tmpl") | quote }}
   topology_discovery.tmpl: {{ (.Files.Get "config/templates/topology_discovery.tmpl") | quote }}
+  performance_monitor.tmpl: {{ (.Files.Get "config/templates/performance_monitor.tmpl") | quote }}
   workflow_manager.tmpl: {{ (.Files.Get "config/templates/workflow_manager.tmpl") | quote }}
+  swagger.tmpl: {{ (.Files.Get "config/templates/swagger.tmpl") | quote }}
 {{ end }}
