@@ -11,5 +11,9 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+    - port: {{ .Values.service.kafkaClientPort }}
+      targetPort: http-kafka
+      protocol: TCP
+      name: http-kafka-client
   selector:
     {{- include "topology-discovery.selectorLabels" . | nindent 4 }}
