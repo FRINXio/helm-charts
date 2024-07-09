@@ -2,56 +2,89 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# -- Number of replicas of the deployment.
 replicaCount: 1
 
 image:
+  # -- krakend image repository
   repository: frinx/krakend
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
+  # -- Overrides the image tag whose default is the chart appVersion.
   tag: ""
+  # -- Image pull policy
+  pullPolicy: IfNotPresent
 
 proxyImage:
+  # -- nginx image repository
   repository: nginx
+  # -- Overrides the image tag.
+  tag: 1.27-alpine
+  # -- Image pull policy
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: 1.25.4-alpine
 
+# -- [Image Pull Secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
 imagePullSecrets: []
+
+# -- String to partially override app name
 nameOverride: ""
+
+# -- String to partially override app name
 fullnameOverride: ""
 
 serviceAccount:
-  # Specifies whether a service account should be created
+  # -- Specifies whether a service account should be created
   create: true
-  # Annotations to add to the service account
+  # -- Annotations to add to the service account
   annotations: {}
-  # The name of the service account to use.
+  # -- The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+# -- Pod annotations
 podAnnotations: {}
 
-podSecurityContext:
+# -- Configure [Pods Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
+podSecurityContext: {}
   # enabled: true
   # fsGroup: 0
 
+# -- Security context for KrakenD container
 containerSecurityContext:
   capabilities:
     drop:
       - ALL
 
+# -- Security context for NginX container
+nginxContainerSecurityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsGroup: 101
+  runAsUser: 101
+  capabilities:
+    drop:
+      - ALL
+
 service:
+  # -- Service type
   type: ClusterIP
-  # SideCar proxy (nginx reverse proxy for http/ws protocols)
+  # -- SideCar proxy (nginx reverse proxy for http/ws protocols)
   port: 8080
+  # -- Target port
   targetPort: 8080
+  # -- Node port
   nodePort: 30000
 
+# Configure the [Ingress resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 ingress:
+  # -- Enable ingress
   enabled: false
+  # -- IngressClass that will be be used to implement the Ingress
   className: ""
+  # -- Additional labels for the Ingress resource
   labels: {}
+  # -- Additional annotations for the Ingress resource
   annotations: {}
+  # -- [Ingress Host](https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource)
   hosts:
     - host: chart-example.local
       paths:
@@ -62,6 +95,7 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+# -- [Container resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/)
 resources:
   {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -75,6 +109,7 @@ resources:
   #   cpu: 100m
   #   memory: 128Mi
 
+# -- [Autoscaling parameters](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -82,12 +117,16 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
+# -- [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/)
 nodeSelector: {}
 
+# -- [Tolerations for pod assignment](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
 tolerations: []
 
+# -- [Affinity for pod assignment](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
 affinity: {}
 
+# -- Application environment variables
 env:
   TLS_DISABLED: true
   DEFAULT_TIMEOUT: "2m"
@@ -95,32 +134,30 @@ env:
   ALLOWED_HOSTS:
   ALLOWED_ORIGINS:
   LOG_LEVEL: INFO
-
   # Proxy settings
   PROXY_ENABLED: false
   HTTP_PROXY:
   HTTPS_PROXY:
   NO_PROXY:
-
   # Uniconfig settings
   UNICONFIG_PROTOCOL: "http"
   UNICONFIG_ZONES_LIST: "uniconfig"
   UNICONFIG_TIMEOUT: "2m"
-
   # KrakenD endpoints settings
   WORKFLOW_MANAGER_ENABLED: true
   UNICONFIG_ENABLED: true
   INVENTORY_ENABLED: true
   RESOURCE_MANAGER_ENABLED: true
-  L3VPN_ENABLED: false
   DEVICE_TOPOLOGY_ENABLED: true
-
+  PERFORMANCE_MONITOR_ENABLED: true
+  L3VPN_ENABLED: false
   # Oauth2-Proxy
   OAUTH2_KRAKEND_PLUGIN_TENANT_ID: "frinx"
   OAUTH2_KRAKEND_PLUGIN_USER_ROLES_MAP: "X-Forwarded-Roles"
   OAUTH2_KRAKEND_PLUGIN_USER_GROUPS_MAP: "X-Forwarded-Groups"
   OAUTH2_KRAKEND_PLUGIN_FROM_MAP: "X-Forwarded-User"
 
+# -- RBAC configuration
 rbac:
   UNICONFIG_CONTROLLER_ADMIN_GROUP: "network-admin"
   UNISTORE_CONTROLLER_ADMIN_GROUP: "network-admin"
@@ -131,19 +168,23 @@ rbac:
   UNISTORE_BEARER_NODE: "bearer"
   UNISTORE_SERVICE_NODE: "service"
   UNISTORE_NETWORK_NODE: "network"
-
   INVENTORY_ADMIN_GROUP: "network-admin"
   ADMIN_ACCESS_ROLE: "network-admin"
   X_AUTH_USER_GROUP: "network-admin"
 
+# -- Simulate USER credentials
 debug:
   enabled: false
   x_forwarded_roles: "owner"
   x_forwarded_groups: "network-admin"
   x_forwarded_user: "frinx-admin-user"
 
+# -- Additional KrakenD environment variables
 extraEnv: []
+
+
 volumes:
+# -- AzureFile volume
   azureFile:
     enabled: false
     storage:
@@ -151,5 +192,12 @@ volumes:
       accessKey:
 
 nginx:
-  clientBodyBufferSize: "8k"
-  clientHeaderBufferSize: "1k"
+# -- Nginx server configuration
+  server: |
+    client_body_buffer_size "8k";
+    client_header_buffer_size "1k";
+    proxy_headers_hash_max_size 2048;
+    proxy_headers_hash_bucket_size 128;
+    proxy_connect_timeout "3600";
+    proxy_read_timeout "3600";
+    proxy_send_timeout "3600";

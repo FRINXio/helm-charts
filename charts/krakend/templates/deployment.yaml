@@ -45,6 +45,10 @@ spec:
         - name: nginx-conf
           configMap:
             name: {{ template "krakend.fullname" . }}-nginx-config
+        - name: nginx-cache
+          emptyDir: {}
+        - name: nginx-run
+          emptyDir: {}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -54,6 +58,8 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: nginx
+          securityContext:
+            {{- toYaml .Values.nginxContainerSecurityContext | nindent 12 }}
           image: "{{ .Values.proxyImage.repository }}:{{ .Values.proxyImage.tag }}"
           ports:
           - containerPort: 8080
@@ -61,6 +67,10 @@ spec:
           - name: nginx-conf
             mountPath: /etc/nginx/nginx.conf
             subPath: nginx.conf
+          - name: nginx-cache
+            mountPath: /var/cache/nginx
+          - name: nginx-run
+            mountPath: /var/run/nginx
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.containerSecurityContext | nindent 12 }}
@@ -120,6 +130,8 @@ spec:
               value: {{ .Values.env.RESOURCE_MANAGER_ENABLED | quote }}
             - name: DEVICE_TOPOLOGY_ENABLED
               value: {{ .Values.env.DEVICE_TOPOLOGY_ENABLED | quote }}
+            - name: PERFORMANCE_MONITOR_ENABLED
+              value: {{ .Values.env.PERFORMANCE_MONITOR_ENABLED | quote }}
             # RBAC - UNICONFIG
             - name: UNICONFIG_CONTROLLER_ADMIN_GROUP
               value: {{ .Values.rbac.UNICONFIG_CONTROLLER_ADMIN_GROUP | quote }}

@@ -3,7 +3,11 @@ kind: ConfigMap
 metadata:
   name: {{ template "krakend.fullname" . }}-nginx-config
 data:
-  nginx.conf: |
+  nginx.conf: |-
+
+    worker_processes auto;
+    pid /var/run/nginx/nginx.pid;
+
     events {
         worker_connections  1024;
     }
@@ -40,10 +44,28 @@ data:
         server {
             listen {{ .Values.service.port }};
 
-            client_header_buffer_size {{ .Values.nginx.clientHeaderBufferSize }};
-            client_body_buffer_size {{ .Values.nginx.clientBodyBufferSize }};
+{{ .Values.nginx.server | indent 12 }}
 
             location /websocket {
+
+                # DELETE RBAC HEADERS FROM CLIENT REQUEST 
+                proxy_set_header       X-Tenant-ID {{ .Values.env.OAUTH2_KRAKEND_PLUGIN_TENANT_ID }};
+                proxy_set_header       From "";
+                proxy_set_header       X-Auth-User-Roles "";
+                proxy_set_header       X-Auth-User-Groups "";
+
+                {{ if .Values.debug.enabled }}
+                # SIMULTE OAUTH2-PROXY RBAC HEADERS
+                proxy_set_header       X-Auth-User-Roles {{ .Values.debug.x_forwarded_roles }};
+                proxy_set_header       X-Auth-User-Groups {{ .Values.debug.x_forwarded_groups }};
+                proxy_set_header       From {{ .Values.debug.x_forwarded_user }};
+                {{ else }}
+                # MAP RBAC HEADERS FROM OAUTH2-PROXY TO FRINX
+                proxy_set_header X-Auth-User-Roles $x_auth_user_roles;
+                proxy_set_header X-Auth-User-Groups $x_auth_user_groups;
+                proxy_set_header From $from;
+                {{ end }}
+
                 internal;
                 rewrite ^/websocket(.*)$ $1 break;
                 proxy_pass http://websocket;

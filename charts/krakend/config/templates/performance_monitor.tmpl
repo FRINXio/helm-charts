@@ -1,0 +1,26 @@
+{{range $index, $element := .}}
+{{if gt $index 0}},{{end}}
+{
+    "endpoint": "{{ .endpoint }}",
+    "method": "{{ .method }}",
+    "output_encoding": "no-op",
+    "input_headers": [ {{ include "allowed_headers.tmpl" }} ],
+
+    {{ if .input_query_strings }}
+    "input_query_strings": [ 
+        {{range $query_enabled, $query := .input_query_strings}} {{if gt $query_enabled 0}},{{end}} "{{$query}}" {{ end }} 
+        ],
+    {{end}}
+    "backend": [
+    {
+        "url_pattern": "{{ .url_pattern }}",
+        "encoding": "no-op",
+        "sd": "static",
+        "disable_host_sanitize": false,
+        "host": [
+            "performance-monitor:8000"
+        ]
+    }
+]
+}
+{{end}}

@@ -1,0 +1,48 @@
+{{range $index, $element := .}}
+{{if gt $index 0}},{{end}}
+{
+    "endpoint": "{{ .endpoint }}",
+    "method": "{{ .method }}",
+    "output_encoding": "no-op",
+    "input_headers": ["*"],
+
+    {{ if .input_query_strings }}
+    "input_query_strings": [ 
+        {{range $query_enabled, $query := .input_query_strings}} {{if gt $query_enabled 0}},{{end}} "{{$query}}" {{ end }} 
+        ],
+    {{end}}
+
+    {{ if .extra_config }}
+        "extra_config": {{ marshal .extra_config }},
+    {{end}}
+   
+    "backend": [
+    {
+        "url_pattern": "{{ .url_pattern }}",
+        "encoding": "no-op",
+        "sd": "static",
+        "disable_host_sanitize": false,
+        "extra_config": {
+            "modifier/martian": {
+                "fifo.Group": {
+                    "scope": ["request", "response"],
+                    "aggregateErrors": true,
+                    "modifiers": [
+                        {
+                            "header.Modifier": {
+                                "scope": ["request"],
+                                "name": "Accept-Encoding",
+                                "value": "identity"
+                            }
+                        }
+                    ]
+                }
+              }
+        },
+        "host": [
+            "swagger-ui:8080"
+        ]
+    }
+]
+}
+{{end}}
