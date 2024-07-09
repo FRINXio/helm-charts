@@ -4,7 +4,7 @@ description: FRINX Performance Monitor chart for FRINX-machine
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
 version: 0.1.2
-appVersion: "6.0.2"
+appVersion: "6.0.0"
 dependencies:
   - condition: postgresql.enabled
     name: postgresql
@@ -12,7 +12,7 @@ dependencies:
     version: 11.x.x
   - condition: kafka.enabled
     name: kafka
-    version: 25.2.0
+    version: 22.1.1
     repository: https://charts.bitnami.com/bitnami
 maintainers:
   - name: FRINX
@@ -21,10 +21,10 @@ maintainers:
 annotations:
   artifacthub.io/images: |
     - name: performance-monitor
-      image: frinx/performance-monitor:6.0.2
+      image: frinx/performance-monitor:6.0.0
   artifacthub.io/changes: |
-    - kind: changed
-      description: Bump application version to 6.0.2
+    - kind: fixed
+      description: Remove duplicated env vars in deployment template
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/386
+          url: https://github.com/FRINXio/helm-charts/pull/379
