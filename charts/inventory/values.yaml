@@ -2,47 +2,67 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# -- Number of replicas of the deployment.
 replicaCount: 1
 
 image:
+  # -- frinx-inventory-server image repository
   repository: frinx/frinx-inventory-server
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
+  # -- Overrides the image tag whose default is the chart appVersion.
   tag: ""
+  # -- Image pull policy
+  pullPolicy: IfNotPresent
 
+# -- [Image Pull Secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
 imagePullSecrets: []
+
+# -- String to partially override app name
 nameOverride: ""
+
+# -- String to partially override app name
 fullnameOverride: ""
 
 serviceAccount:
-  # Specifies whether a service account should be created
+  # -- Specifies whether a service account should be created
   create: true
   # Annotations to add to the service account
+  # -- Annotations to add to the service account
   annotations: {}
-  # The name of the service account to use.
+  # -- The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+# -- Pod annotations
 podAnnotations: {}
 
+# -- Configure [Pods Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
 podSecurityContext:
   {}
   # fsGroup: 2000
 
+# -- Security context
 securityContext:
   capabilities:
     drop:
       - ALL
 
 service:
+  # -- Service type
   type: ClusterIP
+  # -- Service port
   port: 8000
 
+# Configure the [Ingress resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 ingress:
+  # -- Enable ingress
   enabled: false
+  # -- IngressClass that will be be used to implement the Ingress
   className: ""
+  # -- Additional labels for the Ingress resource
   labels: {}
+  # -- Additional annotations for the Ingress resource
   annotations: {}
+  # -- [Ingress Host](https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource)
   hosts:
     - host: chart-example.local
       paths:
@@ -53,6 +73,7 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+# -- [Container resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/)
 resources:
   {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -66,6 +87,7 @@ resources:
   #   cpu: 100m
   #   memory: 128Mi
 
+# -- [Autoscaling parameters](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -73,18 +95,55 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
+# -- [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/)
 nodeSelector: {}
 
+# -- [Tolerations for pod assignment](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
 tolerations: []
 
+# -- [Affinity for pod assignment](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
 affinity: {}
 
 deployment:
+# -- Deployment annotations
   annotations: {}
 
-job:
-  annotations: {}
+dbPersistence:
+  # -- Database hostname
+  POSTGRES_HOST:
+  # -- Database port
+  POSTGRES_PORT: 5432
+  # -- Database name
+  POSTGRES_DATABASE: inventory
+  # -- Database schema
+  POSTGRES_DB_SCHEMA: public
+  # -- Existing database credentials
+  existingSecret:
+    secretName:
+    postgresUsernameKey:
+    postgresPasswordKey:
+  # -- Database credentials. Exposed when existing dbPersistence.existingSecret.secretName is empty
+  POSTGRES_USERNAME: postgresU
+  POSTGRES_PASSWORD: postgresP
 
+# -- Application environment variables
+env:
+  UNICONFIG_API_PROTOCOL: http
+  UNICONFIG_API_PORT: 8181
+  UNICONFIG_LIST_URL: http://krakend:8080/static/list/uniconfig
+  TOPOLOGY_DISCOVERY_API_URL: http://topology-discovery:5000
+  TOPOLOGY_DISCOVERY_GRAPHQL_API_URL: http://topology-discovery:5000/api/graphql
+  PERFORMANCE_MONITORING_GRAPHQL_API_URL: http://performance-monitor:8000/api/graphql
+  X_TENANT_ID: frinx
+  SHELL_HOST: uniconfig-controller
+  PERFORMANCE_MONITORING_ENABLED: true
+  TOPOLOGY_ENABLED: true
+  KAFKA_ENABLED: true
+  KAFKA_BROKER: "kafka:9092"
+  KAFKA_TOPIC: device-inventory
+
+# External services
+# -- Internal Postgres Database
 postgresql:
   enabled: true
   auth:
@@ -93,27 +152,3 @@ postgresql:
     password: postgresP
     database: inventory
   architecture: standalone
-
-dbPersistence:
-  POSTGRES_HOST:
-  POSTGRES_PORT: 5432
-  POSTGRES_DATABASE: inventory
-  POSTGRES_DB_SCHEMA: public
-  existingSecret:
-    secretName:
-    postgresUsernameKey:
-    postgresPasswordKey:
-  POSTGRES_USERNAME: postgresU
-  POSTGRES_PASSWORD: postgresP
-
-env:
-  UNICONFIG_API_PROTOCOL: http
-  UNICONFIG_API_PORT: 8181
-  UNICONFIG_LIST_URL: http://krakend:8080/static/list/uniconfig
-  TOPOLOGY_DISCOVERY_API_URL: http://topology-discovery:5000
-  TOPOLOGY_DISCOVERY_GRAPHQL_API_URL: http://topology-discovery:5000/api/graphql
-  X_TENANT_ID: frinx
-  TOPOLOGY_ENABLED: true
-  SHELL_HOST: uniconfig-controller
-
-extraEnv: []
