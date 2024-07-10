@@ -1,22 +1,40 @@
 # uniconfig
 
-![Version: 7.0.0](https://img.shields.io/badge/Version-7.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.0.0](https://img.shields.io/badge/AppVersion-6.0.0-informational?style=flat-square)
-
 A Helm chart for UniConfig Kubernetes deployment
 
-**Homepage:** <https://github.com/FRINXio/helm-charts>
+![Version: 8.0.0](https://img.shields.io/badge/Version-8.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.1.1](https://img.shields.io/badge/AppVersion-6.1.1-informational?style=flat-square)
 
-## Maintainers
+## Get Repo Info
 
-| Name | Email | Url |
-| ---- | ------ | --- |
-| FRINX | <services@frinx.io> | <https://frinx.io> |
+```console
+helm repo add frinx https://FRINXio.github.io/helm-charts
+helm repo update
+```
+
+## Install Chart
+
+```console
+helm install [RELEASE_NAME] frinx/uniconfig
+```
+
+## Upgrading Chart
+
+```console
+helm upgrade [RELEASE_NAME] frinx/uniconfig
+```
+
+## Uninstall Chart
+
+```console
+helm uninstall [RELEASE_NAME]
+```
 
 ## Requirements
 
 | Repository | Name | Version |
 |------------|------|---------|
-| [bitnami](https://charts.bitnami.com/bitnami) | postgresql | 11.x.x |
+| https://charts.bitnami.com/bitnami | kafka | 25.2.0 |
+| https://charts.bitnami.com/bitnami | postgresql | 11.x.x |
 
 ## Values
 
@@ -33,7 +51,7 @@ A Helm chart for UniConfig Kubernetes deployment
 | dbPersistence.POSTGRES_PASSWORD | string | `"postgresP"` |  |
 | dbPersistence.POSTGRES_USERNAME | string | `"postgresU"` | Database credentials. Exposed when existing dbPersistence.existingSecret.secretName is empty |
 | dbPersistence.existingSecret | object | `{"clishellSshserverUsernamepasswordauthPasswordKey":null,"postgresPasswordKey":null,"postgresUsernameKey":null,"secretName":null}` | Existing database credentials |
-| extraEnv | object | `{"CLISHELL_SSHSERVER_ENABLED":true,"CLISHELL_SSHSERVER_INETADDRESS":"0.0.0.0","DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_PORT":5432,"DBPERSISTENCE_CONNECTION_MAXDBPOOLSIZE":300,"DBPERSISTENCE_EMBEDDEDDATABASE_ENABLED":false,"SPRING_AUTOCONFIGURE_EXCLUDE":"org.springframework.cloud.stream.function.FunctionConfiguration","SPRING_CLOUD_BUS_ENABLED":false,"TRANSACTIONS_MAXSTOREDTRANSACTIONS":100,"TRANSACTIONS_MAXTRANSACTIONAGE":7200,"TRANSACTIONS_TRANSACTIONIDLETIMEOUT":3600,"UNICONFIG_CLOUD_CONFIG_ENABLED":false}` | Application properties |
+| extraEnv | object | `{"CLISHELL_SSHSERVER_ENABLED":true,"CLISHELL_SSHSERVER_INETADDRESS":"0.0.0.0","DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_PORT":5432,"DBPERSISTENCE_CONNECTION_MAXDBPOOLSIZE":300,"DBPERSISTENCE_EMBEDDEDDATABASE_ENABLED":false,"NOTIFICATIONS_ENABLED":true,"NOTIFICATIONS_KAFKA_KAFKASERVERS_0_BROKERHOST":"kafka","NOTIFICATIONS_KAFKA_KAFKASERVERS_0_BROKERLISTENINGPORT":9092,"SPRING_AUTOCONFIGURE_EXCLUDE":"org.springframework.cloud.stream.function.FunctionConfiguration","SPRING_CLOUD_BUS_ENABLED":false,"SPRING_KAFKA_BOOTSTRAPSERVERS":"http://kafka:9092","TRANSACTIONS_MAXSTOREDTRANSACTIONS":100,"TRANSACTIONS_MAXTRANSACTIONAGE":7200,"TRANSACTIONS_TRANSACTIONIDLETIMEOUT":3600,"UNICONFIG_CLOUD_CONFIG_ENABLED":false}` | Application properties |
 | extraInitContainers | list | `[]` | Extra init containers |
 | extraLogbackConfigMap | string | `nil` |  |
 | extraScriptConfigMap | string | `nil` |  |
@@ -56,6 +74,8 @@ A Helm chart for UniConfig Kubernetes deployment
 | ingress.labels | object | `{}` | Additional labels for the Ingress resource |
 | ingress.tls | list | `[]` | [Ingress TLS resource](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls) |
 | java | object | `{"max_mem":"10G"}` | Java max memory for Uniconfig container |
+| kafka | object | `{"fullnameOverride":"kafka","listeners":{"client":{"protocol":"PLAINTEXT"}}}` | [Kafka subchart: "https://artifacthub.io/packages/helm/bitnami/kafka"] |
+| livenessProbe | object | `{"failureThreshold":10,"timeoutSeconds":35}` | Liveness probe |
 | mibsConfigs | object | `{}` | global configuration of mibs |
 | nameOverride | string | `""` | String to partially override app name |
 | nodeSelector | object | `{}` | [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) |
@@ -63,8 +83,10 @@ A Helm chart for UniConfig Kubernetes deployment
 | podSecurityContext | object | `{}` | Configure [Pods Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
 | postgresql | object | `{"architecture":"standalone","auth":{"database":"uniconfig","enablePostgresUser":true,"password":"postgresP","username":"postgresU"},"enabled":true}` | Internal Postgres Database |
 | proxy | object | `{"config":{"HTTPS_PROXY":null,"HTTP_PROXY":null,"NO_PROXY":null},"enabled":false}` | Configure proxy settings fr unicnfig container |
+| readinessProbe | object | `{"failureThreshold":10,"timeoutSeconds":35}` | Readiness probe |
 | replicaCount | int | `1` | Number of replicas of the deployment. If you want to use more than 1 replica, must deploy it with cookie sticky sessions To create sticky session, deploy it with traefik and set highAvailability.enabled=true |
 | resources | object | `{}` | [Container resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/) |
+| securityContext | object | `{}` | Configure [Container Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) |
 | service.annotations | object | `{}` |  |
 | service.loadBalancerIP | string | `nil` | Service [Load Balancer IP](https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer) |
 | service.port | int | `8181` | Service port |
@@ -72,5 +94,6 @@ A Helm chart for UniConfig Kubernetes deployment
 | serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
 | serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
 | serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
+| startupProbe | object | `{"failureThreshold":25,"timeoutSeconds":35}` | Startup probe |
 | tolerations | list | `[]` | [Tolerations for pod assignment](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
 
