@@ -355,7 +355,7 @@ krakend:
 
   image:
     repository: "frinx/krakend"
-    tag: "6.1.0"
+    tag: "6.1.1"
 
   proxyImage:
     repository: "nginx"
@@ -701,7 +701,7 @@ oauth2-proxy:
 
   image:
     repository: "frinx/oauth2-proxy"
-    tag: "6.1-alpine"
+    tag: "6.1.0-alpine"
 
   imagePullSecrets:
     - name: *frinx-image-pull-secret
