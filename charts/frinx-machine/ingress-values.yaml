@@ -2,7 +2,7 @@
 
 krakend:
   ingress:
-    enabled: true
+    enabled: false
     className: nginx
     annotations:
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"

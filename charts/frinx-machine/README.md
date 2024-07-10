@@ -14,8 +14,6 @@ Further information is available on [docs.frinx.io](https://docs.frinx.io/frinx-
 
 ## Get Repo Info
 
-## Install Operators Chart
-
 ```console
 helm repo add frinx https://FRINXio.github.io/helm-charts
 helm repo update
