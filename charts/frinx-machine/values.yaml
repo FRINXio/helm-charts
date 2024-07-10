@@ -314,6 +314,27 @@ kafka:
           max.message.bytes: 64000
           flush.messages: 1
 
+timescale-db:
+  enabled: true
+
+  fullnameOverride: timescale-db
+
+  image:
+    repository: timescale/timescaledb-ha
+    tag: pg16-ts2.15-all
+
+  auth:
+    enablePostgresUser: true
+    username: postgresU
+    password: postgresP
+    database: performancemonitor
+  architecture: standalone
+  primary:
+    initdb:
+      scripts:
+        init_db.sql: |
+          CREATE EXTENSION IF NOT EXISTS timescaledb;
+
 
 # Core component configuration
 
@@ -523,6 +544,9 @@ uniconfig:
   postgresql:
     enabled: false
 
+  kafka:
+    enabled: false
+
   dbPersistence:
     POSTGRES_HOST: "uniconfig-postgresql-rw"
     existingSecret:
@@ -567,10 +591,11 @@ performance-monitor:
   kafka:
     enabled: false
 
-  postgres:
-    enabled: true
+  postgresql:
+    enabled: false
 
   dbPersistence:
+    POSTGRES_HOST: timescale-db
     POSTGRES_USERNAME: postgresU
     POSTGRES_PASSWORD: postgresP
 

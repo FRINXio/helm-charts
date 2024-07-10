@@ -9,7 +9,7 @@ Further information is available on [docs.frinx.io](https://docs.frinx.io/frinx-
 
 ## Prerequisites
 
-* Kubernetes 1.19+
+* Kubernetes 1.27+
 * Helm 3.2.0+
 
 ## Get Repo Info
@@ -75,7 +75,6 @@ Frinx Machine can be deployed with Oauth2-Proxy. Example of configuration can be
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../performance-monitor | performance-monitor | 0.1.3 |
 | https://FRINXio.github.io/helm-charts | workflow-manager-postgres(cloud-native-pg) | 0.0.2 |
 | https://FRINXio.github.io/helm-charts | uniconfig-postgres(cloud-native-pg) | 0.0.2 |
 | https://FRINXio.github.io/helm-charts | frinx-arango-config | 4.2.0 |
@@ -83,6 +82,7 @@ Frinx Machine can be deployed with Oauth2-Proxy. Example of configuration can be
 | https://FRINXio.github.io/helm-charts | frinx-grafana-configs | 1.x.x |
 | https://FRINXio.github.io/helm-charts | inventory | 6.0.0 |
 | https://FRINXio.github.io/helm-charts | krakend | 4.0.0 |
+| https://FRINXio.github.io/helm-charts | performance-monitor | 0.1.3 |
 | https://FRINXio.github.io/helm-charts | resource-manager | 2.1.0 |
 | https://FRINXio.github.io/helm-charts | swagger-ui | 0.1.1 |
 | https://FRINXio.github.io/helm-charts | topology-discovery | 3.1.0 |
@@ -90,6 +90,7 @@ Frinx Machine can be deployed with Oauth2-Proxy. Example of configuration can be
 | https://FRINXio.github.io/helm-charts | device-induction(worker) | 4.0.0 |
 | https://FRINXio.github.io/helm-charts | workflow-manager | 3.1.1 |
 | https://charts.bitnami.com/bitnami | kafka | 25.2.0 |
+| https://charts.bitnami.com/bitnami | timescale-db(postgresql) | 11.x.x |
 | https://grafana.github.io/helm-charts | grafana | 7.3.1 |
 | https://grafana.github.io/helm-charts | loki | 2.16.0 |
 | https://grafana.github.io/helm-charts | promtail | 6.15.5 |
