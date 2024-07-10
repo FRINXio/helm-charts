@@ -18,4 +18,4 @@ annotations:
       description: Environment variables compatible with release 6.1
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/392
+          url: https://github.com/FRINXio/helm-charts/pull/393
