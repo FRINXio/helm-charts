@@ -14591,6 +14591,48 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Enabled Kafka notifications by default
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/391
+        - kind: added
+          description: Added kafka brooker into chart dependency
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/391
+        - kind: added
+          description: Added startup probe
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/391
+    apiVersion: v2
+    appVersion: 6.1.1
+    created: "2024-07-10T06:54:09.936505183Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: kafka.enabled
+      name: kafka
+      repository: https://charts.bitnami.com/bitnami
+      version: 25.2.0
+    description: A Helm chart for UniConfig Kubernetes deployment
+    digest: 3121746a42adb6e7b34d269ea3605ae76cec56613c1b4e40d2e4cde03b75a111
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: uniconfig
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniconfig-8.0.0/uniconfig-8.0.0.tgz
+    version: 8.0.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Added default resource limits for init initContainers
           links:
             - name: GitHub PR
@@ -16259,4 +16301,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-07-09T13:09:07.807219738Z"
+generated: "2024-07-10T06:54:09.937739639Z"
