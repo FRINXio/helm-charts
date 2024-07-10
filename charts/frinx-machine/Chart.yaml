@@ -3,7 +3,7 @@ name: frinx-machine
 description: Kubernetes deployment of FRINX-machine
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 8.0.1
+version: 8.0.2
 appVersion: 6.0.0
 maintainers:
   - name: FRINX
@@ -69,7 +69,7 @@ dependencies:
 
   - name: frinx-arango-config
     repository: https://FRINXio.github.io/helm-charts
-    version: 4.1.0
+    version: 4.2.0
     condition: frinx-arango-config.enabled
 
   - name: krakend
