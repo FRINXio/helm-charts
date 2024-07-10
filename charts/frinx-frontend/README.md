@@ -62,26 +62,23 @@ helm uninstall [RELEASE_NAME]
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Toleration labels for pod assignment | `[]` |
 | `affinity` | Affinity settings for pod assignment | `{}` |
-| `env.AUTH_REDIRECT_SCHEME` | AUTH_REDIRECT_SCHEME env variable | `"http"` |
 | `env.AUTH_ENABLED` | AUTH_ENABLED env variable | `false` |
+| `env.PERFORMANCE_MONITORING_ENABLED` | PERFORMANCE_MONITORING_ENABLED env variable | `false` |
 | `env.URL_BASENAME` | URL_BASENAME env variable | `"/frinxui"` |
-| `env.WORKFLOW_MANAGER_ENABLED` | WORKFLOW_MANAGER_ENABLED env variable | `true` |
 | `env.WORKFLOW_MANAGER_API_URL` | CONDUCTOR_API_URL env variable | `"/api/workflow"` |
-| `env.WORKFLOW_MANAGER_API_DOCS_URL` | WORKFLOW_MANAGER_API_DOCS_URLgitk env variable | `"/api/workflow/docs"` |
-| `env.UNICONFIG_ENABLED` | UNICONFIG_ENABLED env variable | `true` |
-| `env.UNICONFIG_API_DOCS_URL` | UNICONFIG_API_DOCS_URL env variable | `"/api/workflow/docs-uniconfig"` |
-| `env.INVENTORY_ENABLED` | INVENTORY_ENABLED env variable | `true` |
-| `env.INVENTORY_API_URL` | INVENTORY_API_URL env variable | `"/api/proxy"` |
-| `env.RESOURCE_MANAGER_ENABLED` | RESOURCE_MANAGER_ENABLED env variable | `true` |
 | `env.RESOURCE_MANAGER_API_URL` | RESOURCE_MANAGER_API_URL env variable | `"/api/proxy"` |
 | `env.UNISTORE_API_URL` | UNISTORE_API_URL env variable | `"/api/unistore"` |
-| `env.L3VPN_ENABLED` | L3VPN_ENABLED env variable | `false` |
-| `env.AUTH_CLIENT_ID` | AUTH_CLIENT_ID env variable | `"frinx"` |
-| `env.AUTH_REDIRECT_DOMAIN` | AUTH_REDIRECT_DOMAIN env variable | `localhost` |
-| `env.MSAL_AUTHORITY` | MSAL_AUTHORITY env variable | `https://login.microsoftonline.com/common/` |
-| `env.DEVICE_TOPOLOGY_ENABLED` | DEVICE_TOPOLOGY_ENABLED env variable | `false` |
-
+| `env.INVENTORY_API_URL` | INVENTORY_API_URL env variable | `"/api/proxy"` |
+| `env.INVENTORY_WS_PATH` | INVENTORY_WS_PATH env variable | `"/api/proxy"` |
+| `env.INVENTORY_WS_SCHEMA` | INVENTORY_WS_SCHEMA env variable | `"wss://"` |
+| `env.UNICONFIG_API_DOCS_URL` | UNICONFIG_API_DOCS_URL env variable | `"/api/workflow/docs-uniconfig"` |
+| `env.WORKFLOW_MANAGER_API_DOCS_URL` | WORKFLOW_MANAGER_API_DOCS_URLgitk env variable | `"/api/workflow/docs"` |
+| `env.RESOURCE_MANAGER_API_DOCS_URL` | RESOURCE_MANAGER_API_DOCS_URL env variable | `"/api/resource"` |
+| `env.SCHELLAR_API_DOCS_URL` | SCHELLAR_API_DOCS_URL env variable | `"/api/schedule"` |
+| `env.PERFORMANCE_MONITOR_API_DOCS_URL` | PERFORMANCE_MONITOR_API_DOCS_URL env variable | `"/api/performance"` |
+| `env.TOPOLOGY_DISCOVERY_API_DOCS_URL` | TOPOLOGY_DISCOVERY_API_DOCS_URL env variable | `"/api/topology"` |
 | `proxyEnv.CONDUCTOR_URL` | CONDUCTOR_URL proxyEnv variable | `http://conductor-server:8080` |
 | `proxyEnv.SCHELLAR_URL` | SCHELLAR_URL proxyEnv variable | `http://conductor-server:3000/query` |
 | `proxyEnv.INVENTORY_URL` | INVENTORY_URL proxyEnv variable | `http://inventory:8000/graphql` |
+| `proxyEnv.WS_INVENTORY_URL` | WS_INVENTORY_URL proxyEnv variable | `ws://inventory:8000/graphql` |
 | `proxyEnv.RESOURCE_MANAGER_URL` | RESOURCE_MANAGER_URL proxyEnv variable | `http://resource-manager:8884/query` |

@@ -84,31 +84,30 @@ tolerations: []
 affinity: {}
 
 env:
-  AUTH_REDIRECT_SCHEME: "http"
-  AUTH_ENABLED: false
+  # PORTAL PARTS CONFIG
+  AUTH_ENABLED: true
+  PERFORMANCE_MONITORING_ENABLED: true
+
+  # API CONFIG
   URL_BASENAME: "/frinxui"
-  WORKFLOW_MANAGER_ENABLED: true
-  WORKFLOW_MANAGER_API_URL: "/api/workflow"
-  WORKFLOW_MANAGER_API_DOCS_URL: "/api/workflow/docs"
-  UNICONFIG_ENABLED: true
-  UNICONFIG_API_DOCS_URL: "/api/workflow/docs-uniconfig"
-  INVENTORY_ENABLED: true
-  INVENTORY_API_URL: "/api/proxy"
-  RESOURCE_MANAGER_ENABLED: true
   RESOURCE_MANAGER_API_URL: "/api/proxy"
   UNISTORE_API_URL: "/api/unistore"
-  L3VPN_ENABLED: false
-  AUTH_CLIENT_ID: "frinx"
-  AUTH_REDIRECT_DOMAIN: localhost
-  MSAL_AUTHORITY: https://login.microsoftonline.com/common/
-  DEVICE_TOPOLOGY_ENABLED: true
+  INVENTORY_API_URL: "/api/proxy"
   INVENTORY_WS_PATH: /api/proxy
-  INVENTORY_WS_SCHEMA: "ws://"
+  INVENTORY_WS_SCHEMA: "wss://"
+  # DOCS
+  WORKFLOW_MANAGER_API_DOCS_URL: "/swagger/index.html?urls.primaryName=WorkflowManager"
+  UNICONFIG_API_DOCS_URL: "/swagger/index.html?urls.primaryName=Uniconfig"
+  RESOURCE_MANAGER_API_DOCS_URL: "/api/resource"
+  SCHELLAR_API_DOCS_URL: "/api/schedule"
+  PERFORMANCE_MONITOR_API_DOCS_URL: "/api/performance"
+  TOPOLOGY_DISCOVERY_API_DOCS_URL: "/api/topology"
 
 proxyEnv:
   CONDUCTOR_URL: http://conductor-server:8080
   SCHELLAR_URL: http://conductor-server:3000/query
   INVENTORY_URL: http://inventory:8000/graphql
+  WS_INVENTORY_URL: ws://inventory:8000/graphql
   RESOURCE_MANAGER_URL: http://resource-manager:8884/query
 
 proxyResources: {}
