@@ -462,6 +462,31 @@ entries:
   frinx-frontend:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Environment variables compatible with release 6.1
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/393
+      artifacthub.io/images: |
+        - name: frinx-frontend
+          image: frinx/frinx-frontend:6.1.0
+        - name: frinx-graphql-proxy
+          image: frinx/frinx-graphql-proxy:6.1.0
+    apiVersion: v2
+    appVersion: 6.1.0
+    created: "2024-07-10T11:10:35.82808019Z"
+    description: A Helm chart for Kubernetes deployment of the Frinx UI
+    digest: 3216cec7a892041db7333b5b82f01ab703bebafca7f3ccec1f1aeca7e9ffb287
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-frontend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-frontend-4.1.0/frinx-frontend-4.1.0.tgz
+    version: 4.1.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: Increased initialDelaySeconds for graphql-proxy liveness and readiness container
           links:
@@ -16331,4 +16356,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-07-10T10:43:00.543108608Z"
+generated: "2024-07-10T11:10:35.829336956Z"
