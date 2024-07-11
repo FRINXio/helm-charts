@@ -683,7 +683,7 @@ device-induction:
 
   image:
     repository: frinx/device-induction
-    tag: "0.6.1"
+    tag: "0.6.4"
 
   imagePullSecrets:
     - name: *frinx-image-pull-secret
