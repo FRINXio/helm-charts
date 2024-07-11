@@ -583,7 +583,7 @@ performance-monitor:
 
   image:
     repository: frinx/performance-monitor
-    tag: "6.0.2"
+    tag: "6.0.3"
 
   imagePullSecrets:
     - name: *frinx-image-pull-secret
