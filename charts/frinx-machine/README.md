@@ -65,7 +65,7 @@ To access UI, enable ingress for KrakenD service
 ```console
 helm install [RELEASE_NAME] frinx/frinx-machine --set krakend.ingress.enabled=true
 ```
-Then from browser access:  `krakend.127.0.0.1.nip.io`
+Then from browser access: `krakend.127.0.0.1.nip.io`
 
 Frinx Machine can be deployed with Oauth2-Proxy. Example of configuration can be found in values.yaml
 
@@ -95,7 +95,6 @@ Frinx Machine can be deployed with Oauth2-Proxy. Example of configuration can be
 | https://helm.influxdata.com | influxdb2 | 2.1.2 |
 | https://helm.influxdata.com | telegraf-ds | 1.1.24 |
 | https://oauth2-proxy.github.io/manifests | oauth2-proxy | 7.7.4 |
-| https://provectus.github.io/kafka-ui-charts | kafka-ui | 0.7.5 |
 | https://traefik.github.io/charts | uc-zone-lb(traefik) | 27.0.2 |
 
 ## Hardware requirements

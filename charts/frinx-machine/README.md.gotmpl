@@ -62,7 +62,7 @@ To access UI, enable ingress for KrakenD service
 ```console
 helm install [RELEASE_NAME] frinx/{{ template "chart.name" . }} --set krakend.ingress.enabled=true
 ```
-Then from browser access:  `krakend.127.0.0.1.nip.io`
+Then from browser access: `krakend.127.0.0.1.nip.io`
 
 Frinx Machine can be deployed with Oauth2-Proxy. Example of configuration can be found in values.yaml
 

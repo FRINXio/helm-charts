@@ -1,9 +1,9 @@
 apiVersion: v2
 name: frinx-machine
 description: |
-  FRINX Machine is a dockerized deployment of multiple elements. The FRINX Machine enables large scale automation of network devices, services and retrieval of operational state data from a network. 
-  User specific workflows are designed through the use of OpenConfig NETCONF & YANG models, vendor native models, and the CLI. 
-  The FRINX Machine uses dockerized containers that are designed and tested to work together to create a user specific solution. 
+  FRINX Machine is a dockerized deployment of multiple elements. The FRINX Machine enables large scale automation of network devices, services and retrieval of operational state data from a network.
+  User specific workflows are designed through the use of OpenConfig NETCONF & YANG models, vendor native models, and the CLI.
+  The FRINX Machine uses dockerized containers that are designed and tested to work together to create a user specific solution.
   Further information is available on [docs.frinx.io](https://docs.frinx.io/frinx-machine/getting-started/).
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
@@ -75,7 +75,7 @@ dependencies:
     version: 11.x.x
     condition: timescale-db.enabled
 
-  ## Services 
+  ## Services
   - name: krakend
     repository: https://FRINXio.github.io/helm-charts
     version: 4.0.0
@@ -132,13 +132,8 @@ dependencies:
     repository: https://FRINXio.github.io/helm-charts
     version: 4.0.0
     condition: device-induction.enabled
-    
+
   - name: oauth2-proxy
     repository: https://oauth2-proxy.github.io/manifests
     version: 7.7.4
     condition: oauth2-proxy.enabled
-
-# TODO: remove
-  - name: kafka-ui
-    repository: https://provectus.github.io/kafka-ui-charts
-    version: 0.7.5

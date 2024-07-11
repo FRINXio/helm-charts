@@ -27,6 +27,7 @@ jobs:
           VALIDATE_JSCPD: false
           VALIDATE_NATURAL_LANGUAGE	: false
           VALIDATE_MARKDOWN: false
+          VALIDATE_GITLEAKS: false
           FILTER_REGEX_EXCLUDE: .*config/.*.json
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

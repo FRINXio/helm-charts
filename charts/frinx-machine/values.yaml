@@ -748,16 +748,3 @@ oauth2-proxy:
       provider = "github"
       login_url = "https://github.com/login/oauth/authorize"
       redirect_url = "https://fm.127.0.0.1.nip.io/oauth2/callback"
-
-
-# TODO remove
-kafka-ui:
-  fullnameOverride: kafka-ui
-  yamlApplicationConfig:
-    kafka:
-      clusters:
-        - name: kafka
-          bootstrapServers: kafka:9092
-  ingress:
-    enabled: true
-    host: kafka.192.168.49.2.nip.io
