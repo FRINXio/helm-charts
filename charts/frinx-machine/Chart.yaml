@@ -14,49 +14,24 @@ maintainers:
 dependencies:
   # Monitoring
 
-  - name: grafana
-    repository: "https://grafana.github.io/helm-charts"
-    version: 7.3.1
-    condition: grafana.enabled
-
-  - name: frinx-grafana-configs
-    repository: "https://FRINXio.github.io/helm-charts"
-    version: 1.x.x
-    condition: grafana.enabled
-
-  - name: influxdb2
-    repository: "https://helm.influxdata.com"
-    version: 2.1.2
-    condition: influxdb2.enabled
-
-  - name: telegraf-ds
-    repository: https://helm.influxdata.com
-    version: 1.1.24
-    condition: telegraf-ds.enabled
-
-  - name: loki
-    repository: https://grafana.github.io/helm-charts
-    version: 2.16.0
-    condition: loki.enabled
-
-  - name: promtail
-    repository: https://grafana.github.io/helm-charts
-    version: 6.15.5
-    condition: loki.enabled
+  - name: frinx-machine-monitoring
+    repository: file://../frinx-machine-monitoring
+    version: 0.1.0
+    condition: frinx-machine-monitoring.enabled
 
   # Frinx Machine Core
 
   ## Databases
   - name: cloud-native-pg
     alias: workflow-manager-postgres
-    repository: https://FRINXio.github.io/helm-charts
-    version: 0.0.2
+    repository: file://../cloud-native-pg
+    version: 0.0.3
     condition: workflow-manager-postgres.enabled
 
   - name: cloud-native-pg
     alias: uniconfig-postgres
-    repository: https://FRINXio.github.io/helm-charts
-    version: 0.0.2
+    repository: file://../cloud-native-pg
+    version: 0.0.3
     condition: uniconfig-postgres.enabled
 
   - name: frinx-arango-config
@@ -77,8 +52,8 @@ dependencies:
 
   ## Services
   - name: krakend
-    repository: https://FRINXio.github.io/helm-charts
-    version: 4.0.0
+    repository: file://../krakend
+    version: 4.0.1
     condition: krakend.enabled
 
   - name: frinx-frontend
@@ -92,8 +67,8 @@ dependencies:
     condition: resource-manager.enabled
 
   - name: workflow-manager
-    repository: https://FRINXio.github.io/helm-charts
-    version: 3.1.1
+    repository: file://../workflow-manager
+    version: 3.1.2
     condition: workflow-manager.enabled
 
   - name: inventory
@@ -108,8 +83,8 @@ dependencies:
     condition: uc-zone-lb.enabled
 
   - name: uniconfig
-    repository: https://FRINXio.github.io/helm-charts
-    version: 8.0.0
+    repository: file://../uniconfig
+    version: 8.0.1
     condition: uniconfig.enabled
 
   - name: topology-discovery

@@ -65,10 +65,8 @@ backup: {}
   # For details and examples refer to the Backup and Recovery section of the documentation
   # https://cloudnative-pg.io/documentation/1.18/api_reference/#backupconfiguration
 
-
-monitoring: {}
-  # MonitoringConfiguration is the type containing all the monitoring configuration for a certain cluster
-  # https://cloudnative-pg.io/documentation/1.18/api_reference/#MonitoringConfiguration
+monitoring: 
+  podMonitorEnabled: true
 
 env: {}
 

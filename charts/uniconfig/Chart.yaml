@@ -1,6 +1,6 @@
 apiVersion: v2
 name: uniconfig
-version: 8.0.0
+version: 8.0.1
 appVersion: "6.1.1"
 description: A Helm chart for UniConfig Kubernetes deployment
 type: application
