@@ -112,6 +112,16 @@ postgresql:
     database: postgres
   architecture: standalone
 
+  metrics:
+    enabled: true
+    image: 
+      repository: prometheuscommunity/postgres-exporter
+      tag: latest
+
+    serviceMonitor:
+      enabled: true
+      labels:
+        prometheus: resource-manager-db
 
 dbPersistence:
   # -- Database hostname

@@ -153,7 +153,6 @@ conductorExtraEnv:
   CONDUCTOR_METRICSLOGGER_ENABLED: true
   CONDUCTOR_METRICSLOGGER_REPORTPERIODSECONDS: 15
   CONDUCTOR_METRICSDATADOG_ENABLED: false
-  CONDUCTOR_METRICSPROMETHEUS_ENABLED: false
   # Increase payload threshold limits for transferring big schemas to PostgreSQL
   CONDUCTOR_APP_WORKFLOWINPUTPAYLOADSIZETHRESHOLD: 85
   CONDUCTOR_APP_WORKFLOWOUTPUTPAYLOADSIZETHRESHOLD: 85
@@ -181,6 +180,11 @@ conductorExtraEnv:
   CONDUCTOR_WORKFLOWEXECUTIONLOCK_TYPE: local_only
   CONDUCTOR_WORKFLOWREPAIRSERVICE_ENABLED: false
   SPRING_AUTOCONFIGURE_EXCLUDE: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+  # Monitoring
+  CONDUCTOR_METRICSPROMETHEUS_ENABLED: true
+  MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: prometheus
+
+
 
 # -- Schellar resources
 schellarResources: {}
@@ -223,6 +227,25 @@ postgresql:
       scripts:
         init_db.sql: |
           CREATE DATABASE schellar;
+
+  metrics:
+    enabled: true
+    image:
+      repository: prometheuscommunity/postgres-exporter
+      tag: latest
+
+    serviceMonitor:
+      enabled: true
+      labels:
+        prometheus: conductor-db
+
+# -- Monitoring configuration
+monitoring:
+  enabled: true
+  conductorPort: http-conductor
+  conductorPath: /actuator/prometheus
+  schellarPort: http-schellar
+  schellarPath: /metrics
 
 utilitiesImage:
   # -- utilities image repository

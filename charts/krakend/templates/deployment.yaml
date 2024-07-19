@@ -192,6 +192,9 @@ spec:
             - name: websocket
               containerPort: 8001
               protocol: TCP
+            - name: monitoring
+              containerPort: 9091
+              protocol: TCP  
           livenessProbe:
             httpGet:
               path: /__health

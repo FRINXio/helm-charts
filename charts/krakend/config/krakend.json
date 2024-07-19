@@ -22,6 +22,20 @@
         }
       ]
     },
+    "telemetry/opentelemetry": {
+        "service_name": "krakend_prometheus_service",
+        "metric_reporting_period": 1,
+        "exporters": {
+            "prometheus": [
+                {
+                    "name": "local_prometheus",
+                    "port": 9091,
+                    "process_metrics": true,
+                    "go_metrics": true
+                }
+            ]
+        }
+    },
     "router":{
       "disable_path_decoding" : true,
       "disable_redirect_fixed_path": true,

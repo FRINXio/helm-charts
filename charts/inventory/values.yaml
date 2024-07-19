@@ -160,3 +160,14 @@ postgresql:
     password: postgresP
     database: inventory
   architecture: standalone
+
+  metrics:
+    enabled: true
+    image: 
+      repository: prometheuscommunity/postgres-exporter
+      tag: latest
+
+    serviceMonitor:
+      enabled: true
+      labels:
+        prometheus: inventory-db

@@ -266,6 +266,17 @@ postgresql:
     database: uniconfig
   architecture: standalone
 
+  metrics:
+    enabled: true
+    image:
+      repository: prometheuscommunity/postgres-exporter
+      tag: latest
+
+    serviceMonitor:
+      enabled: true
+      labels:
+        prometheus: uniconfig-db
+
 # -- [Kafka subchart: "https://artifacthub.io/packages/helm/bitnami/kafka"]
 kafka:
   # @ignored
@@ -282,3 +293,8 @@ utilitiesImage:
   tag: "1.2"
   # -- Image pull policy
   pullPolicy: IfNotPresent
+
+monitoring:
+  enabled: true
+  port: http
+  path: /actuator/prometheus

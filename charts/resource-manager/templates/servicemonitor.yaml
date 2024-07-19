@@ -1,0 +1,18 @@
+{{- if .Values.monitoring.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: resource-manager-app
+  labels:
+    prometheus: resource-manager-app
+    {{- include "resource-manager.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: resource-manager
+      app.kubernetes.io/instance: resource-manager
+  endpoints:
+    - port: {{ .Values.service.conductorPort }}
+      path: /metrics
+      interval: 30s
+{{- end }}
