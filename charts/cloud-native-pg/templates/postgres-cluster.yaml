@@ -39,9 +39,9 @@ spec:
     {{- toYaml .Values.postgresql | nindent 4 }}
   {{- end }}
 
-  {{- if .Values.affinity }}
+  {{- if .Values.monitoring }}
   monitoring:
-    {{- toYaml .Values.affinity | nindent 4 }}
+    enablePodMonitor: {{ .Values.monitoring.podMonitorEnabled }}
   {{- end }}
 
   bootstrap:
@@ -98,9 +98,4 @@ spec:
   {{- if .Values.envFrom }}
   envFrom:
     {{- toYaml .Values.envFrom | nindent 4 }}
-  {{- end }}
-
-  {{- if .Values.monitoring }}
-  monitoring:
-    {{- toYaml .Values.monitoring | nindent 4 }}
   {{- end }}

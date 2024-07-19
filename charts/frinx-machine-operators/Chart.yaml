@@ -17,6 +17,10 @@ dependencies:
     version: 1.2.41
     repository: https://arangodb.github.io/kube-arangodb
     condition: kube-arangodb.enabled
+  - name: prometheus-operator-crds
+    version: 13.0.1
+    repository: https://prometheus-community.github.io/helm-charts/
+    condition: prometheus-operator-crds.enabled
 annotations:
   artifacthub.io/changes: |
     - kind: changed

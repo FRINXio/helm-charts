@@ -8,7 +8,7 @@ image:
   repository: frinx/conductor-server
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "PROMT"
 
 schellarImage:
   repository: frinx/schellar
@@ -150,6 +150,11 @@ conductorExtraEnv:
   CONDUCTOR_WORKFLOWEXECUTIONLOCK_TYPE: local_only
   CONDUCTOR_WORKFLOWREPAIRSERVICE_ENABLED: false
   SPRING_AUTOCONFIGURE_EXCLUDE: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+  # Monitoring
+  CONDUCTOR_METRICSPROMETHEUS_ENABLED: true
+  MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: prometheus
+
+
 
 schellarResources: {}
 
@@ -187,3 +192,21 @@ postgresql:
       scripts:
         init_db.sql: |
           CREATE DATABASE schellar;
+
+  metrics:
+    enabled: true
+    image: 
+      repository: prometheuscommunity/postgres-exporter
+      tag: latest
+
+    serviceMonitor:
+      enabled: true
+      labels:
+        prometheus: conductor-db        
+
+monitoring:
+  enabled: true
+  conductorPort: http-conductor
+  conductorPath: /actuator/prometheus
+  schellarPort: http-schellar
+  schellarPath: /metrics

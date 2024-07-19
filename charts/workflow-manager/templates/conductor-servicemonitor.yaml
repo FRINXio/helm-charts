@@ -1,0 +1,18 @@
+{{- if .Values.monitoring.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: conductor-app
+  labels:
+    prometheus: conductor-app
+    {{- include "workflow-manager.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: workflow-manager
+      app.kubernetes.io/instance: workflow-manager
+  endpoints:
+    - port: {{ .Values.monitoring.conductorPort }}
+      path: {{ .Values.monitoring.conductorPath }}
+      interval: 30s
+{{- end }}

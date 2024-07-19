@@ -1,0 +1,18 @@
+{{- if .Values.monitoring.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .Chart.Name }}-app
+  labels:
+    prometheus: uniconfig-app
+    {{- include "uniconfig.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: uniconfig
+      app.kubernetes.io/instance: uniconfig
+  endpoints:
+    - port: {{ .Values.monitoring.port }}
+      path: {{ .Values.monitoring.path }}
+      interval: 30s    
+{{- end }}

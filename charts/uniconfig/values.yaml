@@ -94,7 +94,7 @@ image:
   # -- Uniconfig image repository
   repository: frinx/uniconfig
   # -- Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "TRA"
   # -- Image pull policy
   pullPolicy: IfNotPresent
 
@@ -266,6 +266,17 @@ postgresql:
     database: uniconfig
   architecture: standalone
 
+  metrics:
+    enabled: true
+    image: 
+      repository: prometheuscommunity/postgres-exporter
+      tag: latest
+
+    serviceMonitor:
+      enabled: true
+      labels:
+        prometheus: uniconfig-db
+
 # -- [Kafka subchart: "https://artifacthub.io/packages/helm/bitnami/kafka"]
 kafka:
   # @ignored
@@ -274,3 +285,19 @@ kafka:
   listeners:
     client:
       protocol: PLAINTEXT
+
+  metrics:
+    kafka: 
+      enabled: true
+    jmx:
+      enabled: true  
+
+    serviceMonitor:
+      enabled: true
+      labels:
+        prometheus: uniconfig-kafka
+
+monitoring:
+  enabled: true
+  port: http
+  path: /actuator/prometheus
