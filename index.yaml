@@ -50,6 +50,53 @@ entries:
   demo-workflows:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Compabile with Frinx Machine 6.1.0
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/398
+        - kind: changed
+          description: Worker subchart used as a dependency, removed obsolete templates
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/398
+        - kind: changed
+          description: Update sample topology version to 6.1.0
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/398
+      artifacthub.io/images: |
+        - name: sample-topology
+          image: frinx/sample-topology:6.1.0
+        - name: frinx-demo-workflows
+          image: frinx/frinx-demo-workflows:6.1.0
+    apiVersion: v2
+    appVersion: 6.1.0
+    created: "2024-07-24T11:57:18.413172292Z"
+    dependencies:
+    - condition: sample-topology.enabled
+      name: sample-topology
+      repository: https://FRINXio.github.io/helm-charts
+      version: 3.1.0
+    - alias: frinx-demo-workflows
+      condition: frinx-demo-workflows.enabled
+      name: worker
+      repository: https://FRINXio.github.io/helm-charts
+      version: 4.0.0
+    description: A Helm chart for the Frinx Machine demo workflows
+    digest: b01ee04e0cafd79c8e88832d44dee625b64e6ed93597048fa7122efd64590d00
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: demo-workflows
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/demo-workflows-2.0.0/demo-workflows-2.0.0.tgz
+    version: 2.0.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Add option to add annotations to deployment
           links:
@@ -16473,4 +16520,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-07-11T13:22:07.08298875Z"
+generated: "2024-07-24T11:57:18.414444235Z"
