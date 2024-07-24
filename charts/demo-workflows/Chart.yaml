@@ -3,19 +3,41 @@ name: demo-workflows
 description: A Helm chart for the Frinx Machine demo workflows
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 1.3.0
-appVersion: "1.10"
+version: 2.0.0
+appVersion: "6.1.0"
 maintainers:
   - name: FRINX
+    email: services@frinx.io
+    url: https://frinx.io
 dependencies:
   - condition: sample-topology.enabled
     name: sample-topology
     repository: https://FRINXio.github.io/helm-charts
-    version: 1.x.x
+    version: 3.1.0
+  - condition: frinx-demo-workflows.enabled
+    name: worker
+    alias: frinx-demo-workflows
+    repository: https://FRINXio.github.io/helm-charts
+    version: 4.0.0
 annotations:
+  artifacthub.io/images: |
+    - name: sample-topology
+      image: frinx/sample-topology:6.1.0
+    - name: frinx-demo-workflows
+      image: frinx/frinx-demo-workflows:6.1.0
   artifacthub.io/changes: |
-    - kind: added
-      description: Add option to add annotations to deployment
+    - kind: changed
+      description: Compabile with Frinx Machine 6.1.0
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/174
+          url: https://github.com/FRINXio/helm-charts/pull/398
+    - kind: changed
+      description: Worker subchart used as a dependency, removed obsolete templates
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/398
+    - kind: changed
+      description: Update sample topology version to 6.1.0
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/398

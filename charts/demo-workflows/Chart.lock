@@ -1,6 +1,0 @@
-dependencies:
-- name: sample-topology
-  repository: https://FRINXio.github.io/helm-charts
-  version: 1.0.0
-digest: sha256:0e19cde431ad76e878cdf438a1192f547ff2fa1d15d36d28c65be84580646e8b
-generated: "2022-04-20T19:18:52.929501385+02:00"

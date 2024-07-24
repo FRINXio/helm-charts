@@ -1,0 +1,41 @@
+{{ template "chart.header" . }}
+{{ template "chart.description" . }}
+
+
+{{ template "chart.versionBadge" . }}{{ template "chart.typeBadge" . }}{{ template "chart.appVersionBadge" . }}
+
+## Prerequisites
+
+* Kubernetes 1.27+
+* Helm 3.2.0+
+
+## Get Repo Info
+
+```console
+helm repo add frinx https://FRINXio.github.io/helm-charts
+helm repo update
+```
+
+## Install Chart
+
+```console
+helm install [RELEASE_NAME] frinx/{{ template "chart.name" . }}
+```
+
+## Upgrading Chart
+
+```console
+helm upgrade [RELEASE_NAME] frinx/{{ template "chart.name" . }}
+```
+
+## Uninstall Chart
+
+```console
+helm uninstall [RELEASE_NAME]
+```
+
+{{ template "chart.requirementsSection" . }}
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "helm-docs.versionFooter" . }}
