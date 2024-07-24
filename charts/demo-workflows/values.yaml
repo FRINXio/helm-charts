@@ -14,8 +14,6 @@ frinx-demo-workflows:
 
 # @ignored
   env:
-    CONDUCTOR_URL_BASE: http://conductor-server:8080/api
-    SCHELLAR_URL_BASE: http://conductor-server:3000/query
     X_AUTH_USER_GROUP: *frinx-rbac-admin-role
 
 # -- Configure [Sample-Topology](https://artifacthub.io/packages/helm/frinx-helm-charts/sample-topology)

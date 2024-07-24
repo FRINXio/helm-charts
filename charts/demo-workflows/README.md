@@ -45,7 +45,7 @@ helm uninstall [RELEASE_NAME]
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| frinx-demo-workflows | object | `{"env":{"CONDUCTOR_URL_BASE":"http://conductor-server:8080/api","SCHELLAR_URL_BASE":"http://conductor-server:3000/query","X_AUTH_USER_GROUP":"FRINXio"}}` | Configure [Worker](https://artifacthub.io/packages/helm/frinx-helm-charts/worker) |
+| frinx-demo-workflows | object | `{"env":{"X_AUTH_USER_GROUP":"FRINXio"}}` | Configure [Worker](https://artifacthub.io/packages/helm/frinx-helm-charts/worker) |
 | sample-topology | object | `{"devices":{}}` | Configure [Sample-Topology](https://artifacthub.io/packages/helm/frinx-helm-charts/sample-topology) |
 | x-frinx-rbac-admin-role | string | `"FRINXio"` | Global anchor for RBAC setting |
 
