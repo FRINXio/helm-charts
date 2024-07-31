@@ -14193,6 +14193,33 @@ entries:
   resource-manager:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Add metrics port for accessing metrics
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/399
+    apiVersion: v2
+    appVersion: 6.1.0
+    created: "2024-07-31T09:44:30.38692525Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 14.x.x
+    description: A Helm chart for Kubernetes deploying of the Frinx Resource-Manager
+    digest: 59143dd8b5111c0bf71bbc9a6abb4bbdd8ae61fc7c2dd933c85316a4400a312a
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: resource-manager
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/resource-manager-2.2.0/resource-manager-2.2.0.tgz
+    version: 2.2.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Bump application version to 6.1
           links:
@@ -16520,4 +16547,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-07-24T11:57:18.414444235Z"
+generated: "2024-07-31T09:44:30.388205245Z"
