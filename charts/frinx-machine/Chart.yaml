@@ -62,8 +62,8 @@ dependencies:
     condition: frinx-frontend.enabled
 
   - name: resource-manager
-    repository: https://FRINXio.github.io/helm-charts
-    version: 2.1.0
+    repository: file://../resource-manager
+    version: 2.3.0
     condition: resource-manager.enabled
 
   - name: workflow-manager

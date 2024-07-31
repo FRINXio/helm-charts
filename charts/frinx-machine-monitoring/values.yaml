@@ -58,7 +58,8 @@ kube-prometheus-stack:
               - frinx-machine
               - frinx-machine-monitoring
               - uniconfig
-              - workflow-manager  
+              - workflow-manager
+              - oauth2-proxy
 
       podMonitorSelector:
         matchExpressions:

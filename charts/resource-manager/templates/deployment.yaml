@@ -72,6 +72,9 @@ spec:
             - name: http
               containerPort: {{ .Values.env.RM_API_PORT }}
               protocol: TCP
+            - name: metrics
+              containerPort: {{ .Values.service.monitorPort }}
+              protocol: TCP
           livenessProbe:
             httpGet:
               path: /healthz/liveness

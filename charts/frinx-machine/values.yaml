@@ -166,7 +166,7 @@ kafka:
           flush.messages: 1
 
 timescale-db:
-  enabled: false
+  enabled: true
 
   fullnameOverride: timescale-db
 
@@ -242,12 +242,12 @@ frinx-frontend:
     COMMIT_HASH: *frinx-machine-version
 
 resource-manager:
-  enabled: false
+  enabled: true
   fullnameOverride: "resource-manager"
-
-  image:
-    repository: "frinx/resource-manager"
-    tag: "6.1.0"
+  
+  # image:
+  #   repository: "frinx/resource-manager"
+  #   tag: "6.1.0"
 
   postgresql:
     enabled: false
@@ -309,7 +309,7 @@ workflow-manager:
     WM_ADMIN_GROUPS: *frinx-rbac-admin-role
 
 inventory:
-  enabled: false
+  enabled: true
   fullnameOverride: "inventory"
 
   image:
@@ -352,7 +352,7 @@ topology-discovery:
     X_AUTH_USER_GROUP: *frinx-rbac-admin-role
 
 uc-zone-lb:
-  enabled: false
+  enabled: true
   fullnameOverride: "uc-zone-lb"
 
   ingressClass:
@@ -529,7 +529,7 @@ swagger-ui:
             - "get"
 
 device-induction:
-  enabled: false
+  enabled: true
 
   fullnameOverride: "device-induction"
 
@@ -545,10 +545,15 @@ device-induction:
     DEVI_DEVICE_AUTHENTICATION__DEFAULT_USERNAME: admin
     DEVI_DEVICE_AUTHENTICATION__DEFAULT_PASSWORD: admin
 
+  initContainers:
+    checkUniconfigReady: false
+    checkConductorReady: false
+    checkInventoryReady: false
+
 # Identity provider configuration
 
 oauth2-proxy:
-  enabled: false
+  enabled: true
   fullnameOverride: "oauth2-proxy"
 
   image:
@@ -567,12 +572,12 @@ oauth2-proxy:
       nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
       nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
     hosts:
-      - "fm.127.0.0.1.nip.io"
+      - "fm.192.168.49.2.nip.io"
 
   config:
-    cookieSecret: create_strong_secret
-    clientSecret: ""
-    clientID: ""
+    cookieSecret: C8Y8Q~yKZUTeCzBlZzJ17PM1GmkvQdJ.
+    clientSecret: "tM-6VCAMq4Qk84b_es4qyjAmO_2dBuSsWe74v8SG6dg="
+    clientID: "61e8db2b-d74f-4964-9e13-3186acf008e7"
     configFile: |-
       # DEFAULT CONFIGURATION
       # https://oauth2-proxy.github.io/oauth2-proxy/configuration/overview
@@ -585,18 +590,27 @@ oauth2-proxy:
       pass_authorization_header = false
       proxy_websockets = true
 
-      scope = "user:email read:org groups"
+      ssl_insecure_skip_verify = true
+      pass_access_token = true
+      real_client_ip_header = true
       email_domains = [ "*" ]
 
       # DEPENDS ON DEPLOYMENT SETUP, INGRESS CONFIGURATION
-      cookie_domains = [ "fm.127.0.0.1.nip.io" ]
-      whitelist_domains = [ "fm.127.0.0.1.nip.io" ]
+      cookie_domains = [ "fm.192.168.49.2.nip.io" ]
+      whitelist_domains = [ "fm.192.168.49.2.nip.io" ]
 
       # IDENTITY PROVIDER CONFIGURATION
       # https://oauth2-proxy.github.io/oauth2-proxy/configuration/providers/
       # Configuration example with github
 
-      github_org = "FRINXio"
-      provider = "github"
-      login_url = "https://github.com/login/oauth/authorize"
-      redirect_url = "https://fm.127.0.0.1.nip.io/oauth2/callback"
+      login_url = "https://login.microsoftonline.com"
+      redirect_url = "https://fm.192.168.49.2.nip.io/oauth2/callback"
+
+      # github_org = "FRINXio"
+      provider = "azure"
+      azure_tenant = "06e51546-df15-4e3a-9534-f049820ab0c5"
+      oidc_issuer_url = "https://login.microsoftonline.com/06e51546-df15-4e3a-9534-f049820ab0c5/v2.0"
+
+  metrics:
+    serviceMonitor:
+      enabled: true
