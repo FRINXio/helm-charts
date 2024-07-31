@@ -13,5 +13,5 @@ spec:
   endpoints:
     - port: {{ .Values.monitoring.port }}
       path: {{ .Values.monitoring.path }}
-      interval: 30s    
+      interval: 30s
 {{- end }}

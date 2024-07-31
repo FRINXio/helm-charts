@@ -10,6 +10,7 @@ chart-repos:
   - traefik=https://helm.traefik.io/traefik
   - arango=https://arangodb.github.io/kube-arangodb
   - cloudnative-pg=https://cloudnative-pg.github.io/charts
+  - loki=https://grafana.github.io/helm-charts
   - prometheus-operator-crds=https://prometheus-community.github.io/helm-charts/
 helm-extra-args: --timeout 600s
 additional-commands:

@@ -17,6 +17,6 @@ spec:
     - port: {{ .Values.monitoring.port }}
       targetPort: {{ .Values.monitoring.targetPort }}
       protocol: TCP
-      name: metrics  
+      name: metrics
   selector:
     {{- include "krakend.selectorLabels" . | nindent 4 }}

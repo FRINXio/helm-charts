@@ -194,7 +194,7 @@ spec:
               protocol: TCP
             - name: monitoring
               containerPort: 9091
-              protocol: TCP  
+              protocol: TCP
           livenessProbe:
             httpGet:
               path: /__health

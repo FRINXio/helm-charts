@@ -1,0 +1,25 @@
+{{- if .Values.highAvailability.enabled }}
+{{- range $host := .Values.highAvailability.hosts }}
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ $host }}
+spec:
+  entryPoints:
+    - {{ $.Values.highAvailability.traefik.entrypoint }}
+  routes:
+  - match: Host(`{{ $host }}`)
+    kind: Rule
+    services:
+    - name: {{ include "uniconfig.fullname" $ }}
+      kind: Service
+      port: {{ $.Values.service.port }}
+      sticky:
+        cookie:
+          name: {{ $.Values.highAvailability.stickyCookie.name }}
+          httpOnly: {{ $.Values.highAvailability.stickyCookie.httpOnly }}
+          secure: {{ $.Values.highAvailability.stickyCookie.secure }}
+          sameSite: {{ $.Values.highAvailability.stickyCookie.sameSite }}
+---
+{{- end }}
+{{- end }}

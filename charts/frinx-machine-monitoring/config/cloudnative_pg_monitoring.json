@@ -34,7 +34,7 @@
         "includeVars": false,
         "keepTime": false,
         "tags": [
-          "cloudnativepg"
+          "cloudnative-pg"
         ],
         "targetBlank": false,
         "title": "Related Dashboards",
@@ -8925,7 +8925,7 @@
     "revision": 1,
     "schemaVersion": 39,
     "tags": [
-      "cloudnativepg"
+      "cloudnative-pg"
     ],
     "templating": {
       "list": [

@@ -266,11 +266,9 @@ postgresql:
     database: uniconfig
   architecture: standalone
 
+  # -- Database metrics configuration
   metrics:
     enabled: true
-    image:
-      repository: prometheuscommunity/postgres-exporter
-      tag: latest
 
     serviceMonitor:
       enabled: true
@@ -294,7 +292,8 @@ utilitiesImage:
   # -- Image pull policy
   pullPolicy: IfNotPresent
 
+# -- Monitoring configuration
 monitoring:
-  enabled: true
+  enabled: false
   port: http
   path: /actuator/prometheus

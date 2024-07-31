@@ -22,64 +22,97 @@
       }
     ]
   },
-  "description": "Loki logs panel with prometheus variables ",
+  "description": "Loki logs panel for device communication logs",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "gnetId": 12019,
   "graphTooltip": 0,
-  "id": 8,
+  "id": 22,
   "links": [],
   "liveNow": false,
   "panels": [
     {
-      "aliasColors": {},
-      "bars": true,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "type": "loki",
         "uid": "P8E80F9AEF21F6940"
       },
       "fieldConfig": {
         "defaults": {
-          "links": []
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "hidden",
+            "barAlignment": 0,
+            "drawStyle": "bars",
+            "fillOpacity": 100,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
         },
         "overrides": []
       },
-      "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
         "h": 3,
         "w": 24,
         "x": 0,
         "y": 0
       },
-      "hiddenSeries": false,
       "id": 6,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": false,
-        "total": false,
-        "values": false
-      },
-      "lines": false,
-      "linewidth": 1,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "percentage": false,
       "pluginVersion": "10.1.4",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
       "targets": [
         {
           "datasource": {
@@ -90,36 +123,7 @@
           "refId": "A"
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:168",
-          "format": "short",
-          "logBase": 1,
-          "show": false
-        },
-        {
-          "$$hashKey": "object:169",
-          "format": "short",
-          "logBase": 1,
-          "show": false
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
       "datasource": {
@@ -151,7 +155,7 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "{app=\"$app\", container=\"$container\"} |~ \"$search\"",
+          "expr": "{app=\"uniconfig\", container=\"uniconfig\", deviceName=\"$deviceName\"} |~ \"$search\"",
           "queryType": "range",
           "refId": "A"
         }
@@ -180,7 +184,7 @@
         "content": "<div style=\"text-align:center\"> Frinx Loki search  </div>\n\n\n",
         "mode": "html"
       },
-      "pluginVersion": "10.1.4",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
           "datasource": {
@@ -195,12 +199,20 @@
     }
   ],
   "refresh": "",
-  "schemaVersion": 38,
-  "style": "dark",
-  "tags": [],
+  "schemaVersion": 39,
+  "tags": [
+    "uniconfig",
+    "device-logs"
+  ],
   "templating": {
     "list": [
       {
+        "current": {
+          "isNone": true,
+          "selected": false,
+          "text": "None",
+          "value": ""
+        },
         "datasource": {
           "type": "loki",
           "uid": "P8E80F9AEF21F6940"
@@ -209,38 +221,12 @@
         "hide": 0,
         "includeAll": false,
         "multi": false,
-        "name": "app",
+        "name": "deviceName",
         "options": [],
         "query": {
-          "label": "app",
+          "label": "deviceName",
           "refId": "LokiVariableQueryEditor-VariableQuery",
           "stream": "",
-          "type": 1
-        },
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "datasource": {
-          "type": "loki",
-          "uid": "P8E80F9AEF21F6940"
-        },
-        "definition": "",
-        "hide": 0,
-        "includeAll": false,
-        "multi": false,
-        "name": "container",
-        "options": [],
-        "query": {
-          "label": "container",
-          "refId": "LokiVariableQueryEditor-VariableQuery",
-          "stream": "{app=\"${app}\"}",
           "type": 1
         },
         "refresh": 1,
@@ -277,6 +263,7 @@
     "from": "now-30m",
     "to": "now"
   },
+  "timeRangeUpdatedDuringEditOrView": false,
   "timepicker": {
     "refresh_intervals": [
       "5s",
@@ -292,8 +279,8 @@
     ]
   },
   "timezone": "",
-  "title": "Frinx Machine logs viewer",
-  "uid": "Y5yS_R4nz",
+  "title": "Uniconfig - device communication logs",
+  "uid": "Y5yS_R4ur",
   "version": 2,
   "weekStart": ""
 }

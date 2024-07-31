@@ -1198,7 +1198,7 @@
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "description": "Numer of request per second received",
+            "description": "Number of request per second received",
             "fieldConfig": {
                 "defaults": {
                     "color": {
@@ -1751,7 +1751,7 @@
                     "useBackend": false
                 }
             ],
-            "title": "Avg reponse data size (payloads)",
+            "title": "Avg response data size (payloads)",
             "type": "timeseries"
         },
         {
@@ -2944,7 +2944,7 @@
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "description": "Numer of request per second received",
+            "description": "Number of request per second received",
             "fieldConfig": {
                 "defaults": {
                     "color": {
@@ -4216,7 +4216,7 @@
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "description": "Numer of request per second received",
+            "description": "Number of request per second received",
             "fieldConfig": {
                 "defaults": {
                     "color": {
@@ -5463,7 +5463,7 @@
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "description": "Number of bytes readed from the body. In case a cancel, or a closed connection, the read bytes might not match those of content-lenght. This metric includes chunked responses that do not come with the Content-Length header set.",
+            "description": "Number of bytes read from the body. In case a cancel, or a closed connection, the read bytes might not match those of content-lenght. This metric includes chunked responses that do not come with the Content-Length header set.",
             "fieldConfig": {
                 "defaults": {
                     "color": {
@@ -5563,7 +5563,7 @@
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "description": "Average Number of bytes readed from the body. In case a cancel, or a closed connection, the read bytes might not match those of content-lenght. This metric includes chunked responses that do not come with the Content-Length header set.",
+            "description": "Average Number of bytes read from the body. In case a cancel, or a closed connection, the read bytes might not match those of content-lenght. This metric includes chunked responses that do not come with the Content-Length header set.",
             "fieldConfig": {
                 "defaults": {
                     "color": {
@@ -8409,7 +8409,9 @@
     ],
     "refresh": "30s",
     "schemaVersion": 39,
-    "tags": [],
+    "tags": [
+      "krakend"
+    ],
     "templating": {
         "list": [
             {

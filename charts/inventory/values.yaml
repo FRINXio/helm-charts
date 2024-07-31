@@ -109,7 +109,7 @@ deployment:
   annotations: {}
 
 utilitiesImage:
-  # -- utilities image repository
+  # -- Utilities image repository
   repository: frinx/utilities-alpine
   # -- Overrides the image tag.
   tag: "1.2"
@@ -161,11 +161,9 @@ postgresql:
     database: inventory
   architecture: standalone
 
+  # -- Database metrics configuration
   metrics:
     enabled: true
-    image: 
-      repository: prometheuscommunity/postgres-exporter
-      tag: latest
 
     serviceMonitor:
       enabled: true

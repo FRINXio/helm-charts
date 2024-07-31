@@ -106,12 +106,17 @@ tolerations: []
 affinity: {}
 
 dbPersistence:
-  # -- Datasource host
+  # -- Spring datasource hostname
   SPRING_DATASOURCE_HOST:
+  # -- Spring search datasource hostname
   SPRING_SEARCHDATASOURCE_HOST:
+  # -- Conductor external payload staorage postgres hostname
   CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_HOST:
+  # -- Database name
   POSTGRES_DATABASE: conductor
+  # -- Database datasource schema
   CONDUCTOR_DATASOURCE_SCHEMA: public
+  # -- Existing database credentials
   existingSecret:
     secretName:
     conductorExternalpayloadstoragePostgresUsernameKey:
@@ -120,6 +125,7 @@ dbPersistence:
     springDatasourcePasswordKey:
     springSearchdatasourceUsernameKey:
     springSearchdatasourcePasswordKey:
+  # -- Database credentials. Exposed when existing dbPersistence.existingSecret.secretName is empty
   CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME: postgresU
   CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD: postgresP
   SPRING_DATASOURCE_USERNAME: postgresU
@@ -139,6 +145,7 @@ rbac:
   WM_ADMIN_GROUPS: NETWORK-ADMIN
 
 # -- Conductor extra ENV
+# @ignore
 conductorExtraEnv:
   CONDUCTOR_APP_OWNEREMAILMANDATORY: false
   CONDUCTOR_DB_TYPE: postgres
@@ -162,7 +169,7 @@ conductorExtraEnv:
   CONDUCTOR_APP_TASKOUTPUTPAYLOADSIZETHRESHOLD: 85
   CONDUCTOR_APP_MAXTASKINPUTPAYLOADSIZETHRESHOLD: 102400
   CONDUCTOR_APP_MAXTASKOUTPUTPAYLOADSIZETHRESHOLD: 102400
-  # PostgreSQL External Payload Storage variables
+  # -- PostgreSQL External Payload Storage variables
   CONDUCTOR_EXTERNALPAYLOADSTORAGE_TYPE: postgres
   CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_CONDUCTORURL: http://conductor-server:8080
   CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_MAXDATAROWS: 100000
@@ -170,21 +177,19 @@ conductorExtraEnv:
   CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_MAXDATAMONTHS: 0
   CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_MAXDATAYEARS: 1
   LOADSAMPLE: false
-  # Internal conductor properties
+  # -- Internal conductor properties
   CONDUCTOR_APP_EXECUTORSERVICEMAXTHREADCOUNT: 100
   CONDUCTOR_APP_SYSTEMTASKWORKERCALLBACKDURATION: 10
   CONDUCTOR_APP_WORKFLOWOFFSETTIMEOUT: 5
   CONDUCTOR_APP_TASKEXECUTIONPOSTPONEDURATION: 0
   CONDUCTOR_APP_WORKFLOWEXECUTIONLOCKENABLED: true
-  # Frinx contribution configs
+  # -- Frinx contribution configs
   CONDUCTOR_WORKFLOWEXECUTIONLOCK_TYPE: local_only
   CONDUCTOR_WORKFLOWREPAIRSERVICE_ENABLED: false
   SPRING_AUTOCONFIGURE_EXCLUDE: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
-  # Monitoring
+  # -- Monitoring
   CONDUCTOR_METRICSPROMETHEUS_ENABLED: true
   MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: prometheus
-
-
 
 # -- Schellar resources
 schellarResources: {}
@@ -228,11 +233,9 @@ postgresql:
         init_db.sql: |
           CREATE DATABASE schellar;
 
+  # -- Database metrics configuration
   metrics:
     enabled: true
-    image:
-      repository: prometheuscommunity/postgres-exporter
-      tag: latest
 
     serviceMonitor:
       enabled: true
@@ -241,7 +244,7 @@ postgresql:
 
 # -- Monitoring configuration
 monitoring:
-  enabled: true
+  enabled: false
   conductorPort: http-conductor
   conductorPath: /actuator/prometheus
   schellarPort: http-schellar

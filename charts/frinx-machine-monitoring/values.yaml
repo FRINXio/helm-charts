@@ -2,54 +2,50 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# -- Kube-prometheus-stack configuration
 kube-prometheus-stack:
   enabled: true
+  # -- CRDs for kube-prometheus-stack to be pulled and installed
   crds:
     enabled: false
 
-  # Grafana settings  
+  # -- Configure Grafana for visualisation
   grafana:
     enabled: true
     fullnameOverride: "grafana"
     adminUser: frinx
     adminPassword: frinx123!
-    # Current port - will be removed
-    service:
-      port: 3001
 
+    # -- Grafana sidecar configurations
     sidecar:
       dashboards:
+        # -- Folder name for storing created and imported dashboards
         folder: /tmp/dashboards/Frinx-Machine
+        # -- ConfigMap folder annotation for dashboard recognition
         folderAnnotation: grafana_folder
+        # -- Provider settings
         provider:
           allowUiUpdates: true
           foldersFromFilesStructure: true
 
+    # -- Grafana additional datasource configurations
+    # Prometheus is defaultly set
     additionalDataSources:
-      - name: InfluxDB
-        type: influxdb
-        access: proxy
-        basicAuth: true
-        basicAuthUser: frinx
-        basicAuthPassword: frinx123!
-        url: http://influxdb
-        jsonData:
-          httpMode: POST
-          authType: basic
-          tlsSkipVerify: true
-          organization: frinx-machine
-          defaultBucket: frinx
-          version: flux
-        secureJsonData:
-          token: eyJrIjoiN09MSVpVZjlVRG1xNHlLNXpVbmZJOXFLWU1GOXFxNEIiLCJuIjoic3Nzc3MiLCJpZCI6MX0  
-       
       - name: Loki
         access: proxy
         type: loki
         url: http://loki:3100
 
+  # -- NodeExporter deployment configuration
+  nodeExporter:
+    operatingSystems:
+      darwin:
+        enabled: false
+
+  # -- Prometheus Operator configuration
   prometheus:
-    prometheusSpec: 
+    prometheusSpec:
+      # -- Selection of service monitors to be discovered and scraped by Prometheus
       serviceMonitorSelector:
         matchExpressions:
           - key: app.kubernetes.io/instance
@@ -58,8 +54,10 @@ kube-prometheus-stack:
               - frinx-machine
               - frinx-machine-monitoring
               - uniconfig
-              - workflow-manager  
+              - workflow-manager
+              - oauth2-proxy
 
+      # -- Selection of pod monitors to be discovered and scraped by Prometheus
       podMonitorSelector:
         matchExpressions:
           - key: cnpg.io/cluster
@@ -68,6 +66,7 @@ kube-prometheus-stack:
               - uniconfig-postgresql
               - postgresql
 
+# -- Loki configurations
 loki:
   enabled: true
   fullnameOverride: loki
@@ -79,6 +78,7 @@ loki:
         retention_deletes_enabled: false
         retention_period: 24h
 
+# -- Promtail configurations
 promtail:
   fullnameOverride: promtail
   config:
@@ -87,6 +87,7 @@ promtail:
     snippets:
       pipelineStages:
         - cri: {}
+      # @ignore
       scrapeConfigs: |
         - job_name: kubernetes-pods
           pipeline_stages:
@@ -129,4 +130,4 @@ promtail:
             {{- toYaml .Values.config.snippets.common | nindent 4 }}
             {{- with .Values.config.snippets.extraRelabelConfigs }}
             {{- toYaml . | nindent 4 }}
-            {{- end }}   
+            {{- end }}
