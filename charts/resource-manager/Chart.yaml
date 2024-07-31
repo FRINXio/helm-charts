@@ -3,10 +3,12 @@ name: resource-manager
 description: A Helm chart for Kubernetes deploying of the Frinx Resource-Manager
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 2.1.0
+version: 2.2.0
 appVersion: "6.1.0"
 maintainers:
   - name: FRINX
+    email: services@frinx.io
+    url: https://frinx.io
 dependencies:
   - condition: postgresql.enabled
     name: postgresql
@@ -14,8 +16,8 @@ dependencies:
     version: 14.x.x
 annotations:
   artifacthub.io/changes: |
-    - kind: changed
-      description: Bump application version to 6.1
+    - kind: added
+      description: Add metrics port for accessing metrics
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/386
+          url: https://github.com/FRINXio/helm-charts/pull/399
