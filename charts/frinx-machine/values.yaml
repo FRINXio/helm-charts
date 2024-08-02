@@ -536,7 +536,7 @@ uniconfig:
 
   image:
     repository: "frinx/uniconfig"
-    tag: "6.1.1"
+    tag: "6.1.3"
 
   imagePullSecrets:
     - name: *frinx-image-pull-secret
