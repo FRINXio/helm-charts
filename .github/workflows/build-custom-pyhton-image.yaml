@@ -25,7 +25,7 @@ jobs:
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_NAME }}" --password-stdin
 
       - name: Build Docker image
-        run: docker build -t my-custom-image -f .github/dockerfile .
+        run: docker build -t python-pyyaml-alpine -f .github/dockerfile .
 
       - name: Push Docker image
-        run: docker push my-custom-image
+        run: docker push python-pyyaml-alpine
