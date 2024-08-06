@@ -1,0 +1,15 @@
+name: frinx-prometheus-config
+description: A Helm chart for Kubernetes
+type: application
+version: 0.1.0
+appVersion: "1.16.0"
+dependencies:
+  - name: kube-prometheus-stack
+    repository: https://prometheus-community.github.io/helm-charts/
+    version: 60.0.0
+    condition: enabled.true
+
+  - name: prometheus-postgres-exporter
+    repository: https://prometheus-community.github.io/helm-charts/
+    version: 6.0.0
+    condition: enabled.true

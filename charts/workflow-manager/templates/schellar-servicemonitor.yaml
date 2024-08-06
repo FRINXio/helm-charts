@@ -1,0 +1,18 @@
+{{- if .Values.monitoring.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: schellar-app
+  labels:
+    prometheus: schellar-app
+    {{- include "workflow-manager.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: workflow-manager
+      app.kubernetes.io/instance: workflow-manager
+  endpoints:
+    - port: {{ .Values.monitoring.schellarPort }}
+      path: {{ .Values.monitoring.schellarPath }}
+      interval: 30s
+{{- end }}
