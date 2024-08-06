@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_NAME }}" --password-stdin
+        run: echo "${{ secrets.DOCKERHUB_SECRET }}" | docker login -u "${{ secrets.DOCKERHUB_NAME }}" --password-stdin
 
       - name: Build Docker image
         run: docker build -t python-pyyaml-alpine -f .github/dockerfile .
