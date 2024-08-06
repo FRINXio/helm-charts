@@ -1,0 +1,31 @@
+name: Build Custom Python Image
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/dockerfile'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/dockerfile'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+
+      - name: Build Docker image
+        run: docker build -t my-custom-image -f .github/dockerfile .
+
+      - name: Push Docker image
+        run: docker push my-custom-image
