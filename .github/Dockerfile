@@ -11,7 +11,7 @@ RUN set -eux \
 
 # Install postgresql-client
 RUN set -eux \
-    apk update && apk add postgresql-client --no-cache 
+    apk update && apk add postgresql16-client --no-cache 
 
 # Set the entrypoint to sh for running shell commands
 ENTRYPOINT ["sh", "-c"]
