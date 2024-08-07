@@ -1,25 +1,12 @@
 # Use the python:3.12-alpine3.20 image as the base image
 FROM python:3.12-alpine3.20
 
-# Ensure local python is preferred over distribution python
-ENV PATH /usr/local/bin:$PATH
 
 # Install pyyaml
 RUN set -eux \
     python3 -m pip install --upgrade pip \
-    pip3 install pyyaml==5.4.1 --no-cache-dir
-
-# Install curl
-RUN set -eux \
-    apk update && apk add postgresql16-client=16.3-r0 --no-cache 
-
-# Install postgresql-client
-RUN set -eux \
-    apk add curl=8.9.0-r0 --no-cache 
-
-# Install git
-RUN set -eux \
-    apk add git=2.45.2-r0 --no-cache 
+    pip3 install pyyaml==5.4.1 --no-cache-dir \
+    apk update && apk add --no-cache postgresql16-client=16.3-r0 curl=8.9.0-r0 git=2.45.2-r0
 
 # Set the entrypoint to sh for running shell commands
 ENTRYPOINT ["sh", "-c"]
