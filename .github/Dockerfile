@@ -9,7 +9,5 @@ RUN set -eux \
     python3 -m pip install --upgrade pip \
     pip3 install pyyaml==5.4.1 --no-cache-dir
 
-# Command to run the script with the required parameters
-#CMD ["/bin/sh", "-c", "pip3 install pyyaml --no-cache-dir && python3 /app/formatter.py /tmp/{{ $value.fetch.file }} /tmp/{{ $value.fetch.file }} /app/filter/config.yaml"]
-
-CMD ["python3"]
+# Set the entrypoint to sh for running shell commands
+ENTRYPOINT ["sh", "-c"]
