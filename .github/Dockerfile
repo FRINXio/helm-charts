@@ -9,9 +9,13 @@ RUN set -eux \
     python3 -m pip install --upgrade pip \
     pip3 install pyyaml==5.4.1 --no-cache-dir
 
-# Install postgresql-client
+# Install curl
 RUN set -eux \
     apk update && apk add postgresql16-client=16.3-r0 --no-cache 
+
+# Install postgresql-client
+RUN set -eux \
+    apk add curl=8.9.0-r0 --no-cache 
 
 # Install git
 RUN set -eux \
