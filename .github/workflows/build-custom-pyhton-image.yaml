@@ -1,8 +1,5 @@
 name: Build Custom Python Image
 
-IMAGE_BASE_MAJOR_VERSION: 3
-IMAGE_BASE_MINOR_VERSION: 12.41
-
 on:
   push:
     branches:
@@ -19,6 +16,8 @@ on:
 env:
   IMAGE_PREFIX: frinx
   IMAGE_BASE_NAME: python-pyyaml
+  IMAGE_BASE_MAJOR_VERSION: 3
+  IMAGE_BASE_MINOR_VERSION: 12.41
 
 jobs:
   build:
