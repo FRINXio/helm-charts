@@ -1,23 +1,23 @@
-name: Build Custom Python Image
+name: Build Frinx Utilities Image
 
 on:
   push:
     branches:
       - main
     paths:
-      - '.github/dockerfile'
+      - '.github/Dockerfile'
   pull_request:
     branches:
       - main
     paths:
-      - '.github/dockerfile'
+      - '.github/Dockerfile'
   workflow_dispatch:
 
 env:
   IMAGE_PREFIX: frinx
-  IMAGE_BASE_NAME: python-pyyaml
-  IMAGE_BASE_MAJOR_VERSION: 3
-  IMAGE_BASE_MINOR_VERSION: 12.41
+  IMAGE_BASE_NAME: utilities-alpine
+  IMAGE_BASE_MAJOR_VERSION: 1
+  IMAGE_BASE_MINOR_VERSION: 02
 
 jobs:
   build:
@@ -31,7 +31,7 @@ jobs:
         run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
 
       - name: Build Docker image
-        run: docker build -t "${IMAGE_PREFIX}/${IMAGE_BASE_NAME}:${IMAGE_BASE_MAJOR_VERSION}.${IMAGE_BASE_MINOR_VERSION}" -f .github/dockerfile .
+        run: docker build -t "${IMAGE_PREFIX}/${IMAGE_BASE_NAME}:${IMAGE_BASE_MAJOR_VERSION}.${IMAGE_BASE_MINOR_VERSION}" -f .github/Dockerfile .
 
       - name: Push Docker image
         run: docker push "${IMAGE_PREFIX}/${IMAGE_BASE_NAME}:${IMAGE_BASE_MAJOR_VERSION}.${IMAGE_BASE_MINOR_VERSION}"
