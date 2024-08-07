@@ -7,7 +7,7 @@ description: |
   Further information is available on [docs.frinx.io](https://docs.frinx.io/frinx-machine/getting-started/).
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 9.0.1
+version: 9.0.2
 appVersion: 6.1.1
 maintainers:
   - name: FRINX
@@ -135,5 +135,5 @@ dependencies:
 
   - name: oauth2-proxy
     repository: https://oauth2-proxy.github.io/manifests
-    version: 7.7.4
+    version: 7.7.9
     condition: oauth2-proxy.enabled
