@@ -1,5 +1,8 @@
 name: Build Custom Python Image
 
+IMAGE_BASE_MAJOR_VERSION: 3
+IMAGE_BASE_MINOR_VERSION: 12.41
+
 on:
   push:
     branches:
@@ -13,6 +16,10 @@ on:
       - '.github/dockerfile'
   workflow_dispatch:
 
+env:
+  IMAGE_PREFIX: frinx
+  IMAGE_BASE_NAME: python-pyyaml
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,10 +29,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKERHUB_SECRET }}" | docker login -u "${{ secrets.DOCKERHUB_NAME }}" --password-stdin
+        run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
 
       - name: Build Docker image
-        run: docker build -t python-pyyaml-alpine -f .github/dockerfile .
+        run: docker build -t $IMAGE_PREFIX/$IMAGE_BASE_NAME:$IMAGE_BASE_MAJOR_VERSION.$IMAGE_BASE_MINOR_VERSION -f .github/dockerfile .
 
       - name: Push Docker image
-        run: docker push python-pyyaml-alpine
+        run: docker push $IMAGE_PREFIX/$IMAGE_BASE_NAME:$IMAGE_BASE_MAJOR_VERSION.$IMAGE_BASE_MINOR_VERSION
