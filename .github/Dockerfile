@@ -9,5 +9,9 @@ RUN set -eux \
     python3 -m pip install --upgrade pip \
     pip3 install pyyaml==5.4.1 --no-cache-dir
 
+# Install postgresql-client
+RUN set -eux \
+    apk update && apk add postgresql-client=13.4-r0 --no-cache 
+
 # Set the entrypoint to sh for running shell commands
 ENTRYPOINT ["sh", "-c"]
