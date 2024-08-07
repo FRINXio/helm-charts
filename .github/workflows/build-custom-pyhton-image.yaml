@@ -31,7 +31,7 @@ jobs:
         run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
 
       - name: Build Docker image
-        run: docker build -t "${{ IMAGE_PREFIX/$IMAGE_BASE_NAME }}:${{ IMAGE_BASE_MAJOR_VERSION.$IMAGE_BASE_MINOR_VERSION }}" -f .github/dockerfile .
+        run: docker build -t "${IMAGE_PREFIX}/${IMAGE_BASE_NAME}:${IMAGE_BASE_MAJOR_VERSION.$IMAGE_BASE_MINOR_VERSION}" -f .github/dockerfile .
 
       - name: Push Docker image
-        run: docker push "${{ IMAGE_PREFIX/$IMAGE_BASE_NAME }}:${{ IMAGE_BASE_MAJOR_VERSION.$IMAGE_BASE_MINOR_VERSION }}"
+        run: docker push "${IMAGE_PREFIX}/${IMAGE_BASE_NAME}:${IMAGE_BASE_MAJOR_VERSION.$IMAGE_BASE_MINOR_VERSION}"
