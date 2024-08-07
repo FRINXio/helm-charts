@@ -34,4 +34,4 @@ jobs:
         run: docker build -t "${IMAGE_PREFIX}/${IMAGE_BASE_NAME}:${IMAGE_BASE_MAJOR_VERSION.$IMAGE_BASE_MINOR_VERSION}" -f .github/dockerfile .
 
       - name: Push Docker image
-        run: docker push "${IMAGE_PREFIX}/${IMAGE_BASE_NAME}:${IMAGE_BASE_MAJOR_VERSION.$IMAGE_BASE_MINOR_VERSION}"
+        run: docker push "${IMAGE_PREFIX}/${IMAGE_BASE_NAME}:${IMAGE_BASE_MAJOR_VERSION}.${IMAGE_BASE_MINOR_VERSION}"
