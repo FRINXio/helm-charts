@@ -4,7 +4,7 @@ description: A Helm chart for Swagger UI
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
 version: 0.1.2
-appVersion: "v5.17.15"
+appVersion: "v5.17.14"
 engine: gotpl
 maintainers:
   - name: FRINX
