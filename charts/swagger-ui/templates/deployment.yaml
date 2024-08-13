@@ -52,7 +52,7 @@ spec:
             wget --no-check-certificate {{ $value.fetch.url }} -O /tmp/{{ $value.fetch.file }}
       {{- if $value.formatConfigMap }}
       - name: "{{ $key }}-format"
-        image: python:3.12-slim
+        image: frinx/utilities-alpine:{{ $.Values.image.utilities.tag }}
         imagePullPolicy: {{ $.Values.image.pullPolicy }}
         volumeMounts:
           - name: api-formatter-volume
@@ -63,7 +63,7 @@ spec:
             readOnly: false
           - name: {{ $value.formatConfigMap }}
             mountPath: "/app/filter"
-        command: ["/bin/sh","-c", "pip3 install pyyaml --no-cache-dir && python3 /app/formatter.py /tmp/{{ $value.fetch.file }} /tmp/{{ $value.fetch.file }} /app/filter/config.yaml"]
+        command: ["/bin/sh","-c", "python3 /app/formatter.py /tmp/{{ $value.fetch.file }} /tmp/{{ $value.fetch.file }} /app/filter/config.yaml"]
       {{- end }}
       {{- end }}
       {{- end }}
