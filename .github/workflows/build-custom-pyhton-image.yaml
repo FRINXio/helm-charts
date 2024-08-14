@@ -17,7 +17,7 @@ env:
   IMAGE_PREFIX: frinx
   IMAGE_BASE_NAME: utilities-alpine
   IMAGE_BASE_MAJOR_VERSION: 1
-  IMAGE_BASE_MINOR_VERSION: 02
+  IMAGE_BASE_MINOR_VERSION: 2
 
 jobs:
   build:
