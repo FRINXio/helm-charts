@@ -16,7 +16,7 @@ annotations:
       image: swaggerapi/swagger-ui
   artifacthub.io/changes: |
     - kind: fixed
-      description: Wait for server in fetch initContainers
+      description: Custom utility image for swagger-ui initContainer added
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/381
+          url: https://github.com/FRINXio/helm-charts/pull/403
