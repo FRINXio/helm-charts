@@ -2,7 +2,7 @@
 
 A Helm chart for Swagger UI
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5.17.14](https://img.shields.io/badge/AppVersion-v5.17.14-informational?style=flat-square)
+![Version: 0.1.2](https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5.17.15](https://img.shields.io/badge/AppVersion-v5.17.14-informational?style=flat-square)
 
 ## Get Repo Info
 
@@ -71,6 +71,7 @@ extraConfigMaps:
 | image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | image.repository | string | `"swaggerapi/swagger-ui"` | swagger-ui image repository |
 | image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion. |
+| image.utilities.tag | string | `"1.02"` | frinx utitilies image version |
 | imagePullSecrets | list | `[]` | [Image Pull Secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
 | ingress.annotations | object | `{}` | Additional annotations for the Ingress resource |
 | ingress.className | string | `""` | IngressClass that will be be used to implement the Ingress |

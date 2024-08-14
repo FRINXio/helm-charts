@@ -3,7 +3,7 @@ name: swagger-ui
 description: A Helm chart for Swagger UI
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "v5.17.14"
 engine: gotpl
 maintainers:
@@ -16,7 +16,7 @@ annotations:
       image: swaggerapi/swagger-ui
   artifacthub.io/changes: |
     - kind: fixed
-      description: Wait for server in fetch initContainers
+      description: Custom utility image for swagger-ui initContainer added
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/381
+          url: https://github.com/FRINXio/helm-charts/pull/403
