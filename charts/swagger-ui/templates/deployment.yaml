@@ -52,8 +52,8 @@ spec:
             wget --no-check-certificate {{ $value.fetch.url }} -O /tmp/{{ $value.fetch.file }}
       {{- if $value.formatConfigMap }}
       - name: "{{ $key }}-format"
-        image: frinx/utilities-alpine:{{ $.Values.image.utilities.tag }}
-        imagePullPolicy: {{ $.Values.image.pullPolicy }}
+        image: "{{ $.Values.utilitiesImage.repository }}:{{ $.Values.utilitiesImage.tag }}"
+        imagePullPolicy: {{ $.Values.utilitiesImage.pullPolicy }}
         volumeMounts:
           - name: api-formatter-volume
             mountPath: "/app"

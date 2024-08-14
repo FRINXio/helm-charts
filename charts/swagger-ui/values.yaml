@@ -12,8 +12,14 @@ image:
   tag: ""
   # -- Image pull policy
   pullPolicy: IfNotPresent
-  utilities:
-    tag: "1.2"
+
+utilitiesImage:
+  # -- utilities image repository
+  repository: frinx/utilities-alpine
+  # -- Overrides the image tag.
+  tag: "1.2"
+  # -- Image pull policy
+  pullPolicy: IfNotPresent
 
 # -- [Image Pull Secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
 imagePullSecrets: []
