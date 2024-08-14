@@ -199,6 +199,8 @@ extraConfigMaps:
           - "delete"
         "/api/workflow/{name}":
           - "delete"
+        "/api/workflow/{workflowId}":
+          - "get"
         "/api/workflow/{workflowId}/remove":
           - "delete"
         "/api/workflow":

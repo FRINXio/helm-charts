@@ -92,9 +92,9 @@
             "url_pattern": "/api/event/{event}"
         },
         {
-            "endpoint": "/api/workflow/id/{workflowId}",
+            "endpoint": "/api/workflow/workflow/{workflowId}",
             "method": "GET",
-            "url_pattern": "/api/id/{workflowId}",
+            "url_pattern": "/api/workflow/{workflowId}",
             "input_query_strings": [
                 "includeTasks"
               ]

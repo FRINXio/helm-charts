@@ -2,7 +2,7 @@
 
 A Helm chart for Swagger UI
 
-![Version: 0.1.2](https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5.17.15](https://img.shields.io/badge/AppVersion-v5.17.14-informational?style=flat-square)
+![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v5.17.14](https://img.shields.io/badge/AppVersion-v5.17.14-informational?style=flat-square)
 
 ## Get Repo Info
 
@@ -64,14 +64,13 @@ extraConfigMaps:
 | affinity | object | `{}` | [Affinity for pod assignment](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
 | autoscaling | object | `{"enabled":false,"maxReplicas":100,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | [Autoscaling parameters](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
 | env | object | `{"BASE_URL":"/swagger","URLS":"[{ url: \"./api/workflow-manager.json\", name: \"WorkflowManager\"}]"}` | Application environment variables |
-| extraConfigMaps | object | `{"workflow-manager-filter":{"api":{"rewrite":{"from":"^/api/","to":"/"},"whitelist":{"/api/event":["get","post"],"/api/event/{name}":["delete","get"],"/api/external/postgres/{externalPayloadPath}":["get"],"/api/metadata/taskdefs":["get","post","put"],"/api/metadata/taskdefs/{name}":["get","delete"],"/api/metadata/workflow":["get","post","put"],"/api/metadata/workflow/{name}":["get"],"/api/metadata/workflow/{name}/{version}":["delete"],"/api/workflow":["post"],"/api/workflow/bulk/pause":["put"],"/api/workflow/bulk/restart":["post"],"/api/workflow/bulk/resume":["put"],"/api/workflow/bulk/retry":["post"],"/api/workflow/bulk/terminate":["post"],"/api/workflow/{name}":["delete"],"/api/workflow/{workflowId}/remove":["delete"],"/health":["get"]}},"enabled":true,"server":{"url":"/api/workflow"}}}` | Extra Config maps Define configuration for formetter script. |
-| extraConfigMaps.workflow-manager-filter | object | `{"api":{"rewrite":{"from":"^/api/","to":"/"},"whitelist":{"/api/event":["get","post"],"/api/event/{name}":["delete","get"],"/api/external/postgres/{externalPayloadPath}":["get"],"/api/metadata/taskdefs":["get","post","put"],"/api/metadata/taskdefs/{name}":["get","delete"],"/api/metadata/workflow":["get","post","put"],"/api/metadata/workflow/{name}":["get"],"/api/metadata/workflow/{name}/{version}":["delete"],"/api/workflow":["post"],"/api/workflow/bulk/pause":["put"],"/api/workflow/bulk/restart":["post"],"/api/workflow/bulk/resume":["put"],"/api/workflow/bulk/retry":["post"],"/api/workflow/bulk/terminate":["post"],"/api/workflow/{name}":["delete"],"/api/workflow/{workflowId}/remove":["delete"],"/health":["get"]}},"enabled":true,"server":{"url":"/api/workflow"}}` | workflow-manager filter configuration |
+| extraConfigMaps | object | `{"workflow-manager-filter":{"api":{"rewrite":{"from":"^/api/","to":"/"},"whitelist":{"/api/event":["get","post"],"/api/event/{name}":["delete","get"],"/api/external/postgres/{externalPayloadPath}":["get"],"/api/metadata/taskdefs":["get","post","put"],"/api/metadata/taskdefs/{name}":["get","delete"],"/api/metadata/workflow":["get","post","put"],"/api/metadata/workflow/{name}":["get"],"/api/metadata/workflow/{name}/{version}":["delete"],"/api/workflow":["post"],"/api/workflow/bulk/pause":["put"],"/api/workflow/bulk/restart":["post"],"/api/workflow/bulk/resume":["put"],"/api/workflow/bulk/retry":["post"],"/api/workflow/bulk/terminate":["post"],"/api/workflow/{name}":["delete"],"/api/workflow/{workflowId}":["get"],"/api/workflow/{workflowId}/remove":["delete"],"/health":["get"]}},"enabled":true,"server":{"url":"/api/workflow"}}}` | Extra Config maps Define configuration for formetter script. |
+| extraConfigMaps.workflow-manager-filter | object | `{"api":{"rewrite":{"from":"^/api/","to":"/"},"whitelist":{"/api/event":["get","post"],"/api/event/{name}":["delete","get"],"/api/external/postgres/{externalPayloadPath}":["get"],"/api/metadata/taskdefs":["get","post","put"],"/api/metadata/taskdefs/{name}":["get","delete"],"/api/metadata/workflow":["get","post","put"],"/api/metadata/workflow/{name}":["get"],"/api/metadata/workflow/{name}/{version}":["delete"],"/api/workflow":["post"],"/api/workflow/bulk/pause":["put"],"/api/workflow/bulk/restart":["post"],"/api/workflow/bulk/resume":["put"],"/api/workflow/bulk/retry":["post"],"/api/workflow/bulk/terminate":["post"],"/api/workflow/{name}":["delete"],"/api/workflow/{workflowId}":["get"],"/api/workflow/{workflowId}/remove":["delete"],"/health":["get"]}},"enabled":true,"server":{"url":"/api/workflow"}}` | workflow-manager filter configuration |
 | extraVolumes | object | `{}` | Additional volumes on the output Deployment definition |
 | fullnameOverride | string | `""` | String to partially override app name |
 | image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | image.repository | string | `"swaggerapi/swagger-ui"` | swagger-ui image repository |
 | image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion. |
-| image.utilities.tag | string | `"1.02"` | frinx utitilies image version |
 | imagePullSecrets | list | `[]` | [Image Pull Secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
 | ingress.annotations | object | `{}` | Additional annotations for the Ingress resource |
 | ingress.className | string | `""` | IngressClass that will be be used to implement the Ingress |
@@ -99,4 +98,7 @@ extraConfigMaps:
 | serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
 | serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
 | tolerations | list | `[]` | [Tolerations for pod assignment](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
+| utilitiesImage.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
+| utilitiesImage.repository | string | `"frinx/utilities-alpine"` | utilities image repository |
+| utilitiesImage.tag | string | `"1.2"` | Overrides the image tag. |
 
