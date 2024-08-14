@@ -109,6 +109,9 @@ deployment:
   annotations: {}
 
 dbPersistence:
+  image: frinx/utilities-alpine
+  imageTag: "1.2"
+  imagePullPolicy: IfNotPresent
   # -- Database hostname
   POSTGRES_HOST:
   # -- Database port

@@ -36,7 +36,8 @@ spec:
         - name: check-db-ready
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: postgres:alpine
+          image: "{{ .Values.dbPersistence.image }}:{{ .Values.dbPersistence.imageTag }}"
+          imagePullPolicy: "{{ .Values.dbPersistence.imagePullPolicy }}"
           env:
             - name: "POSTGRES_HOST"
             {{ if .Values.postgresql.enabled }}            
