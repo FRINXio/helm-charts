@@ -13257,6 +13257,33 @@ entries:
   krakend:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Fixed endpoint for obtaining executed workflows from workflow-manager
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/405
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:6.1.1
+        - name: nginx
+          image: nginx:1.27-alpine
+    apiVersion: v2
+    appVersion: 6.1.1
+    created: "2024-08-14T14:15:12.892262258Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: a2d18ddd01b1f7c2699dffb6b0cb482c102a2d7f65d7903c60a54011d7c0eef4
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-4.0.1/krakend-4.0.1.tgz
+    version: 4.0.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Bump appVersion to 6.1.1
           links:
@@ -14695,6 +14722,31 @@ entries:
     - https://github.com/FRINXio/helm-charts/releases/download/sample-topology-1.0.0/sample-topology-1.0.0.tgz
     version: 1.0.0
   swagger-ui:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Fixed endpoint for obtaining executed workflows from workflow-manager
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/405
+      artifacthub.io/images: |
+        - name: swagger-ui
+          image: swaggerapi/swagger-ui
+    apiVersion: v2
+    appVersion: v5.17.14
+    created: "2024-08-14T14:15:13.001900604Z"
+    description: A Helm chart for Swagger UI
+    digest: d7c1f72f2c301304d83d2dd3cc23f5c912180daba7b4d55af563ea6ab4cee628
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: swagger-ui
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/swagger-ui-0.2.0/swagger-ui-0.2.0.tgz
+    version: 0.2.0
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
@@ -16689,4 +16741,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-08-14T09:18:36.34153157Z"
+generated: "2024-08-14T14:15:13.003363427Z"
