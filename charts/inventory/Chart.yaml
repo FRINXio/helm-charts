@@ -16,12 +16,7 @@ icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 annotations:
   artifacthub.io/changes: |
     - kind: changed
-      description: Bump application version to 6.1.0
+      description: Inventory db_ready checks are performed using custom utilities image
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/389
-    - kind: added
-      description: Added performance monitoring configuration
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/389
+          url: https://github.com/FRINXio/helm-charts/pull/406
