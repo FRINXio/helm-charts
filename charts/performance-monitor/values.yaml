@@ -205,6 +205,14 @@ dbPersistence:
   # -- Database password. Exposed when existing dbPersistence.existingSecret.secretName is empty
   POSTGRES_PASSWORD: postgresP
 
+utilitiesImage:
+  # -- utilities image repository
+  repository: frinx/utilities-alpine
+  # -- Overrides the image tag.
+  tag: "1.2"
+  # -- Image pull policy
+  pullPolicy: IfNotPresent
+
 # -- InitContiners envirnmnet variables
 initContainersUrl:
   # @ignored

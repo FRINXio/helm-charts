@@ -9,7 +9,8 @@ metadata:
 spec:
   containers:
     - name: wget
-      image: busybox
+      image: "{{ .Values.utilitiesImage.repository }}:{{ .Values.utilitiesImage.tag }}"
+      imagePullPolicy: "{{ .Values.utilitiesImage.pullPolicy }}"
       command: ['wget']
       args: ['{{ include "performance-monitor.fullname" . }}:{{ .Values.service.port }}']
   restartPolicy: Never
