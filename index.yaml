@@ -14198,6 +14198,40 @@ entries:
   performance-monitor:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: performance-monitor db_ready checks are performed using custom utilities image
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/408
+      artifacthub.io/images: |
+        - name: performance-monitor
+          image: frinx/performance-monitor:6.0.2
+    apiVersion: v2
+    appVersion: 6.0.2
+    created: "2024-08-15T21:14:54.15404988Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: kafka.enabled
+      name: kafka
+      repository: https://charts.bitnami.com/bitnami
+      version: 25.2.0
+    description: FRINX Performance Monitor chart for FRINX-machine
+    digest: 48e0d0519cd54a0090796d47fe61effebdb916643c92344f57940b147f38e070
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: performance-monitor
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/performance-monitor-0.1.5/performance-monitor-0.1.5.tgz
+    version: 0.1.5
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Inventory db_ready checks are performed using custom utilities image
           links:
@@ -14395,6 +14429,33 @@ entries:
     - https://github.com/FRINXio/helm-charts/releases/download/postgrest-1.0.0/postgrest-1.0.0.tgz
     version: 1.0.0
   resource-manager:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: resource-manager db_ready checks are performed using custom utilities image
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/408
+    apiVersion: v2
+    appVersion: 6.1.0
+    created: "2024-08-15T21:14:54.281315381Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 14.x.x
+    description: A Helm chart for Kubernetes deploying of the Frinx Resource-Manager
+    digest: 383d706035d87b13ee9f6bb6ccdace337e8a31a2c2371f2e9bfd7100155e9ab8
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: resource-manager
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/resource-manager-2.2.1/resource-manager-2.2.1.tgz
+    version: 2.2.1
   - annotations:
       artifacthub.io/changes: |
         - kind: added
@@ -16801,4 +16862,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-08-15T13:15:51.936572658Z"
+generated: "2024-08-15T21:14:54.283635423Z"
