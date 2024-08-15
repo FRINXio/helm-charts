@@ -30,7 +30,8 @@ spec:
       restartPolicy: Always
       initContainers:
       - name: check-db-ready
-        image: postgres:alpine
+        image: "{{ .Values.utilitiesImage.repository }}:{{ .Values.utilitiesImage.tag }}"
+        imagePullPolicy: "{{ .Values.utilitiesImage.pullPolicy }}"
         env:
           - name: POSTGRES_USERNAME
             valueFrom:

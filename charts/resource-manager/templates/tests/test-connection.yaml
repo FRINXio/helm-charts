@@ -9,7 +9,8 @@ metadata:
 spec:
   containers:
     - name: wget
-      image: busybox
+      image: "{{ .Values.utilitiesImage.repository }}:{{ .Values.utilitiesImage.tag }}"
+      imagePullPolicy: "{{ .Values.utilitiesImage.pullPolicy }}"
       command: ["/bin/sh"]
       args: ["-c", 'wget {{ include "resource-manager.fullname" . }}:{{ .Values.service.port }}/healthz/readiness -P /tmp/']
   restartPolicy: Never

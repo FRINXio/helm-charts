@@ -3,7 +3,7 @@ name: performance-monitor
 description: FRINX Performance Monitor chart for FRINX-machine
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 0.1.4
+version: 0.1.5
 appVersion: "6.0.2"
 dependencies:
   - condition: postgresql.enabled
@@ -23,8 +23,8 @@ annotations:
     - name: performance-monitor
       image: frinx/performance-monitor:6.0.2
   artifacthub.io/changes: |
-    - kind: changed
-      description: Inventory db_ready checks are performed using custom utilities image
+    - kind: fixed
+      description: performance-monitor db_ready checks are performed using custom utilities image
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/407
+          url: https://github.com/FRINXio/helm-charts/pull/408
