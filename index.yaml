@@ -14199,6 +14199,40 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Inventory db_ready checks are performed using custom utilities image
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/407
+      artifacthub.io/images: |
+        - name: performance-monitor
+          image: frinx/performance-monitor:6.0.2
+    apiVersion: v2
+    appVersion: 6.0.2
+    created: "2024-08-15T13:15:51.935328822Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: kafka.enabled
+      name: kafka
+      repository: https://charts.bitnami.com/bitnami
+      version: 25.2.0
+    description: FRINX Performance Monitor chart for FRINX-machine
+    digest: b76dd1e6c5b07893d40038d74d729c8c7126383a1c5c11e4647202ecc452924d
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: performance-monitor
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/performance-monitor-0.1.4/performance-monitor-0.1.4.tgz
+    version: 0.1.4
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Bump application version to 6.0.2
           links:
             - name: GitHub PR
@@ -16767,4 +16801,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-08-15T11:59:11.905564132Z"
+generated: "2024-08-15T13:15:51.936572658Z"
