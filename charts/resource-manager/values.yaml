@@ -129,6 +129,14 @@ dbPersistence:
   POSTGRES_USERNAME: postgresU
   POSTGRES_PASSWORD: postgresP
 
+utilitiesImage:
+  # -- utilities image repository
+  repository: frinx/utilities-alpine
+  # -- Overrides the image tag.
+  tag: "1.2"
+  # -- Image pull policy
+  pullPolicy: IfNotPresent
+
 # -- Application environment variables
 env:
   RM_API_PORT: 8884
