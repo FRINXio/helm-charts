@@ -9,7 +9,8 @@ metadata:
 spec:
   containers:
     - name: wget
-      image: busybox
+      image: "{{ .Values.utilitiesImage.repository }}:{{ .Values.utilitiesImage.tag }}"
       command: ["/bin/sh"]
       args: ["-c", 'wget {{ include "inventory.fullname" . }}:{{ .Values.service.port }}/.well-known/apollo/server-health -P /tmp/']
+      imagePullPolicy: IfNotPresent
   restartPolicy: Never
