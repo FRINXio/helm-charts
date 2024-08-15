@@ -56,8 +56,9 @@ spec:
             - clone
             - 'https://$(GIT_USERNAME):$(GIT_PASSWORD)@{{ .Values.externalConfig.configRepository }}'
             - '/tmp/repo'
-          image: alpine/git:2.36.3
-          imagePullPolicy: IfNotPresent
+          # git from frinx/utilities-alpine
+          image: "{{ .Values.utilitiesImage.repository }}:{{ .Values.utilitiesImage.tag }}"
+          imagePullPolicy: "{{ .Values.utilitiesImage.pullPolicy }}"
           env:
           - name: GIT_USERNAME
             valueFrom:

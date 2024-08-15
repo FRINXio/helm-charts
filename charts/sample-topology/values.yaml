@@ -166,3 +166,11 @@ externalConfig:
     username:
     password:
     existingSecret:
+
+utilitiesImage:
+  # -- utilities image repository
+  repository: frinx/utilities-alpine
+  # -- Overrides the image tag.
+  tag: "1.2"
+  # -- Image pull policy
+  pullPolicy: IfNotPresent
