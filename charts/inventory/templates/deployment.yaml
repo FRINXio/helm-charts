@@ -36,8 +36,8 @@ spec:
         - name: check-db-ready
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.dbPersistence.image }}:{{ .Values.dbPersistence.imageTag }}"
-          imagePullPolicy: "{{ .Values.dbPersistence.imagePullPolicy }}"
+          image: "{{ .Values.utilitiesImage.repository }}:{{ .Values.utilitiesImage.tag }}"
+          imagePullPolicy: "{{ .Values.utilitiesImage.pullPolicy }}"
           env:
             - name: "POSTGRES_HOST"
             {{ if .Values.postgresql.enabled }}            

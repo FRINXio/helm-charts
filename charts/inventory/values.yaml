@@ -108,10 +108,15 @@ deployment:
 # -- Deployment annotations
   annotations: {}
 
+utilitiesImage:
+  # -- utilities image repository
+  repository: frinx/utilities-alpine
+  # -- Overrides the image tag.
+  tag: "1.2"
+  # -- Image pull policy
+  pullPolicy: IfNotPresent
+
 dbPersistence:
-  image: frinx/utilities-alpine
-  imageTag: "1.2"
-  imagePullPolicy: IfNotPresent
   # -- Database hostname
   POSTGRES_HOST:
   # -- Database port

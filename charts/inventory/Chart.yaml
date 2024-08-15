@@ -1,7 +1,7 @@
 apiVersion: v2
 name: inventory
-version: 6.0.0
-appVersion: "6.1.1"
+version: 6.0.1
+appVersion: "6.1.0"
 description: A Helm chart for Kubernetes deployment of the Device Inventory
 type: application
 home: https://github.com/FRINXio/helm-charts
