@@ -13,4 +13,4 @@ annotations:
       description: Git is now from custom utilities image
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/408
+          url: https://github.com/FRINXio/helm-charts/pull/409
