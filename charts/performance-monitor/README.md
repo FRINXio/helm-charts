@@ -23,6 +23,9 @@ FRINX Performance Monitor chart for FRINX-machine
 |-----|------|---------|-------------|
 | affinity | object | `{}` | [Affinity for pod assignment](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
 | autoscaling | object | `{"maxReplicas":100,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | [Autoscaling parameters](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
+| utilitiesImage.repository | string | `"frinx/utilities-alpine"` | Image name |
+| utilitiesImage.tag | string | `1.2` | Image tag |
+| utilitiesImage.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | dbPersistence.POSTGRES_DATABASE | string | `"performancemonitor"` | Database name |
 | dbPersistence.POSTGRES_DB_SCHEMA | string | `"public"` | Database schema |
 | dbPersistence.POSTGRES_HOST | string | `nil` | Database hostname |
