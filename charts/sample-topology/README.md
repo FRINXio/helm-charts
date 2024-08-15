@@ -33,47 +33,39 @@ helm uninstall [RELEASE_NAME]
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| affinity | object | `{}` |  |
-| autoscaling.enabled | bool | `false` |  |
-| autoscaling.maxReplicas | int | `100` |  |
-| autoscaling.minReplicas | int | `1` |  |
-| autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
-| devices.create | bool | `true` |  |
-| devices.devicesSpecification[0].device_name | string | `"cisco_IOS"` |  |
-| devices.devicesSpecification[0].port | int | `10005` |  |
-| devices.devicesSpecification[0].protocol | string | `"cli"` |  |
-| env.DOCKER_GWBRIDGE_IP | string | `"localhost"` |  |
+| affinity | object | `{}` | [Affinity for pod assignment](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
+| autoscaling | object | `{"enabled":false,"maxReplicas":100,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | [Autoscaling parameters](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
+| devices | object | `{"create":true,"devicesSpecification":[{"device_name":"cisco_IOS","port":10005,"protocol":"cli"}]}` | Sample devices |
+| env | object | `{"DOCKER_GWBRIDGE_IP":"localhost"}` | Application environment variables |
 | externalConfig.auth.existingSecret | string | `nil` |  |
 | externalConfig.auth.password | string | `nil` |  |
 | externalConfig.auth.username | string | `nil` |  |
-| externalConfig.configRepository | string | `"github.com/FRINXio/sample-topology-private-config.git"` |  |
-| externalConfig.enabled | bool | `false` |  |
-| extraInitContainers | list | `[]` |  |
-| fullnameOverride | string | `""` |  |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"frinx/sample-topology"` |  |
+| externalConfig.configRepository | string | `"github.com/FRINXio/sample-topology-private-config.git"` | Config repository |
+| externalConfig.enabled | bool | `false` | External config enable |
+| extraInitContainers | list | `[]` | Extra initContainers |
+| fullnameOverride | string | `""` | String to fully override app name |
+| image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
+| image.repository | string | `"frinx/sample-topology"` | Sample-topology image repository |
 | image.tag | string | `""` |  |
-| imagePullSecrets | list | `[]` |  |
-| ingress.annotations | object | `{}` |  |
-| ingress.className | string | `""` |  |
-| ingress.enabled | bool | `false` |  |
-| ingress.hosts[0].host | string | `"chart-example.local"` |  |
-| ingress.hosts[0].paths[0].path | string | `"/"` |  |
-| ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
-| ingress.labels | object | `{}` |  |
-| ingress.tls | list | `[]` |  |
-| nameOverride | string | `""` |  |
-| nodeSelector | object | `{}` |  |
-| podAnnotations | object | `{}` |  |
-| podSecurityContext | object | `{}` |  |
-| replicaCount | int | `1` |  |
-| resources | object | `{}` |  |
-| securityContext | object | `{}` |  |
-| service.type | string | `"ClusterIP"` |  |
-| serviceAccount.annotations | object | `{}` |  |
-| serviceAccount.create | bool | `true` |  |
-| serviceAccount.name | string | `""` |  |
-| tolerations | list | `[]` |  |
+| imagePullSecrets | list | `[]` | [Image Pull Secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
+| ingress.annotations | object | `{}` | Additional annotations for the Ingress resource |
+| ingress.className | string | `""` | IngressClass that will be be used to implement the Ingress |
+| ingress.enabled | bool | `false` | Enable ingress |
+| ingress.hosts | list | `[{"host":"chart-example.local","paths":[{"path":"/","pathType":"ImplementationSpecific"}]}]` | [Ingress Host](https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource) |
+| ingress.labels | object | `{}` | Additional labels for the Ingress resource |
+| ingress.tls | list | `[]` | [Ingress TLS resource](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls) |
+| nameOverride | string | `""` | String to partially override app name |
+| nodeSelector | object | `{}` | [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) |
+| podAnnotations | object | `{}` | Pod annotations |
+| podSecurityContext | object | `{}` | Configure [Pods Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
+| replicaCount | int | `1` | Number of replicas of the deployment |
+| resources | object | `{}` | [Container resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/) |
+| securityContext | object | `{}` | Configure [Container Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) |
+| service.type | string | `"ClusterIP"` | Service type |
+| serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
+| serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
+| serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
+| tolerations | list | `[]` | [Tolerations for pod assignment](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
 | utilitiesImage.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | utilitiesImage.repository | string | `"frinx/utilities-alpine"` | utilities image repository |
 | utilitiesImage.tag | string | `"1.2"` | Overrides the image tag. |
