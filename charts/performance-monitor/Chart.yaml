@@ -23,8 +23,8 @@ annotations:
     - name: performance-monitor
       image: frinx/performance-monitor:6.0.2
   artifacthub.io/changes: |
-    - kind: changed
+    - kind: fixed
       description: performance-monitor db_ready checks are performed using custom utilities image
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/407
+          url: https://github.com/FRINXio/helm-charts/pull/408
