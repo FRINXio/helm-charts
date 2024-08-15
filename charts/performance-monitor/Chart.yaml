@@ -27,4 +27,4 @@ annotations:
       description: performance-monitor db_ready checks are performed using custom utilities image
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/407
+          url: https://github.com/FRINXio/helm-charts/pull/408
