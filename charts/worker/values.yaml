@@ -116,7 +116,7 @@ hostPaths:
   #   mountPath: /somedir/in/pod
   #   hostPath: /somedir/on/vm
 
-  utilitiesImage:
+utilitiesImage:
   # -- utilities image repository
   repository: frinx/utilities-alpine
   # -- Overrides the image tag.
