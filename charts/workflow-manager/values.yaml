@@ -53,9 +53,9 @@ securityContext:
 service:
   # -- Service type
   type: ClusterIP
-  # -- Service port
+  # -- Schellar service port
   portSchellar: 3000
-  # -- Monitoring port
+  # -- Conductor service port
   portConductor: 8080
 
 # Configure the [Ingress resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)

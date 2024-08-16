@@ -39,10 +39,6 @@ helm uninstall [RELEASE_NAME]
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| affinity | object | `{}` | [Affinity for pod assignment](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
-| autoscaling | object | `{"enabled":false,"maxReplicas":3,"minReplicas":2,"targetCPUUtilizationPercentage":80}` | [Autoscaling parameters](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
-| conductorEnv | object | `{"CONFIG_PROP":"/app/nofile/config.properties","LOG4J_PROP":"/app/config/log4j-cluster.properties","_JAVA_OPTIONS":"-Xmx2g"}` | Conductor extra ENV |
-| conductorExtraEnv | object | `{"CONDUCTOR_ADDITIONAL_MODULES":"com.netflix.conductor.contribs.metrics.MetricsRegistryModule,com.netflix.conductor.contribs.metrics.LoggingMetricsModule","CONDUCTOR_APP_ASYNCINDEXINGENABLED":false,"CONDUCTOR_APP_EXECUTORSERVICEMAXTHREADCOUNT":100,"CONDUCTOR_APP_MAXTASKINPUTPAYLOADSIZETHRESHOLD":102400,"CONDUCTOR_APP_MAXTASKOUTPUTPAYLOADSIZETHRESHOLD":102400,"CONDUCTOR_APP_MAXWORKFLOWINPUTPAYLOADSIZETHRESHOLD":102400,"CONDUCTOR_APP_MAXWORKFLOWOUTPUTPAYLOADSIZETHRESHOLD":102400,"CONDUCTOR_APP_OWNEREMAILMANDATORY":false,"CONDUCTOR_APP_SYSTEMTASKWORKERCALLBACKDURATION":10,"CONDUCTOR_APP_TASKEXECUTIONPOSTPONEDURATION":0,"CONDUCTOR_APP_TASKINPUTPAYLOADSIZETHRESHOLD":85,"CONDUCTOR_APP_TASKOUTPUTPAYLOADSIZETHRESHOLD":85,"CONDUCTOR_APP_WORKFLOWEXECUTIONLOCKENABLED":true,"CONDUCTOR_APP_WORKFLOWINPUTPAYLOADSIZETHRESHOLD":85,"CONDUCTOR_APP_WORKFLOWOFFSETTIMEOUT":5,"CONDUCTOR_APP_WORKFLOWOUTPUTPAYLOADSIZETHRESHOLD":85,"CONDUCTOR_ARCHIVE_DB_ENABLED":true,"CONDUCTOR_ARCHIVE_DB_INDEXER_POLLINGINTERVAL":10,"CONDUCTOR_ARCHIVE_DB_INDEXER_THREADCOUNT":4,"CONDUCTOR_ARCHIVE_DB_TYPE":"postgres","CONDUCTOR_DB_TYPE":"postgres","CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_CONDUCTORURL":"http://conductor-server:8080","CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_MAXDATADAYS":0,"CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_MAXDATAMONTHS":0,"CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_MAXDATAROWS":100000,"CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_MAXDATAYEARS":1,"CONDUCTOR_EXTERNALPAYLOADSTORAGE_TYPE":"postgres","CONDUCTOR_INDEXING_ENABLED":false,"CONDUCTOR_METRICSDATADOG_ENABLED":false,"CONDUCTOR_METRICSLOGGER_ENABLED":true,"CONDUCTOR_METRICSLOGGER_REPORTPERIODSECONDS":15,"CONDUCTOR_METRICSPROMETHEUS_ENABLED":false,"CONDUCTOR_WORKFLOWEXECUTIONLOCK_TYPE":"local_only","CONDUCTOR_WORKFLOWREPAIRSERVICE_ENABLED":false,"LOADSAMPLE":false,"SPRING_AUTOCONFIGURE_EXCLUDE":"org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration","SPRING_SEARCHDATASOURCE_HIKARI_MAXIMUMPOOLSIZE":8}` | Conductor extra ENV |
 | dbPersistence.CONDUCTOR_DATASOURCE_SCHEMA | string | `"public"` |  |
 | dbPersistence.CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_HOST | string | `nil` |  |
 | dbPersistence.CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD | string | `"postgresP"` |  |
@@ -96,8 +92,8 @@ helm uninstall [RELEASE_NAME]
 | schellarImage.tag | string | `"6.1.0"` | Overrides the image tag |
 | schellarResources | object | `{}` | Schellar resources |
 | securityContext | object | `{"capabilities":{"drop":["ALL"]}}` | Configure [Container Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) |
-| service.portConductor | int | `8080` | Monitoring port |
-| service.portSchellar | int | `3000` | Service port |
+| service.portConductor | int | `8080` | Conductor service port |
+| service.portSchellar | int | `3000` | Schellar service port |
 | service.type | string | `"ClusterIP"` | Service type |
 | serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
 | serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
