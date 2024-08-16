@@ -1,6 +1,8 @@
 # workflow-manager
 
-FRINX Workflow-Manager enables customers to create automated, repeatable, digital processes to build, grow and operate their digital communication infrastructure.
+A Helm chart for Kubernetes deploying conductor-server and schellar
+
+![Version: 3.1.2](https://img.shields.io/badge/Version-3.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.1.0](https://img.shields.io/badge/AppVersion-6.1.0-informational?style=flat-square)
 
 ## Get Repo Info
 
@@ -27,66 +29,79 @@ helm upgrade [RELEASE_NAME] frinx/workflow-manager
 helm uninstall [RELEASE_NAME]
 ```
 
-## Configuration
+## Requirements
 
-| Parameter | Description | Default |
-|-----------|-------------|---------|
-| `replicaCount` | Number of nodes | `1` |
-| `image.repository` | Image repository | `frinx/uniflow-conductor-server` |
-| `image.pullPolicy` | Image pull policy | `IfNotPresent` |
-| `image.tag` | Image tag | `""` |
-| `schellarImage.repository` | Image repository | `frinx/uniflow-schellar` |
-| `schellarImage.pullPolicy` | Image pull policy | `IfNotPresent` |
-| `schellarImage.tag` | Image tag | `"6.0.0"` |
-| `imagePullSecrets` | Image pull secrets | `[]` |
-| `nameOverride` | Replaces the name of the chart in the Chart.yaml file | `""` |
-| `fullnameOverride` |  Completely replaces the generated name | `""` |
-| `serviceAccount.create` | Create service account | `true` |
-| `serviceAccount.annotations` | ServiceAccount annotations | `{}` |
-| `serviceAccount.name` | Service account name to use, when empty will be set to created account if `serviceAccount.create` is set else to `default` | `"conductor"` |
-| `podAnnotations` | Deployment | `{}` |
-| `podSecurityContext` | Pod deployment securityContext | `{}` |
-| `securityContext` | Deployment securityContext | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/workflow-manager/values.yaml) |
-| `service.type` | Kubernetes service type | `ClusterIP` |
-| `service.portSchellar` | Kubernetes port where schellar is exposed | `3000` |
-| `service.portConductor` | Kubernetes port where conductor is exposed | `8080` |
-| `ingress.enabled` | Enable [ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/). | `false` |
-| `ingress.labels` | Ingress labels | `{}` |
-| `ingress.annotations` | Annotations to be added to the ingress. | `{}` |
-| `ingress.className` | Ingress [class name](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class). | `""` |
-| `ingress.tls` | Enable or disable tls attribute in ingress | `false` |
-| `ingress.hosts` | Ingress accepted hostname for conductor | `""` |
-| `ingress.schellarHosts` | Ingress accepted hostname for schellar | `""` |
-| `resources` | CPU/Memory resource requests/limits | `{}` |
-| `autoscaling.enabled` | Enable replica autoscaling settings | `false` |
-| `autoscaling.minReplicas` | Minimum replicas for the pod autoscaling | `2` |
-| `autoscaling.maxReplicas` | Maximum replicas for the pod autoscaling | `3` |
-| `autoscaling.targetCPUUtilizationPercentage` | Percentage of CPU to consider when autoscaling | `80` |
-| `autoscaling.targetMemoryUtilizationPercentage` | Percentage of Memory to consider when autoscaling | |
-| `nodeSelector` | Node labels for pod assignment | `{}` |
-| `tolerations` | Toleration labels for pod assignment | `[]` |
-| `affinity` | Affinity settings for pod assignment | `{}` |
-| `conductorEnv.CONFIG_PROP` | CONFIG_PROP env value | `config.properties` |
-| `conductorEnv._JAVA_OPTIONS` | _JAVA_OPTIONS env value | `-Xmx2g` |
-| `conductorEnv.LOG4J_PROP` | LOG4J_PROP env value on specified image path | `/app/config/log4j-cluster.properties` |
-| `conductorEnv.SPRING_DATASOURCE_HOSTNAME` | Hostname of external database | |
-| `conductorEnv.CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_HOSTNAME` | CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_POSTGRES_HOSTNAME env value | |
-| `conductorEnv.DATABASE` | DATABASE env value | `conductor` |
-| `conductorEnv.SPRING_SEARCHDATASOURCE_HOSTNAME` | SPRING_SEARCHDATASOURCE_HOSTNAME env value | |
-| `conductorExtraEnv`| Extra env variables for conductor | |
-| `schellarEnv.LOG_LEVEL` | LOG_LEVEL env value for schellar | `debug` |
-| `schellarEnv.CHECK_INTERVAL_SECONDS` | CHECK_INTERVAL_SECONDS env value for schellar | `debug` |
-| `schellarEnv.CONDUCTOR_API_URL` | CONDUCTOR_API_URL env value for schellar | `http://localhost:8080/api` |
-| `schellarEnv.BACKEND` | BACKEND env value for schellar | `postgres` |
-| `schellarEnv.PLAYGROUND_QUERY_ENDPOINT` | PLAYGROUND_QUERY_ENDPOINT env value for schellar | `/api/schedule` |
-| `schellarEnv.POSTGRES_MIGRATIONS_DIR` | POSTGRES_MIGRATIONS_DIR env value for schellar | `postgres` |
-| `schellarExtraEnv`| Extra env variables for schellar | [] |
-| `postgresql.enabled` | Switch to enable or disable the PostgreSQL helm chart | `true` |
-| `postgresql.auth.enablePostgresUser` | Assign a password to the "postgres" admin user. Otherwise, remote access will be blocked for this user | `true` |
-| `postgresql.auth.username` | Name for a custom user to create | `postgresU` |
-| `postgresql.auth.password` | Password for the custom user to create | `postgresP` |
-| `postgresql.auth.database` | Name for a custom database to create | `conductor` |
-| `postgresql.architecture` | PostgreSQL architecture (`standalone` or `replication`) | `standalone` |
-| `postgresql.primary.initdb.scripts.init_db.sql` | Init script for creating another databases | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/workflow-manager/values.yaml) |
-| `rbac.WM_ADMIN_GROUPS` | Rbac admin roles setting | `"NETWORK-ADMIN"` |  |
-| `rbac.WM_ADMIN_ROLES` | Rbac admin groups setting | `"OWNER"` |  |
+| Repository | Name | Version |
+|------------|------|---------|
+| https://charts.bitnami.com/bitnami | postgresql | 11.x.x |
+
+## Values
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| dbPersistence.CONDUCTOR_DATASOURCE_SCHEMA | string | `"public"` |  |
+| dbPersistence.CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_HOST | string | `nil` |  |
+| dbPersistence.CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD | string | `"postgresP"` |  |
+| dbPersistence.CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME | string | `"postgresU"` |  |
+| dbPersistence.POSTGRES_DATABASE | string | `"conductor"` |  |
+| dbPersistence.SPRING_DATASOURCE_HOST | string | `nil` | Datasource host |
+| dbPersistence.SPRING_DATASOURCE_PASSWORD | string | `"postgresP"` |  |
+| dbPersistence.SPRING_DATASOURCE_USERNAME | string | `"postgresU"` |  |
+| dbPersistence.SPRING_SEARCHDATASOURCE_HOST | string | `nil` |  |
+| dbPersistence.SPRING_SEARCHDATASOURCE_PASSWORD | string | `"postgresP"` |  |
+| dbPersistence.SPRING_SEARCHDATASOURCE_USERNAME | string | `"postgresU"` |  |
+| dbPersistence.existingSecret.conductorExternalpayloadstoragePostgresPasswordKey | string | `nil` |  |
+| dbPersistence.existingSecret.conductorExternalpayloadstoragePostgresUsernameKey | string | `nil` |  |
+| dbPersistence.existingSecret.secretName | string | `nil` |  |
+| dbPersistence.existingSecret.springDatasourcePasswordKey | string | `nil` |  |
+| dbPersistence.existingSecret.springDatasourceUsernameKey | string | `nil` |  |
+| dbPersistence.existingSecret.springSearchdatasourcePasswordKey | string | `nil` |  |
+| dbPersistence.existingSecret.springSearchdatasourceUsernameKey | string | `nil` |  |
+| fullnameOverride | string | `""` | String to fully override app name |
+| image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
+| image.repository | string | `"frinx/conductor-server"` | Resource-manager image repository |
+| image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion. |
+| imagePullSecrets | list | `[]` | [Image Pull Secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
+| ingress.annotations | object | `{}` | Additional annotations for the Ingress resource |
+| ingress.className | string | `""` | IngressClass that will be be used to implement the Ingress |
+| ingress.enabled | bool | `false` | Enable ingress |
+| ingress.hosts | list | `[{"host":"workflow-manager.local","paths":[{"path":"/","pathType":"ImplementationSpecific"}]}]` | [Ingress Host](https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource) |
+| ingress.labels | object | `{}` | Additional labels for the Ingress resource |
+| ingress.schellarHosts[0].host | string | `"workflow-manager-schellar.local"` |  |
+| ingress.schellarHosts[0].paths[0].path | string | `"/"` |  |
+| ingress.schellarHosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
+| ingress.tls | list | `[]` | [Ingress TLS resource](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls) |
+| nameOverride | string | `""` | String to partially override app name |
+| nodeSelector | object | `{}` | [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) |
+| podAnnotations | object | `{}` | Pod annotations |
+| podSecurityContext | object | `{}` | Configure [Pods Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
+| postgresql | object | `{"architecture":"standalone","auth":{"database":"conductor","enablePostgresUser":true,"password":"postgresP","username":"postgresU"},"enabled":true,"primary":{"initdb":{"scripts":{"init_db.sql":"CREATE DATABASE schellar;\n"}}}}` | PostgreSQL chart configuration |
+| rbac | object | `{"WM_ADMIN_GROUPS":"NETWORK-ADMIN","WM_ADMIN_ROLES":"OWNER"}` | RBAC configuration |
+| replicaCount | int | `1` | Number of replicas of the deployment |
+| resources | object | `{}` | [Container resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/) |
+| schellarDbPersistence | object | `{"POSTGRES_DATABASE":"schellar","POSTGRES_HOST":"postgresql","POSTGRES_PASSWORD":"postgresP","POSTGRES_PORT":5432,"POSTGRES_USERNAME":"postgresU","existingSecret":{"postgresPasswordKey":null,"postgresUsernameKey":null,"secretName":null}}` | Schellar DB chart configuration |
+| schellarEnv.BACKEND | string | `"postgres"` |  |
+| schellarEnv.CHECK_INTERVAL_SECONDS | int | `10` |  |
+| schellarEnv.CONDUCTOR_API_URL | string | `"http://localhost:8080/api"` |  |
+| schellarEnv.LOG_LEVEL | string | `"debug"` | Shellar log level |
+| schellarEnv.PLAYGROUND_QUERY_ENDPOINT | string | `"/api/schedule"` |  |
+| schellarEnv.POSTGRES_MIGRATIONS_DIR | string | `"migrations"` |  |
+| schellarExtraEnv | list | `[]` | Schellar extra ENV |
+| schellarImage.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
+| schellarImage.repository | string | `"frinx/schellar"` | Schellar image repository |
+| schellarImage.tag | string | `"6.1.0"` | Overrides the image tag |
+| schellarResources | object | `{}` | Schellar resources |
+| securityContext | object | `{"capabilities":{"drop":["ALL"]}}` | Configure [Container Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) |
+| service.portConductor | int | `8080` | Conductor service port |
+| service.portSchellar | int | `3000` | Schellar service port |
+| service.type | string | `"ClusterIP"` | Service type |
+| serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
+| serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
+| serviceAccount.name | string | `"conductor"` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
+| tolerations | list | `[]` | [Tolerations for pod assignment](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
+| utilitiesImage.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
+| utilitiesImage.repository | string | `"frinx/utilities-alpine"` | utilities image repository |
+| utilitiesImage.tag | string | `"1.2"` | Overrides the image tag. |
+
+----------------------------------------------
+Autogenerated from chart metadata using [helm-docs v1.14.2](https://github.com/norwoodj/helm-docs/releases/v1.14.2)

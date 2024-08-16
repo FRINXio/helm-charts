@@ -11,7 +11,8 @@ metadata:
 spec:
   containers:
     - name: check-conductor-server
-      image: busybox
+      image: "{{ .Values.utilitiesImage.repository }}:{{ .Values.utilitiesImage.tag }}"
+      imagePullPolicy: "{{ .Values.utilitiesImage.pullPolicy }}"
       command: ["/bin/sh"]
       args: ["-c", 'wget  --header="from: admin" --header="X-Auth-User-Roles:{{ .Values.rbac.WM_ADMIN_ROLES }}"  -S {{ include "workflow-manager.fullname" . }}:{{ .Values.service.portConductor }}/api/metadata/workflow -P /tmp/']
   restartPolicy: Never
