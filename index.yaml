@@ -16175,6 +16175,27 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Worker curls are performed using custom utilities image
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/412
+    apiVersion: v2
+    appVersion: 6.1.0
+    created: "2024-08-16T14:31:13.043684508Z"
+    description: A Helm chart for conductor workers
+    digest: d78de5460abbbf55fa7b7ed2fac2ce0605d0038fbcf64e06e707b7756ebb5f72
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: worker
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/worker-4.0.1/worker-4.0.1.tgz
+    version: 4.0.1
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Changed env variables compatible with Frinx Machine 6.1.0
           links:
             - name: GitHub PR
@@ -16944,4 +16965,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-08-16T13:58:11.938866363Z"
+generated: "2024-08-16T14:31:13.045432131Z"
