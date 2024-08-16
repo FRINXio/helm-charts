@@ -2,6 +2,8 @@
 
 A Helm chart for the Frinx Machine sample-topology Kubernetes deployment
 
+![Version: 3.1.1](https://img.shields.io/badge/Version-3.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.1.0](https://img.shields.io/badge/AppVersion-6.1.0-informational?style=flat-square)
+
 ## Get Repo Info
 
 ```console
@@ -27,45 +29,46 @@ helm upgrade [RELEASE_NAME] frinx/sample-topology
 helm uninstall [RELEASE_NAME]
 ```
 
-## Configuration
+## Values
 
-| Parameter | Description | Default |
-|-----------|-------------|---------|
-| `replicaCount` | Number of nodes | `1` |
-| `image.repository` | Image repository | `frinx/sample-topology` |
-| `image.pullPolicy` | Image pull policy | `IfNotPresent` |
-| `image.tag` | Image tag | `""` |
-| `imagePullSecrets` | Image pull secrets | `[]` |
-| `nameOverride` | Replaces the name of the chart in the Chart.yaml file | `""` |
-| `fullnameOverride` |  Completely replaces the generated name | `""` |
-| `serviceAccount.create` | Create service account | `true` |
-| `serviceAccount.annotations` | ServiceAccount annotations | `{}` |
-| `serviceAccount.name` | Service account name to use, when empty will be set to created account if `serviceAccount.create` is set else to `default` | `""` |
-| `podAnnotations` | Deployment | `{}` |
-| `podSecurityContext` | Pod deployment securityContext | `{}` |
-| `securityContext` | Deployment securityContext | `{}` |
-| `service.type` | Kubernetes service type | `ClusterIP` |
-| `ingress.enabled` | Enable [ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/). | `false` |
-| `ingress.labels` | Ingress labels | `{}` |
-| `ingress.annotations` | Annotations to be added to the ingress. | `{}` |
-| `ingress.className` | Ingress [class name](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class). | `""` |
-| `ingress.tls` | Enable or disable tls attribute in ingress | `false` |
-| `ingress.hosts` | Ingress accepted hostname  | `""` |
-| `resources` | CPU/Memory resource requests/limits | `{}` |
-| `autoscaling.enabled` | Enable replica autoscaling settings | `false` |
-| `autoscaling.minReplicas` | Minimum replicas for the pod autoscaling | `1` |
-| `autoscaling.maxReplicas` | Maximum replicas for the pod autoscaling | `100` |
-| `autoscaling.targetCPUUtilizationPercentage` | Percentage of CPU to consider when autoscaling | `80` |
-| `autoscaling.targetMemoryUtilizationPercentage` | Percentage of Memory to consider when autoscaling | |
-| `nodeSelector` | Node labels for pod assignment | `{}` |
-| `tolerations` | Toleration labels for pod assignment | `[]` |
-| `affinity` | Affinity settings for pod assignment | `{}` |
-| `env.DOCKER_GWBRIDGE_IP` | DOCKER_GWBRIDGE_IP env value | `"localhost"` |
-| `extraInitContainers` | Add extra init container into deployment | `[]` |
-| `devices.create` | Create devices.csv files with list of simulated devices | `true` |
-| `devices.devicesSpecification` | List of simulated devices. See [sample-topology documentation](https://github.com/FRINXio/sample-topology/blob/main/README.md) for more details | See [values.yaml](https://github.com/FRINXio/helm-charts/blob/main/charts/sample-topology/values.yaml) |
-| `externalConfig.enabled` | Enable downloading of private config files from repository | `false` |
-| `externalConfig.configRepository` | Repository with private config files | `github.com/FRINXio/sample-topology-private-config.git` |
-| `externalConfig.auth.username` | Username for private repository | |
-| `externalConfig.auth.password` | Password for private repository | |
-| `externalConfig.auth.existingSecret` | Use external secret with username and password for private repository | |
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| affinity | object | `{}` | [Affinity for pod assignment](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
+| autoscaling | object | `{"enabled":false,"maxReplicas":100,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | [Autoscaling parameters](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
+| devices | object | `{"create":true,"devicesSpecification":[{"device_name":"cisco_IOS","port":10005,"protocol":"cli"}]}` | Sample devices |
+| env | object | `{"DOCKER_GWBRIDGE_IP":"localhost"}` | Application environment variables |
+| externalConfig.auth.existingSecret | string | `nil` |  |
+| externalConfig.auth.password | string | `nil` |  |
+| externalConfig.auth.username | string | `nil` |  |
+| externalConfig.configRepository | string | `"github.com/FRINXio/sample-topology-private-config.git"` | Config repository |
+| externalConfig.enabled | bool | `false` | External config enable |
+| extraInitContainers | list | `[]` | Extra initContainers |
+| fullnameOverride | string | `""` | String to fully override app name |
+| image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
+| image.repository | string | `"frinx/sample-topology"` | Sample-topology image repository |
+| image.tag | string | `""` |  |
+| imagePullSecrets | list | `[]` | [Image Pull Secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) |
+| ingress.annotations | object | `{}` | Additional annotations for the Ingress resource |
+| ingress.className | string | `""` | IngressClass that will be be used to implement the Ingress |
+| ingress.enabled | bool | `false` | Enable ingress |
+| ingress.hosts | list | `[{"host":"chart-example.local","paths":[{"path":"/","pathType":"ImplementationSpecific"}]}]` | [Ingress Host](https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource) |
+| ingress.labels | object | `{}` | Additional labels for the Ingress resource |
+| ingress.tls | list | `[]` | [Ingress TLS resource](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls) |
+| nameOverride | string | `""` | String to partially override app name |
+| nodeSelector | object | `{}` | [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) |
+| podAnnotations | object | `{}` | Pod annotations |
+| podSecurityContext | object | `{}` | Configure [Pods Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
+| replicaCount | int | `1` | Number of replicas of the deployment |
+| resources | object | `{}` | [Container resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/) |
+| securityContext | object | `{}` | Configure [Container Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container) |
+| service.type | string | `"ClusterIP"` | Service type |
+| serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
+| serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
+| serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
+| tolerations | list | `[]` | [Tolerations for pod assignment](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
+| utilitiesImage.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
+| utilitiesImage.repository | string | `"frinx/utilities-alpine"` | utilities image repository |
+| utilitiesImage.tag | string | `"1.2"` | Overrides the image tag. |
+
+----------------------------------------------
+Autogenerated from chart metadata using [helm-docs v1.14.2](https://github.com/norwoodj/helm-docs/releases/v1.14.2)
