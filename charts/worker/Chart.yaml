@@ -1,6 +1,6 @@
 apiVersion: v2
 name: worker
-version: 4.0.0
+version: 4.0.1
 appVersion: "6.1.0"
 description: A Helm chart for conductor workers
 type: application
@@ -11,7 +11,7 @@ icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 annotations:
   artifacthub.io/changes: |
     - kind: changed
-      description: Changed env variables compatible with Frinx Machine 6.1.0
+      description: Worker curls are performed using custom utilities image
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/376
+          url: https://github.com/FRINXio/helm-charts/pull/412
