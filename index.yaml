@@ -14632,6 +14632,26 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Git is now from custom utilities image
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/409
+    apiVersion: v2
+    appVersion: 6.1.0
+    created: "2024-08-16T08:15:57.702911397Z"
+    description: A Helm chart for the Frinx Machine sample-topology Kubernetes deployment
+    digest: d01b0651e7695aedc7ba14d17ee69e74b991f4707d8ee0a17dee9ca8d5ae8478
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: sample-topology
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/sample-topology-3.1.1/sample-topology-3.1.1.tgz
+    version: 3.1.1
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Bump application version to 6.1
           links:
             - name: GitHub PR
@@ -16862,4 +16882,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-08-15T21:14:54.283635423Z"
+generated: "2024-08-16T08:15:57.704208474Z"
