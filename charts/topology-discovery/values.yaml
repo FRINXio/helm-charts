@@ -152,3 +152,11 @@ env:
   TD_KAFKA__TOPICS__DEVICE_EVENTS_TOPIC: device-events
   TD_KAFKA__BOOTSTRAP_SERVERS: '["kafka:9092"]'
   TD_KAFKA__API_VERSION: '["0", "11", "5"]'
+
+utilitiesImage:
+  # -- utilities image repository
+  repository: frinx/utilities-alpine
+  # -- Overrides the image tag.
+  tag: "1.2"
+  # -- Image pull policy
+  pullPolicy: IfNotPresent
