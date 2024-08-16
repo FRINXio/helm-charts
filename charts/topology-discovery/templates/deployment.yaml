@@ -33,14 +33,16 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
         - name: check-conductor-ready
-          image: curlimages/curl
+          image: "{{ .Values.utilitiesImage.repository }}:{{ .Values.utilitiesImage.tag }}"
+          imagePullPolicy: "{{ .Values.utilitiesImage.pullPolicy }}"
           command: ["/bin/sh","-c"]
           args: ['while [ $(curl -o /dev/null --silent --write-out "%{http_code}" {{ .Values.env.CONDUCTOR_URL }}/health) -ne 200 ];
             do sleep 5; echo "waiting for conductor";
             done;
             echo "connection successful!"']
         - name: check-arangodb-ready
-          image: curlimages/curl
+          image: "{{ .Values.utilitiesImage.repository }}:{{ .Values.utilitiesImage.tag }}"
+          imagePullPolicy: "{{ .Values.utilitiesImage.pullPolicy }}"
           command: ["/bin/sh","-c"]
           env:
             - name: ARANGO_URL 
@@ -69,7 +71,8 @@ spec:
             echo "connection successful!"']
         {{- if .Values.env.IMPORT_DEVICE_INVENTORY_DATA }}
         - name: check-inventory-ready
-          image: curlimages/curl
+          image: "{{ .Values.utilitiesImage.repository }}:{{ .Values.utilitiesImage.tag }}"
+          imagePullPolicy: "{{ .Values.utilitiesImage.pullPolicy }}"
           command: ["/bin/sh","-c"]
           args: ['while [ $(curl -o /dev/null --silent --write-out "%{http_code}" inventory:8000/.well-known/apollo/server-health) -ne 200 ];
             do sleep 5; echo "waiting for inventory";
