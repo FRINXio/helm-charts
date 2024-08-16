@@ -50,7 +50,8 @@ spec:
       initContainers:
         {{- if .Values.initContainers.checkUniconfigReady }}
         - name: check-uniconfig-ready
-          image: curlimages/curl
+          image: "{{ .Values.utilitiesImage.repository }}:{{ .Values.utilitiesImage.tag }}"
+          imagePullPolicy: "{{ .Values.utilitiesImage.pullPolicy }}"
           command: ["/bin/sh","-c"]
           args: ['while [ $(curl --insecure -o /dev/null --silent --write-out "%{http_code}" -X POST {{ .Values.initContainersUrl.UNICONFIG_URL_BASE }}/rests/operations/uniconfig-manager:health -H "Content-Type:application/json") -ne 200 ];
             do sleep 5; echo "waiting for uniconfig";
@@ -66,7 +67,8 @@ spec:
         {{- end }}
         {{- if .Values.initContainers.checkConductorReady }}
         - name: check-conductor-ready
-          image: curlimages/curl
+          image: "{{ .Values.utilitiesImage.repository }}:{{ .Values.utilitiesImage.tag }}"
+          imagePullPolicy: "{{ .Values.utilitiesImage.pullPolicy }}"
           command: ["/bin/sh","-c"]
           args: ['while [ $(curl -o /dev/null --silent --write-out "%{http_code}" {{ .Values.initContainersUrl.CONDUCTOR_URL_BASE }}/health) -ne 200 ];
             do sleep 5; echo "waiting for conductor";
@@ -82,7 +84,8 @@ spec:
         {{- end }}
         {{- if .Values.initContainers.checkInventoryReady }}
         - name: check-inventory-ready
-          image: curlimages/curl
+          image: "{{ .Values.utilitiesImage.repository }}:{{ .Values.utilitiesImage.tag }}"
+          imagePullPolicy: "{{ .Values.utilitiesImage.pullPolicy }}"
           command: ["/bin/sh","-c"]
           args: ['while [ $(curl -o /dev/null --silent --write-out "%{http_code}" {{ .Values.initContainersUrl.INVENTORY_URL_BASE }}/health) -ne 200 ];
             do sleep 5; echo "waiting for inventory";
