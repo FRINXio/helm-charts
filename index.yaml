@@ -14976,6 +14976,26 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: curls are performed using custom utilities image
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/413
+    apiVersion: v2
+    appVersion: 6.2.5
+    created: "2024-08-16T14:39:02.811077498Z"
+    description: A Helm chart for Kubernetes deployment of the Topology Discovery
+    digest: 3284049d844c343711bdea7da16c9ac68b45f35ad5abaf824f9ed7aaf7a2e9e6
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: topology-discovery
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/topology-discovery-3.1.1/topology-discovery-3.1.1.tgz
+    version: 3.1.1
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Bump application version to 6.2.5
           links:
             - name: GitHub PR
@@ -16965,4 +16985,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-08-16T14:31:13.045432131Z"
+generated: "2024-08-16T14:39:02.812442549Z"
