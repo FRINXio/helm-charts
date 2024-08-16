@@ -2,52 +2,73 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# -- Number of replicas of the deployment
 replicaCount: 1
 
 image:
+  # -- Resource-manager image repository
   repository: frinx/conductor-server
+  # -- Image pull policy
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
+  # -- Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
 schellarImage:
+  # -- Schellar image repository
   repository: frinx/schellar
+  # -- Image pull policy
   pullPolicy: IfNotPresent
+  # -- Overrides the image tag
   tag: "6.1.0"
 
+# -- [Image Pull Secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
 imagePullSecrets: []
+# -- String to partially override app name
 nameOverride: ""
+# -- String to fully override app name
 fullnameOverride: ""
 
 serviceAccount:
-  # Specifies whether a service account should be created
+  # -- Specifies whether a service account should be created
   create: true
-  # Annotations to add to the service account
+  # -- Annotations to add to the service account
   annotations: {}
-  # The name of the service account to use.
+  # -- The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: conductor
 
+# -- Pod annotations
 podAnnotations: {}
 
+# -- Configure [Pods Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
 podSecurityContext: {}
   # fsGroup: 2000
 
+# -- Configure [Container Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container)
 securityContext:
   capabilities:
     drop:
     - ALL
 
 service:
+  # -- Service type
   type: ClusterIP
+  # -- Service port
   portSchellar: 3000
+  # -- Monitoring port
   portConductor: 8080
 
+# Configure the [Ingress resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 ingress:
+  # -- Enable ingress
   enabled: false
+  # -- IngressClass that will be be used to implement the Ingress
   className: ""
+  # -- Additional labels for the Ingress resource
   labels: {}
+  # -- Additional annotations for the Ingress resource
   annotations: {}
+  # -- [Ingress Host](https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource)
   hosts:
     - host: workflow-manager.local
       paths:
@@ -58,13 +79,16 @@ ingress:
       paths:
         - path: /
           pathType: ImplementationSpecific
+  # -- [Ingress TLS resource](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls)
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
 
+# -- [Container resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/)
 resources: {}
 
+# -- [Autoscaling parameters](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
 autoscaling:
   enabled: false
   minReplicas: 2
@@ -72,13 +96,17 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
+# -- [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/)
 nodeSelector: {}
 
+# -- [Tolerations for pod assignment](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
 tolerations: []
 
+# -- [Affinity for pod assignment](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
 affinity: {}
 
 dbPersistence:
+  # -- Datasource host
   SPRING_DATASOURCE_HOST:
   SPRING_SEARCHDATASOURCE_HOST:
   CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_HOST:
@@ -99,15 +127,18 @@ dbPersistence:
   SPRING_SEARCHDATASOURCE_USERNAME: postgresU
   SPRING_SEARCHDATASOURCE_PASSWORD: postgresP
 
+# -- Conductor extra ENV
 conductorEnv:
   CONFIG_PROP: /app/nofile/config.properties
   _JAVA_OPTIONS: -Xmx2g
   LOG4J_PROP: /app/config/log4j-cluster.properties
 
+# -- RBAC configuration
 rbac:
   WM_ADMIN_ROLES: OWNER
   WM_ADMIN_GROUPS: NETWORK-ADMIN
 
+# -- Conductor extra ENV
 conductorExtraEnv:
   CONDUCTOR_APP_OWNEREMAILMANDATORY: false
   CONDUCTOR_DB_TYPE: postgres
@@ -151,8 +182,10 @@ conductorExtraEnv:
   CONDUCTOR_WORKFLOWREPAIRSERVICE_ENABLED: false
   SPRING_AUTOCONFIGURE_EXCLUDE: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
 
+# -- Schellar resources
 schellarResources: {}
 
+# -- Schellar DB chart configuration
 schellarDbPersistence:
   POSTGRES_HOST: postgresql
   POSTGRES_PORT: 5432
@@ -165,6 +198,7 @@ schellarDbPersistence:
   POSTGRES_PASSWORD: postgresP
 
 schellarEnv:
+  # -- Shellar log level
   LOG_LEVEL: debug
   CHECK_INTERVAL_SECONDS: 10
   CONDUCTOR_API_URL: http://localhost:8080/api
@@ -172,8 +206,10 @@ schellarEnv:
   POSTGRES_MIGRATIONS_DIR: migrations
   PLAYGROUND_QUERY_ENDPOINT: /api/schedule
 
+# -- Schellar extra ENV
 schellarExtraEnv: []
 
+# -- PostgreSQL chart configuration
 postgresql:
   enabled: true
   auth:
@@ -187,3 +223,11 @@ postgresql:
       scripts:
         init_db.sql: |
           CREATE DATABASE schellar;
+
+utilitiesImage:
+  # -- utilities image repository
+  repository: frinx/utilities-alpine
+  # -- Overrides the image tag.
+  tag: "1.2"
+  # -- Image pull policy
+  pullPolicy: IfNotPresent

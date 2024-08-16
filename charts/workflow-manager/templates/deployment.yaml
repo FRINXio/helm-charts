@@ -30,7 +30,8 @@ spec:
       restartPolicy: Always
       initContainers:
       - name: check-db-ready
-        image: postgres:alpine
+        image: "{{ .Values.utilitiesImage.repository }}:{{ .Values.utilitiesImage.tag }}"
+        imagePullPolicy: "{{ .Values.utilitiesImage.pullPolicy }}"
         command: ['sh', '-c',
           "until pg_isready -h ${POSTGRES_HOST} -p 5432 -U ${SPRING_DATASOURCE_USERNAME};
           do echo waiting for database; sleep 2; done;"]
