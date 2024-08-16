@@ -2,12 +2,15 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# -- Number of replicas of the deployment
 replicaCount: 1
 
 image:
+  # -- Demo-workflows image repository
   repository: frinx/demo-workflows
+  # -- Image pull policy
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
+  # -- Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
 imagePullSecrets: []
@@ -15,20 +18,23 @@ nameOverride: ""
 fullnameOverride: ""
 
 serviceAccount:
-  # Specifies whether a service account should be created
+  # -- Specifies whether a service account should be created
   create: true
-  # Annotations to add to the service account
+  # --  Annotations to add to the service account
   annotations: {}
-  # The name of the service account to use.
+  # -- The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+# -- Pod annotations
 podAnnotations: {}
 
+# -- Configure [Pods Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)
 podSecurityContext:
   {}
   # fsGroup: 2000
 
+# -- Configure [Container Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container)
 securityContext:
   {}
   # capabilities:
@@ -38,6 +44,7 @@ securityContext:
   # runAsNonRoot: true
   # runAsUser: 1000
 
+# -- [Container resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/)
 resources:
   {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -51,29 +58,36 @@ resources:
   #   cpu: 100m
   #   memory: 128Mi
 
+# -- [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/)
 nodeSelector: {}
 
+# -- [Tolerations for pod assignment](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
 tolerations: []
 
+# -- [Affinity for pod assignment](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
 affinity: {}
 
 deployment:
   annotations: {}
 
+# -- Application commands
 commands: ["python3", "main.py"]
 workdir: /home/app
 
+# -- Init containers
 initContainers:
   checkUniconfigReady: true
   checkConductorReady: true
   checkInventoryReady: true
   copyWorkerFiles: true
 
+# -- Init containers URL
 initContainersUrl:
   UNICONFIG_URL_BASE: http://uniconfig:8181
   CONDUCTOR_URL_BASE: http://conductor-server:8080
   INVENTORY_URL_BASE: http://inventory:8000
 
+# -- Application properties
 env:
   X_TENANT_ID: frinx
   X_AUTH_USER_GROUP: network-admin
@@ -101,3 +115,11 @@ hostPaths:
   # - name: hostName
   #   mountPath: /somedir/in/pod
   #   hostPath: /somedir/on/vm
+
+  utilitiesImage:
+  # -- utilities image repository
+  repository: frinx/utilities-alpine
+  # -- Overrides the image tag.
+  tag: "1.2"
+  # -- Image pull policy
+  pullPolicy: IfNotPresent
