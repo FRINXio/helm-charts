@@ -15171,6 +15171,38 @@ entries:
   uniconfig:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: uniconfig db_ready checks are performed using custom utilities image
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/411
+    apiVersion: v2
+    appVersion: 6.1.1
+    created: "2024-08-16T13:58:11.937135408Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: kafka.enabled
+      name: kafka
+      repository: https://charts.bitnami.com/bitnami
+      version: 25.2.0
+    description: A Helm chart for UniConfig Kubernetes deployment
+    digest: 2a5345a870b19e95373d0289444cd7bc690c74d135df280cb1081fbd10287b49
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: uniconfig
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniconfig-8.0.1/uniconfig-8.0.1.tgz
+    version: 8.0.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Enabled Kafka notifications by default
           links:
@@ -16912,4 +16944,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-08-16T10:42:23.749781314Z"
+generated: "2024-08-16T13:58:11.938866363Z"
