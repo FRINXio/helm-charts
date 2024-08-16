@@ -1,6 +1,6 @@
 apiVersion: v2
 name: uniconfig
-version: 8.0.0
+version: 8.0.1
 appVersion: "6.1.1"
 description: A Helm chart for UniConfig Kubernetes deployment
 type: application
@@ -21,18 +21,8 @@ maintainers:
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 annotations:
   artifacthub.io/changes: |
-    - kind: added
-      description: Enabled Kafka notifications by default
+    - kind: changed
+      description: uniconfig db_ready checks are performed using custom utilities image
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/391
-    - kind: added
-      description: Added kafka brooker into chart dependency
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/391
-    - kind: added
-      description: Added startup probe
-      links:
-        - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/391
+          url: https://github.com/FRINXio/helm-charts/pull/411

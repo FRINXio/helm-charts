@@ -57,7 +57,8 @@ spec:
               path: logback.xml
       initContainers:
         - name: check-db-ready
-          image: postgres:alpine
+          image: "{{ .Values.utilitiesImage.repository }}:{{ .Values.utilitiesImage.tag }}"
+          imagePullPolicy: "{{ .Values.utilitiesImage.pullPolicy }}"
           command: ['sh', '-c',
             "until pg_isready -h ${DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_HOST} -p 5432 -U ${DBPERSISTENCE_CONNECTION_USERNAME};
             do echo waiting for database; sleep 2; done;"]
