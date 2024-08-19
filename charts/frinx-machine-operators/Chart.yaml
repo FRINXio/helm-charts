@@ -2,7 +2,7 @@ apiVersion: v2
 name: frinx-machine-operators
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 description: A Helm chart for installing operators and crds.
-version: 0.2.0
+version: 0.3.0
 appVersion: 6.1.0
 maintainers:
   - name: FRINX
@@ -17,10 +17,14 @@ dependencies:
     version: 1.2.41
     repository: https://arangodb.github.io/kube-arangodb
     condition: kube-arangodb.enabled
+  - name: prometheus-operator-crds
+    version: 13.0.1
+    repository: https://prometheus-community.github.io/helm-charts/
+    condition: prometheus-operator-crds.enabled
 annotations:
   artifacthub.io/changes: |
-    - kind: changed
-      description: Upgrade dependency version for Frinx Machine 6.1
+    - kind: added
+      description: Added dependency for prometheus crds
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/392
+          url: https://github.com/FRINXio/helm-charts/pull/415

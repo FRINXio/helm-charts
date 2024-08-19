@@ -35,6 +35,7 @@ helm uninstall [RELEASE_NAME]
 |------------|------|---------|
 | https://arangodb.github.io/kube-arangodb | kube-arangodb | 1.2.41 |
 | https://cloudnative-pg.github.io/charts | cloudnative-pg | 0.21.5 |
+| https://prometheus-community.github.io/helm-charts/ | prometheus-operator-crds | 13.0.1 |
 
 ## Values
 
@@ -49,4 +50,4 @@ helm uninstall [RELEASE_NAME]
 | kube-arangodb.rbac.extensions.acs | bool | `false` | Enable ACS extension |
 | kube-arangodb.rbac.extensions.at | bool | `false` | Enable AT extension |
 | kube-arangodb.rbac.extensions.monitoring | bool | `false` | Enable monitoring extension |
-
+| prometheus-operator-crds.enabled | bool | `true` | Enable prometheus-operator-crds |
