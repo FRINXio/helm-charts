@@ -23,3 +23,7 @@ kube-arangodb:
 cloudnative-pg:
   # -- Enable cloudnative-pg
   enabled: true
+
+prometheus-operator-crds:
+  # -- Enable prometheus-operator-crds
+  enabled: true
