@@ -132,6 +132,9 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
+            - name: metrics
+              containerPort: 8000
+              protocol: TCP   
           env:
             {{- range $key, $val := .Values.env }}
             - name: {{ $key | quote }}

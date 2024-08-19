@@ -17,6 +17,14 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+service:
+  # -- Service type
+  type: ClusterIP
+  # -- Service port
+  port: 80
+  # -- Monitoring port
+  monitorPort: 8000
+
 serviceAccount:
   # -- Specifies whether a service account should be created
   create: true
