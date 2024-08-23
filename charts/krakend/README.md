@@ -2,7 +2,7 @@
 
 FRINX KrakenD API Gateway for FRINX-machine
 
-![Version: 4.0.1](https://img.shields.io/badge/Version-4.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.1.1](https://img.shields.io/badge/AppVersion-6.1.1-informational?style=flat-square)
+![Version: 4.1.0](https://img.shields.io/badge/Version-4.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.1.1](https://img.shields.io/badge/AppVersion-6.1.1-informational?style=flat-square)
 
 ## Get Repo Info
 
@@ -50,6 +50,7 @@ helm uninstall [RELEASE_NAME]
 | ingress.hosts | list | `[{"host":"chart-example.local","paths":[{"path":"/","pathType":"ImplementationSpecific"}]}]` | [Ingress Host](https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource) |
 | ingress.labels | object | `{}` | Additional labels for the Ingress resource |
 | ingress.tls | list | `[]` |  |
+| monitoring | object | `{"enabled":false,"port":9091,"targertPort":9091}` | Monitoring configuration |
 | nameOverride | string | `""` | String to partially override app name |
 | nginx.server | string | `"client_body_buffer_size \"8k\";\nclient_header_buffer_size \"1k\";\nproxy_headers_hash_max_size 2048;\nproxy_headers_hash_bucket_size 128;\nproxy_connect_timeout \"3600\";\nproxy_read_timeout \"3600\";\nproxy_send_timeout \"3600\";\n"` | Nginx server configuration |
 | nginxContainerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"readOnlyRootFilesystem":true,"runAsGroup":101,"runAsNonRoot":true,"runAsUser":101}` | Security context for NginX container |

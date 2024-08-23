@@ -112,6 +112,14 @@ postgresql:
     database: postgres
   architecture: standalone
 
+  # -- Database metrics configuration
+  metrics:
+    enabled: true
+
+    serviceMonitor:
+      enabled: true
+      labels:
+        prometheus: resource-manager-db
 
 dbPersistence:
   # -- Database hostname
@@ -125,7 +133,7 @@ dbPersistence:
     secretName:
     postgresUsernameKey:
     postgresPasswordKey:
-  # -- Database credentials. Exposed when existing dbPersistence.existingSecret.secretName is empty  
+  # -- Database credentials. Exposed when existing dbPersistence.existingSecret.secretName is empty
   POSTGRES_USERNAME: postgresU
   POSTGRES_PASSWORD: postgresP
 
@@ -151,3 +159,9 @@ rbac:
 
 # -- Additional application environment variables
 extraEnv: []
+
+# -- Monitoring configuration
+monitoring:
+  enabled: false
+  metricsPort: metrics
+  metricsPath: /metrics

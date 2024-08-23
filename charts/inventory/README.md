@@ -2,7 +2,7 @@
 
 A Helm chart for Kubernetes deployment of the Device Inventory
 
-![Version: 6.0.1](https://img.shields.io/badge/Version-6.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.1.0](https://img.shields.io/badge/AppVersion-6.1.0-informational?style=flat-square)
+![Version: 6.0.2](https://img.shields.io/badge/Version-6.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.1.0](https://img.shields.io/badge/AppVersion-6.1.0-informational?style=flat-square)
 
 ## Get Repo Info
 
@@ -41,9 +41,6 @@ helm uninstall [RELEASE_NAME]
 |-----|------|---------|-------------|
 | affinity | object | `{}` | [Affinity for pod assignment](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
 | autoscaling | object | `{"enabled":false,"maxReplicas":100,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | [Autoscaling parameters](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
-| utilitiesImage.repository | string | `"frinx/utilities-alpine"` | Image name |
-| utilitiesImage.tag | string | `1.2` | Image tag |
-| utilitiesImage.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | dbPersistence.POSTGRES_DATABASE | string | `"inventory"` | Database name |
 | dbPersistence.POSTGRES_DB_SCHEMA | string | `"public"` | Database schema |
 | dbPersistence.POSTGRES_HOST | string | `nil` | Database hostname |
@@ -68,7 +65,8 @@ helm uninstall [RELEASE_NAME]
 | nodeSelector | object | `{}` | [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) |
 | podAnnotations | object | `{}` | Pod annotations |
 | podSecurityContext | object | `{}` | Configure [Pods Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
-| postgresql | object | `{"architecture":"standalone","auth":{"database":"inventory","enablePostgresUser":true,"password":"postgresP","username":"postgresU"},"enabled":true}` | Internal Postgres Database |
+| postgresql | object | `{"architecture":"standalone","auth":{"database":"inventory","enablePostgresUser":true,"password":"postgresP","username":"postgresU"},"enabled":true,"metrics":{"enabled":true,"serviceMonitor":{"enabled":true,"labels":{"prometheus":"inventory-db"}}}}` | Internal Postgres Database |
+| postgresql.metrics | object | `{"enabled":true,"serviceMonitor":{"enabled":true,"labels":{"prometheus":"inventory-db"}}}` | Database metrics configuration |
 | replicaCount | int | `1` | Number of replicas of the deployment. |
 | resources | object | `{}` | [Container resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/) |
 | securityContext | object | `{"capabilities":{"drop":["ALL"]}}` | Security context |
@@ -78,4 +76,6 @@ helm uninstall [RELEASE_NAME]
 | serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
 | serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
 | tolerations | list | `[]` | [Tolerations for pod assignment](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
-
+| utilitiesImage.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
+| utilitiesImage.repository | string | `"frinx/utilities-alpine"` | Utilities image repository |
+| utilitiesImage.tag | string | `"1.2"` | Overrides the image tag. |

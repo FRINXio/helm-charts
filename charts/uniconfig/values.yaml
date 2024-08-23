@@ -266,6 +266,15 @@ postgresql:
     database: uniconfig
   architecture: standalone
 
+  # -- Database metrics configuration
+  metrics:
+    enabled: true
+
+    serviceMonitor:
+      enabled: true
+      labels:
+        prometheus: uniconfig-db
+
 # -- [Kafka subchart: "https://artifacthub.io/packages/helm/bitnami/kafka"]
 kafka:
   # @ignored
@@ -282,3 +291,9 @@ utilitiesImage:
   tag: "1.2"
   # -- Image pull policy
   pullPolicy: IfNotPresent
+
+# -- Monitoring configuration
+monitoring:
+  enabled: false
+  port: http
+  path: /actuator/prometheus

@@ -1,24 +1,31 @@
 name: null
+# -- Image repository with tag
 imageName: "ghcr.io/cloudnative-pg/postgresql:12.18"
+# -- Image pull policy
 imagePullPolicy: IfNotPresent
+# -- [Image Pull Secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
 imagePullSecrets: []
+# -- Number of instances
 instances: 2
+# -- Primary update strategy configuration
 primaryUpdateStrategy: "unsupervised"
+# -- Primary update method configuration
 primaryUpdateMethod: "switchover"
+# -- Start delay configuration
 startDelay: 30
+# -- Stop delay configuration
 stopDelay: 30
 
+# -- [ReplicationSlots] Defines encapsulation of the configuration of replication slots
 replicationSlots: {}
-  # ReplicationSlotsConfiguration encapsulates the configuration of replication slots
-  # https://cloudnative-pg.io/documentation/1.18/api_reference/#replicationslotsconfiguration
 
+# -- [StorageConfiguration] Defines PostgreSQL instances storage configuration https://cloudnative-pg.io/documentation/1.18/api_reference/#storageconfiguration
 storage:
-  # StorageConfiguration is the configuration of the storage of the PostgreSQL instances
-  # https://cloudnative-pg.io/documentation/1.18/api_reference/#storageconfiguration
   size: "1Gi"
   # storageClass: 'default'
   resizeInUseVolumes: true
 
+# -- [Container resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/)
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
@@ -31,15 +38,15 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+# -- [PostgresConfiguration] Defines the PostgreSQL configuration https://cloudnative-pg.io/documentation/1.18/api_reference/#postgresconfiguration
 postgresql:
-  # PostgresConfiguration defines the PostgreSQL configuration
-  # https://cloudnative-pg.io/documentation/1.18/api_reference/#postgresconfiguration
   parameters:
     max_connections: '300'
   #   shared_buffers: 256MB
   # pg_hba:
   #   - host all all 10.244.0.0/16 md5
 
+# -- Bootstrap configuration of cluster
 bootstrap:
   initdb:
     database: frinx
@@ -51,41 +58,41 @@ bootstrap:
     postInitApplicationSQL: {}
     postInitApplicationSQLRefs:
       # extraConfigMapRefs holds a list of references to configmaps
-      # key-value format 
+      # key-value format
       extraConfigMapRefs: {}
       # extraSecretRefs holds a list of references to secrets
-      # key-value format 
+      # key-value format
       extraSecretRefs: {}
       # secretRefs:
       #   - name: cloud-native-pq-post-init-sql-secret
       #     key: secret.sql
+
+# -- [Backup] Cluster backup configuration https://cloudnative-pg.io/documentation/1.18/api_reference/#backupconfiguration
 backup: {}
-  # BackupConfiguration defines how the backup of the cluster are taken.
-  # Currently the only supported backup method is barmanObjectStore.
-  # For details and examples refer to the Backup and Recovery section of the documentation
-  # https://cloudnative-pg.io/documentation/1.18/api_reference/#backupconfiguration
 
+# -- Podmonitor configuration
+monitoring:
+  podMonitorEnabled: false
 
-monitoring: {}
-  # MonitoringConfiguration is the type containing all the monitoring configuration for a certain cluster
-  # https://cloudnative-pg.io/documentation/1.18/api_reference/#MonitoringConfiguration
-
+# -- Environmental variables configuration
 env: {}
 
+# -- Environmental variables passed from referenced objects
 envFrom: {}
 
+# -- Logging level configuration
 logLevel: "info"
 
+# -- [Affinity] Defines info about creating affinity rules for pods https://cloudnative-pg.io/documentation/1.18/api_reference/#AffinityConfiguration
 affinity: {}
-  # AffinityConfiguration contains the info we need to create the affinity rules for Pods
-  # https://cloudnative-pg.io/documentation/1.18/api_reference/#AffinityConfiguration
 
+# -- Secrets configuration
 secrets:
-  superuserSecret: 
+  superuserSecret:
     existingSecret:
     username: postgres
     password: postgres
-  userSecret: 
+  userSecret:
     existingSecret:
     username: frinx
     password: frinx

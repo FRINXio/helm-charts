@@ -1,0 +1,18 @@
+{{- if .Values.monitoring.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    prometheus: krakend-app
+    {{- include "krakend.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "krakend.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 30s
+{{- end }}

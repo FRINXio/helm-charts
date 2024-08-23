@@ -2,7 +2,7 @@
 
 A Helm chart for Kubernetes deploying conductor-server and schellar
 
-![Version: 3.1.2](https://img.shields.io/badge/Version-3.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.1.0](https://img.shields.io/badge/AppVersion-6.1.0-informational?style=flat-square)
+![Version: 3.2.0](https://img.shields.io/badge/Version-3.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.1.0](https://img.shields.io/badge/AppVersion-6.1.0-informational?style=flat-square)
 
 ## Get Repo Info
 
@@ -39,24 +39,21 @@ helm uninstall [RELEASE_NAME]
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| dbPersistence.CONDUCTOR_DATASOURCE_SCHEMA | string | `"public"` |  |
-| dbPersistence.CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_HOST | string | `nil` |  |
+| affinity | object | `{}` | [Affinity for pod assignment](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
+| autoscaling | object | `{"enabled":false,"maxReplicas":3,"minReplicas":2,"targetCPUUtilizationPercentage":80}` | [Autoscaling parameters](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
+| conductorEnv | object | `{"CONFIG_PROP":"/app/nofile/config.properties","LOG4J_PROP":"/app/config/log4j-cluster.properties","_JAVA_OPTIONS":"-Xmx2g"}` | Conductor extra ENV |
+| dbPersistence.CONDUCTOR_DATASOURCE_SCHEMA | string | `"public"` | Database datasource schema |
+| dbPersistence.CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_HOST | string | `nil` | Conductor external payload staorage postgres hostname |
 | dbPersistence.CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD | string | `"postgresP"` |  |
-| dbPersistence.CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME | string | `"postgresU"` |  |
-| dbPersistence.POSTGRES_DATABASE | string | `"conductor"` |  |
-| dbPersistence.SPRING_DATASOURCE_HOST | string | `nil` | Datasource host |
+| dbPersistence.CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME | string | `"postgresU"` | Database credentials. Exposed when existing dbPersistence.existingSecret.secretName is empty |
+| dbPersistence.POSTGRES_DATABASE | string | `"conductor"` | Database name |
+| dbPersistence.SPRING_DATASOURCE_HOST | string | `nil` | Spring datasource hostname |
 | dbPersistence.SPRING_DATASOURCE_PASSWORD | string | `"postgresP"` |  |
 | dbPersistence.SPRING_DATASOURCE_USERNAME | string | `"postgresU"` |  |
-| dbPersistence.SPRING_SEARCHDATASOURCE_HOST | string | `nil` |  |
+| dbPersistence.SPRING_SEARCHDATASOURCE_HOST | string | `nil` | Spring search datasource hostname |
 | dbPersistence.SPRING_SEARCHDATASOURCE_PASSWORD | string | `"postgresP"` |  |
 | dbPersistence.SPRING_SEARCHDATASOURCE_USERNAME | string | `"postgresU"` |  |
-| dbPersistence.existingSecret.conductorExternalpayloadstoragePostgresPasswordKey | string | `nil` |  |
-| dbPersistence.existingSecret.conductorExternalpayloadstoragePostgresUsernameKey | string | `nil` |  |
-| dbPersistence.existingSecret.secretName | string | `nil` |  |
-| dbPersistence.existingSecret.springDatasourcePasswordKey | string | `nil` |  |
-| dbPersistence.existingSecret.springDatasourceUsernameKey | string | `nil` |  |
-| dbPersistence.existingSecret.springSearchdatasourcePasswordKey | string | `nil` |  |
-| dbPersistence.existingSecret.springSearchdatasourceUsernameKey | string | `nil` |  |
+| dbPersistence.existingSecret | object | `{"conductorExternalpayloadstoragePostgresPasswordKey":null,"conductorExternalpayloadstoragePostgresUsernameKey":null,"secretName":null,"springDatasourcePasswordKey":null,"springDatasourceUsernameKey":null,"springSearchdatasourcePasswordKey":null,"springSearchdatasourceUsernameKey":null}` | Existing database credentials |
 | fullnameOverride | string | `""` | String to fully override app name |
 | image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | image.repository | string | `"frinx/conductor-server"` | Resource-manager image repository |
@@ -71,11 +68,13 @@ helm uninstall [RELEASE_NAME]
 | ingress.schellarHosts[0].paths[0].path | string | `"/"` |  |
 | ingress.schellarHosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | ingress.tls | list | `[]` | [Ingress TLS resource](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls) |
+| monitoring | object | `{"conductorPath":"/actuator/prometheus","conductorPort":"http-conductor","enabled":false,"schellarPath":"/metrics","schellarPort":"http-schellar"}` | Monitoring configuration |
 | nameOverride | string | `""` | String to partially override app name |
 | nodeSelector | object | `{}` | [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) |
 | podAnnotations | object | `{}` | Pod annotations |
 | podSecurityContext | object | `{}` | Configure [Pods Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
-| postgresql | object | `{"architecture":"standalone","auth":{"database":"conductor","enablePostgresUser":true,"password":"postgresP","username":"postgresU"},"enabled":true,"primary":{"initdb":{"scripts":{"init_db.sql":"CREATE DATABASE schellar;\n"}}}}` | PostgreSQL chart configuration |
+| postgresql | object | `{"architecture":"standalone","auth":{"database":"conductor","enablePostgresUser":true,"password":"postgresP","username":"postgresU"},"enabled":true,"metrics":{"enabled":true,"serviceMonitor":{"enabled":true,"labels":{"prometheus":"conductor-db"}}},"primary":{"initdb":{"scripts":{"init_db.sql":"CREATE DATABASE schellar;\n"}}}}` | PostgreSQL chart configuration |
+| postgresql.metrics | object | `{"enabled":true,"serviceMonitor":{"enabled":true,"labels":{"prometheus":"conductor-db"}}}` | Database metrics configuration |
 | rbac | object | `{"WM_ADMIN_GROUPS":"NETWORK-ADMIN","WM_ADMIN_ROLES":"OWNER"}` | RBAC configuration |
 | replicaCount | int | `1` | Number of replicas of the deployment |
 | resources | object | `{}` | [Container resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/) |
@@ -102,6 +101,3 @@ helm uninstall [RELEASE_NAME]
 | utilitiesImage.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | utilitiesImage.repository | string | `"frinx/utilities-alpine"` | utilities image repository |
 | utilitiesImage.tag | string | `"1.2"` | Overrides the image tag. |
-
-----------------------------------------------
-Autogenerated from chart metadata using [helm-docs v1.14.2](https://github.com/norwoodj/helm-docs/releases/v1.14.2)

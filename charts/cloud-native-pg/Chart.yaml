@@ -3,14 +3,16 @@ name: cloud-native-pg
 description: A Helm chart for creating postgres cluster via CloudNativePG operator
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 0.0.2
+version: 0.1.0
 appVersion: 6.0.0
 maintainers:
   - name: FRINX
+    email: services@frinx.io
+    url: https://frinx.io
 annotations:
   artifacthub.io/changes: |
-    - kind: fixed
-      description: Changed default parameters for clusters
+    - kind: added
+      description: Enable cluster podmonitor for monitoring
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/348
+          url: https://github.com/FRINXio/helm-charts/pull/397

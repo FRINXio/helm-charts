@@ -3,7 +3,7 @@ name: resource-manager
 description: A Helm chart for Kubernetes deploying of the Frinx Resource-Manager
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 2.2.1
+version: 2.3.0
 appVersion: "6.1.0"
 maintainers:
   - name: FRINX
@@ -16,8 +16,13 @@ dependencies:
     version: 14.x.x
 annotations:
   artifacthub.io/changes: |
-    - kind: changed
-      description: resource-manager db_ready checks are performed using custom utilities image
+    - kind: added
+      description: Add metrics port for accessing metrics
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/408
+          url: https://github.com/FRINXio/helm-charts/pull/397
+    - kind: added
+      description: Add servicemonitor and monitoring configuration
+      links:
+        - name: GitHub PR
+          url: https://github.com/FRINXio/helm-charts/pull/397

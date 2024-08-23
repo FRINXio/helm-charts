@@ -1,0 +1,133 @@
+# Default values for frinx-machine-monitoring.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# -- Kube-prometheus-stack configuration
+kube-prometheus-stack:
+  enabled: true
+  # -- CRDs for kube-prometheus-stack to be pulled and installed
+  crds:
+    enabled: false
+
+  # -- Configure Grafana for visualisation
+  grafana:
+    enabled: true
+    fullnameOverride: "grafana"
+    adminUser: frinx
+    adminPassword: frinx123!
+
+    # -- Grafana sidecar configurations
+    sidecar:
+      dashboards:
+        # -- Folder name for storing created and imported dashboards
+        folder: /tmp/dashboards/Frinx-Machine
+        # -- ConfigMap folder annotation for dashboard recognition
+        folderAnnotation: grafana_folder
+        # -- Provider settings
+        provider:
+          allowUiUpdates: true
+          foldersFromFilesStructure: true
+
+    # -- Grafana additional datasource configurations
+    # Prometheus is defaultly set
+    additionalDataSources:
+      - name: Loki
+        access: proxy
+        type: loki
+        url: http://loki:3100
+
+  # -- NodeExporter deployment configuration
+  nodeExporter:
+    operatingSystems:
+      darwin:
+        enabled: false
+
+  # -- Prometheus Operator configuration
+  prometheus:
+    prometheusSpec:
+      # -- Selection of service monitors to be discovered and scraped by Prometheus
+      serviceMonitorSelector:
+        matchExpressions:
+          - key: app.kubernetes.io/instance
+            operator: In
+            values:
+              - frinx-machine
+              - frinx-machine-monitoring
+              - uniconfig
+              - workflow-manager
+              - oauth2-proxy
+
+      # -- Selection of pod monitors to be discovered and scraped by Prometheus
+      podMonitorSelector:
+        matchExpressions:
+          - key: cnpg.io/cluster
+            operator: In
+            values:
+              - uniconfig-postgresql
+              - postgresql
+
+# -- Loki configurations
+loki:
+  enabled: true
+  fullnameOverride: loki
+  loki:
+    config: |
+      chunk_store_config:
+        max_look_back_period: 24h
+      table_manager:
+        retention_deletes_enabled: false
+        retention_period: 24h
+
+# -- Promtail configurations
+promtail:
+  fullnameOverride: promtail
+  config:
+    clients:
+      - url: http://loki:3100/loki/api/v1/push
+    snippets:
+      pipelineStages:
+        - cri: {}
+      # @ignore
+      scrapeConfigs: |
+        - job_name: kubernetes-pods
+          pipeline_stages:
+            {{- toYaml .Values.config.snippets.pipelineStages | nindent 4 }}
+          kubernetes_sd_configs:
+            - role: pod
+              namespaces:
+                names:
+                  - {{ .Release.Namespace }}
+          relabel_configs:
+            - source_labels:
+                - __meta_kubernetes_pod_controller_name
+              regex: ([0-9a-z-.]+?)(-[0-9a-f]{8,10})?
+              action: replace
+              target_label: __tmp_controller_name
+            - source_labels:
+                - __meta_kubernetes_pod_label_app_kubernetes_io_name
+                - __meta_kubernetes_pod_label_app
+                - __tmp_controller_name
+                - __meta_kubernetes_pod_name
+              regex: ^;*([^;]+)(;.*)?$
+              action: replace
+              target_label: app
+            - source_labels:
+                - __meta_kubernetes_pod_label_app_kubernetes_io_instance
+                - __meta_kubernetes_pod_label_release
+              regex: ^;*([^;]+)(;.*)?$
+              action: replace
+              target_label: instance
+            - source_labels:
+                - __meta_kubernetes_pod_label_app_kubernetes_io_component
+                - __meta_kubernetes_pod_label_component
+              regex: ^;*([^;]+)(;.*)?$
+              action: replace
+              target_label: component
+            {{- if .Values.config.snippets.addScrapeJobLabel }}
+            - replacement: kubernetes-pods
+              target_label: scrape_job
+            {{- end }}
+            {{- toYaml .Values.config.snippets.common | nindent 4 }}
+            {{- with .Values.config.snippets.extraRelabelConfigs }}
+            {{- toYaml . | nindent 4 }}
+            {{- end }}

@@ -109,7 +109,7 @@ deployment:
   annotations: {}
 
 utilitiesImage:
-  # -- utilities image repository
+  # -- Utilities image repository
   repository: frinx/utilities-alpine
   # -- Overrides the image tag.
   tag: "1.2"
@@ -160,3 +160,12 @@ postgresql:
     password: postgresP
     database: inventory
   architecture: standalone
+
+  # -- Database metrics configuration
+  metrics:
+    enabled: true
+
+    serviceMonitor:
+      enabled: true
+      labels:
+        prometheus: inventory-db

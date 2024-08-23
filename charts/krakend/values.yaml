@@ -201,3 +201,9 @@ nginx:
     proxy_connect_timeout "3600";
     proxy_read_timeout "3600";
     proxy_send_timeout "3600";
+
+# -- Monitoring configuration
+monitoring:
+  enabled: false
+  port: 9091
+  targertPort: 9091

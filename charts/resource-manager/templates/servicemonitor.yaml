@@ -1,0 +1,17 @@
+{{- if .Values.monitoring.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    {{- include "resource-manager.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "resource-manager.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  endpoints:
+    - port: {{ .Values.monitoring.metricsPort }}
+      path: {{ .Values.monitoring.metricsPath }}
+      interval: 30s
+{{- end }}

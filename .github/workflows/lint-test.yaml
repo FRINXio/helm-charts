@@ -58,5 +58,9 @@ jobs:
         run: |
           kubectl -n ct create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=${{ secrets.DOCKERHUB_NAME }} --docker-password=${{ secrets.DOCKERHUB_PASSWORD }} --docker-email=support@frinx.io
 
+      - name: Install operators
+        run: |
+          helm install frinx-machine-operators frinx/frinx-machine-operators
+
       - name: Run chart-testing (install)
         run: ct install --config .github/lint_test_config.yaml --namespace ct
