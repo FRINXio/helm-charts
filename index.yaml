@@ -3,6 +3,28 @@ entries:
   cloud-native-pg:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Enable cluster podmonitor for monitoring
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/397
+    apiVersion: v2
+    appVersion: 6.0.0
+    created: "2024-08-23T13:55:30.673624563Z"
+    description: A Helm chart for creating postgres cluster via CloudNativePG operator
+    digest: c67345a7b5192270319524fc2e40d05646eb5d862fb25f53e8a7dea2bba5c2b9
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: cloud-native-pg
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/cloud-native-pg-0.1.0/cloud-native-pg-0.1.0.tgz
+    version: 0.1.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: Changed default parameters for clusters
           links:
@@ -12622,6 +12644,35 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/frinx-machine-0.1.0/frinx-machine-0.1.0.tgz
     version: 0.1.0
+  frinx-machine-monitoring:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-08-23T13:55:30.828585494Z"
+    dependencies:
+    - condition: kube-prometheus-stack.enabled
+      name: kube-prometheus-stack
+      repository: https://prometheus-community.github.io/helm-charts/
+      version: 60.0.0
+    - condition: loki.enabled
+      name: loki
+      repository: https://grafana.github.io/helm-charts
+      version: 2.16.0
+    - condition: loki.enabled
+      name: promtail
+      repository: https://grafana.github.io/helm-charts
+      version: 6.15.5
+    description: A Helm chart for Kubernetes monitoring
+    digest: 137ce4f2c33e569d9332035e3c0bf62b0310338aca192bbcb7eb2f8142330987
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: frinx-machine-monitoring
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-machine-monitoring-0.1.0/frinx-machine-monitoring-0.1.0.tgz
+    version: 0.1.0
   frinx-machine-operators:
   - annotations:
       artifacthub.io/changes: |
@@ -12710,6 +12761,34 @@ entries:
     - https://github.com/FRINXio/helm-charts/releases/download/frinx-machine-operators-0.1.0/frinx-machine-operators-0.1.0.tgz
     version: 0.1.0
   inventory:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Monitoring for db
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/397
+    apiVersion: v2
+    appVersion: 6.1.0
+    created: "2024-08-23T13:55:30.928251851Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deployment of the Device Inventory
+    digest: 9a2dc0b27c1f3b59144e3a069eaba9a2a6bf8420f5ae71dba7e9361b41ecd49c
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: inventory
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/inventory-6.0.2/inventory-6.0.2.tgz
+    version: 6.0.2
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
@@ -13315,6 +13394,33 @@ entries:
     - https://github.com/FRINXio/helm-charts/releases/download/inventory-1.0.0/inventory-1.0.0.tgz
     version: 1.0.0
   krakend:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Added servicemonitors and monitoring configuration
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/397
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:6.1.1
+        - name: nginx
+          image: nginx:1.27-alpine
+    apiVersion: v2
+    appVersion: 6.1.1
+    created: "2024-08-23T13:55:31.055134193Z"
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: f2a17f3efa96675a1cdfd98f92f1ee9da5e84e9cec3d455b8fc6344e3a4cc12b
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-4.1.0/krakend-4.1.0.tgz
+    version: 4.1.0
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
@@ -14465,6 +14571,38 @@ entries:
   resource-manager:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Add metrics port for accessing metrics
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/397
+        - kind: added
+          description: Add servicemonitor and monitoring configuration
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/397
+    apiVersion: v2
+    appVersion: 6.1.0
+    created: "2024-08-23T13:55:31.165230503Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 14.x.x
+    description: A Helm chart for Kubernetes deploying of the Frinx Resource-Manager
+    digest: 1c1b7eba09c99bfb200986cb1141f990aa9416869416779f7d3cf2705e82afe9
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: resource-manager
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/resource-manager-2.3.0/resource-manager-2.3.0.tgz
+    version: 2.3.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: resource-manager db_ready checks are performed using custom utilities image
           links:
@@ -15223,6 +15361,38 @@ entries:
     - https://github.com/FRINXio/helm-charts/releases/download/topology-discovery-1.0.0/topology-discovery-1.0.0.tgz
     version: 1.0.0
   uniconfig:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Added servicemonitor and monitoring configuration
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/397
+    apiVersion: v2
+    appVersion: 6.1.1
+    created: "2024-08-23T13:55:31.296775861Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: kafka.enabled
+      name: kafka
+      repository: https://charts.bitnami.com/bitnami
+      version: 25.2.0
+    description: A Helm chart for UniConfig Kubernetes deployment
+    digest: 3914c87958dba26c9be16bd900ffad92570f2dcf802fb55c225cfce0efd4e507
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: uniconfig
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniconfig-8.1.0/uniconfig-8.1.0.tgz
+    version: 8.1.0
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
@@ -16630,6 +16800,38 @@ entries:
   workflow-manager:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Added servicemonitors and monitoring configuration
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/397
+      artifacthub.io/images: |
+        - name: conductor-server
+          image: frinx/conductor-server:6.1.0
+        - name: schellar
+          image: frinx/schellar:6.1.0
+    apiVersion: v2
+    appVersion: 6.1.0
+    created: "2024-08-23T13:55:31.415228734Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    description: A Helm chart for Kubernetes deploying conductor-server and schellar
+    digest: bf30effb27e48caaecb8a4ffed54a23d8400cf77f8f30bf5582a985dd4cab0df
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: workflow-manager
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-3.2.0/workflow-manager-3.2.0.tgz
+    version: 3.2.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: workflow-manager db_ready checks are performed using custom utilities image
           links:
@@ -17040,4 +17242,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-08-19T11:04:30.995496018Z"
+generated: "2024-08-23T13:55:31.416771452Z"
