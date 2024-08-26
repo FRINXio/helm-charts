@@ -15364,6 +15364,38 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Add possibility to configure extra objects via helm chart [container, volume, extraConfigmapMounts]
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/416
+    apiVersion: v2
+    appVersion: 6.1.1
+    created: "2024-08-26T13:06:16.791857216Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.x.x
+    - condition: kafka.enabled
+      name: kafka
+      repository: https://charts.bitnami.com/bitnami
+      version: 25.2.0
+    description: A Helm chart for UniConfig Kubernetes deployment
+    digest: a4753949b3a507188c462ff63a652109d263326559c71561723968b4f4a59155
+    home: https://github.com/FRINXio/helm-charts
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: uniconfig
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/uniconfig-8.2.0/uniconfig-8.2.0.tgz
+    version: 8.2.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Added servicemonitor and monitoring configuration
           links:
             - name: GitHub PR
@@ -17242,4 +17274,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-08-23T13:55:31.416771452Z"
+generated: "2024-08-26T13:06:16.793203352Z"
