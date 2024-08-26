@@ -1,8 +1,0 @@
-{{- if (include "uniconfig.createLogbackConfigMap" .) }}
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ include "uniconfig.fullname" . }}-configmap-logback
-data:
-{{- (.Files.Glob "config/logback.xml").AsConfig | nindent 2 }}
-{{ end }}

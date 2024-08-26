@@ -2,7 +2,7 @@
 
 A Helm chart for UniConfig Kubernetes deployment
 
-![Version: 8.1.0](https://img.shields.io/badge/Version-8.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.1.1](https://img.shields.io/badge/AppVersion-6.1.1-informational?style=flat-square)
+![Version: 8.2.0](https://img.shields.io/badge/Version-8.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.1.1](https://img.shields.io/badge/AppVersion-6.1.1-informational?style=flat-square)
 
 ## Get Repo Info
 
@@ -44,17 +44,19 @@ helm uninstall [RELEASE_NAME]
 | alwaysRollAfterUpgrade | bool | `false` |  |
 | args | list | `["/opt/uniconfig-frinx/run_uniconfig.sh"]` | Uniconfig container args |
 | autoscaling | object | `{"enabled":false,"maxReplicas":100,"minReplicas":1,"targetCPUUtilizationPercentage":80,"targetMemoryUtilizationPercentage":80}` | [Autoscaling parameters](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
-| cacheConfigs | object | `{}` | global configuration of cache |
+| cacheConfigs | object | `{}` | Global configuration of cache |
 | command | list | `["/bin/sh","-c"]` | Uniconfig container command |
 | dbPersistence.CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD | string | `"admin"` |  |
 | dbPersistence.POSTGRES_HOST | string | `nil` | Database hostname |
 | dbPersistence.POSTGRES_PASSWORD | string | `"postgresP"` |  |
 | dbPersistence.POSTGRES_USERNAME | string | `"postgresU"` | Database credentials. Exposed when existing dbPersistence.existingSecret.secretName is empty |
 | dbPersistence.existingSecret | object | `{"clishellSshserverUsernamepasswordauthPasswordKey":null,"postgresPasswordKey":null,"postgresUsernameKey":null,"secretName":null}` | Existing database credentials |
-| extraEnv | object | `{"CLISHELL_SSHSERVER_ENABLED":true,"CLISHELL_SSHSERVER_INETADDRESS":"0.0.0.0","DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_PORT":5432,"DBPERSISTENCE_CONNECTION_MAXDBPOOLSIZE":300,"DBPERSISTENCE_EMBEDDEDDATABASE_ENABLED":false,"NOTIFICATIONS_ENABLED":true,"NOTIFICATIONS_KAFKA_KAFKASERVERS_0_BROKERHOST":"kafka","NOTIFICATIONS_KAFKA_KAFKASERVERS_0_BROKERLISTENINGPORT":9092,"SPRING_AUTOCONFIGURE_EXCLUDE":"org.springframework.cloud.stream.function.FunctionConfiguration","SPRING_CLOUD_BUS_ENABLED":false,"SPRING_KAFKA_BOOTSTRAPSERVERS":"http://kafka:9092","TRANSACTIONS_MAXSTOREDTRANSACTIONS":100,"TRANSACTIONS_MAXTRANSACTIONAGE":7200,"TRANSACTIONS_TRANSACTIONIDLETIMEOUT":3600,"UNICONFIG_CLOUD_CONFIG_ENABLED":false}` | Application properties |
+| extraConfigmapMounts | list | `[]` | Extra config map attached to uniconfig container |
+| extraContainers | list | `[]` | Extra containers |
+| extraEnv | object | `{"CLISHELL_SSHSERVER_ENABLED":true,"CLISHELL_SSHSERVER_INETADDRESS":"0.0.0.0","DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_PORT":5432,"DBPERSISTENCE_CONNECTION_DBNAME":"uniconfig","DBPERSISTENCE_CONNECTION_MAXDBPOOLSIZE":300,"DBPERSISTENCE_EMBEDDEDDATABASE_ENABLED":false,"NOTIFICATIONS_ENABLED":true,"NOTIFICATIONS_KAFKA_KAFKASERVERS_0_BROKERHOST":"kafka","NOTIFICATIONS_KAFKA_KAFKASERVERS_0_BROKERLISTENINGPORT":9092,"SPRING_AUTOCONFIGURE_EXCLUDE":"org.springframework.cloud.stream.function.FunctionConfiguration","SPRING_CLOUD_BUS_ENABLED":false,"SPRING_KAFKA_BOOTSTRAPSERVERS":"http://kafka:9092","TRANSACTIONS_MAXSTOREDTRANSACTIONS":100,"TRANSACTIONS_MAXTRANSACTIONAGE":7200,"TRANSACTIONS_TRANSACTIONIDLETIMEOUT":3600,"UNICONFIG_CLOUD_CONFIG_ENABLED":false}` | Application properties |
 | extraInitContainers | list | `[]` | Extra init containers |
-| extraLogbackConfigMap | string | `nil` |  |
 | extraScriptConfigMap | string | `nil` |  |
+| extraVolumes | list | `[]` | Extra volumes used in extraContainers and extraInitContainers |
 | fullnameOverride | string | `""` | String to fully override app name |
 | highAvailability.enabled | bool | `false` | Deploy extra traefik compatible resources to provide sticky session and zone loadbalancing |
 | highAvailability.hosts | list | `["uniconfig"]` | Additional traefik services which are used to forward requests to uniconfig controller with sticky session |
@@ -76,14 +78,14 @@ helm uninstall [RELEASE_NAME]
 | java | object | `{"max_mem":"10G"}` | Java max memory for Uniconfig container |
 | kafka | object | `{"fullnameOverride":"kafka","listeners":{"client":{"protocol":"PLAINTEXT"}}}` | [Kafka subchart: "https://artifacthub.io/packages/helm/bitnami/kafka"] |
 | livenessProbe | object | `{"failureThreshold":10,"timeoutSeconds":35}` | Liveness probe |
-| mibsConfigs | object | `{}` | global configuration of mibs |
+| mibsConfigs | object | `{}` | Global configuration of mibs |
 | monitoring | object | `{"enabled":false,"path":"/actuator/prometheus","port":"http"}` | Monitoring configuration |
 | nameOverride | string | `""` | String to partially override app name |
 | nodeSelector | object | `{}` | [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) |
 | podAnnotations | object | `{}` | Pod annotations |
 | podSecurityContext | object | `{}` | Configure [Pods Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
-| postgresql | object | `{"architecture":"standalone","auth":{"database":"uniconfig","enablePostgresUser":true,"password":"postgresP","username":"postgresU"},"enabled":true,"metrics":{"enabled":true,"serviceMonitor":{"enabled":true,"labels":{"prometheus":"uniconfig-db"}}}}` | Internal Postgres Database |
-| postgresql.metrics | object | `{"enabled":true,"serviceMonitor":{"enabled":true,"labels":{"prometheus":"uniconfig-db"}}}` | Database metrics configuration |
+| postgresql | object | `{"architecture":"standalone","auth":{"database":"uniconfig","enablePostgresUser":true,"password":"postgresP","username":"postgresU"},"enabled":true,"metrics":{"enabled":false,"serviceMonitor":{"enabled":true,"labels":{"prometheus":"uniconfig-db"}}}}` | Internal Postgres Database |
+| postgresql.metrics | object | `{"enabled":false,"serviceMonitor":{"enabled":true,"labels":{"prometheus":"uniconfig-db"}}}` | Database metrics configuration |
 | proxy | object | `{"config":{"HTTPS_PROXY":null,"HTTP_PROXY":null,"NO_PROXY":null},"enabled":false}` | Configure proxy settings fr unicnfig container |
 | readinessProbe | object | `{"failureThreshold":10,"timeoutSeconds":35}` | Readiness probe |
 | replicaCount | int | `1` | Number of replicas of the deployment. If you want to use more than 1 replica, must deploy it with cookie sticky sessions To create sticky session, deploy it with traefik and set highAvailability.enabled=true |
@@ -99,6 +101,6 @@ helm uninstall [RELEASE_NAME]
 | startupProbe | object | `{"failureThreshold":25,"timeoutSeconds":35}` | Startup probe |
 | tolerations | list | `[]` | [Tolerations for pod assignment](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) |
 | utilitiesImage.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
-| utilitiesImage.repository | string | `"frinx/utilities-alpine"` | utilities image repository |
+| utilitiesImage.repository | string | `"frinx/utilities-alpine"` | Utilities image repository |
 | utilitiesImage.tag | string | `"1.2"` | Overrides the image tag. |
 

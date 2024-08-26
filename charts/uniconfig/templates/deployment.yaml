@@ -17,9 +17,9 @@ spec:
         {{- if .Values.alwaysRollAfterUpgrade }}
         rollme: {{ randAlphaNum 5 | quote }}
         {{- end }}
-      {{- with .Values.podAnnotations }}
+        {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- end }}
       labels:
         {{- include "uniconfig.selectorLabels" . | nindent 8 }}
     spec:
@@ -48,13 +48,14 @@ spec:
           emptyDir: {}
         - name: {{ include "uniconfig.logs-volume" . }}
           emptyDir: {}
-        - name: {{ include "uniconfig.logback-volume" . }}
+        {{- range .Values.extraConfigmapMounts }}
+        - name: {{ .name }}
           configMap:
-            name: {{ include "uniconfig.logbackConfigMapName" . }}
-            defaultMode: 0777
-            items:
-            - key: logback.xml
-              path: logback.xml
+            name: {{ .configMapName }}
+        {{- end }}
+       {{- with .Values.extraVolumes }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
       initContainers:
         - name: check-db-ready
           image: "{{ .Values.utilitiesImage.repository }}:{{ .Values.utilitiesImage.tag }}"
@@ -229,6 +230,40 @@ spec:
             mountPath: /opt/uniconfig-frinx/log
           - name: {{ include "uniconfig.data-volume" . }}
             mountPath: /opt/uniconfig-frinx
-          - name: {{ include "uniconfig.logback-volume" . }}
-            mountPath: /opt/uniconfig-frinx/config/logback.xml
-            subPath: logback.xml
+          {{- range .Values.extraConfigmapMounts }}
+          - name: {{ .name }}
+            mountPath: {{ .mountPath }}
+            subPath: {{ .subPath | quote }}
+            readOnly: {{ .readOnly }}
+          {{- end }}
+        {{- with .Values.extraContainers }}
+        {{- range . }}
+        - name: {{ .name }}
+          image: {{ .image | quote }}
+          imagePullPolicy: {{ .imagePullPolicy | quote }}
+          {{- if .command }}
+          command:
+            {{- toYaml .command | nindent 12 }}
+          {{- end }}
+          {{- if .args }}
+          args:
+            {{- toYaml .args | nindent 12 }}
+          {{- end }}
+          {{- if .ports }}
+          ports:
+            {{- toYaml .ports | nindent 12 }}
+          {{- end }}
+          {{- if .env }}
+          env:
+            {{- toYaml .env | nindent 12 }}
+          {{- end }}
+          {{- if .resources }}
+          resources:
+            {{- toYaml .resources | nindent 12 }}
+          {{- end }}
+          {{- if .volumeMounts }}
+          volumeMounts:
+            {{- toYaml .volumeMounts | nindent 12 }}
+          {{- end }}
+        {{- end }}
+        {{- end }}
