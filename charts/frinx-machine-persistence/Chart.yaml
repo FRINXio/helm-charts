@@ -1,0 +1,38 @@
+apiVersion: v2
+name: frinx-machine-persistence
+description: |
+type: application
+version: 0.1.0
+appVersion: 6.1.0
+maintainers:
+  - name: FRINX
+dependencies:
+
+  ## Databases
+  - name: cloud-native-pg
+    alias: workflow-manager-postgres
+    repository: https://FRINXio.github.io/helm-charts
+    version: 0.0.2
+    condition: workflow-manager-postgres.enabled
+
+  - name: cloud-native-pg
+    alias: uniconfig-postgres
+    repository: https://FRINXio.github.io/helm-charts
+    version: 0.0.2
+    condition: uniconfig-postgres.enabled
+
+  - name: frinx-arango-config
+    repository: https://FRINXio.github.io/helm-charts
+    version: 4.2.0
+    condition: frinx-arango-config.enabled
+
+  - name: kafka
+    repository: https://charts.bitnami.com/bitnami
+    version: 25.2.0
+    condition: kafka.enabled
+
+  - name: postgresql
+    alias: timescale-db
+    repository: https://charts.bitnami.com/bitnami
+    version: 11.x.x
+    condition: timescale-db.enabled

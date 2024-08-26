@@ -1,0 +1,97 @@
+# Ingres configuration example for FRINX-machine services
+
+krakend:
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+      nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    hosts:
+      - host: krakend.127.0.0.1.nip.io
+        paths:
+          - path: "/"
+            pathType: ImplementationSpecific
+
+resource-manager:
+  ingress:
+    enabled: false
+    className: nginx
+    hosts:
+      - host: resource-manager.127.0.0.1.nip.io
+        paths:
+          - path: "/"
+            pathType: ImplementationSpecific
+
+workflow-manager:
+  ingress:
+    enabled: true
+    hosts:
+      - host: workflow-manager.127.0.0.1.nip.io
+        paths:
+          - path: "/"
+            pathType: ImplementationSpecific
+    schellarHosts:
+      - host: workflow-manager-schellar.127.0.0.1.nip.io
+        paths:
+          - path: "/"
+            pathType: ImplementationSpecific
+
+inventory:
+  ingress:
+    enabled: false
+    className: nginx
+    hosts:
+      - host: inventory.127.0.0.1.nip.io
+        paths:
+          - path: "/"
+            pathType: ImplementationSpecific
+
+topology-discovery:
+  ingress:
+    enabled: false
+    className: nginx
+    hosts:
+      - host: topology-discovery.127.0.0.1.nip.io
+        paths:
+          - path: "/"
+            pathType: ImplementationSpecific
+
+uniconfig:
+  ingress:
+    enabled: false
+    className: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    hosts:
+      - host: uniconfig-controller.127.0.0.1.nip.io
+        paths:
+          - path: "/"
+            pathType: ImplementationSpecific
+
+performance-monitor:
+  ingress:
+    enabled: false
+    className: nginx
+    hosts:
+      - host: performance.127.0.0.1.nip.io
+        paths:
+          - path: "/"
+            pathType: ImplementationSpecific
+
+oauth2-proxy:
+  ingress:
+    enabled: false
+    className: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    hosts:
+      - "fm.127.0.0.1.nip.io"

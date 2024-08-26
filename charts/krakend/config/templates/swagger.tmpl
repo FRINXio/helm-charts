@@ -11,7 +11,6 @@
         {{range $query_enabled, $query := .input_query_strings}} {{if gt $query_enabled 0}},{{end}} "{{$query}}" {{ end }} 
         ],
     {{end}}
-
     {{ if .extra_config }}
         "extra_config": {{ marshal .extra_config }},
     {{end}}
@@ -23,6 +22,18 @@
         "sd": "static",
         "disable_host_sanitize": false,
         "extra_config": {
+            "qos/circuit-breaker": {
+                "interval": 60,
+                "timeout": 10,
+                "max_errors": 1,
+                "name": "schellar-graphql",
+                "log_status_change": true
+            },
+            "qos/ratelimit/proxy": {
+                "max_rate": 0.5,
+                "every": "1s",
+                "capacity": 1
+            },
             "modifier/martian": {
                 "fifo.Group": {
                     "scope": ["request", "response"],

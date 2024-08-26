@@ -1,14 +1,35 @@
 {
+    "url": "swagger-ui:8080",
     "endpoints": [
         {
             "endpoint": "/api/schedule",
             "method": "POST",
-            "url_pattern": "/query"
+            "url_pattern": "/query",
+            "router_rate_limit": {
+                "client_max_rate": 10,
+                "strategy": "ip",
+                "client_capacity": "10s"
+            },
+            "proxy_rate_limit": {
+                "max_rate": 30,
+                "every": "10s",
+                "capacity": 30
+            }
         },
         {
             "endpoint": "/api/schedule",
             "method": "GET",
-            "url_pattern": "/"
+            "url_pattern": "/",
+            "router_rate_limit": {
+                "client_max_rate": 10,
+                "strategy": "ip",
+                "client_capacity": "10s"
+            },
+            "proxy_rate_limit": {
+                "max_rate": 30,
+                "every": "10s",
+                "capacity": 30
+            }
         }
     ]
 }

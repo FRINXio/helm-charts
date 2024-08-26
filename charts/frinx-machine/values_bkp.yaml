@@ -1,0 +1,175 @@
+# Global settings
+x-frinx-machine-version: &frinx-machine-version 6.1
+x-frinx-database-password: &frinx-database-password frinx-database-password
+x-frinx-image-pull-secret: &frinx-image-pull-secret regcred
+x-frinx-rbac-admin-role: &frinx-rbac-admin-role FRINXio
+
+global:
+  dbPersistence:
+    enabled: true
+    secretName: *frinx-database-password
+    secrets:
+      TD_ARANGO_USERNAME: root
+      TD_ARANGO_ROOT_PASSWORD: frinx
+      INVENTORY_POSTGRES_USERNAME: inventory_user
+      INVENTORY_POSTGRES_PASSWORD: inventory
+      RM_POSTGRES_USERNAME: resource_user
+      RM_POSTGRES_PASSWORD: resource
+      SCHELLAR_POSTGRES_USERNAME: schellar_user
+      SCHELLAR_POSTGRES_PASSWORD: schellar
+      CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME: conductor_user
+      CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD: conductor
+      SPRING_DATASOURCE_USERNAME: conductor_user
+      SPRING_DATASOURCE_PASSWORD: conductor
+      SPRING_SEARCHDATASOURCE_USERNAME: conductor_user
+      SPRING_SEARCHDATASOURCE_PASSWORD: conductor
+      UNICONFIG_POSTGRES_USERNAME: postgresU
+      UNICONFIG_POSTGRES_PASSWORD: postgresP
+      UNICONFIG_CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD: admin
+
+frinx-machine-operators:
+  enabled: false
+
+  kube-arangodb:
+    enabled: true
+
+  cloudnative-pg:
+    enabled: true
+
+  strimzi-kafka-operator:
+    enabled: true
+
+  prometheus-operator-crds:
+    enabled: true
+
+frinx-machine-monitoring:
+  enabled: false
+
+  grafana:
+    enabled: true
+
+  influxdb2:
+    enabled: true
+
+  telegraf-ds:
+    enabled: true
+
+  loki:
+    enabled: true
+
+  promtail:
+    enabled: true
+
+# Default values for FRINX-machine
+# Database configuration
+
+frinx-machine-persistence:
+  enabled: true
+
+  uniconfig-postgres:
+    enabled: true
+
+  workflow-manager-postgres:
+    enabled: true
+
+  frinx-arango-config:
+    enabled: true
+
+  kafka:
+    enabled: true
+
+  timescale-db:
+    enabled: true
+
+# Core component configuration
+frinx-machine-core:
+  enabled: true
+
+  krakend:
+    enabled: true
+
+  frinx-frontend:
+    enabled: true
+
+  resource-manager:
+    enabled: true
+
+  workflow-manager:
+    enabled: true
+
+  inventory:
+    enabled: true
+
+  topology-discovery:
+    enabled: true
+
+  uc-zone-lb:
+    enabled: true
+
+  uniconfig:
+    enabled: true
+
+  performance-monitor:
+    enabled: true
+
+  swagger-ui:
+    enabled: true
+
+  device-induction:
+    enabled: true
+
+  # Identity provider configuration
+
+oauth2-proxy:
+  enabled: false
+  fullnameOverride: "oauth2-proxy"
+
+  image:
+    repository: "frinx/oauth2-proxy"
+    tag: "6.1.0-alpine"
+
+  imagePullSecrets:
+    - name: *frinx-image-pull-secret
+
+  ingress:
+    enabled: false
+    className: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    hosts:
+      - "fm.127.0.0.1.nip.io"
+
+  config:
+    cookieSecret: create_strong_secret
+    clientSecret: ""
+    clientID: ""
+    configFile: |-
+      # DEFAULT CONFIGURATION
+      # https://oauth2-proxy.github.io/oauth2-proxy/configuration/overview
+
+      custom_sign_in_logo = "/tmp/frinx/frinx.png"
+      upstreams = ["http://krakend:8080"]
+
+      cookie_secure = true
+      cookie_expire = 0
+      pass_authorization_header = false
+      proxy_websockets = true
+
+      scope = "user:email read:org groups"
+      email_domains = [ "*" ]
+
+      # DEPENDS ON DEPLOYMENT SETUP, INGRESS CONFIGURATION
+      cookie_domains = [ "fm.127.0.0.1.nip.io" ]
+      whitelist_domains = [ "fm.127.0.0.1.nip.io" ]
+
+      # IDENTITY PROVIDER CONFIGURATION
+      # https://oauth2-proxy.github.io/oauth2-proxy/configuration/providers/
+      # Configuration example with github
+
+      github_org = "FRINXio"
+      provider = "github"
+      login_url = "https://github.com/login/oauth/authorize"
+      redirect_url = "https://fm.127.0.0.1.nip.io/oauth2/callback"

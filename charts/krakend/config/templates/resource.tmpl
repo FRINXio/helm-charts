@@ -1,4 +1,4 @@
-{{range $index, $element := .}}
+{{range $index, $element := .endpoints}}
 {{if gt $index 0}},{{end}}
 {
     "endpoint": "{{ .endpoint }}",

@@ -1,0 +1,74 @@
+apiVersion: v2
+name: frinx-machine-core
+description: |
+  FRINX Machine is a dockerized deployment of multiple elements. The FRINX Machine enables large scale automation of network devices, services and retrieval of operational state data from a network.
+  User specific workflows are designed through the use of OpenConfig NETCONF & YANG models, vendor native models, and the CLI.
+  The FRINX Machine uses dockerized containers that are designed and tested to work together to create a user specific solution.
+  Further information is available on [docs.frinx.io](https://docs.frinx.io/frinx-machine/getting-started/).
+icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+type: application
+version: 0.1.0
+appVersion: 6.1.0
+maintainers:
+  - name: FRINX
+dependencies:
+  ## Services
+  - name: krakend
+    repository: file://../krakend
+    # repository: https://FRINXio.github.io/helm-charts
+    version: 4.0.0
+    condition: krakend.enabled
+
+  - name: frinx-frontend
+    repository: https://FRINXio.github.io/helm-charts
+    version: 4.1.0
+    condition: frinx-frontend.enabled
+
+  - name: resource-manager
+    repository: https://FRINXio.github.io/helm-charts
+    version: 2.1.0
+    condition: resource-manager.enabled
+
+  - name: workflow-manager
+    repository: https://FRINXio.github.io/helm-charts
+    version: 3.1.1
+    condition: workflow-manager.enabled
+
+  - name: inventory
+    repository: file://../inventory
+    # repository: https://FRINXio.github.io/helm-charts
+    version: 6.0.0
+    condition: inventory.enabled
+
+  - name: traefik
+    alias: uc-zone-lb
+    repository: https://traefik.github.io/charts
+    version: 27.0.2
+    condition: uc-zone-lb.enabled
+
+  - name: uniconfig
+    repository: file://../uniconfig
+    # repository: https://FRINXio.github.io/helm-charts
+    version: 8.0.0
+    condition: uniconfig.enabled
+
+  - name: topology-discovery
+    repository: https://FRINXio.github.io/helm-charts
+    version: 3.1.0
+    condition: topology-discovery.enabled
+
+  - name: performance-monitor
+    repository: https://FRINXio.github.io/helm-charts
+    version: 0.1.3
+    condition: performance-monitor.enabled
+
+  - name: swagger-ui
+    repository: https://FRINXio.github.io/helm-charts
+    version: 0.1.1
+    condition: swagger-ui.enabled
+
+  - name: worker
+    alias: device-induction
+    repository: https://FRINXio.github.io/helm-charts
+    version: 4.0.0
+    condition: device-induction.enabled

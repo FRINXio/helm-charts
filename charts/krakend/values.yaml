@@ -64,6 +64,7 @@ nginxContainerSecurityContext:
     drop:
       - ALL
 
+# Configure the [Service resource](https://kubernetes.io/docs/concepts/services-networking/service/)
 service:
   # -- Service type
   type: ClusterIP
@@ -73,6 +74,8 @@ service:
   targetPort: 8080
   # -- Node port
   nodePort: 30000
+  # -- Internal port is used to bypass auth validation
+  internalPort: 8081
 
 # Configure the [Ingress resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 ingress:
@@ -94,6 +97,28 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
+
+# Configure the [Ingress resource](https://kubernetes.io/docs/concepts/services-networking/ingress/) for development purposes
+internalIngress:
+  # -- Enable ingress
+  enabled: false
+  # -- IngressClass that will be be used to implement the Ingress
+  className: ""
+  # -- Additional labels for the Ingress resource
+  labels: {}
+  # -- Additional annotations for the Ingress resource
+  annotations: {}
+  # -- [Ingress Host](https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource)
+  hosts:
+    - host: chart-example-dev.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
 
 # -- [Container resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/)
 resources:
@@ -174,7 +199,7 @@ rbac:
 
 # -- Simulate USER credentials
 debug:
-  enabled: false
+  enabled: true
   x_forwarded_roles: "owner"
   x_forwarded_groups: "network-admin"
   x_forwarded_user: "frinx-admin-user"
@@ -192,6 +217,17 @@ volumes:
       accessKey:
 
 nginx:
+  rateLimits:
+    # -- [limit_req_dry_run](https://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req_dry_run)
+    dryRun: false
+    # -- [limit_req_status](https://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req_status)
+    statusCode: 429
+    # -- [limit_req_zone](https://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req_zone)
+    zoneRate:
+      auth: "20r/s"
+      ws:  "10r/s"
+      api: "100r/s"
+
 # -- Nginx server configuration
   server: |
     client_body_buffer_size "8k";
@@ -201,9 +237,3 @@ nginx:
     proxy_connect_timeout "3600";
     proxy_read_timeout "3600";
     proxy_send_timeout "3600";
-
-# -- Monitoring configuration
-monitoring:
-  enabled: false
-  port: 9091
-  targertPort: 9091

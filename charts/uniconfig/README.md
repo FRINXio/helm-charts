@@ -53,7 +53,6 @@ helm uninstall [RELEASE_NAME]
 | dbPersistence.existingSecret | object | `{"clishellSshserverUsernamepasswordauthPasswordKey":null,"postgresPasswordKey":null,"postgresUsernameKey":null,"secretName":null}` | Existing database credentials |
 | extraEnv | object | `{"CLISHELL_SSHSERVER_ENABLED":true,"CLISHELL_SSHSERVER_INETADDRESS":"0.0.0.0","DBPERSISTENCE_CONNECTION_DATABASELOCATIONS_0_PORT":5432,"DBPERSISTENCE_CONNECTION_MAXDBPOOLSIZE":300,"DBPERSISTENCE_EMBEDDEDDATABASE_ENABLED":false,"NOTIFICATIONS_ENABLED":true,"NOTIFICATIONS_KAFKA_KAFKASERVERS_0_BROKERHOST":"kafka","NOTIFICATIONS_KAFKA_KAFKASERVERS_0_BROKERLISTENINGPORT":9092,"SPRING_AUTOCONFIGURE_EXCLUDE":"org.springframework.cloud.stream.function.FunctionConfiguration","SPRING_CLOUD_BUS_ENABLED":false,"SPRING_KAFKA_BOOTSTRAPSERVERS":"http://kafka:9092","TRANSACTIONS_MAXSTOREDTRANSACTIONS":100,"TRANSACTIONS_MAXTRANSACTIONAGE":7200,"TRANSACTIONS_TRANSACTIONIDLETIMEOUT":3600,"UNICONFIG_CLOUD_CONFIG_ENABLED":false}` | Application properties |
 | extraInitContainers | list | `[]` | Extra init containers |
-| extraLogbackConfigMap | string | `nil` |  |
 | extraScriptConfigMap | string | `nil` |  |
 | fullnameOverride | string | `""` | String to fully override app name |
 | highAvailability.enabled | bool | `false` | Deploy extra traefik compatible resources to provide sticky session and zone loadbalancing |

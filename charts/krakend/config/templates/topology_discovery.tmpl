@@ -19,7 +19,21 @@
         "disable_host_sanitize": false,
         "host": [
             "topology-discovery:5000"
-        ]
+        ],
+        "extra_config": {
+            "qos/circuit-breaker": {
+                "interval": 60,
+                "timeout": 10,
+                "max_errors": 1,
+                "name": "schellar-graphql",
+                "log_status_change": true
+            },
+            "qos/ratelimit/proxy": {
+                "max_rate": 0.5,
+                "every": "1s",
+                "capacity": 1
+            }
+        }
     }
 ]
 }

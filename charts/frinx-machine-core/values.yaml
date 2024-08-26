@@ -1,0 +1,505 @@
+# Global settings
+x-frinx-machine-version: &frinx-machine-version 6.1
+x-frinx-database-password: &frinx-database-password frinx-database-password
+x-frinx-image-pull-secret: &frinx-image-pull-secret regcred
+x-frinx-rbac-admin-role: &frinx-rbac-admin-role FRINXio
+
+global:
+  dbPersistence:
+    enabled: true
+    secretName: *frinx-database-password
+    secrets:
+      TD_ARANGO_USERNAME: root
+      TD_ARANGO_ROOT_PASSWORD: frinx
+      INVENTORY_POSTGRES_USERNAME: inventory_user
+      INVENTORY_POSTGRES_PASSWORD: inventory
+      RM_POSTGRES_USERNAME: resource_user
+      RM_POSTGRES_PASSWORD: resource
+      SCHELLAR_POSTGRES_USERNAME: schellar_user
+      SCHELLAR_POSTGRES_PASSWORD: schellar
+      CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME: conductor_user
+      CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD: conductor
+      SPRING_DATASOURCE_USERNAME: conductor_user
+      SPRING_DATASOURCE_PASSWORD: conductor
+      SPRING_SEARCHDATASOURCE_USERNAME: conductor_user
+      SPRING_SEARCHDATASOURCE_PASSWORD: conductor
+      UNICONFIG_POSTGRES_USERNAME: postgresU
+      UNICONFIG_POSTGRES_PASSWORD: postgresP
+      UNICONFIG_CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD: admin
+
+# Core component configuration
+
+krakend:
+  enabled: true
+  fullnameOverride: "krakend"
+  replicaCount: 1
+
+  ingress:
+    enabled: false
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    hosts:
+      - host: krakend.127.0.0.1.nip.io
+        paths:
+          - path: "/"
+            pathType: ImplementationSpecific
+
+  image:
+    repository: "frinx/krakend"
+    tag: "6.1.1"
+
+  proxyImage:
+    repository: "nginx"
+    tag: "1.25.4-alpine"
+
+  rbac:
+    UNICONFIG_CONTROLLER_ADMIN_GROUP: *frinx-rbac-admin-role
+    INVENTORY_ADMIN_GROUP: *frinx-rbac-admin-role
+    ADMIN_ACCESS_ROLE: *frinx-rbac-admin-role
+    X_AUTH_USER_GROUP: *frinx-rbac-admin-role
+
+  debug:
+    # This setting should be disabled in production
+    enabled: true
+    x_forwarded_roles: *frinx-rbac-admin-role
+    x_forwarded_groups: *frinx-rbac-admin-role
+    x_forwarded_user: "frinx-admin-user"
+
+  # resources:
+  #   limits:
+  #     cpu: 200m
+  #     memory: 128Mi
+  #   requests:
+  #     cpu: 10m
+  #     memory: 64Mi
+
+  # nginxResources:
+  #   limits:
+  #     cpu: 200m
+  #     memory: 128Mi
+  #   requests:
+  #     cpu: 10m
+  #     memory: 64Mi
+
+frinx-frontend:
+  enabled: true
+  fullnameOverride: "frinx-frontend"
+
+  image:
+    repository: "frinx/frinx-frontend"
+    tag: "6.1.0"
+
+  proxyImage:
+    name: frinx/frinx-graphql-proxy
+    tag: "6.1.0"
+
+  env:
+    AUTH_ENABLED: true
+    COMMIT_HASH: *frinx-machine-version
+
+  # resources:
+  #   limits:
+  #     cpu: 200m
+  #     memory: 128Mi
+  #   requests:
+  #     cpu: 100m
+  #     memory: 64Mi
+
+  # proxyResources:
+  #   limits:
+  #     cpu: 4
+  #     memory: 4Gi
+  #   requests:
+  #     cpu: 4
+  #     memory: 2Gi
+
+resource-manager:
+  enabled: true
+  fullnameOverride: "resource-manager"
+
+  image:
+    repository: "frinx/resource-manager"
+    tag: "6.1.0"
+
+  postgresql:
+    enabled: false
+
+  dbPersistence:
+    POSTGRES_HOST: postgresql-rw
+    POSTGRES_DATABASE: frinx
+    existingSecret:
+      secretName: *frinx-database-password
+      postgresUsernameKey: RM_POSTGRES_USERNAME
+      postgresPasswordKey: RM_POSTGRES_PASSWORD
+
+  rbac:
+    RM_ADMIN_ROLES: *frinx-rbac-admin-role
+    RM_ADMIN_GROUPS: *frinx-rbac-admin-role
+
+  # resources:
+  #   limits:
+  #     cpu: 4
+  #     memory: 2048Mi
+  #   requests:
+  #     cpu: 50m
+  #     memory: 64Mi
+
+workflow-manager:
+  enabled: true
+  fullnameOverride: "conductor-server"
+
+  image:
+    repository: "frinx/conductor-server"
+    tag: "6.1.0"
+
+  schellarImage:
+    repository: "frinx/schellar"
+    tag: "6.1.0"
+
+  postgresql:
+    enabled: false
+
+  dbPersistence:
+    SPRING_DATASOURCE_HOST: postgresql-rw
+    SPRING_SEARCHDATASOURCE_HOST: postgresql-rw
+    CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_HOST: postgresql-rw
+    POSTGRES_DATABASE: frinx
+    CONDUCTOR_DATASOURCE_SCHEMA: conductor
+    POSTGRES_DB_SCHEMA: conductor
+    existingSecret:
+      secretName: *frinx-database-password
+      conductorExternalpayloadstoragePostgresUsernameKey: CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME
+      conductorExternalpayloadstoragePostgresPasswordKey: CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD
+      springDatasourceUsernameKey: SPRING_DATASOURCE_USERNAME
+      springDatasourcePasswordKey: SPRING_DATASOURCE_PASSWORD
+      springSearchdatasourceUsernameKey: SPRING_SEARCHDATASOURCE_USERNAME
+      springSearchdatasourcePasswordKey: SPRING_SEARCHDATASOURCE_PASSWORD
+
+  schellarDbPersistence:
+    POSTGRES_HOST: postgresql-rw
+    POSTGRES_DATABASE: frinx
+    existingSecret:
+      secretName: *frinx-database-password
+      postgresUsernameKey: SCHELLAR_POSTGRES_USERNAME
+      postgresPasswordKey: SCHELLAR_POSTGRES_PASSWORD
+
+  rbac:
+    WM_ADMIN_ROLES: *frinx-rbac-admin-role
+    WM_ADMIN_GROUPS: *frinx-rbac-admin-role
+
+  # resources: 
+  #   limits:
+  #     cpu: 5000m
+  #     memory: 5Gi
+  #   requests:
+  #     cpu: 100m
+  #     memory: 1Gi
+      
+  # schellarResources:
+  #   limits:
+  #     cpu: 150m
+  #     memory: 128Mi
+  #   requests:
+  #     cpu: 20m
+  #     memory: 64Mi
+
+inventory:
+  enabled: true
+  fullnameOverride: "inventory"
+
+  image:
+    repository: "frinx/frinx-inventory-server"
+    tag: "6.1.0"
+
+  postgresql:
+    enabled: false
+
+  dbPersistence:
+    POSTGRES_HOST: "postgresql-rw"
+    POSTGRES_DATABASE: frinx
+    POSTGRES_DB_SCHEMA: inventory
+    existingSecret:
+      secretName: *frinx-database-password
+      postgresUsernameKey: INVENTORY_POSTGRES_USERNAME
+      postgresPasswordKey: INVENTORY_POSTGRES_PASSWORD
+
+  # extraEnv:
+  #   NODE_ENV: 'development'
+
+  # resources: 
+  #   limits:
+  #     cpu: 500m
+  #     memory: 2Gi
+  #   requests:
+  #     cpu: 100m
+  #     memory: 256Mi
+
+topology-discovery:
+  enabled: true
+  fullnameOverride: "topology-discovery"
+
+  image:
+    repository: "frinx/topology-discovery"
+    tag: "6.2.5"
+
+  imagePullSecrets:
+    - name: *frinx-image-pull-secret
+
+  dbPersistence:
+    existingSecret:
+      secretName: *frinx-database-password
+      arangoUsernameKey: TD_ARANGO_USERNAME
+      arangoRootPasswordKey: TD_ARANGO_ROOT_PASSWORD
+
+  env:
+    X_AUTH_USER_GROUP: *frinx-rbac-admin-role
+
+  # resources: 
+  #   limits:
+  #     cpu: 500m
+  #     memory: 2Gi
+  #   requests:
+  #     cpu: 100m
+  #     memory: 512Mi
+
+  # kafkaClientResources:
+  #   limits:
+  #     cpu: 50m
+  #     memory: 128Mi
+  #   requests:
+  #     cpu: 50m
+  #     memory: 128Mi
+
+uc-zone-lb:
+  enabled: true
+  fullnameOverride: "uc-zone-lb"
+
+  ingressClass:
+    enabled: false
+
+  service:
+    enabled: false
+
+  providers:
+    kubernetesIngress:
+      enabled: false
+
+    kubernetesCRD:
+      enabled: true
+
+  additionalArguments:
+    - "--entryPoints.uniconfig.address=:8181"
+    - "--entryPoints.uniconfig.http.encodequerysemicolons=true"
+    - "--log.level=DEBUG"
+
+  ports:
+    uniconfig:
+      port: 8181
+      expose: false
+      exposedPort: 8181
+      protocol: TCP
+
+  # resources: 
+  #   limits:
+  #     cpu: 250m
+  #     memory: 256Mi
+  #   requests:
+  #     cpu: 50m
+  #     memory: 128Mi
+
+uniconfig:
+  enabled: true
+  fullnameOverride: "uniconfig-controller"
+
+  replicaCount: 1
+
+  image:
+    repository: "frinx/uniconfig"
+    tag: "6.1.1"
+
+  imagePullSecrets:
+    - name: *frinx-image-pull-secret
+
+  postgresql:
+    enabled: false
+
+  kafka:
+    enabled: false
+
+  dbPersistence:
+    POSTGRES_HOST: "uniconfig-postgresql-rw"
+    existingSecret:
+      secretName: *frinx-database-password
+      postgresUsernameKey: UNICONFIG_POSTGRES_USERNAME
+      postgresPasswordKey: UNICONFIG_POSTGRES_PASSWORD
+      clishellSshserverUsernamepasswordauthPasswordKey: UNICONFIG_CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD
+
+  securityContext:
+    capabilities:
+      add:
+        - NET_BIND_SERVICE
+        - NET_RAW
+      drop:
+        - ALL
+
+  highAvailability:
+    enabled: true
+    traefik:
+      selectorName: uc-zone-lb
+    stickyCookie:
+      name: uniconfig_server_id
+      httpOnly: true
+      secure: false
+      sameSite: strict
+    # Expose extra service into traefik lb with sticky cookies
+    # Service name must be uniqie in FM installation
+    hosts:
+      - uniconfig
+
+  # resources:
+  #   limits:
+  #     cpu: 2000m
+  #     memory: 12Gi
+  #   requests:
+  #     cpu: 100m
+  #     memory: 5Gi
+
+performance-monitor:
+  enabled: true
+  fullnameOverride: performance-monitor
+
+  image:
+    repository: frinx/performance-monitor
+    tag: "6.0.3"
+
+  imagePullSecrets:
+    - name: *frinx-image-pull-secret
+
+  kafka:
+    enabled: false
+
+  postgresql:
+    enabled: false
+
+  dbPersistence:
+    POSTGRES_HOST: timescale-db
+    POSTGRES_USERNAME: postgresU
+    POSTGRES_PASSWORD: postgresP
+
+  # resources: 
+  #   limits:
+  #     cpu: 250m
+  #     memory: 512Mi
+  #   requests:
+  #     cpu: 50m
+  #     memory: 256Mi
+
+swagger-ui:
+  enabled: true
+  fullnameOverride: "swagger-ui"
+
+  env:
+    URLS: "[{ url: \"./api/workflow-manager.json\", name: \"WorkflowManager\"}, { url: \"./api/uniconfig.yaml\", name: \"Uniconfig\"}]"
+
+  manageApiDocs:
+    workflow-manager:
+      enabled: true
+      fetch:
+        url: http://conductor-server:8080/v3/api-docs
+        file: workflow-manager.json
+      formatConfigMap: workflow-manager-filter
+    uniconfig:
+      enabled: true
+      fetch:
+        url: http://uniconfig:8181/rests/openapi/uniconfig
+        file: uniconfig.yaml
+      formatConfigMap: uniconfig-filter
+
+  extraConfigMaps:
+    uniconfig-filter:
+      enabled: true
+      server:
+        url: /api/uniconfig
+    workflow-manager-filter:
+      enabled: true
+      server:
+        url: /api/workflow
+      api:
+        rewrite:
+          from: ^/api/
+          to: "/"
+        whitelist:
+          "/api/metadata/taskdefs":
+            - "get"
+            - "post"
+            - "put"
+          "/api/metadata/taskdefs/{name}":
+            - "get"
+            - "delete"
+          "/api/metadata/workflow":
+            - "get"
+            - "post"
+            - "put"
+          "/api/metadata/workflow/{name}":
+            - "get"
+          "/api/metadata/workflow/{name}/{version}":
+            - "delete"
+          "/api/workflow/{name}":
+            - "delete"
+          "/api/workflow/{workflowId}/remove":
+            - "delete"
+          "/api/workflow":
+            - "post"
+          "/api/event":
+            - "get"
+            - "post"
+          "/api/event/{name}":
+            - "delete"
+            - "get"
+          "/api/workflow/bulk/pause":
+            - "put"
+          "/api/workflow/bulk/resume":
+            - "put"
+          "/api/workflow/bulk/retry":
+            - "post"
+          "/api/workflow/bulk/restart":
+            - "post"
+          "/api/workflow/bulk/terminate":
+            - "post"
+          "/api/external/postgres/{externalPayloadPath}":
+            - "get"
+          "/health":
+            - "get"
+
+  # resources: 
+  #   limits:
+  #     cpu: 50m
+  #     memory: 64Mi
+  #   requests:
+  #     cpu: 10m
+  #     memory: 64Mi
+
+device-induction:
+  enabled: true
+
+  fullnameOverride: "device-induction"
+
+  image:
+    repository: frinx/device-induction
+    tag: "0.6.4"
+
+  imagePullSecrets:
+    - name: *frinx-image-pull-secret
+
+  env:
+    X_AUTH_USER_GROUP: *frinx-rbac-admin-role
+    DEVI_DEVICE_AUTHENTICATION__DEFAULT_USERNAME: admin
+    DEVI_DEVICE_AUTHENTICATION__DEFAULT_PASSWORD: admin
+
+  # resources: 
+  #   limits:
+  #     cpu: 1000m
+  #     memory: 1Gi
+  #   requests:
+  #     cpu: 500m
+  #     memory: 256Mi

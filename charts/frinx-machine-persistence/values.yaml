@@ -1,0 +1,205 @@
+# Global settings
+x-frinx-database-password: &frinx-database-password frinx-database-password
+
+global:
+  dbPersistence:
+    enabled: false
+    secretName: *frinx-database-password
+    secrets:
+      TD_ARANGO_USERNAME: root
+      TD_ARANGO_ROOT_PASSWORD: frinx
+      INVENTORY_POSTGRES_USERNAME: inventory_user
+      INVENTORY_POSTGRES_PASSWORD: inventory
+      RM_POSTGRES_USERNAME: resource_user
+      RM_POSTGRES_PASSWORD: resource
+      SCHELLAR_POSTGRES_USERNAME: schellar_user
+      SCHELLAR_POSTGRES_PASSWORD: schellar
+      CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_USERNAME: conductor_user
+      CONDUCTOR_EXTERNALPAYLOADSTORAGE_POSTGRES_PASSWORD: conductor
+      SPRING_DATASOURCE_USERNAME: conductor_user
+      SPRING_DATASOURCE_PASSWORD: conductor
+      SPRING_SEARCHDATASOURCE_USERNAME: conductor_user
+      SPRING_SEARCHDATASOURCE_PASSWORD: conductor
+      UNICONFIG_POSTGRES_USERNAME: postgresU
+      UNICONFIG_POSTGRES_PASSWORD: postgresP
+      UNICONFIG_CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD: admin
+
+# Monitoring
+
+uniconfig-postgres:
+  enabled: false
+  name: uniconfig-postgresql
+  imageName: "ghcr.io/cloudnative-pg/postgresql:12.18"
+
+  bootstrap:
+    initdb:
+      database: uniconfig
+      owner: postgresU
+
+  postgresql:
+    parameters:
+      max_connections: "300"
+
+  storage:
+    size: 10Gi
+    resizeInUseVolumes: true
+
+  secrets:
+    superuserSecret:
+      username: postgres
+      password: postgres
+    userSecret:
+      username: postgresU
+      password: postgresP
+
+  resources:
+    limits:
+      cpu: 2
+      memory: 1Gi
+    requests:
+      cpu: 2
+      memory: 1Gi
+
+workflow-manager-postgres:
+  enabled: false
+  name: postgresql
+  imageName: "ghcr.io/cloudnative-pg/postgresql:12.18"
+
+  bootstrap:
+    initdb:
+      postInitApplicationSQLRefs:
+        secretRefs:
+          - name: postgresql-post-init-sql-secret
+            key: secret.sql
+
+  postgresql:
+    parameters:
+      max_connections: "300"
+
+  storage:
+    size: 100Gi
+    resizeInUseVolumes: true
+
+  secrets:
+    superuserSecret:
+      username: postgres
+      password: postgres
+    userSecret:
+      username: frinx
+      password: postgres
+    postInitSqlSecret:
+      sql: |-
+        CREATE ROLE schellar LOGIN PASSWORD 'schellar';
+        GRANT CONNECT ON DATABASE frinx TO schellar;
+        CREATE USER schellar_user WITH PASSWORD 'schellar';
+        GRANT schellar TO schellar_user;
+        CREATE SCHEMA schellar AUTHORIZATION schellar;
+        ALTER ROLE schellar SET search_path=schellar;
+        ALTER USER schellar_user SET search_path TO schellar;
+        CREATE ROLE inventory LOGIN PASSWORD 'inventory';
+        GRANT CONNECT ON DATABASE frinx TO inventory;
+        CREATE USER inventory_user WITH PASSWORD 'inventory';
+        GRANT inventory TO inventory_user;
+        CREATE SCHEMA inventory AUTHORIZATION inventory;
+        ALTER ROLE inventory SET search_path=inventory;
+        ALTER USER inventory_user SET search_path TO inventory;
+        CREATE ROLE conductor LOGIN PASSWORD 'conductor';
+        GRANT CONNECT ON DATABASE frinx TO conductor;
+        CREATE USER conductor_user WITH PASSWORD 'conductor';
+        GRANT conductor TO conductor_user;
+        CREATE SCHEMA conductor AUTHORIZATION conductor;
+        CREATE SCHEMA archive AUTHORIZATION conductor;
+        CREATE SCHEMA external AUTHORIZATION conductor;
+        ALTER ROLE conductor SET search_path=public,conductor,archive,external;
+        ALTER USER conductor_user SET search_path TO conductor,archive,external;
+        CREATE ROLE resource LOGIN PASSWORD 'resource';
+        GRANT CONNECT ON DATABASE frinx TO resource;
+        CREATE USER resource_user WITH PASSWORD 'resource';
+        GRANT resource TO resource_user;
+        CREATE SCHEMA resource AUTHORIZATION resource;
+        ALTER ROLE resource SET search_path=resource;
+        ALTER USER resource_user SET search_path TO resource;
+
+  resources:
+    limits:
+      cpu: 2
+      memory: 4Gi
+    requests:
+      cpu: 2
+      memory: 4Gi
+
+frinx-arango-config:
+  enabled: false
+  arangodb_config:
+    enabled: true
+    image:
+      repository: arangodb/arangodb
+      tag: 3.11.8
+    securityContext:
+      readOnlyRootFilesystem: true
+      runAsUser: 1000
+      runAsGroup: 2000
+      fsGroup: 3000
+
+    resources:
+      limits:
+        cpu: 2
+        memory: 1024M
+      requests:
+        cpu: 500m
+        memory: 512M
+
+kafka:
+  enabled: false
+  fullnameOverride: kafka
+  listeners:
+    client:
+      protocol: PLAINTEXT
+
+  controller:
+    replicaCount: 1
+
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 1024M
+      requests:
+        cpu: 500m
+        memory: 512M
+
+  configurationOverrides:
+    log.retention.hours: 168
+  persistence:
+    enabled: true
+    size: 10Gi
+
+  provisioning:
+    enabled: true
+    topics:
+      - name: device-inventory
+        partitions: 1
+        replicationFactor: 1
+        config:
+          max.message.bytes: 64000
+          flush.messages: 1
+
+timescale-db:
+  enabled: false
+
+  fullnameOverride: timescale-db
+
+  image:
+    repository: timescale/timescaledb-ha
+    tag: pg16-ts2.15-all
+
+  auth:
+    enablePostgresUser: true
+    username: postgresU
+    password: postgresP
+    database: performancemonitor
+  architecture: standalone
+  primary:
+    initdb:
+      scripts:
+        init_db.sql: |
+          CREATE EXTENSION IF NOT EXISTS timescaledb;

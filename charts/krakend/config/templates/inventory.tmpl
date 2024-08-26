@@ -11,6 +11,18 @@
         {{range $query_enabled, $query := .input_query_strings}} {{if gt $query_enabled 0}},{{end}} "{{$query}}" {{ end }} 
         ],
     {{end}}
+
+    "extra_config": {
+      "qos/ratelimit/router": {
+          "max_rate": 30,
+          "every": "5s",
+          "client_max_rate": 5,
+          "strategy": "ip",
+          "capacity": 30,
+          "client_capacity": 5
+      }
+    },
+
     "backend": [
     {
         "url_pattern": "{{ .url_pattern }}",
@@ -19,7 +31,21 @@
         "disable_host_sanitize": false,
         "host": [
             "inventory:8000"
-        ]
+        ],
+        "extra_config": {
+            "qos/circuit-breaker": {
+                "interval": 60,
+                "timeout": 10,
+                "max_errors": 1,
+                "name": "inventory-graphql",
+                "log_status_change": true
+            },
+            "qos/ratelimit/proxy": {
+                "max_rate": 30,
+                "every": "5s",
+                "capacity": 30
+            }
+        }
     }
 ]
 }

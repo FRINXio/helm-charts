@@ -1,0 +1,89 @@
+# e2e specific values for FRINX-machine.
+
+externalsecret:
+  enabled: true
+  secretstorename: vault-backend 
+
+postgresql:
+  primary:
+    resources:
+      limits:
+        memory: 500Mi
+        cpu: 500m
+
+resource-manager:
+  resources:
+    limits:
+      cpu: 300m
+      memory: 100Mi
+    requests:
+      cpu: 300m
+      memory: 100Mi
+
+workflow-manager:
+  resources:
+    limits:
+      cpu: 5000m
+      memory: 5Gi
+    requests:
+      cpu: 4000m
+      memory: 4000Mi
+
+inventory:
+  resources:
+    limits:
+      memory: 500Mi
+      cpu: 500m
+  env:
+    TOPOLOGY_ENABLED: true
+
+uniconfig-postgresql:
+  primary:
+    resources:
+      limits:
+        memory: 500Mi
+        cpu: 500m
+
+uniconfig:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 10Gi
+    limits:
+      cpu: 2000m
+      memory: 12Gi
+
+grafana:
+  enabled: false
+influxdb:
+  enabled: false
+telegraf-ds:
+  enabled: false
+loki:
+  enabled: false
+
+topology-discovery:
+  enabled: true
+  env:
+    IMPORT_ARANGO_DEMO_DATA: true
+
+frinx-arango-config:
+  enabled: true
+  arangodb_config:
+    enabled: true
+    resources:
+      requests:
+        cpu: 500m
+        memory: 1024M
+      limits:
+        cpu: 1000m
+        memory: 2048M
+
+kube-arangodb:
+  resources:
+    limits:
+      cpu: 1
+      memory: 256Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi

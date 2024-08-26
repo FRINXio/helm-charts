@@ -12,127 +12,34 @@ appVersion: 6.1.1
 maintainers:
   - name: FRINX
 dependencies:
-  # Monitoring
 
-  - name: grafana
-    repository: "https://grafana.github.io/helm-charts"
-    version: 7.3.1
-    condition: grafana.enabled
+  ## Operators
 
-  - name: frinx-grafana-configs
-    repository: "https://FRINXio.github.io/helm-charts"
-    version: 1.x.x
-    condition: grafana.enabled
+  - name: frinx-machine-operators
+    repository: file://../frinx-machine-operators
+    version: 0.2.0
+    condition: frinx-machine-operators.enabled
 
-  - name: influxdb2
-    repository: "https://helm.influxdata.com"
-    version: 2.1.2
-    condition: influxdb2.enabled
+  ## Monitoring
 
-  - name: telegraf-ds
-    repository: https://helm.influxdata.com
-    version: 1.1.24
-    condition: telegraf-ds.enabled
+  - name: frinx-machine-monitoring
+    repository: file://../frinx-machine-monitoring
+    version: 0.1.0
+    condition: frinx-machine-monitoring.enabled
 
-  - name: loki
-    repository: https://grafana.github.io/helm-charts
-    version: 2.16.0
-    condition: loki.enabled
-
-  - name: promtail
-    repository: https://grafana.github.io/helm-charts
-    version: 6.15.5
-    condition: loki.enabled
-
-  # Frinx Machine Core
-
-  ## Databases
-  - name: cloud-native-pg
-    alias: workflow-manager-postgres
-    repository: https://FRINXio.github.io/helm-charts
-    version: 0.0.2
-    condition: workflow-manager-postgres.enabled
-
-  - name: cloud-native-pg
-    alias: uniconfig-postgres
-    repository: https://FRINXio.github.io/helm-charts
-    version: 0.0.2
-    condition: uniconfig-postgres.enabled
-
-  - name: frinx-arango-config
-    repository: https://FRINXio.github.io/helm-charts
-    version: 4.2.0
-    condition: frinx-arango-config.enabled
-
-  - name: kafka
-    repository: https://charts.bitnami.com/bitnami
-    version: 25.2.0
-    condition: kafka.enabled
-
-  - name: postgresql
-    alias: timescale-db
-    repository: https://charts.bitnami.com/bitnami
-    version: 11.x.x
-    condition: timescale-db.enabled
+  ## Persistence
+  - name: frinx-machine-persistence
+    repository: file://../frinx-machine-persistence
+    version: 0.1.0
+    condition: frinx-machine-persistence.enabled
 
   ## Services
-  - name: krakend
-    repository: https://FRINXio.github.io/helm-charts
-    version: 4.0.0
-    condition: krakend.enabled
+  - name: frinx-machine-core
+    repository: file://../frinx-machine-core
+    version: 0.1.0
+    condition: frinx-machine-core.enabled
 
-  - name: frinx-frontend
-    repository: https://FRINXio.github.io/helm-charts
-    version: 4.1.0
-    condition: frinx-frontend.enabled
-
-  - name: resource-manager
-    repository: https://FRINXio.github.io/helm-charts
-    version: 2.1.0
-    condition: resource-manager.enabled
-
-  - name: workflow-manager
-    repository: https://FRINXio.github.io/helm-charts
-    version: 3.1.1
-    condition: workflow-manager.enabled
-
-  - name: inventory
-    repository: https://FRINXio.github.io/helm-charts
-    version: 6.0.0
-    condition: inventory.enabled
-
-  - name: traefik
-    alias: uc-zone-lb
-    repository: https://traefik.github.io/charts
-    version: 27.0.2
-    condition: uc-zone-lb.enabled
-
-  - name: uniconfig
-    repository: https://FRINXio.github.io/helm-charts
-    version: 8.0.0
-    condition: uniconfig.enabled
-
-  - name: topology-discovery
-    repository: https://FRINXio.github.io/helm-charts
-    version: 3.1.0
-    condition: topology-discovery.enabled
-
-  - name: performance-monitor
-    repository: https://FRINXio.github.io/helm-charts
-    version: 0.1.3
-    condition: performance-monitor.enabled
-
-  - name: swagger-ui
-    repository: https://FRINXio.github.io/helm-charts
-    version: 0.1.1
-    condition: swagger-ui.enabled
-
-  - name: worker
-    alias: device-induction
-    repository: https://FRINXio.github.io/helm-charts
-    version: 4.0.0
-    condition: device-induction.enabled
-
+  ## Oauth2-Proxy
   - name: oauth2-proxy
     repository: https://oauth2-proxy.github.io/manifests
     version: 7.7.4

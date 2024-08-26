@@ -62,7 +62,11 @@ spec:
             {{- toYaml .Values.nginxContainerSecurityContext | nindent 12 }}
           image: "{{ .Values.proxyImage.repository }}:{{ .Values.proxyImage.tag }}"
           ports:
-          - containerPort: 8080
+          - name: http
+            containerPort: {{ .Values.service.port }}
+          - name: http-internal
+            containerPort: {{ .Values.service.internalPort }}
+
           volumeMounts:
           - name: nginx-conf
             mountPath: /etc/nginx/nginx.conf
@@ -71,6 +75,8 @@ spec:
             mountPath: /var/cache/nginx
           - name: nginx-run
             mountPath: /var/run/nginx
+          resources:
+            {{- toYaml .Values.nginxResources | nindent 12 }}
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.containerSecurityContext | nindent 12 }}

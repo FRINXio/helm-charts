@@ -101,7 +101,7 @@
     {{ $wfm_enabled := env "WORKFLOW_MANAGER_ENABLED" }}
     {{ if eq $wfm_enabled "true"}}
     {{ template "workflow_manager.tmpl" .workflow_manager_settings.endpoints }},
-    {{ template "schellar.tmpl" .schellar_settings.endpoints }},
+    {{ template "schellar.tmpl" .schellar_settings }},
     {{end}}
 
     {{ $uniconfig_enabled := env "UNICONFIG_ENABLED" }}

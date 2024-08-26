@@ -2,10 +2,10 @@
 
 krakend:
   ingress:
-    enabled: false
+    enabled: true
     className: nginx
     annotations:
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
       nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
       nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
       nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
@@ -14,7 +14,6 @@ krakend:
         paths:
           - path: "/"
             pathType: ImplementationSpecific
-
 
 resource-manager:
   ingress:
@@ -28,7 +27,7 @@ resource-manager:
 
 workflow-manager:
   ingress:
-    enabled: false
+    enabled: true
     hosts:
       - host: workflow-manager.127.0.0.1.nip.io
         paths:

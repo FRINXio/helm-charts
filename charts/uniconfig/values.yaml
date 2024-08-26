@@ -135,7 +135,6 @@ autoscaling:
 
 alwaysRollAfterUpgrade: false
 extraScriptConfigMap:
-extraLogbackConfigMap:
 
 # -- global configuration of mibs
 mibsConfigs:
@@ -165,6 +164,56 @@ cacheConfigs:
 
 # -- Extra init containers
 extraInitContainers: []
+
+# -- Extra containers
+extraContainers: []
+  # - name: extra-container-1
+  #   image: nginx:1.21
+  #   imagePullPolicy: IfNotPresent
+  #   ports:
+  #     - containerPort: 8080
+  #       protocol: TCP
+  #   env:
+  #     - name: ENV_VAR_NAME
+  #       value: "env_var_value"
+  #   resources:
+  #     limits:
+  #       cpu: "100m"
+  #       memory: "128Mi"
+  #     requests:
+  #       cpu: "50m"
+  #       memory: "64Mi"
+  #   volumeMounts:
+  #     - name: config-volume
+  #       mountPath: /etc/config
+  # - name: extra-container-2
+  #   image: busybox
+  #   imagePullPolicy: IfNotPresent
+  #   command: ["sleep", "3600"]
+  #   resources:
+  #     limits:
+  #       cpu: "50m"
+  #       memory: "32Mi"
+  #   volumeMounts:
+  #     - name: data-volume
+  #       mountPath: /var/data
+
+# Extra volumes used in extraContainers and extraInitContainers
+extraVolumes:
+  - name: config-volume
+    configMap:
+      name: my-config
+  - name: data-volume
+    emptyDir: {}
+
+
+# -- Extra config map attached to uniconfig container
+extraConfigmapMounts: []
+  # - name: uniconfig-controller-logback
+  #   configMapName: uniconfig-controller-logback
+  #   mountPath: /opt/uniconfig/config/uniconfig-controller-logback.xml
+  #   subPath: ""
+  #   readOnly: false
 
 # -- Uniconfig container command
 command: ["/bin/sh", "-c"]
@@ -233,6 +282,7 @@ dbPersistence:
 # -- Application properties
 extraEnv:
   # @ignored
+  LOGGING_CONFIG: config/logback-cluster.xml
   DBPERSISTENCE_CONNECTION_DBNAME: uniconfig
   # DBPERSISTENCE CONNECTION PARAMETERS, CREDENTIALS STORED IN SECRETS
   DBPERSISTENCE_EMBEDDEDDATABASE_ENABLED: false
@@ -284,16 +334,3 @@ kafka:
     client:
       protocol: PLAINTEXT
 
-utilitiesImage:
-  # -- utilities image repository
-  repository: frinx/utilities-alpine
-  # -- Overrides the image tag.
-  tag: "1.2"
-  # -- Image pull policy
-  pullPolicy: IfNotPresent
-
-# -- Monitoring configuration
-monitoring:
-  enabled: false
-  port: http
-  path: /actuator/prometheus

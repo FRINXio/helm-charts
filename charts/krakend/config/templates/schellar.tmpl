@@ -1,3 +1,4 @@
+{{ $host := .url }}
 {{range $index, $element := .}}
 {{if gt $index 0}},{{end}}
 {
@@ -5,22 +6,39 @@
     "method": "{{ .method }}",
     "output_encoding": "no-op",
     "input_headers": [ {{ include "allowed_headers.tmpl" }} ],
-
+    "extra_config": {
+      "qos/ratelimit/router": {
+          "client_max_rate": 10,
+          "strategy": "ip",
+          "client_capacity": "10s"
+      }
+    },
     {{ if .input_query_strings }}
     "input_query_strings": [ 
         {{range $query_enabled, $query := .input_query_strings}} {{if gt $query_enabled 0}},{{end}} "{{$query}}" {{ end }} 
-        ],
+    ],
     {{end}}
-    "backend": [
+
+    "backend": [ 
     {
         "url_pattern": "{{ .url_pattern }}",
         "encoding": "no-op",
         "sd": "static",
         "disable_host_sanitize": false,
+        "extra_config": {
+
+        {{ if .proxy_rate_limit }}
+            "qos/ratelimit/proxy": {
+                "max_rate": .proxy_rate_limit.max_rate,
+                "every": .proxy_rate_limit.every,
+                "capacity": .proxy_rate_limit.capacity
+            }
+        {{end}}
+        },
+
         "host": [
-            "conductor-server:3000"
+            {{ print $host }}
         ]
-    }
-]
+    } ]
 }
 {{end}}

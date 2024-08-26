@@ -138,7 +138,7 @@ dbPersistence:
 env:
   UNICONFIG_API_PROTOCOL: http
   UNICONFIG_API_PORT: 8181
-  UNICONFIG_LIST_URL: http://krakend:8080/static/list/uniconfig
+  UNICONFIG_LIST_URL: http://krakend:8081/static/list/uniconfig
   TOPOLOGY_DISCOVERY_API_URL: http://topology-discovery:5000
   TOPOLOGY_DISCOVERY_GRAPHQL_API_URL: http://topology-discovery:5000/api/graphql
   PERFORMANCE_MONITORING_GRAPHQL_API_URL: http://performance-monitor:8000/api/graphql

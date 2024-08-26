@@ -11,7 +11,14 @@
             "encoding": "no-op",
             "disable_host_sanitize": false,
             "extra_config": {
-                {{ include "modifiers.tmpl" }}
+                {{ include "modifiers.tmpl" }},
+                "qos/circuit-breaker": {
+                    "interval": 60,
+                    "timeout": 10,
+                    "max_errors": 1,
+                    "name": "schellar-graphql",
+                    "log_status_change": true
+                }
             },
             "host": [
                 "frinx-frontend:5555"
