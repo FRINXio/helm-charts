@@ -1,4 +1,3 @@
-{{ if not .Values.volumes.azureFile.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -15,4 +14,3 @@ data:
   performance_monitor.tmpl: {{ (.Files.Get "config/templates/performance_monitor.tmpl") | quote }}
   workflow_manager.tmpl: {{ (.Files.Get "config/templates/workflow_manager.tmpl") | quote }}
   swagger.tmpl: {{ (.Files.Get "config/templates/swagger.tmpl") | quote }}
-{{ end }}

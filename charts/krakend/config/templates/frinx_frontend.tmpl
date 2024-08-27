@@ -7,12 +7,36 @@
     "output_encoding": "no-op",
     "input_headers": ["*"],
 
+    "extra_config": {
+    {{ $rate_enabled := env "RATE_LIMIT_FRINX_FRONTEND_ROUTER_ENABLED" }}
+    {{- if eq $rate_enabled "true" }}
+        "qos/ratelimit/router": {
+            "client_capacity": {{ env "RATE_LIMIT_FRINX_FRONTEND_ROUTER_CLIENTCAPACITY" }},
+            "client_max_rate": {{ env "RATE_LIMIT_FRINX_FRONTEND_ROUTER_MAXRATE" }},
+            "every": {{ env "RATE_LIMIT_FRINX_FRONTEND_ROUTER_EVERY" | quote }},
+            "strategy": "ip"
+        }
+    {{- end }}
+    },
+
     "backend": [
     {
         "url_pattern": "{{range $index_for_uri, $not_used_element2 := $.range -}} {{- if lt $index_for_uri $index_in_range -}} /{{"{"}}n_{{$index_for_uri}}{{"}" -}} {{end}}{{end}}",
         "encoding": "no-op",
         "sd": "static",
         "disable_host_sanitize": false,
+
+        "extra_config": {
+            {{ $rate_enabled := env "RATE_LIMIT_FRINX_FRONTEND_PROXY_ENABLED" }}
+            {{- if eq $rate_enabled "true" }}
+            "qos/ratelimit/proxy": {
+                "max_rate": {{ env "RATE_LIMIT_FRINX_FRONTEND_PROXY_MAXRATE" }},
+                "every": {{ env "RATE_LIMIT_FRINX_FRONTEND_PROXY_EVERY" | quote }},
+                "capacity": {{ env "RATE_LIMIT_FRINX_FRONTEND_PROXY_CAPACITY" }}
+            }
+            {{- end }}
+        },
+
         "host": [
             "frinx-frontend:8888"
         ]
@@ -26,12 +50,36 @@
     "output_encoding": "no-op",
     "input_headers": ["*"],
 
+    "extra_config": {
+    {{ $rate_enabled := env "RATE_LIMIT_FRINX_FRONTEND_ROUTER_ENABLED" }}
+    {{- if eq $rate_enabled "true" }}
+        "qos/ratelimit/router": {
+            "client_capacity": {{ env "RATE_LIMIT_FRINX_FRONTEND_ROUTER_CLIENTCAPACITY" }},
+            "client_max_rate": {{ env "RATE_LIMIT_FRINX_FRONTEND_ROUTER_MAXRATE" }},
+            "every": {{ env "RATE_LIMIT_FRINX_FRONTEND_ROUTER_EVERY" | quote }},
+            "strategy": "ip"
+        }
+    {{- end }}
+    },
+
     "backend": [
     {
         "url_pattern": "{{range $index_for_uri, $not_used_element2 := $.range -}} {{- if lt $index_for_uri $index_in_range -}} /{{"{"}}n_{{$index_for_uri}}{{"}" -}} {{end}}{{end}}",
         "encoding": "no-op",
         "sd": "static",
         "disable_host_sanitize": false,
+
+        "extra_config": {
+            {{ $rate_enabled := env "RATE_LIMIT_FRINX_FRONTEND_PROXY_ENABLED" }}
+            {{- if eq $rate_enabled "true" }}
+            "qos/ratelimit/proxy": {
+                "max_rate": {{ env "RATE_LIMIT_FRINX_FRONTEND_PROXY_MAXRATE" }},
+                "every": {{ env "RATE_LIMIT_FRINX_FRONTEND_PROXY_EVERY" | quote }},
+                "capacity": {{ env "RATE_LIMIT_FRINX_FRONTEND_PROXY_CAPACITY" }}
+            }
+            {{- end }}
+        },
+
         "host": [
             "frinx-frontend:8888"
         ]

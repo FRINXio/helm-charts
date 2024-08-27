@@ -4,6 +4,18 @@
     "output_encoding": "no-op",
     "input_headers": [ {{ include "allowed_headers.tmpl" }} ],
     
+    "extra_config": {
+    {{ $rate_enabled := env "RATE_LIMIT_FRINX_FRONTEND_PROXY_ROUTER_ENABLED" }}
+    {{- if eq $rate_enabled "true" }}
+        "qos/ratelimit/router": {
+            "client_capacity": {{ env "RATE_LIMIT_FRINX_FRONTEND_PROXY_ROUTER_CLIENTCAPACITY" }},
+            "client_max_rate": {{ env "RATE_LIMIT_FRINX_FRONTEND_PROXY_ROUTER_MAXRATE" }},
+            "every": {{ env "RATE_LIMIT_FRINX_FRONTEND_ROUTER_EVERY" | quote }},
+            "strategy": "ip"
+        }
+    {{- end }}
+    },
+
     "backend": [
         {
             "url_pattern": "/graphql",
@@ -12,6 +24,16 @@
             "disable_host_sanitize": false,
             "extra_config": {
                 {{ include "modifiers.tmpl" }}
+
+                {{ $rate_enabled := env "RATE_LIMIT_FRINX_FRONTEND_PROXY_ENABLED" }}
+                {{- if eq $rate_enabled "true" }}
+                , 
+                "qos/ratelimit/proxy": {
+                    "max_rate": {{ env "RATE_LIMIT_FRINX_FRONTEND_PROXY_PROXY_MAXRATE" }},
+                    "every": {{ env "RATE_LIMIT_FRINX_FRONTEND_PROXY_PROXY_EVERY" | quote }},
+                    "capacity": {{ env "RATE_LIMIT_FRINX_FRONTEND_PROXY_PROXY_CAPACITY" }}
+                }
+                {{- end }}
             },
             "host": [
                 "frinx-frontend:5555"

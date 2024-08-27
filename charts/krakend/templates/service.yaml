@@ -8,12 +8,19 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.targetPort }}
+      targetPort: http
       {{- if eq .Values.service.type "NodePort" }}
       nodePort: {{ .Values.service.nodePort }}
       {{- end }}
       protocol: TCP
       name: http
+    - port: {{ .Values.service.wsPort }}
+      targetPort: websocket
+      {{- if eq .Values.service.type "NodePort" }}
+      nodePort: {{ .Values.service.wsNodePort }}
+      {{- end }}
+      protocol: TCP
+      name: ws
     - port: {{ .Values.monitoring.port }}
       targetPort: {{ .Values.monitoring.targetPort }}
       protocol: TCP

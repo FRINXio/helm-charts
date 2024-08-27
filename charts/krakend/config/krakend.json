@@ -1,7 +1,7 @@
 {
   "version": 3,
   "name": "krakend for FM",
-  "port": 8000,
+  "port": {{ env "KRAKEND_PORT" }},
   "cache_ttl": "3600s",
   "tls": {
     "public_key": "/usr/local/share/ca-certificates/frinx_krakend_tls_cert.pem",
@@ -14,7 +14,7 @@
   "timeout": "{{ env "DEFAULT_TIMEOUT" }}",
   "extra_config": {
     "contribute/websocketproxy": {
-      "port": "8001",
+      "port": {{ env "WS_PORT" | quote }},
       "websockets": [
         {
           "endpoint": "/api/proxy",
@@ -29,7 +29,7 @@
             "prometheus": [
                 {
                     "name": "local_prometheus",
-                    "port": 9091,
+                    "port": {{ env "PROMETHEUS_PORT" }},
                     "process_metrics": true,
                     "go_metrics": true
                 }
