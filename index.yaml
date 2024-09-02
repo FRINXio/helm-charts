@@ -13396,6 +13396,43 @@ entries:
   krakend:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Nginx as a separate pod
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/417
+        - kind: added
+          description: Add rate limits for services
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/417
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:6.1.1
+        - name: nginx
+          image: nginx:1.27-alpine
+    apiVersion: v2
+    appVersion: 6.1.1
+    created: "2024-09-02T14:44:00.546384855Z"
+    dependencies:
+    - condition: nginx.enabled
+      name: nginx
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.x.x
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: b22ce2fcc5fb0c15889dcee198032281a276fddaf44d3c456459ceb906ab3969
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-5.0.0/krakend-5.0.0.tgz
+    version: 5.0.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Added servicemonitors and monitoring configuration
           links:
@@ -17274,4 +17311,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-08-26T13:06:16.793203352Z"
+generated: "2024-09-02T14:44:00.547773966Z"
