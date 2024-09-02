@@ -42,7 +42,10 @@ helm uninstall [RELEASE_NAME]
 | affinity | object | `{}` | [Affinity for pod assignment](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) |
 | autoscaling | object | `{"enabled":false,"maxReplicas":100,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | [Autoscaling parameters](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) |
 | containerSecurityContext | object | `{"capabilities":{"drop":["ALL"]}}` | Security context for KrakenD container |
-| debug | object | `{"enabled":true,"x_forwarded_groups":"network-admin","x_forwarded_roles":"owner","x_forwarded_user":"frinx-admin-user"}` | Simulate USER credentials |
+| debug.enabled | bool | `false` | Simulate USER RBAC headers Used when deployment is without identity provider |
+| debug.x_forwarded_groups | string | `"network-admin"` | User groups |
+| debug.x_forwarded_roles | string | `"owner"` | User roles |
+| debug.x_forwarded_user | string | `"frinx-admin-user"` | User name |
 | env | object | `{"ALLOWED_HOSTS":null,"ALLOWED_ORIGINS":null,"DEFAULT_TIMEOUT":"2m","DEVICE_TOPOLOGY_ENABLED":true,"HTTPS_PROXY":null,"HTTP_PROXY":null,"INVENTORY_ENABLED":true,"KRAKEND_TLS_PROTOCOL":"http","L3VPN_ENABLED":false,"LOG_LEVEL":"INFO","NO_PROXY":null,"OAUTH2_KRAKEND_PLUGIN_FROM_MAP":"X-Forwarded-User","OAUTH2_KRAKEND_PLUGIN_TENANT_ID":"frinx","OAUTH2_KRAKEND_PLUGIN_USER_GROUPS_MAP":"X-Forwarded-Groups","OAUTH2_KRAKEND_PLUGIN_USER_ROLES_MAP":"X-Forwarded-Roles","PERFORMANCE_MONITOR_ENABLED":true,"PROXY_ENABLED":false,"RESOURCE_MANAGER_ENABLED":true,"TLS_DISABLED":true,"UNICONFIG_ENABLED":true,"UNICONFIG_PROTOCOL":"http","UNICONFIG_TIMEOUT":"12h","UNICONFIG_ZONES_LIST":"uniconfig","WORKFLOW_MANAGER_ENABLED":true}` | Application environment variables |
 | extraEnv | list | `[]` | Additional KrakenD environment variables |
 | fullnameOverride | string | `""` | String to partially override app name |
@@ -58,7 +61,7 @@ helm uninstall [RELEASE_NAME]
 | ingress.tls | list | `[]` |  |
 | monitoring | object | `{"enabled":false,"port":9091,"targetPort":9091}` | Monitoring configuration |
 | nameOverride | string | `""` | String to partially override app name |
-| nginx.enabled | bool | `true` |  |
+| nginx.enabled | bool | `false` |  |
 | nginx.existingServerBlockConfigmap | existingServerBlockConfigmap ConfigMap with custom server block to be added to NGINX configuration | `"krakend-nginx-config"` | [https://artifacthub.io/packages/helm/bitnami/nginx?modal=values&path=existingServerBlockConfigmap] |
 | nginx.ingress | object | `{"annotations":{"nginx.ingress.kubernetes.io/force-ssl-redirect":"true","nginx.ingress.kubernetes.io/proxy-connect-timeout":"12h","nginx.ingress.kubernetes.io/proxy-read-timeout":"12h","nginx.ingress.kubernetes.io/proxy-send-timeout":"12h"},"enabled":false}` | Configure the [Nginx Ingress resource](https://artifacthub.io/packages/helm/bitnami/nginx?modal=values&path=ingress) |
 | nginx.rateLimits.dryRun | bool | `false` | [limit_req_dry_run](https://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req_dry_run) |

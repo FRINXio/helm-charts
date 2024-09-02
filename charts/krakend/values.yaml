@@ -294,11 +294,15 @@ rateLimits:
       every: "10s"
       capacity: 10
 
-# -- Simulate USER credentials
 debug:
-  enabled: true
+  # -- Simulate USER RBAC headers
+  # Used when deployment is without identity provider
+  enabled: false
+  # -- User roles
   x_forwarded_roles: "owner"
+  # -- User groups
   x_forwarded_groups: "network-admin"
+  # -- User name
   x_forwarded_user: "frinx-admin-user"
 
 # -- Additional KrakenD environment variables
@@ -311,7 +315,7 @@ monitoring:
   targetPort: 9091
 
 nginx:
-  enabled: true
+  enabled: false
 
   # -- @ignored
   fullnameOverride: krakend-nginx
