@@ -1,4 +1,3 @@
-{{ if not .Values.volumes.azureFile.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -8,4 +7,3 @@ data:
   content_header.tmpl: {{ (.Files.Get "config/partials/content_header.tmpl") | quote }}
   modifiers.tmpl: {{ (.Files.Get "config/partials/modifiers.tmpl") | quote }}
   uc_modifiers.tmpl: {{ (.Files.Get "config/partials/uc_modifiers.tmpl") | quote }}
-{{ end }}

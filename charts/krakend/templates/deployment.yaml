@@ -19,7 +19,6 @@ spec:
         checksum/config-scripts: {{ include (print $.Template.BasePath "/configmap-scripts.yaml") . | sha256sum }}
         checksum/config-settings: {{ include (print $.Template.BasePath "/configmap-settings.yaml") . | sha256sum }}
         checksum/config-templates: {{ include (print $.Template.BasePath "/configmap-templates.yaml") . | sha256sum }}
-        checksum/config-nginx: {{ include (print $.Template.BasePath "/configmap-nginx.yaml") . | sha256sum }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -42,13 +41,6 @@ spec:
         - name: templates
           configMap:
             name: {{ template "krakend.fullname" . }}-templates
-        - name: nginx-conf
-          configMap:
-            name: {{ template "krakend.fullname" . }}-nginx-config
-        - name: nginx-cache
-          emptyDir: {}
-        - name: nginx-run
-          emptyDir: {}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -57,20 +49,6 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: nginx
-          securityContext:
-            {{- toYaml .Values.nginxContainerSecurityContext | nindent 12 }}
-          image: "{{ .Values.proxyImage.repository }}:{{ .Values.proxyImage.tag }}"
-          ports:
-          - containerPort: 8080
-          volumeMounts:
-          - name: nginx-conf
-            mountPath: /etc/nginx/nginx.conf
-            subPath: nginx.conf
-          - name: nginx-cache
-            mountPath: /var/cache/nginx
-          - name: nginx-run
-            mountPath: /var/run/nginx
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.containerSecurityContext | nindent 12 }}
@@ -88,6 +66,14 @@ spec:
             - name: templates
               mountPath: /etc/krakend/templates/
           env:
+            # SERVICE PORTS
+            - name: KRAKEND_PORT
+              value: {{ .Values.service.targetPort | quote }}
+            - name: WS_PORT
+              value: {{ .Values.service.wsTargetPort | quote }}
+            - name: PROMETHEUS_PORT
+              value: {{ .Values.monitoring.targetPort | quote }}
+            # KRAKEND TEMPLATING
             - name: FC_ENABLE
               value: "1"
             - name: FC_SETTINGS
@@ -96,10 +82,9 @@ spec:
               value: "/etc/krakend/partials" 
             - name: FC_TEMPLATES
               value: "/etc/krakend/templates"
-            - name: KRAKEND_PORT
-              value: "8000"
             - name: FC_OUT
               value: "/tmp/output.json"
+            # KRAKEND TEMPLATING
             - name: LOG_LEVEL
               value: {{ .Values.env.LOG_LEVEL | quote }}
             - name: TLS_DISABLED
@@ -181,34 +166,34 @@ spec:
             - name: NO_PROXY
               value: "workflow-proxy,frinx-frontend,inventory,krakend,unistore,resource-manager,{{ .Values.env.NO_PROXY }},$(UNICONFIG_ZONES_LIST)"
             {{- end }}
+            # RATE LIMITS
+            {{- range $service_name, $service_val := .Values.rateLimits }}
+            {{- range $rate_name, $rate_val := $service_val }}
+            {{- range $name, $val := $rate_val }}
+            - name: {{ printf "rate_limit_%s_%s_%s" ( $service_name | snakecase ) $rate_name $name | upper | quote }} 
+              value: {{ $val | quote }}
+            {{- end }}
+            {{- end }}
+            {{- end }}
+            # EXTRA ENV
           {{- range $key, $val := .Values.extraEnv }}
             - name: {{ $key | quote }}
               value: {{ $val | quote }}
           {{- end }}
           ports:
             - name: http
-              containerPort: 8000
+              containerPort: {{ .Values.service.targetPort }}
               protocol: TCP
             - name: websocket
-              containerPort: 8001
+              containerPort: {{ .Values.service.wsTargetPort }}
               protocol: TCP
             - name: monitoring
-              containerPort: 9091
+              containerPort: {{ .Values.monitoring.targetPort }}
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /__health
               port: http
-            # httpGet:
-            #   path: /health
-            #   port: websocket
-          readinessProbe:
-            httpGet:
-              path: /__health
-              port: http
-            # httpGet:
-            #   path: /health
-            #   port: websocket
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

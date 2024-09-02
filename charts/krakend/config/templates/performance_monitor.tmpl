@@ -6,17 +6,45 @@
     "output_encoding": "no-op",
     "input_headers": [ {{ include "allowed_headers.tmpl" }} ],
 
-    {{ if .input_query_strings }}
-    "input_query_strings": [ 
-        {{range $query_enabled, $query := .input_query_strings}} {{if gt $query_enabled 0}},{{end}} "{{$query}}" {{ end }} 
-        ],
-    {{end}}
+    {{- if .input_query_strings }}
+    "input_query_strings": [
+        {{- range $query_enabled, $query := .input_query_strings -}}
+        {{- if gt $query_enabled 0 }},{{ end }}
+        "{{ $query }}"
+        {{- end }}
+    ],
+    {{- end }}
+
+    "extra_config": {
+    {{ $rate_enabled := env "RATE_LIMIT_PERFORMANCE_MONITOR_ROUTER_ENABLED" }}
+    {{- if eq $rate_enabled "true" }}
+        "qos/ratelimit/router": {
+            "client_capacity": {{ env "RATE_LIMIT_PERFORMANCE_MONITOR_ROUTER_CLIENTCAPACITY" }},
+            "client_max_rate": {{ env "RATE_LIMIT_PERFORMANCE_MONITOR_ROUTER_MAXRATE" }},
+            "every": {{ env "RATE_LIMIT_PERFORMANCE_MONITOR_ROUTER_EVERY" | quote }},
+            "strategy": "ip"
+        }
+    {{- end }}
+    },
+
     "backend": [
     {
         "url_pattern": "{{ .url_pattern }}",
         "encoding": "no-op",
         "sd": "static",
         "disable_host_sanitize": false,
+
+        "extra_config": {
+            {{ $rate_enabled := env "RATE_LIMIT_PERFORMANCE_MONITOR_PROXY_ENABLED" }}
+            {{- if eq $rate_enabled "true" }}
+            "qos/ratelimit/proxy": {
+                "max_rate": {{ env "RATE_LIMIT_PERFORMANCE_MONITOR_PROXY_MAXRATE" }},
+                "every": {{ env "RATE_LIMIT_PERFORMANCE_MONITOR_PROXY_EVERY" | quote }},
+                "capacity": {{ env "RATE_LIMIT_PERFORMANCE_MONITOR_PROXY_CAPACITY" }}
+            }
+            {{- end }}
+        },
+
         "host": [
             "performance-monitor:8000"
         ]
