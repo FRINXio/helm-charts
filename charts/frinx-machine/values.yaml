@@ -1,9 +1,12 @@
-# Global settings
+# Anchor settings
 x-frinx-machine-version: &frinx-machine-version 6.1
 x-frinx-database-password: &frinx-database-password frinx-database-password
 x-frinx-image-pull-secret: &frinx-image-pull-secret regcred
 x-frinx-rbac-admin-role: &frinx-rbac-admin-role FRINXio
+x-metrics-enabled: &metrics-enabled true
 
+
+# Global secrets
 global:
   dbPersistence:
     enabled: true
@@ -27,170 +30,53 @@ global:
       UNICONFIG_POSTGRES_PASSWORD: postgresP
       UNICONFIG_CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD: admin
 
+# Helm Chart dependency installation
+tags:
+  operators: false
+  monitoring: *metrics-enabled
+  database: true
+  backend: true
+
+# Operators
+
+frinx-machine-operators:
+
+  kube-arangodb:
+    enabled: true
+
+  cloudnative-pg:
+    enabled: true
+
+  prometheus-operator-crds:
+    enabled: true
+
 # Monitoring
 
-grafana:
-  enabled: true
-  fullnameOverride: "grafana"
-  adminUser: frinx
-  adminPassword: frinx123!
+frinx-machine-monitoring:
 
-  extraConfigmapMounts:
-    - name: frinx-grafana-datasources
-      mountPath: /etc/grafana/provisioning/datasources
-      subPath: ""
-      configMap: frinx-grafana-datasources
-      readOnly: false
-    - name: frinx-grafana-dashboards
-      mountPath: /etc/grafana/provisioning/dashboards
-      subPath: ""
-      configMap: frinx-grafana-dashboards
-      readOnly: false
+  kube-prometheus-stack:
+    enabled: true
 
-influxdb2:
-  enabled: true
-  fullnameOverride: influxdb
-  adminUser:
-    user: "frinx"
-    password: "frinx123!"
-    token: "eyJrIjoiN09MSVpVZjlVRG1xNHlLNXpVbmZJOXFLWU1GOXFxNEIiLCJuIjoic3Nzc3MiLCJpZCI6MX0"
-    organization: "frinx-machine"
-    bucket: "frinx"
-    retention_policy: "2d"
+    commonLabels:
+      type: frinx-machine-monitoring
 
-telegraf-ds:
-  enabled: true
-  fullnameOverride: telegraf-ds
-  env:
-    - name: NAMESPACE
-      valueFrom:
-        fieldRef:
-          fieldPath: metadata.namespace
-    - name: HOSTNAME
-      valueFrom:
-        fieldRef:
-          fieldPath: spec.nodeName
-  config:
-    docker_endpoint: ""
+    grafana:
+      enabled: true
+      fullnameOverride: "grafana"
+      adminUser: frinx
+      adminPassword: frinx123!
 
-  override_config:
-    toml: |
-      [agent]
-        collection_jitter = "0s"
-        debug = false
-        flush_interval = "10s"
-        flush_jitter = "0s"
-        hostname = "$HOSTNAME"
-        interval = "10s"
-        logfile = ""
-        metric_batch_size = 1000
-        metric_buffer_limit = 10000
-        omit_hostname = false
-        precision = ""
-        quiet = false
-        round_interval = true
-
-      [[outputs.influxdb_v2]]
-        bucket = "frinx"
-        organization = "frinx-machine"
-        token = "eyJrIjoiN09MSVpVZjlVRG1xNHlLNXpVbmZJOXFLWU1GOXFxNEIiLCJuIjoic3Nzc3MiLCJpZCI6MX0"
-        urls = ["http://influxdb"]
-
-      [[outputs.health]]
-        service_address = "http://:8080"
-
-      [[inputs.diskio]]
-      [[inputs.kernel]]
-      [[inputs.mem]]
-      [[inputs.net]]
-      [[inputs.processes]]
-      [[inputs.swap]]
-      [[inputs.system]]
-
-      [[inputs.cpu]]
-        percpu = true
-        totalcpu = true
-        collect_cpu_time = false
-        report_active = false
-
-      [[inputs.disk]]
-        ignore_fs = ["tmpfs", "devtmpfs", "devfs", "iso9660", "overlay", "aufs", "squashfs"]
-
-      [[inputs.kubernetes]]
-        url = "https://$HOSTIP:10250"
-        bearer_token = "/var/run/secrets/kubernetes.io/serviceaccount/token"
-        insecure_skip_verify = true
-        [inputs.kubernetes.tagpass]
-          namespace = [ "${NAMESPACE}" ]
-
-loki:
-  enabled: true
-  fullnameOverride: loki
   loki:
-    config: |
-      chunk_store_config:
-        max_look_back_period: 24h
-      table_manager:
-        retention_deletes_enabled: false
-        retention_period: 24h
+    enabled: true
 
-promtail:
-  fullnameOverride: promtail
-  config:
-    clients:
-      - url: http://loki:3100/loki/api/v1/push
-    snippets:
-      pipelineStages:
-        - cri: {}
-      scrapeConfigs: |
-        - job_name: kubernetes-pods
-          pipeline_stages:
-            {{- toYaml .Values.config.snippets.pipelineStages | nindent 4 }}
-          kubernetes_sd_configs:
-            - role: pod
-              namespaces:
-                names:
-                  - {{ .Release.Namespace }}
-          relabel_configs:
-            - source_labels:
-                - __meta_kubernetes_pod_controller_name
-              regex: ([0-9a-z-.]+?)(-[0-9a-f]{8,10})?
-              action: replace
-              target_label: __tmp_controller_name
-            - source_labels:
-                - __meta_kubernetes_pod_label_app_kubernetes_io_name
-                - __meta_kubernetes_pod_label_app
-                - __tmp_controller_name
-                - __meta_kubernetes_pod_name
-              regex: ^;*([^;]+)(;.*)?$
-              action: replace
-              target_label: app
-            - source_labels:
-                - __meta_kubernetes_pod_label_app_kubernetes_io_instance
-                - __meta_kubernetes_pod_label_release
-              regex: ^;*([^;]+)(;.*)?$
-              action: replace
-              target_label: instance
-            - source_labels:
-                - __meta_kubernetes_pod_label_app_kubernetes_io_component
-                - __meta_kubernetes_pod_label_component
-              regex: ^;*([^;]+)(;.*)?$
-              action: replace
-              target_label: component
-            {{- if .Values.config.snippets.addScrapeJobLabel }}
-            - replacement: kubernetes-pods
-              target_label: scrape_job
-            {{- end }}
-            {{- toYaml .Values.config.snippets.common | nindent 4 }}
-            {{- with .Values.config.snippets.extraRelabelConfigs }}
-            {{- toYaml . | nindent 4 }}
-            {{- end }}
+  promtail:
+    enabled: true
 
 # Default values for FRINX-machine
 # Database configuration
 
+
 uniconfig-postgres:
-  enabled: true
   name: uniconfig-postgresql
   imageName: "ghcr.io/cloudnative-pg/postgresql:12.18"
 
@@ -216,7 +102,6 @@ uniconfig-postgres:
       password: postgresP
 
 workflow-manager-postgres:
-  enabled: true
   name: postgresql
   imageName: "ghcr.io/cloudnative-pg/postgresql:12.18"
 
@@ -276,7 +161,6 @@ workflow-manager-postgres:
         ALTER USER resource_user SET search_path TO resource;
 
 frinx-arango-config:
-  enabled: true
   arangodb_config:
     enabled: true
     image:
@@ -289,7 +173,6 @@ frinx-arango-config:
       fsGroup: 3000
 
 kafka:
-  enabled: true
   fullnameOverride: kafka
   listeners:
     client:
@@ -315,8 +198,6 @@ kafka:
           flush.messages: 1
 
 timescale-db:
-  enabled: true
-
   fullnameOverride: timescale-db
 
   image:
@@ -335,13 +216,8 @@ timescale-db:
         init_db.sql: |
           CREATE EXTENSION IF NOT EXISTS timescaledb;
 
-
-# Core component configuration
-
 krakend:
-  enabled: true
   fullnameOverride: "krakend"
-  replicaCount: 1
 
   ingress:
     enabled: false
@@ -352,6 +228,7 @@ krakend:
         paths:
           - path: "/"
             pathType: ImplementationSpecific
+
 
   image:
     repository: "frinx/krakend"
@@ -374,8 +251,20 @@ krakend:
     x_forwarded_groups: *frinx-rbac-admin-role
     x_forwarded_user: "frinx-admin-user"
 
+  monitoring:
+    enabled: *metrics-enabled
+
+  nginx:
+    enabled: true
+
+    ingress:
+      enabled: true
+      hostname: krakend.127.0.0.1.nip.io
+
+    metrics:
+      enabled: *metrics-enabled
+
 frinx-frontend:
-  enabled: true
   fullnameOverride: "frinx-frontend"
 
   image:
@@ -391,7 +280,6 @@ frinx-frontend:
     COMMIT_HASH: *frinx-machine-version
 
 resource-manager:
-  enabled: true
   fullnameOverride: "resource-manager"
 
   image:
@@ -413,8 +301,10 @@ resource-manager:
     RM_ADMIN_ROLES: *frinx-rbac-admin-role
     RM_ADMIN_GROUPS: *frinx-rbac-admin-role
 
+  monitoring:
+    enabled: *metrics-enabled
+
 workflow-manager:
-  enabled: true
   fullnameOverride: "conductor-server"
 
   image:
@@ -456,8 +346,10 @@ workflow-manager:
     WM_ADMIN_ROLES: *frinx-rbac-admin-role
     WM_ADMIN_GROUPS: *frinx-rbac-admin-role
 
+  monitoring:
+    enabled: *metrics-enabled
+
 inventory:
-  enabled: true
   fullnameOverride: "inventory"
 
   image:
@@ -480,7 +372,6 @@ inventory:
   #   NODE_ENV: 'development'
 
 topology-discovery:
-  enabled: true
   fullnameOverride: "topology-discovery"
 
   image:
@@ -500,7 +391,6 @@ topology-discovery:
     X_AUTH_USER_GROUP: *frinx-rbac-admin-role
 
 uc-zone-lb:
-  enabled: true
   fullnameOverride: "uc-zone-lb"
 
   ingressClass:
@@ -529,9 +419,7 @@ uc-zone-lb:
       protocol: TCP
 
 uniconfig:
-  enabled: true
   fullnameOverride: "uniconfig-controller"
-
   replicaCount: 1
 
   image:
@@ -577,8 +465,10 @@ uniconfig:
     hosts:
       - uniconfig
 
+  monitoring:
+    enabled: *metrics-enabled
+
 performance-monitor:
-  enabled: true
   fullnameOverride: performance-monitor
 
   image:
@@ -600,7 +490,6 @@ performance-monitor:
     POSTGRES_PASSWORD: postgresP
 
 swagger-ui:
-  enabled: true
   fullnameOverride: "swagger-ui"
 
   env:
@@ -677,8 +566,6 @@ swagger-ui:
             - "get"
 
 device-induction:
-  enabled: true
-
   fullnameOverride: "device-induction"
 
   image:
@@ -693,6 +580,7 @@ device-induction:
     DEVI_DEVICE_AUTHENTICATION__DEFAULT_USERNAME: admin
     DEVI_DEVICE_AUTHENTICATION__DEFAULT_PASSWORD: admin
 
+
 # Identity provider configuration
 
 oauth2-proxy:
@@ -705,17 +593,6 @@ oauth2-proxy:
 
   imagePullSecrets:
     - name: *frinx-image-pull-secret
-
-  ingress:
-    enabled: false
-    className: nginx
-    annotations:
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
-      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-      nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-    hosts:
-      - "fm.127.0.0.1.nip.io"
 
   config:
     cookieSecret: create_strong_secret
@@ -744,7 +621,16 @@ oauth2-proxy:
       # https://oauth2-proxy.github.io/oauth2-proxy/configuration/providers/
       # Configuration example with github
 
+      ssl_insecure_skip_verify = false
+      pass_access_token = false
+      set_xauthrequest = true
+      skip_jwt_bearer_tokens = true
+      reverse_proxy = true
+
       github_org = "FRINXio"
       provider = "github"
       login_url = "https://github.com/login/oauth/authorize"
       redirect_url = "https://fm.127.0.0.1.nip.io/oauth2/callback"
+
+  metrics:
+    enabled: *metrics-enabled

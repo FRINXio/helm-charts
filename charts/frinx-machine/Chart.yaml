@@ -12,128 +12,144 @@ appVersion: 6.1.1
 maintainers:
   - name: FRINX
 dependencies:
+
+  # Operators
+  - name: frinx-machine-operators
+    repository: https://FRINXio.github.io/helm-charts
+    version: 0.3.0
+    condition: frinx-machine-operators.enabled
+    tags:
+      - operators
+
   # Monitoring
+  - name: frinx-machine-monitoring
+    repository: https://FRINXio.github.io/helm-charts
+    version: 0.1.0
+    condition: frinx-machine-monitoring.enabled
+    tags:
+      - monitoring
 
-  - name: grafana
-    repository: "https://grafana.github.io/helm-charts"
-    version: 7.3.1
-    condition: grafana.enabled
-
-  - name: frinx-grafana-configs
-    repository: "https://FRINXio.github.io/helm-charts"
-    version: 1.x.x
-    condition: grafana.enabled
-
-  - name: influxdb2
-    repository: "https://helm.influxdata.com"
-    version: 2.1.2
-    condition: influxdb2.enabled
-
-  - name: telegraf-ds
-    repository: https://helm.influxdata.com
-    version: 1.1.24
-    condition: telegraf-ds.enabled
-
-  - name: loki
-    repository: https://grafana.github.io/helm-charts
-    version: 2.16.0
-    condition: loki.enabled
-
-  - name: promtail
-    repository: https://grafana.github.io/helm-charts
-    version: 6.15.5
-    condition: loki.enabled
-
-  # Frinx Machine Core
-
-  ## Databases
+  # Databases
   - name: cloud-native-pg
     alias: workflow-manager-postgres
     repository: https://FRINXio.github.io/helm-charts
-    version: 0.0.2
+    version: 0.1.0
     condition: workflow-manager-postgres.enabled
+    tags:
+      - database
 
   - name: cloud-native-pg
     alias: uniconfig-postgres
     repository: https://FRINXio.github.io/helm-charts
-    version: 0.0.2
+    version: 0.1.0
     condition: uniconfig-postgres.enabled
+    tags:
+      - database
 
   - name: frinx-arango-config
     repository: https://FRINXio.github.io/helm-charts
     version: 4.2.0
     condition: frinx-arango-config.enabled
+    tags:
+      - database
 
   - name: kafka
     repository: https://charts.bitnami.com/bitnami
     version: 25.2.0
     condition: kafka.enabled
+    tags:
+      - database
 
   - name: postgresql
     alias: timescale-db
     repository: https://charts.bitnami.com/bitnami
     version: 11.x.x
     condition: timescale-db.enabled
+    tags:
+      - database
 
-  ## Services
+  # Services
   - name: krakend
     repository: https://FRINXio.github.io/helm-charts
-    version: 4.0.0
+    version: 5.0.0
     condition: krakend.enabled
+    tags:
+      - backend
 
   - name: frinx-frontend
     repository: https://FRINXio.github.io/helm-charts
     version: 4.1.0
     condition: frinx-frontend.enabled
+    tags:
+      - backend
 
   - name: resource-manager
     repository: https://FRINXio.github.io/helm-charts
-    version: 2.1.0
+    version: 2.3.0
     condition: resource-manager.enabled
+    tags:
+      - backend
 
   - name: workflow-manager
     repository: https://FRINXio.github.io/helm-charts
-    version: 3.1.1
+    version: 3.2.0
     condition: workflow-manager.enabled
+    tags:
+      - backend
 
   - name: inventory
     repository: https://FRINXio.github.io/helm-charts
-    version: 6.0.0
+    version: 6.0.2
     condition: inventory.enabled
+    tags:
+      - backend
 
   - name: traefik
     alias: uc-zone-lb
     repository: https://traefik.github.io/charts
     version: 27.0.2
     condition: uc-zone-lb.enabled
+    tags:
+      - backend
 
   - name: uniconfig
     repository: https://FRINXio.github.io/helm-charts
-    version: 8.0.0
+    version: 8.2.0
     condition: uniconfig.enabled
+    tags:
+      - backend
 
   - name: topology-discovery
     repository: https://FRINXio.github.io/helm-charts
-    version: 3.1.0
+    version: 3.1.1
     condition: topology-discovery.enabled
+    tags:
+      - backend
 
   - name: performance-monitor
     repository: https://FRINXio.github.io/helm-charts
-    version: 0.1.3
+    version: 0.1.5
     condition: performance-monitor.enabled
+    tags:
+      - backend
 
   - name: swagger-ui
     repository: https://FRINXio.github.io/helm-charts
-    version: 0.1.1
+    version: 0.2.0
     condition: swagger-ui.enabled
+    tags:
+      - backend
 
   - name: worker
     alias: device-induction
     repository: https://FRINXio.github.io/helm-charts
-    version: 4.0.0
+    version: 4.1.0
     condition: device-induction.enabled
+    tags:
+      - backend
 
+  # Additional
   - name: oauth2-proxy
     repository: https://oauth2-proxy.github.io/manifests
-    version: 7.7.4
+    version: 7.7.14
     condition: oauth2-proxy.enabled
