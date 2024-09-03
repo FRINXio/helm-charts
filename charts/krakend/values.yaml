@@ -61,6 +61,10 @@ service:
   nodePort: 30000
   # -- Node port for Websocket
   wsNodePort: 30001
+  # -- Metrics port
+  metricsPort: 9091
+  # -- Metrics target port
+  metricsTargetPort: 9091
 
 # Configure the [Ingress resource](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 ingress:
@@ -308,11 +312,11 @@ debug:
 # -- Additional KrakenD environment variables
 extraEnv: []
 
-# -- Monitoring configuration
-monitoring:
+# -- Metrics configuration
+metrics:
   enabled: false
-  port: 9091
-  targetPort: 9091
+  metricsPort: metrics
+  metricsPath: /metrics
 
 nginx:
   enabled: false

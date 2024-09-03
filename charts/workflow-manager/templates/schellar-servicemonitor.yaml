@@ -1,4 +1,4 @@
-{{- if .Values.monitoring.enabled }}
+{{- if .Values.metrics.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
@@ -11,7 +11,7 @@ spec:
       app.kubernetes.io/name: {{ include "workflow-manager.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   endpoints:
-    - port: {{ .Values.monitoring.schellarPort }}
-      path: {{ .Values.monitoring.schellarPath }}
+    - port: {{ .Values.metrics.schellarPort }}
+      path: {{ .Values.metrics.schellarPath }}
       interval: 30s
 {{- end }}

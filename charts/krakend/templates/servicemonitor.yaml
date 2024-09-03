@@ -1,4 +1,4 @@
-{{- if .Values.monitoring.enabled }}
+{{- if .Values.metrics.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: {{ include "krakend.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   endpoints:
-    - port: metrics
-      path: /metrics
+    - port: {{ .Values.metrics.metricsPort }}
+      path: {{ .Values.metrics.metricsPath }}
       interval: 30s
 {{- end }}

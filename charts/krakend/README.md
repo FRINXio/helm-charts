@@ -2,7 +2,7 @@
 
 FRINX KrakenD API Gateway for FRINX-machine
 
-![Version: 5.0.0](https://img.shields.io/badge/Version-5.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.1.1](https://img.shields.io/badge/AppVersion-6.1.1-informational?style=flat-square)
+![Version: 5.0.1](https://img.shields.io/badge/Version-5.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.1.1](https://img.shields.io/badge/AppVersion-6.1.1-informational?style=flat-square)
 
 ## Get Repo Info
 
@@ -59,7 +59,7 @@ helm uninstall [RELEASE_NAME]
 | ingress.hosts | list | `[{"host":"chart-example.local","paths":[{"path":"/","pathType":"ImplementationSpecific"}]}]` | [Ingress Host](https://kubernetes.io/docs/concepts/services-networking/ingress/#the-ingress-resource) |
 | ingress.labels | object | `{}` | Additional labels for the Ingress resource |
 | ingress.tls | list | `[]` |  |
-| monitoring | object | `{"enabled":false,"port":9091,"targetPort":9091}` | Monitoring configuration |
+| metrics | object | `{"enabled":false,"metricsPath":"/metrics","metricsPort":"metrics"}` | Metrics configuration |
 | nameOverride | string | `""` | String to partially override app name |
 | nginx.enabled | bool | `false` |  |
 | nginx.existingServerBlockConfigmap | existingServerBlockConfigmap ConfigMap with custom server block to be added to NGINX configuration | `"krakend-nginx-config"` | [https://artifacthub.io/packages/helm/bitnami/nginx?modal=values&path=existingServerBlockConfigmap] |
@@ -85,6 +85,8 @@ helm uninstall [RELEASE_NAME]
 | rbac | object | `{"ADMIN_ACCESS_ROLE":"network-admin","INVENTORY_ADMIN_GROUP":"network-admin","UNICONFIG_CONTROLLER_ADMIN_GROUP":"network-admin","UNISTORE_BEARER_NODE":"bearer","UNISTORE_BEARER_ROLE":"","UNISTORE_CONTROLLER_ADMIN_GROUP":"network-admin","UNISTORE_NETWORK_NODE":"network","UNISTORE_NETWORK_ROLE":"","UNISTORE_OTHER_PERMITTED_ROLES":"","UNISTORE_SERVICE_NODE":"service","UNISTORE_SERVICE_ROLE":"","X_AUTH_USER_GROUP":"network-admin"}` | RBAC configuration |
 | replicaCount | int | `1` | Number of replicas of the deployment. |
 | resources | object | `{}` | [KrakenD Container resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/) |
+| service.metricsPort | int | `9091` | Metrics port |
+| service.metricsTargetPort | int | `9091` | Metrics target port |
 | service.nodePort | int | `30000` | Node port for HTTP |
 | service.port | int | `8080` | KrakenD HTTP |
 | service.targetPort | int | `8080` | Target port for HTTP |

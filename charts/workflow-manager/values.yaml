@@ -242,8 +242,8 @@ postgresql:
       labels:
         prometheus: conductor-db
 
-# -- Monitoring configuration
-monitoring:
+# -- Metrics configuration
+metrics:
   enabled: false
   conductorPort: http-conductor
   conductorPath: /actuator/prometheus

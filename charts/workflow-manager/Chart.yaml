@@ -3,7 +3,7 @@ name: workflow-manager
 description: A Helm chart for Kubernetes deploying conductor-server and schellar
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 3.2.0
+version: 3.2.1
 appVersion: "6.1.0"
 maintainers:
   - name: FRINX
@@ -21,8 +21,8 @@ annotations:
     - name: schellar
       image: frinx/schellar:6.1.0
   artifacthub.io/changes: |
-    - kind: added
-      description: Added servicemonitors and monitoring configuration
+    - kind: changed
+      description: Monitoring to metrics configuration
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/397
+          url: https://github.com/FRINXio/helm-charts/pull/418

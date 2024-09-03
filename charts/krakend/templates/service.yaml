@@ -21,8 +21,8 @@ spec:
       {{- end }}
       protocol: TCP
       name: ws
-    - port: {{ .Values.monitoring.port }}
-      targetPort: {{ .Values.monitoring.targetPort }}
+    - port: {{ .Values.service.metricsPort }}
+      targetPort: metrics
       protocol: TCP
       name: metrics
   selector:
