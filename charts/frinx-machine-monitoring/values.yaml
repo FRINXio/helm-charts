@@ -86,7 +86,20 @@ promtail:
       - url: http://loki:3100/loki/api/v1/push
     snippets:
       pipelineStages:
-        - cri: {}
+        - match:
+            selector: '{container="uniconfig"}'
+            stages:
+              - cri: {}
+              - docker: {}
+              - multiline:
+                  # Identify timestamps as first line of a multiline block.
+                  firstline: '^\d{4}-\d{1,2}-\d{1,2} \d{1,2}:\d{2}:\d{2}.\d{3}'
+                  max_lines: 128
+                  max_wait_time: 3s
+              - regex:
+                  expression: '.*DeviceName:(?P<deviceName>[^\t\n\f\r ]+)'
+              - labels:
+                  deviceName:
       # @ignore
       scrapeConfigs: |
         - job_name: kubernetes-pods
