@@ -308,8 +308,8 @@ extraEnv:
   NOTIFICATIONS_KAFKA_KAFKASERVERS_0_BROKERLISTENINGPORT: 9092
   SPRING_KAFKA_BOOTSTRAPSERVERS: http://kafka:9092
 
-# -- Monitoring configuration
-monitoring:
+# -- Metrics configuration
+metrics:
   enabled: false
   port: http
   path: /actuator/prometheus

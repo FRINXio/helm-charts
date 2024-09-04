@@ -68,7 +68,7 @@ helm uninstall [RELEASE_NAME]
 | ingress.schellarHosts[0].paths[0].path | string | `"/"` |  |
 | ingress.schellarHosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | ingress.tls | list | `[]` | [Ingress TLS resource](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls) |
-| monitoring | object | `{"conductorPath":"/actuator/prometheus","conductorPort":"http-conductor","enabled":false,"schellarPath":"/metrics","schellarPort":"http-schellar"}` | Monitoring configuration |
+| metrics | object | `{"conductorPath":"/actuator/prometheus","conductorPort":"http-conductor","enabled":false,"schellarPath":"/metrics","schellarPort":"http-schellar"}` | Metrics configuration |
 | nameOverride | string | `""` | String to partially override app name |
 | nodeSelector | object | `{}` | [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) |
 | podAnnotations | object | `{}` | Pod annotations |

@@ -2,7 +2,7 @@
 
 A Helm chart for UniConfig Kubernetes deployment
 
-![Version: 8.2.0](https://img.shields.io/badge/Version-8.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.1.1](https://img.shields.io/badge/AppVersion-6.1.1-informational?style=flat-square)
+![Version: 8.2.1](https://img.shields.io/badge/Version-8.2.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.1.1](https://img.shields.io/badge/AppVersion-6.1.1-informational?style=flat-square)
 
 ## Get Repo Info
 
@@ -78,8 +78,8 @@ helm uninstall [RELEASE_NAME]
 | java | object | `{"max_mem":"10G"}` | Java max memory for Uniconfig container |
 | kafka | object | `{"fullnameOverride":"kafka","listeners":{"client":{"protocol":"PLAINTEXT"}}}` | [Kafka subchart: "https://artifacthub.io/packages/helm/bitnami/kafka"] |
 | livenessProbe | object | `{"failureThreshold":10,"timeoutSeconds":35}` | Liveness probe |
+| metrics | object | `{"enabled":false,"path":"/actuator/prometheus","port":"http"}` | Metrics configuration |
 | mibsConfigs | object | `{}` | Global configuration of mibs |
-| monitoring | object | `{"enabled":false,"path":"/actuator/prometheus","port":"http"}` | Monitoring configuration |
 | nameOverride | string | `""` | String to partially override app name |
 | nodeSelector | object | `{}` | [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) |
 | podAnnotations | object | `{}` | Pod annotations |

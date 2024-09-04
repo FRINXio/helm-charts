@@ -1,6 +1,6 @@
 apiVersion: v2
 name: uniconfig
-version: 8.2.0
+version: 8.2.1
 appVersion: "6.1.1"
 description: A Helm chart for UniConfig Kubernetes deployment
 type: application
@@ -21,8 +21,8 @@ maintainers:
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 annotations:
   artifacthub.io/changes: |
-    - kind: added
-      description: Add possibility to configure extra objects via helm chart [container, volume, extraConfigmapMounts]
+    - kind: changed
+      description: Monitoring to metrics configuration
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/416
+          url: https://github.com/FRINXio/helm-charts/pull/418

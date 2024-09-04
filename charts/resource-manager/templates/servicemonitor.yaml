@@ -1,4 +1,4 @@
-{{- if .Values.monitoring.enabled }}
+{{- if .Values.metrics.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
@@ -11,7 +11,7 @@ spec:
       app.kubernetes.io/name: {{ include "resource-manager.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   endpoints:
-    - port: {{ .Values.monitoring.metricsPort }}
-      path: {{ .Values.monitoring.metricsPath }}
+    - port: {{ .Values.metrics.metricsPort }}
+      path: {{ .Values.metrics.metricsPath }}
       interval: 30s
 {{- end }}

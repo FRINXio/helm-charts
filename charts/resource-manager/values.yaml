@@ -160,8 +160,8 @@ rbac:
 # -- Additional application environment variables
 extraEnv: []
 
-# -- Monitoring configuration
-monitoring:
+# -- Metrics configuration
+metrics:
   enabled: false
   metricsPort: metrics
   metricsPath: /metrics
