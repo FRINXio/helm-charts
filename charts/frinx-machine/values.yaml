@@ -1,10 +1,11 @@
-# Global settings
+# Anchor settings
 x-frinx-machine-version: &frinx-machine-version 6.1
 x-frinx-database-password: &frinx-database-password frinx-database-password
 x-frinx-image-pull-secret: &frinx-image-pull-secret regcred
 x-frinx-rbac-admin-role: &frinx-rbac-admin-role FRINXio
 x-metrics-enabled: &metrics-enabled true
 
+# Global secrets
 global:
   dbPersistence:
     enabled: true
@@ -28,10 +29,30 @@ global:
       UNICONFIG_POSTGRES_PASSWORD: postgresP
       UNICONFIG_CLISHELL_SSHSERVER_USERNAMEPASSWORDAUTH_PASSWORD: admin
 
+# Helm Chart dependency installation
+tags:
+  operators: false
+  monitoring: *metrics-enabled
+  database: true
+  backend: true
+
+# Operators
+
+frinx-machine-operators:
+
+  kube-arangodb:
+    enabled: true
+
+  cloudnative-pg:
+    enabled: true
+
+  prometheus-operator-crds:
+    enabled: true
+
 # Monitoring
 
 frinx-machine-monitoring:
-  enabled: *metrics-enabled
+
   kube-prometheus-stack:
     enabled: true
 
@@ -54,7 +75,6 @@ frinx-machine-monitoring:
 # Database configuration
 
 uniconfig-postgres:
-  enabled: true
   name: uniconfig-postgresql
   imageName: "ghcr.io/cloudnative-pg/postgresql:12.18"
 
@@ -83,7 +103,6 @@ uniconfig-postgres:
     podMonitorEnabled: *metrics-enabled
 
 workflow-manager-postgres:
-  enabled: true
   name: postgresql
   imageName: "ghcr.io/cloudnative-pg/postgresql:12.18"
 
@@ -146,7 +165,6 @@ workflow-manager-postgres:
     podMonitorEnabled: *metrics-enabled
 
 frinx-arango-config:
-  enabled: true
   arangodb_config:
     enabled: true
     image:
@@ -159,7 +177,6 @@ frinx-arango-config:
       fsGroup: 3000
 
 kafka:
-  enabled: true
   fullnameOverride: kafka
   listeners:
     client:
@@ -185,8 +202,6 @@ kafka:
           flush.messages: 1
 
 timescale-db:
-  enabled: true
-
   fullnameOverride: timescale-db
 
   image:
@@ -209,9 +224,7 @@ timescale-db:
 # Core component configuration
 
 krakend:
-  enabled: true
   fullnameOverride: "krakend"
-  replicaCount: 1
 
   ingress:
     enabled: false
@@ -226,10 +239,6 @@ krakend:
   image:
     repository: "frinx/krakend"
     tag: "6.1.1"
-
-  proxyImage:
-    repository: "nginx"
-    tag: "1.25.4-alpine"
 
   rbac:
     UNICONFIG_CONTROLLER_ADMIN_GROUP: *frinx-rbac-admin-role
@@ -247,8 +256,19 @@ krakend:
   metrics:
     enabled: *metrics-enabled
 
+  nginx:
+    enabled: true
+
+    ingress:
+      enabled: true
+      hostname: krakend.127.0.0.1.nip.io
+
+    resourcesPreset: "nano"
+
+    metrics:
+      enabled: *metrics-enabled
+
 frinx-frontend:
-  enabled: true
   fullnameOverride: "frinx-frontend"
 
   image:
@@ -264,7 +284,6 @@ frinx-frontend:
     COMMIT_HASH: *frinx-machine-version
 
 resource-manager:
-  enabled: true
   fullnameOverride: "resource-manager"
 
   image:
@@ -290,7 +309,6 @@ resource-manager:
     enabled: *metrics-enabled
 
 workflow-manager:
-  enabled: true
   fullnameOverride: "conductor-server"
 
   image:
@@ -336,7 +354,6 @@ workflow-manager:
     enabled: *metrics-enabled
 
 inventory:
-  enabled: true
   fullnameOverride: "inventory"
 
   image:
@@ -359,7 +376,6 @@ inventory:
   #   NODE_ENV: 'development'
 
 topology-discovery:
-  enabled: true
   fullnameOverride: "topology-discovery"
 
   image:
@@ -379,7 +395,6 @@ topology-discovery:
     X_AUTH_USER_GROUP: *frinx-rbac-admin-role
 
 uc-zone-lb:
-  enabled: true
   fullnameOverride: "uc-zone-lb"
 
   ingressClass:
@@ -408,9 +423,7 @@ uc-zone-lb:
       protocol: TCP
 
 uniconfig:
-  enabled: true
   fullnameOverride: "uniconfig-controller"
-
   replicaCount: 1
 
   image:
@@ -460,7 +473,6 @@ uniconfig:
     enabled: *metrics-enabled
 
 performance-monitor:
-  enabled: true
   fullnameOverride: performance-monitor
 
   image:
@@ -482,7 +494,6 @@ performance-monitor:
     POSTGRES_PASSWORD: postgresP
 
 swagger-ui:
-  enabled: true
   fullnameOverride: "swagger-ui"
 
   env:
@@ -559,8 +570,6 @@ swagger-ui:
             - "get"
 
 device-induction:
-  enabled: true
-
   fullnameOverride: "device-induction"
 
   image:
@@ -588,17 +597,6 @@ oauth2-proxy:
   imagePullSecrets:
     - name: *frinx-image-pull-secret
 
-  ingress:
-    enabled: false
-    className: nginx
-    annotations:
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
-      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-      nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-    hosts:
-      - "fm.127.0.0.1.nip.io"
-
   config:
     cookieSecret: create_strong_secret
     clientSecret: ""
@@ -625,6 +623,12 @@ oauth2-proxy:
       # IDENTITY PROVIDER CONFIGURATION
       # https://oauth2-proxy.github.io/oauth2-proxy/configuration/providers/
       # Configuration example with github
+
+      ssl_insecure_skip_verify = false
+      pass_access_token = false
+      set_xauthrequest = true
+      skip_jwt_bearer_tokens = true
+      reverse_proxy = true
 
       github_org = "FRINXio"
       provider = "github"
