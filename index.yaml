@@ -926,6 +926,143 @@ entries:
   frinx-machine:
   - apiVersion: v2
     appVersion: 6.1.1
+    created: "2024-09-09T06:39:14.794687755Z"
+    dependencies:
+    - condition: frinx-machine-operators.enabled
+      name: frinx-machine-operators
+      repository: https://FRINXio.github.io/helm-charts
+      tags:
+      - operators
+      version: 0.3.0
+    - condition: frinx-machine-monitoring.enabled
+      name: frinx-machine-monitoring
+      repository: https://FRINXio.github.io/helm-charts
+      tags:
+      - monitoring
+      version: 0.1.1
+    - alias: workflow-manager-postgres
+      condition: workflow-manager-postgres.enabled
+      name: cloud-native-pg
+      repository: https://FRINXio.github.io/helm-charts
+      tags:
+      - database
+      version: 0.1.0
+    - alias: uniconfig-postgres
+      condition: uniconfig-postgres.enabled
+      name: cloud-native-pg
+      repository: https://FRINXio.github.io/helm-charts
+      tags:
+      - database
+      version: 0.1.0
+    - condition: frinx-arango-config.enabled
+      name: frinx-arango-config
+      repository: https://FRINXio.github.io/helm-charts
+      tags:
+      - database
+      version: 4.2.0
+    - condition: kafka.enabled
+      name: kafka
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - database
+      version: 25.2.0
+    - alias: timescale-db
+      condition: timescale-db.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - database
+      version: 11.x.x
+    - condition: krakend.enabled
+      name: krakend
+      repository: https://FRINXio.github.io/helm-charts
+      tags:
+      - backend
+      version: 5.0.1
+    - condition: frinx-frontend.enabled
+      name: frinx-frontend
+      repository: https://FRINXio.github.io/helm-charts
+      tags:
+      - backend
+      version: 4.1.0
+    - condition: resource-manager.enabled
+      name: resource-manager
+      repository: https://FRINXio.github.io/helm-charts
+      tags:
+      - backend
+      version: 2.3.1
+    - condition: workflow-manager.enabled
+      name: workflow-manager
+      repository: https://FRINXio.github.io/helm-charts
+      tags:
+      - backend
+      version: 3.2.1
+    - condition: inventory.enabled
+      name: inventory
+      repository: https://FRINXio.github.io/helm-charts
+      tags:
+      - backend
+      version: 6.0.2
+    - alias: uc-zone-lb
+      condition: uc-zone-lb.enabled
+      name: traefik
+      repository: https://traefik.github.io/charts
+      tags:
+      - backend
+      version: 27.0.2
+    - condition: uniconfig.enabled
+      name: uniconfig
+      repository: https://FRINXio.github.io/helm-charts
+      tags:
+      - backend
+      version: 8.2.1
+    - condition: topology-discovery.enabled
+      name: topology-discovery
+      repository: https://FRINXio.github.io/helm-charts
+      tags:
+      - backend
+      version: 3.1.1
+    - condition: performance-monitor.enabled
+      name: performance-monitor
+      repository: https://FRINXio.github.io/helm-charts
+      tags:
+      - backend
+      version: 0.1.5
+    - condition: swagger-ui.enabled
+      name: swagger-ui
+      repository: https://FRINXio.github.io/helm-charts
+      tags:
+      - backend
+      version: 0.2.0
+    - alias: device-induction
+      condition: device-induction.enabled
+      name: worker
+      repository: https://FRINXio.github.io/helm-charts
+      tags:
+      - backend
+      version: 4.1.0
+    - condition: oauth2-proxy.enabled
+      name: oauth2-proxy
+      repository: https://oauth2-proxy.github.io/manifests
+      version: 7.7.4
+    description: 'FRINX Machine is a dockerized deployment of multiple elements. The
+      FRINX Machine enables large scale automation of network devices, services and
+      retrieval of operational state data from a network. User specific workflows
+      are designed through the use of OpenConfig NETCONF & YANG models, vendor native
+      models, and the CLI. The FRINX Machine uses dockerized containers that are designed
+      and tested to work together to create a user specific solution. Further information
+      is available on [docs.frinx.io](https://docs.frinx.io/frinx-machine/getting-started/). '
+    digest: 6d8c6e9248b4172ba3e1ed1efc4da877186153f0d0d9999a2ce9cf864733c671
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: frinx-machine
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-machine-10.0.0/frinx-machine-10.0.0.tgz
+    version: 10.0.0
+  - apiVersion: v2
+    appVersion: 6.1.1
     created: "2024-08-02T09:24:57.401013353Z"
     dependencies:
     - condition: grafana.enabled
@@ -17469,4 +17606,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-09-06T10:58:08.076965803Z"
+generated: "2024-09-09T06:39:14.796531577Z"
