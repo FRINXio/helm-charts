@@ -6,15 +6,25 @@ krakend:
     className: nginx
     annotations:
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
-      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-      nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-connect-timeout: "12h"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "12h"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "12h"
     hosts:
       - host: krakend.127.0.0.1.nip.io
         paths:
           - path: "/"
             pathType: ImplementationSpecific
 
+  nginx:
+    ingress:
+      enabled: false
+      className: nginx
+      annotations:
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/proxy-connect-timeout: "12h"
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "12h"
+        nginx.ingress.kubernetes.io/proxy-send-timeout: "12h"
+      hostname: fm.127.0.0.1.nip.io
 
 resource-manager:
   ingress:
@@ -66,9 +76,9 @@ uniconfig:
     className: nginx
     annotations:
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
-      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-      nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-connect-timeout: "12h"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "12h"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "12h"
     hosts:
       - host: uniconfig-controller.127.0.0.1.nip.io
         paths:
@@ -84,15 +94,3 @@ performance-monitor:
         paths:
           - path: "/"
             pathType: ImplementationSpecific
-
-oauth2-proxy:
-  ingress:
-    enabled: false
-    className: nginx
-    annotations:
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
-      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-      nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-    hosts:
-      - "fm.127.0.0.1.nip.io"
