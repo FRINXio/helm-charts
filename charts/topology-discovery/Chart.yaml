@@ -3,14 +3,14 @@ name: topology-discovery
 description: A Helm chart for Kubernetes deployment of the Topology Discovery
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 3.1.1
-appVersion: "6.2.5"
+version: 4.0.0
+appVersion: "7.0.0"
 maintainers:
   - name: FRINX
 annotations:
   artifacthub.io/changes: |
     - kind: changed
-      description: curls are performed using custom utilities image
+      description: Compatible with 7.0.0 release. Environment variable changes
       links:
         - name: GitHub PR
-          url: https://github.com/FRINXio/helm-charts/pull/413
+          url: https://github.com/FRINXio/helm-charts/pull/TODO

@@ -121,15 +121,17 @@ dependencies:
       - backend
 
   - name: topology-discovery
-    repository: https://FRINXio.github.io/helm-charts
-    version: 3.1.1
+    # repository: https://FRINXio.github.io/helm-charts
+    repository: file://../topology-discovery
+    version: 4.0.0
     condition: topology-discovery.enabled
     tags:
       - backend
 
   - name: performance-monitor
-    repository: https://FRINXio.github.io/helm-charts
-    version: 0.1.5
+    # repository: https://FRINXio.github.io/helm-charts
+    repository: file://../performance-monitor
+    version: 2.0.0
     condition: performance-monitor.enabled
     tags:
       - backend

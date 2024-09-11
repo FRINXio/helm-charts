@@ -51,6 +51,15 @@ spec:
                 {{- else }}
                 key: {{ .Values.dbPersistence.existingSecret.springDatasourceUsernameKey }}
                 {{- end}}
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+            ephemeral-storage: "100Mi"
+          limits:
+            cpu: 100m
+            memory: 128Mi
+            ephemeral-storage: "100Mi"
       containers:
         # conductor
         - name: {{ .Chart.Name }}

@@ -135,13 +135,13 @@ dbPersistence:
 # -- Application environment variables
 env:
   CONDUCTOR_URL: 'http://conductor-server:8080'
-  UC_URL_BASE: http://uniconfig:8181/rests/
-  BGPLS_ENABLED: false
-  BGPLS_NETWORK: 172.18.0.0/16
-  BGPLS_ROUTER_ID: 192.168.99.1
-  BGPLS_NEIGHBOR_IP: 192.168.99.100
-  BGPLS_LOCAL_AS: 100
-  BGPLS_PEER_AS: 100
+  TD_UNICONFIG__URL_BASE: http://uniconfig:8181/rests/
+  TD_BGPLS__ENABLED: false
+  TD_BGPLS__NETWORK: 172.18.0.0/16
+  TD_BGPLS__ROUTER_ID: 192.168.99.1
+  TD_BGPLS__NEIGHBOR_IP: 192.168.99.100
+  TD_BGPLS__LOCAL_AS: 100
+  TD_BGPLS__PEER_AS: 100
   ADMIN: admin
   EDITOR: editor
   VIEWER: viewer
@@ -149,7 +149,6 @@ env:
   IMPORT_DEVICE_INVENTORY_DATA: false
   X_TENANT_ID: "frinx"
   TD_KAFKA__TOPICS__DEVICE_INVENTORY_TOPIC: device-inventory
-  TD_KAFKA__TOPICS__DEVICE_EVENTS_TOPIC: device-events
   TD_KAFKA__BOOTSTRAP_SERVERS: '["kafka:9092"]'
   TD_KAFKA__API_VERSION: '["0", "11", "5"]'
 

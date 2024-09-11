@@ -46,6 +46,8 @@ podSecurityContext: {}
 
 # -- Configure [Container Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container)
 securityContext:
+  readOnlyRootFilesystem: true
+  runAsUser: 10000
   capabilities:
     drop:
     - ALL

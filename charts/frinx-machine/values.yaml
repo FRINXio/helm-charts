@@ -65,6 +65,10 @@ frinx-machine-monitoring:
       adminUser: frinx
       adminPassword: frinx123!
 
+      image:
+        repository: grafana/grafana
+        tag: "11.2.0"
+
   loki:
     enabled: true
 
@@ -169,7 +173,7 @@ frinx-arango-config:
     enabled: true
     image:
       repository: arangodb/arangodb
-      tag: 3.11.8
+      tag: 3.12
     securityContext:
       readOnlyRootFilesystem: true
       runAsUser: 1000
@@ -238,7 +242,7 @@ krakend:
 
   image:
     repository: "frinx/krakend"
-    tag: "6.1.1" # TODO
+    tag: "7.0.0"
 
   rbac:
     UNICONFIG_CONTROLLER_ADMIN_GROUP: *frinx-rbac-admin-role
@@ -260,7 +264,7 @@ krakend:
     enabled: true
 
     ingress:
-      enabled: true
+      enabled: false
       hostname: krakend.127.0.0.1.nip.io
 
     resourcesPreset: "nano"
@@ -277,7 +281,7 @@ frinx-frontend:
 
   proxyImage:
     name: frinx/frinx-graphql-proxy
-    tag: "latest" # TODO
+    tag: "7.0.0"
 
   env:
     AUTH_ENABLED: true
@@ -396,6 +400,10 @@ topology-discovery:
 
 uc-zone-lb:
   fullnameOverride: "uc-zone-lb"
+
+  image:
+    repository: traefik
+    tag: v2.11
 
   ingressClass:
     enabled: false
@@ -606,7 +614,7 @@ oauth2-proxy:
       # https://oauth2-proxy.github.io/oauth2-proxy/configuration/overview
 
       custom_sign_in_logo = "/tmp/frinx/frinx.png"
-      upstreams = ["http://krakend:8080"]
+      upstreams = "file:///dev/null"
 
       cookie_secure = true
       cookie_expire = 0
