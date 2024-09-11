@@ -238,7 +238,7 @@ krakend:
 
   image:
     repository: "frinx/krakend"
-    tag: "6.1.1"
+    tag: "6.1.1" # TODO
 
   rbac:
     UNICONFIG_CONTROLLER_ADMIN_GROUP: *frinx-rbac-admin-role
@@ -273,11 +273,11 @@ frinx-frontend:
 
   image:
     repository: "frinx/frinx-frontend"
-    tag: "6.1.0"
+    tag: "7.0.0"
 
   proxyImage:
     name: frinx/frinx-graphql-proxy
-    tag: "6.1.0"
+    tag: "latest" # TODO
 
   env:
     AUTH_ENABLED: true
@@ -288,7 +288,7 @@ resource-manager:
 
   image:
     repository: "frinx/resource-manager"
-    tag: "6.1.0"
+    tag: "6.1.0" # TODO
 
   postgresql:
     enabled: false
@@ -313,11 +313,11 @@ workflow-manager:
 
   image:
     repository: "frinx/conductor-server"
-    tag: "6.1.1"
+    tag: "6.1.1" # TODO
 
   schellarImage:
     repository: "frinx/schellar"
-    tag: "6.1.0"
+    tag: "6.1.0" # TODO
 
   postgresql:
     enabled: false
@@ -358,7 +358,7 @@ inventory:
 
   image:
     repository: "frinx/frinx-inventory-server"
-    tag: "6.1.0"
+    tag: "7.0.0"
 
   postgresql:
     enabled: false
@@ -380,7 +380,7 @@ topology-discovery:
 
   image:
     repository: "frinx/topology-discovery"
-    tag: "6.2.5"
+    tag: "7.0.0"
 
   imagePullSecrets:
     - name: *frinx-image-pull-secret
@@ -428,7 +428,7 @@ uniconfig:
 
   image:
     repository: "frinx/uniconfig"
-    tag: "6.1.4"
+    tag: "7.0.0"
 
   imagePullSecrets:
     - name: *frinx-image-pull-secret
@@ -477,7 +477,7 @@ performance-monitor:
 
   image:
     repository: frinx/performance-monitor
-    tag: "6.0.3"
+    tag: "7.0.0"
 
   imagePullSecrets:
     - name: *frinx-image-pull-secret
@@ -574,7 +574,7 @@ device-induction:
 
   image:
     repository: frinx/device-induction
-    tag: "0.6.4"
+    tag: "0.6.5"
 
   imagePullSecrets:
     - name: *frinx-image-pull-secret
