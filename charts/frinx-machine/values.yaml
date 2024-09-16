@@ -80,7 +80,7 @@ frinx-machine-monitoring:
 
 uniconfig-postgres:
   name: uniconfig-postgresql
-  imageName: "ghcr.io/cloudnative-pg/postgresql:12.18"
+  imageName: "ghcr.io/cloudnative-pg/postgresql:16.4"
 
   bootstrap:
     initdb:
@@ -104,11 +104,11 @@ uniconfig-postgres:
       password: postgresP
 
   monitoring:
-    podMonitorEnabled: *metrics-enabled
+    enablePodMonitor: *metrics-enabled
 
 workflow-manager-postgres:
   name: postgresql
-  imageName: "ghcr.io/cloudnative-pg/postgresql:12.18"
+  imageName: ghcr.io/cloudnative-pg/postgresql:14.10
 
   bootstrap:
     initdb:
@@ -166,7 +166,35 @@ workflow-manager-postgres:
         ALTER USER resource_user SET search_path TO resource;
 
   monitoring:
-    podMonitorEnabled: *metrics-enabled
+    enablePodMonitor: *metrics-enabled
+
+timescale-db:
+  name: timescale-db
+  imageName: "ghcr.io/imusmanmalik/timescaledb-postgis:16"
+
+  bootstrap:
+    initdb:
+      database: performancemonitor
+      owner: postgresU
+      postInitApplicationSQL: 
+        - CREATE EXTENSION IF NOT EXISTS timescaledb;
+
+  postgresql:
+    parameters:
+      max_connections: "300"
+    shared_preload_libraries:
+      - timescaledb
+
+  secrets:
+    superuserSecret:
+      username: postgres
+      password: postgres
+    userSecret:
+      username: postgresU
+      password: postgresP
+
+  monitoring:
+    enablePodMonitor: *metrics-enabled
 
 frinx-arango-config:
   arangodb_config:
@@ -195,6 +223,16 @@ kafka:
     enabled: true
     size: 10Gi
 
+  # kraft:
+  #   clusterId: eN1N4bqk4ygDDBmM85QGys
+
+  # sasl:
+  #   controller:
+  #     password: Aepr31lTfX
+
+  #   interbroker:
+  #     password: BgLj0pPhTz
+
   provisioning:
     enabled: true
     topics:
@@ -204,25 +242,6 @@ kafka:
         config:
           max.message.bytes: 64000
           flush.messages: 1
-
-timescale-db:
-  fullnameOverride: timescale-db
-
-  image:
-    repository: timescale/timescaledb-ha
-    tag: pg16-ts2.15-all
-
-  auth:
-    enablePostgresUser: true
-    username: postgresU
-    password: postgresP
-    database: performancemonitor
-  architecture: standalone
-  primary:
-    initdb:
-      scripts:
-        init_db.sql: |
-          CREATE EXTENSION IF NOT EXISTS timescaledb;
 
 
 # Core component configuration
@@ -277,7 +296,7 @@ frinx-frontend:
 
   image:
     repository: "frinx/frinx-frontend"
-    tag: "7.0.0"
+    tag: "7.0.1"
 
   proxyImage:
     name: frinx/frinx-graphql-proxy
@@ -321,7 +340,7 @@ workflow-manager:
 
   schellarImage:
     repository: "frinx/schellar"
-    tag: "6.1.0" # TODO
+    tag: "6.1.0"
 
   postgresql:
     enabled: false
@@ -362,7 +381,7 @@ inventory:
 
   image:
     repository: "frinx/frinx-inventory-server"
-    tag: "7.0.0"
+    tag: "7.0.1"
 
   postgresql:
     enabled: false
@@ -384,7 +403,7 @@ topology-discovery:
 
   image:
     repository: "frinx/topology-discovery"
-    tag: "7.0.0"
+    tag: "7.0.3"
 
   imagePullSecrets:
     - name: *frinx-image-pull-secret
@@ -485,7 +504,7 @@ performance-monitor:
 
   image:
     repository: frinx/performance-monitor
-    tag: "7.0.0"
+    tag: "7.0.1"
 
   imagePullSecrets:
     - name: *frinx-image-pull-secret
@@ -497,7 +516,7 @@ performance-monitor:
     enabled: false
 
   dbPersistence:
-    POSTGRES_HOST: timescale-db
+    POSTGRES_HOST: timescale-db-rw
     POSTGRES_USERNAME: postgresU
     POSTGRES_PASSWORD: postgresP
 
@@ -582,10 +601,12 @@ device-induction:
 
   image:
     repository: frinx/device-induction
-    tag: "0.6.5"
+    tag: "1.2.2"
 
   imagePullSecrets:
     - name: *frinx-image-pull-secret
+
+  commands: ["python3", "-u", "device_induction/main.py"]
 
   env:
     X_AUTH_USER_GROUP: *frinx-rbac-admin-role

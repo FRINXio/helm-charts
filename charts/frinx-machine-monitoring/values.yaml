@@ -56,6 +56,7 @@ kube-prometheus-stack:
               - uniconfig
               - workflow-manager
               - oauth2-proxy
+              - frinx-machine-staging
 
       # -- Selection of pod monitors to be discovered and scraped by Prometheus
       podMonitorSelector:

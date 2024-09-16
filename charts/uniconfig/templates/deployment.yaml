@@ -237,33 +237,5 @@ spec:
             readOnly: {{ .readOnly }}
           {{- end }}
         {{- with .Values.extraContainers }}
-        {{- range . }}
-        - name: {{ .name }}
-          image: {{ .image | quote }}
-          imagePullPolicy: {{ .imagePullPolicy | quote }}
-          {{- if .command }}
-          command:
-            {{- toYaml .command | nindent 12 }}
-          {{- end }}
-          {{- if .args }}
-          args:
-            {{- toYaml .args | nindent 12 }}
-          {{- end }}
-          {{- if .ports }}
-          ports:
-            {{- toYaml .ports | nindent 12 }}
-          {{- end }}
-          {{- if .env }}
-          env:
-            {{- toYaml .env | nindent 12 }}
-          {{- end }}
-          {{- if .resources }}
-          resources:
-            {{- toYaml .resources | nindent 12 }}
-          {{- end }}
-          {{- if .volumeMounts }}
-          volumeMounts:
-            {{- toYaml .volumeMounts | nindent 12 }}
-          {{- end }}
-        {{- end }}
+          {{- toYaml . | nindent 8 }}
         {{- end }}

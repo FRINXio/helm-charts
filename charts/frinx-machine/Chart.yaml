@@ -24,7 +24,8 @@ dependencies:
   # Monitoring
 
   - name: frinx-machine-monitoring
-    repository: https://FRINXio.github.io/helm-charts
+    repository: file://../frinx-machine-monitoring
+    # repository: https://FRINXio.github.io/helm-charts
     version: 0.1.1
     condition: frinx-machine-monitoring.enabled
     tags:
@@ -34,7 +35,7 @@ dependencies:
   - name: cloud-native-pg
     alias: workflow-manager-postgres
     repository: https://FRINXio.github.io/helm-charts
-    version: 0.1.0
+    version: 1.0.0
     condition: workflow-manager-postgres.enabled
     tags:
       - database
@@ -42,8 +43,16 @@ dependencies:
   - name: cloud-native-pg
     alias: uniconfig-postgres
     repository: https://FRINXio.github.io/helm-charts
-    version: 0.1.0
+    version: 1.0.0
     condition: uniconfig-postgres.enabled
+    tags:
+      - database
+
+  - name: cloud-native-pg
+    alias: timescale-db
+    repository: https://FRINXio.github.io/helm-charts
+    version: 1.0.0
+    condition: timescale-db.enabled
     tags:
       - database
 
@@ -61,17 +70,10 @@ dependencies:
     tags:
       - database
 
-  - name: postgresql
-    alias: timescale-db
-    repository: https://charts.bitnami.com/bitnami
-    version: 11.x.x
-    condition: timescale-db.enabled
-    tags:
-      - database
-
   ## Services
   - name: krakend
-    repository: https://FRINXio.github.io/helm-charts
+    # repository: https://FRINXio.github.io/helm-charts
+    repository: file://../krakend
     version: 5.0.1
     condition: krakend.enabled
     tags:
@@ -114,7 +116,8 @@ dependencies:
       - backend
 
   - name: uniconfig
-    repository: https://FRINXio.github.io/helm-charts
+    # repository: https://FRINXio.github.io/helm-charts
+    repository: file://../uniconfig
     version: 8.2.1
     condition: uniconfig.enabled
     tags:
@@ -155,5 +158,5 @@ dependencies:
 
   - name: oauth2-proxy
     repository: https://oauth2-proxy.github.io/manifests
-    version: 7.7.4
+    version: 7.7.17
     condition: oauth2-proxy.enabled

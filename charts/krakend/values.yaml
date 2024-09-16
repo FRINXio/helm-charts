@@ -320,7 +320,6 @@ metrics:
 
 nginx:
   enabled: false
-
   # -- @ignored
   fullnameOverride: krakend-nginx
   # -- (existingServerBlockConfigmap ConfigMap with custom server block to be added to NGINX configuration)[https://artifacthub.io/packages/helm/bitnami/nginx?modal=values&path=existingServerBlockConfigmap]
@@ -334,6 +333,12 @@ nginx:
       nginx.ingress.kubernetes.io/proxy-connect-timeout: "12h"
       nginx.ingress.kubernetes.io/proxy-read-timeout: "12h"
       nginx.ingress.kubernetes.io/proxy-send-timeout: "12h"
+  # --  Configure the [TLS](https://artifacthub.io/packages/helm/bitnami/nginx?modal=values&path=tls)
+  tls:
+    enabled: false
+  # --  Configure the [Service Type](https://artifacthub.io/packages/helm/bitnami/nginx?modal=values&path=service.type)
+  service:
+    type: ClusterIP
 
   # -- @ignored
   readinessProbe:
