@@ -19,6 +19,12 @@ stopDelay: 30
 # -- [ReplicationSlots] Defines encapsulation of the configuration of replication slots
 replicationSlots: {}
 
+# -- Pod annotations
+podAnnotations: {}
+
+# -- Pod labels
+podLabels: {}
+
 # -- [StorageConfiguration] Defines PostgreSQL instances storage configuration https://cloudnative-pg.io/documentation/1.18/api_reference/#storageconfiguration
 storage:
   size: "1Gi"
@@ -53,16 +59,16 @@ bootstrap:
     owner: frinx
     # secret:
     #   name: frinx-user
-    postInitSQL: {}
-    postInitTemplateSQL: {}
-    postInitApplicationSQL: {}
+    postInitSQL: []
+    postInitTemplateSQL: []
+    postInitApplicationSQL: []
     postInitApplicationSQLRefs:
       # extraConfigMapRefs holds a list of references to configmaps
       # key-value format
-      extraConfigMapRefs: {}
+      # extraConfigMapRefs: {}
       # extraSecretRefs holds a list of references to secrets
-      # key-value format
-      extraSecretRefs: {}
+      # # key-value format
+      # extraSecretRefs: {}
       # secretRefs:
       #   - name: cloud-native-pq-post-init-sql-secret
       #     key: secret.sql
@@ -72,7 +78,7 @@ backup: {}
 
 # -- Podmonitor configuration
 monitoring:
-  podMonitorEnabled: false
+  enablePodMonitor: false
 
 # -- Environmental variables configuration
 env: {}
