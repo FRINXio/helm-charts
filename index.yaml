@@ -13590,6 +13590,53 @@ entries:
   krakend:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Change Nginx default service type to ClusterIP
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/424
+        - kind: fixed
+          description: Added internal endpoint to nginx config for metrics collection
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/424
+        - kind: changed
+          description: Disabled TLS setting for nginx by default
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/424
+        - kind: changed
+          description: Increase app version to 7.0.0. (still backward compatible with v6)
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/424
+      artifacthub.io/images: |
+        - name: krakend
+          image: frinx/krakend:7.0.0
+        - name: nginx
+          image: nginx:1.27-alpine
+    apiVersion: v2
+    appVersion: 7.0.0
+    created: "2024-09-20T12:08:18.671311323Z"
+    dependencies:
+    - condition: nginx.enabled
+      name: nginx
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.x.x
+    description: FRINX KrakenD API Gateway for FRINX-machine
+    digest: 226f5c09d2ff4e3c86294b857d23735bdbbf22ce4db03c70fb9339e9b561fcbe
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: krakend
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/krakend-5.0.2/krakend-5.0.2.tgz
+    version: 5.0.2
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Monitoring to metrics configuration
           links:
@@ -17628,4 +17675,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-09-17T08:57:36.637136496Z"
+generated: "2024-09-20T12:08:18.673220788Z"
