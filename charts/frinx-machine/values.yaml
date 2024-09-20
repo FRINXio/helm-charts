@@ -1,5 +1,5 @@
 # Anchor settings
-x-frinx-machine-version: &frinx-machine-version 6.1
+x-frinx-machine-version: &frinx-machine-version 6.2
 x-frinx-database-password: &frinx-database-password frinx-database-password
 x-frinx-image-pull-secret: &frinx-image-pull-secret regcred
 x-frinx-rbac-admin-role: &frinx-rbac-admin-role FRINXio
@@ -100,7 +100,7 @@ uniconfig-postgres:
       password: postgresP
 
   monitoring:
-    podMonitorEnabled: *metrics-enabled
+    enablePodMonitor: *metrics-enabled
 
 workflow-manager-postgres:
   name: postgresql
@@ -162,7 +162,7 @@ workflow-manager-postgres:
         ALTER USER resource_user SET search_path TO resource;
 
   monitoring:
-    podMonitorEnabled: *metrics-enabled
+    enablePodMonitor: *metrics-enabled
 
 frinx-arango-config:
   arangodb_config:
@@ -273,7 +273,7 @@ frinx-frontend:
 
   image:
     repository: "frinx/frinx-frontend"
-    tag: "6.1.0"
+    tag: "6.1.3"
 
   proxyImage:
     name: frinx/frinx-graphql-proxy
@@ -358,7 +358,7 @@ inventory:
 
   image:
     repository: "frinx/frinx-inventory-server"
-    tag: "6.1.0"
+    tag: "6.1.2"
 
   postgresql:
     enabled: false
@@ -574,7 +574,7 @@ device-induction:
 
   image:
     repository: frinx/device-induction
-    tag: "0.6.4"
+    tag: "0.6.5"
 
   imagePullSecrets:
     - name: *frinx-image-pull-secret
