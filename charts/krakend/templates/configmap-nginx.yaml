@@ -149,6 +149,13 @@ data:
             proxy_set_header Host $host;
         }
 
+        location /status {
+            stub_status on;
+            access_log   off;
+            allow 127.0.0.1;
+            deny all;
+        }
+
         location / {
 
             # RATE LIMIT SETTINGS
