@@ -2,7 +2,7 @@
 
 FRINX KrakenD API Gateway for FRINX-machine
 
-![Version: 5.0.1](https://img.shields.io/badge/Version-5.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.1.1](https://img.shields.io/badge/AppVersion-6.1.1-informational?style=flat-square)
+![Version: 5.0.2](https://img.shields.io/badge/Version-5.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 7.0.0](https://img.shields.io/badge/AppVersion-7.0.0-informational?style=flat-square)
 
 ## Get Repo Info
 
@@ -63,11 +63,13 @@ helm uninstall [RELEASE_NAME]
 | nameOverride | string | `""` | String to partially override app name |
 | nginx.enabled | bool | `false` |  |
 | nginx.existingServerBlockConfigmap | existingServerBlockConfigmap ConfigMap with custom server block to be added to NGINX configuration | `"krakend-nginx-config"` | [https://artifacthub.io/packages/helm/bitnami/nginx?modal=values&path=existingServerBlockConfigmap] |
-| nginx.ingress | object | `{"annotations":{"nginx.ingress.kubernetes.io/force-ssl-redirect":"true","nginx.ingress.kubernetes.io/proxy-connect-timeout":"12h","nginx.ingress.kubernetes.io/proxy-read-timeout":"12h","nginx.ingress.kubernetes.io/proxy-send-timeout":"12h"},"enabled":false}` | Configure the [Nginx Ingress resource](https://artifacthub.io/packages/helm/bitnami/nginx?modal=values&path=ingress) |
+| nginx.ingress | object | `{"annotations":{"nginx.ingress.kubernetes.io/force-ssl-redirect":"true","nginx.ingress.kubernetes.io/proxy-connect-timeout":"12h","nginx.ingress.kubernetes.io/proxy-read-timeout":"12h","nginx.ingress.kubernetes.io/proxy-send-timeout":"12h"},"enabled":false,"ingressClassName":"nginx"}` | Configure the [Nginx Ingress resource](https://artifacthub.io/packages/helm/bitnami/nginx?modal=values&path=ingress) |
 | nginx.rateLimits.dryRun | bool | `false` | [limit_req_dry_run](https://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req_dry_run) |
 | nginx.rateLimits.statusCode | int | `429` | [limit_req_status](https://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req_status) |
 | nginx.rateLimits.zoneRate | object | `{"api":"100r/s","auth":"20r/s","ws":"10r/s"}` | [limit_req_zone](https://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req_zone) |
 | nginx.server | string | `"client_body_buffer_size \"8k\";\nclient_header_buffer_size \"1k\";\nproxy_headers_hash_max_size 2048;\nproxy_headers_hash_bucket_size 128;\nproxy_connect_timeout \"12h\";\nproxy_read_timeout \"12h\";\nproxy_send_timeout \"12h\";\n"` |  |
+| nginx.service | object | `{"type":"ClusterIP"}` | Configure the [Service Type](https://artifacthub.io/packages/helm/bitnami/nginx?modal=values&path=service.type) |
+| nginx.tls | object | `{"enabled":false}` | Configure the [TLS](https://artifacthub.io/packages/helm/bitnami/nginx?modal=values&path=tls) |
 | nodeSelector | object | `{}` | [Node labels for pod assignment](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) |
 | podAnnotations | object | `{}` | Pod annotations |
 | podSecurityContext | object | `{}` | Configure [Pods Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod) |
