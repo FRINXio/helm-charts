@@ -57,14 +57,8 @@ kubectl delete -f https://raw.githubusercontent.com/arangodb/kube-arangodb/1.2.4
 
 ## UI access
 
-To access UI, enable ingress for KrakenD service
-
-```console
-helm install [RELEASE_NAME] frinx/{{ template "chart.name" . }} --set krakend.ingress.enabled=true
-```
-Then from browser access: `krakend.127.0.0.1.nip.io`
-
-Frinx Machine can be deployed with Oauth2-Proxy. Example of configuration can be found in values.yaml
+To access UI, use krakend-nginx ingress hostname for KrakenD service and visit Frinx Machine page in your browser on `https://krakend.127.0.0.1.nip.io/frinxui`
+Frinx Machine can be deployed with Oauth2-Proxy. Example of configuration can be found in values.yaml. 
 
 {{ template "chart.requirementsSection" . }}
 

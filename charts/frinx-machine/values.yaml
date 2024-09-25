@@ -606,7 +606,7 @@ oauth2-proxy:
       # https://oauth2-proxy.github.io/oauth2-proxy/configuration/overview
 
       custom_sign_in_logo = "/tmp/frinx/frinx.png"
-      upstreams = ["http://krakend:8080"]
+      upstreams = "file:///dev/null"
 
       cookie_secure = true
       cookie_expire = 0

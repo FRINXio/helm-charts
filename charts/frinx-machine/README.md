@@ -5,7 +5,7 @@ User specific workflows are designed through the use of OpenConfig NETCONF & YAN
 The FRINX Machine uses dockerized containers that are designed and tested to work together to create a user specific solution.
 Further information is available on [docs.frinx.io](https://docs.frinx.io/frinx-machine/getting-started/).
 
-![Version: 10.0.1](https://img.shields.io/badge/Version-10.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.2.0](https://img.shields.io/badge/AppVersion-6.2.0-informational?style=flat-square)
+![Version: 10.0.2](https://img.shields.io/badge/Version-10.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 6.2.0](https://img.shields.io/badge/AppVersion-6.2.0-informational?style=flat-square)
 
 ## Prerequisites
 
@@ -60,14 +60,8 @@ kubectl delete -f https://raw.githubusercontent.com/arangodb/kube-arangodb/1.2.4
 
 ## UI access
 
-To access UI, enable ingress for KrakenD service
-
-```console
-helm install [RELEASE_NAME] frinx/frinx-machine --set krakend.ingress.enabled=true
-```
-Then from browser access: `krakend.127.0.0.1.nip.io`
-
-Frinx Machine can be deployed with Oauth2-Proxy. Example of configuration can be found in values.yaml
+To access UI, use krakend-nginx ingress hostname for KrakenD service and visit Frinx Machine page in your browser on `https://krakend.127.0.0.1.nip.io/frinxui`
+Frinx Machine can be deployed with Oauth2-Proxy. Example of configuration can be found in values.yaml.
 
 ## Requirements
 
