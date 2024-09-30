@@ -81,7 +81,7 @@ data:
 
             proxy_set_header Host                    $host;
             proxy_set_header X-Real-IP               $remote_addr;
-            proxy_set_header X-Auth-Request-Redirect $scheme://$host$request_uri;
+            proxy_set_header X-Auth-Request-Redirect $request_uri;
         }
 
         # INTERNAL ENDPOINT USED FOR REQUEST AUTH VALIDATION
@@ -99,6 +99,19 @@ data:
             proxy_set_header Content-Length   "";
             proxy_pass_request_body           off;
         }
+
+        location = /oauth2/sign_out {
+            # Sign-out mutates the session, only allow POST requests
+            if ($request_method != POST) {
+                return 405;
+            }
+
+            proxy_pass       http://oauth2_proxy;
+            proxy_set_header Host                    $host;
+            proxy_set_header X-Real-IP               $remote_addr;
+            proxy_set_header X-Scheme                $scheme;
+        }
+
     {{- end }}
 
         location /websocket {
