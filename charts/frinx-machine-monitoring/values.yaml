@@ -5,6 +5,7 @@
 # -- Kube-prometheus-stack configuration
 kube-prometheus-stack:
   enabled: true
+  fullnameOverride: "kube-prometheus-stack"
   # -- CRDs for kube-prometheus-stack to be pulled and installed
   crds:
     enabled: false
@@ -42,8 +43,15 @@ kube-prometheus-stack:
       darwin:
         enabled: false
 
+  prometheus-node-exporter:
+    fullnameOverride: "prometheus-node-exporter"
+
+  kube-state-metrics:
+    fullnameOverride: "prometheus-kube-state-metrics"
+
   # -- Prometheus Operator configuration
   prometheus:
+    fullnameOverride: "prometheus"
     prometheusSpec:
       # -- Selection of service monitors to be discovered and scraped by Prometheus
       serviceMonitorSelector:
@@ -51,10 +59,10 @@ kube-prometheus-stack:
           - key: app.kubernetes.io/instance
             operator: In
             values:
-              - frinx-machine
-              - frinx-machine-monitoring
+              - "{{ $.Release.Name }}"
               - uniconfig
               - workflow-manager
+              - resource-manager
               - oauth2-proxy
 
       # -- Selection of pod monitors to be discovered and scraped by Prometheus
