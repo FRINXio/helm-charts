@@ -13081,6 +13081,41 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Update names of prometheus components and change service monitor selector
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/427
+    apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-10-02T08:53:15.112813586Z"
+    dependencies:
+    - condition: kube-prometheus-stack.enabled
+      name: kube-prometheus-stack
+      repository: https://prometheus-community.github.io/helm-charts/
+      version: 60.0.0
+    - condition: loki.enabled
+      name: loki
+      repository: https://grafana.github.io/helm-charts
+      version: 2.16.0
+    - condition: loki.enabled
+      name: promtail
+      repository: https://grafana.github.io/helm-charts
+      version: 6.15.5
+    description: A Helm chart for Kubernetes monitoring
+    digest: c7b382bb796242094232fc0169b888adfe53cc495ecad64f27d15f4058b9f049
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - email: services@frinx.io
+      name: FRINX
+      url: https://frinx.io
+    name: frinx-machine-monitoring
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/frinx-machine-monitoring-0.1.2/frinx-machine-monitoring-0.1.2.tgz
+    version: 0.1.2
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Update promtail configuration
           links:
             - name: GitHub PR
@@ -17949,4 +17984,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-09-25T09:42:57.583374098Z"
+generated: "2024-10-02T08:53:15.114267795Z"
