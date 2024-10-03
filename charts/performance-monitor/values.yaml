@@ -222,6 +222,7 @@ initContainersUrl:
 # -- Application environment variables
 env:
   # @ignored
-  PM_KAFKA__TOPICS__GNMI_NOTIFICATIONS_TOPIC: gnmi-notifications
+  PM_KAFKA__TOPICS__UNIFIED_METRICS_TOPIC: unified-metrics
+  PM_KAFKA__TOPICS__METRICS_TOPICS: '["gnmi-notifications", "workflow-notifications"]'
   PM_KAFKA__TOPICS__DEVICE_INVENTORY_TOPIC: device-inventory
   PM_KAFKA__BOOTSTRAP_SERVERS: '["kafka:9092"]'
