@@ -15794,6 +15794,26 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Compatible with 7.0.0 release. Environment variable changes
+          links:
+            - name: GitHub PR
+              url: https://github.com/FRINXio/helm-charts/pull/428
+    apiVersion: v2
+    appVersion: 7.0.3
+    created: "2024-10-04T07:43:55.038542831Z"
+    description: A Helm chart for Kubernetes deployment of the Topology Discovery
+    digest: 0763a6dd48ae46721c3c4bfb90828f1c037cf9ce992bfd43254616c4538f47b0
+    icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
+    maintainers:
+    - name: FRINX
+    name: topology-discovery
+    type: application
+    urls:
+    - https://github.com/FRINXio/helm-charts/releases/download/topology-discovery-4.0.0/topology-discovery-4.0.0.tgz
+    version: 4.0.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: curls are performed using custom utilities image
           links:
             - name: GitHub PR
@@ -17984,4 +18004,4 @@ entries:
     urls:
     - https://github.com/FRINXio/helm-charts/releases/download/workflow-manager-1.0.0/workflow-manager-1.0.0.tgz
     version: 1.0.0
-generated: "2024-10-02T08:53:15.114267795Z"
+generated: "2024-10-04T07:43:55.039920492Z"
