@@ -7,8 +7,8 @@ description: |
   Further information is available on [docs.frinx.io](https://docs.frinx.io/frinx-machine/getting-started/).
 icon: https://avatars.githubusercontent.com/u/23452093?s=200&v=4
 type: application
-version: 10.0.2
-appVersion: 6.2.0
+version: 11.0.0
+appVersion: 7.0.0
 maintainers:
   - name: FRINX
 dependencies:
@@ -25,7 +25,7 @@ dependencies:
 
   - name: frinx-machine-monitoring
     repository: https://FRINXio.github.io/helm-charts
-    version: 0.1.1
+    version: 0.1.2
     condition: frinx-machine-monitoring.enabled
     tags:
       - monitoring
@@ -61,10 +61,10 @@ dependencies:
     tags:
       - database
 
-  - name: postgresql
+  - name: cloud-native-pg
     alias: timescale-db
-    repository: https://charts.bitnami.com/bitnami
-    version: 11.x.x
+    repository: https://FRINXio.github.io/helm-charts
+    version: 1.0.0
     condition: timescale-db.enabled
     tags:
       - database
@@ -115,21 +115,21 @@ dependencies:
 
   - name: uniconfig
     repository: https://FRINXio.github.io/helm-charts
-    version: 8.2.1
+    version: 8.2.2
     condition: uniconfig.enabled
     tags:
       - backend
 
   - name: topology-discovery
     repository: https://FRINXio.github.io/helm-charts
-    version: 3.1.1
+    version: 4.0.0
     condition: topology-discovery.enabled
     tags:
       - backend
 
   - name: performance-monitor
     repository: https://FRINXio.github.io/helm-charts
-    version: 0.1.5
+    version: 2.0.0
     condition: performance-monitor.enabled
     tags:
       - backend
@@ -153,5 +153,5 @@ dependencies:
 
   - name: oauth2-proxy
     repository: https://oauth2-proxy.github.io/manifests
-    version: 7.7.4
+    version: 7.7.23
     condition: oauth2-proxy.enabled
