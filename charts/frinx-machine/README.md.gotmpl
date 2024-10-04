@@ -6,7 +6,7 @@
 
 ## Prerequisites
 
-* Kubernetes 1.27+
+* Kubernetes 1.28+
 * Helm 3.2.0+
 
 ## Get Repo Info
@@ -81,3 +81,9 @@ Frinx Machine can be deployed with Oauth2-Proxy. Example of configuration can be
 
 ## Where to Purchase
 For information regarding sales, visit [frinx.io](https://frinx.io/)
+
+## Troubleshooting
+
+### User limit of inotify watches reached
+The error "User limit of inotify watches reached" typically occurs when the system has reached its limit on the number of inotify watches that can be created. 
+To solve this issue, increase the limit of inotify watches.
